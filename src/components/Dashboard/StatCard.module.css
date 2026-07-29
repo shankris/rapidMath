@@ -1,0 +1,22 @@
+.statCard {
+  padding: var(--space-lg);
+  text-align: center;
+}
+
+.icon {
+  font-size: 1.8rem;
+  margin-bottom: var(--space-sm);
+}
+
+.value {
+  font-family: var(--font-montserrat);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--headingCol);
+}
+
+.title {
+  margin-top: var(--space-xs);
+  color: var(--mutedColor);
+  font-size: 0.9rem;
+}
