@@ -11,6 +11,7 @@ import QuestionCard from "./QuestionCard";
 import AnswerOptions from "./AnswerOptions";
 import QuizSetup from "./QuizSetup";
 import QuizComplete from "./QuizComplete";
+import { OPERATIONS } from "@/lib/math/operations";
 
 import styles from "./Practice.module.css";
 
@@ -189,7 +190,7 @@ export default function PracticeSession({ operation, level }) {
     <div className={styles.container}>
       <div className={styles.header}>
         <h1>
-          {operation.toUpperCase()} Level {level}
+          {OPERATIONS[operation].name} Level {level}
         </h1>
 
         <p>

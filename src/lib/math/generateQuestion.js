@@ -24,6 +24,15 @@ export function generateQuestion(operation, level) {
   } else {
     num1 = randomNumber(config.num1.min, config.num1.max);
     num2 = randomNumber(config.num2.min, config.num2.max);
+
+    // Prevent negative answers for subtraction
+    if (operation === "sub" && num2 > num1) {
+      [num1, num2] = [num2, num1];
+    }
+  }
+
+  if (!["add", "sub", "mul", "div"].includes(operation)) {
+    console.error("Invalid operation received:", operation);
   }
 
   const answer = calculateAnswer(operation, num1, num2);
