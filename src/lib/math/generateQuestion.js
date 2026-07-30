@@ -12,23 +12,36 @@ function randomNumber(min, max) {
 export function generateQuestion(operation, level) {
   const config = LEVEL_CONFIG[level];
 
-  let num1 = randomNumber(config.num1.min, config.num1.max);
-  let num2 = randomNumber(config.num2.min, config.num2.max);
+  const maxPossibleDifference = Math.max(config.num1.max, config.num2.max) - Math.min(config.num1.min, config.num2.min);
+
+  const subtractionMinDifference = Math.min(config.subtractionMinDifference ?? 1, maxPossibleDifference);
+
+  const range = operation === "mul" ? config.multiplication : config;
+
+  let num1;
+  let num2;
 
   // avoid division problems
   if (operation === "div") {
-    num2 = randomNumber(config.num2.min, config.num2.max);
+    const divisor = randomNumber(config.division.divisor.min, config.division.divisor.max);
 
-    const quotient = randomNumber(config.num1.min, config.num1.max);
-    num1 = quotient * num2;
+    const quotient = randomNumber(config.division.quotient.min, config.division.quotient.max);
+
+    num2 = divisor;
+    num1 = divisor * quotient;
+  } else if (operation === "sub") {
+    // Prevent negative answers and enforce a minimum difference
+    do {
+      num1 = randomNumber(range.num1.min, range.num1.max);
+      num2 = randomNumber(range.num2.min, range.num2.max);
+
+      if (num2 > num1) {
+        [num1, num2] = [num2, num1];
+      }
+    } while (num1 - num2 < subtractionMinDifference);
   } else {
-    num1 = randomNumber(config.num1.min, config.num1.max);
-    num2 = randomNumber(config.num2.min, config.num2.max);
-
-    // Prevent negative answers for subtraction
-    if (operation === "sub" && num2 > num1) {
-      [num1, num2] = [num2, num1];
-    }
+    num1 = randomNumber(range.num1.min, range.num1.max);
+    num2 = randomNumber(range.num2.min, range.num2.max);
   }
 
   if (!["add", "sub", "mul", "div"].includes(operation)) {
