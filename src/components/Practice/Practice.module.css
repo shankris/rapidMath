@@ -1,0 +1,264 @@
+.practice {
+  width: 100%;
+}
+
+.heading {
+  margin-bottom: 30px;
+}
+
+.heading h1 {
+  margin-bottom: 8px;
+}
+
+.heading p {
+  color: var(--mutedColor);
+}
+
+.grid {
+
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+
+  gap: 20px;
+
+}
+
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  text-align: center;
+}
+
+
+.header h1 {
+  margin-bottom: 8px;
+}
+
+
+.questionCard {
+
+  background: var(--surfaceColor);
+
+  border-radius: var(--borderRadius-lg);
+
+  padding: 40px;
+
+  margin: 30px 0;
+
+  box-shadow: var(--shadow-md);
+
+}
+
+
+
+.question {
+
+  font-size: 3rem;
+
+  font-weight: 600;
+
+}
+
+
+
+.options {
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 20px;
+
+}
+
+
+
+.option {
+
+  padding: 20px;
+
+  font-size: 1.5rem;
+
+  border-radius: var(--borderRadius-md);
+
+  border: 1px solid var(--borderColor);
+
+  background: var(--surfaceColor);
+
+  cursor: pointer;
+
+}
+
+
+
+.option:hover {
+
+  background: var(--surfaceAlt);
+
+}
+
+.option {
+  position: relative;
+}
+
+
+.correct {
+
+  background: #dcfce7;
+
+  border-color: #22c55e;
+
+}
+
+
+.wrong {
+
+  background: #fee2e2;
+
+  border-color: #ef4444;
+
+}
+
+
+.feedbackIcon {
+
+  position: absolute;
+
+  right: -16px;
+
+  bottom: -16px;
+
+
+  width: 32px;
+
+  height: 32px;
+
+
+  border-radius: 50%;
+
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+
+  background: white;
+
+  box-shadow: var(--shadow-md);
+
+}
+
+.option {
+  position: relative;
+
+  min-height: 90px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+}
+
+
+.answerValue {
+
+  font-size: 1.5rem;
+
+  font-weight: 600;
+
+}
+
+
+.keyboardHint {
+
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
+  font-size: 0.7rem;
+  color: #c4c4c4;
+}
+
+.nextButton {
+
+  margin-top: 30px;
+
+  width: 100%;
+
+  padding: 16px;
+
+  font-size: 1.2rem;
+
+  border-radius: var(--borderRadius-md);
+
+  background: var(--accentColor);
+
+  color: white;
+
+  border: none;
+
+  cursor: pointer;
+
+}
+
+.nextButton {
+
+  position: relative;
+
+  margin-top: 30px;
+
+  width: 100%;
+
+  padding: 18px;
+
+  font-size: 1.2rem;
+
+  border-radius: var(--borderRadius-md);
+
+  background: var(--accentColor);
+
+  color: white;
+
+  border: none;
+
+  cursor: pointer;
+
+}
+
+
+.nextText {
+
+  font-weight: 600;
+
+}
+
+
+.nextKeyHint {
+
+  position: absolute;
+
+  right: 12px;
+
+  bottom: 8px;
+
+  font-size: 0.7rem;
+
+  color: rgba(255, 255, 255, 0.7);
+
+}
+
+
+.reactionTime {
+
+  margin-top: 30px;
+
+  text-align: center;
+
+  font-size: 12px;
+
+  color: var(--mutedColor);
+
+}

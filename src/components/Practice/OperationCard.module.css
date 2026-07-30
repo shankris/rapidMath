@@ -1,0 +1,141 @@
+.card {
+
+  background: var(--surfaceColor);
+
+  border: 1px solid var(--borderColor);
+
+  border-radius: 12px;
+
+  padding: 24px;
+
+  box-shadow: var(--shadow-sm);
+
+  transition: 0.25s;
+
+}
+
+.card:hover {
+
+  transform: translateY(-4px);
+
+  box-shadow: var(--shadow-md);
+
+}
+
+.header {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin-bottom: 20px;
+
+}
+
+.header h2 {
+
+  font-size: 1.15rem;
+
+}
+
+.levels {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 300px;
+}
+
+.levelHeader,
+.levelRow {
+
+  display: grid;
+
+  grid-template-columns:
+    1fr 50px 70px 60px;
+
+  align-items: center;
+
+}
+
+
+.levelHeader {
+
+  font-size: 0.7rem;
+  color: var(--mutedColor);
+
+  padding: 6px 10px;
+
+}
+
+
+.levelRow {
+
+  padding: 8px 10px;
+
+  border-radius: 6px;
+
+  color: var(--txtColor);
+
+  text-decoration: none;
+
+}
+
+
+.levelRow:hover {
+
+  background: var(--surfaceAlt);
+
+}
+
+.levelRow span {
+  font-size: 14px;
+}
+
+.levelRow {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 8px 10px;
+
+  border-radius: 6px;
+
+  text-decoration: none;
+
+  color: var(--txtColor);
+
+  transition: var(--transition-fast);
+
+}
+
+
+.levelRow:hover {
+
+  background: var(--surfaceAlt);
+
+}
+
+
+.levelName {
+
+  font-size: 0.9rem;
+
+}
+
+
+.stats {
+
+  display: flex;
+
+  gap: 14px;
+
+  color: var(--mutedColor);
+
+  font-size: 0.8rem;
+
+}
