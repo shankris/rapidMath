@@ -1,6 +1,9 @@
 "use client";
 
 import Link from "next/link";
+
+import { LEVEL_CONFIG } from "@/lib/math/levels";
+
 import styles from "./OperationCard.module.css";
 
 export default function OperationCard({ operation }) {
@@ -12,24 +15,17 @@ export default function OperationCard({ operation }) {
         <Icon size={28} />
         <h2>{operation.title}</h2>
       </div>
-      {/* 
-      <div className={styles.levelHeader}>
-        <span>Level</span>
-        <span>Tests</span>
-        <span>Accuracy</span>
-        <span>Time</span>
-      </div> */}
 
-      {operation.levels.map((item) => (
+      {Object.entries(LEVEL_CONFIG).map(([level, config]) => (
         <Link
-          href={`/practice/${operation.id}/${item.level}`}
+          href={`/practice/${operation.operation}/${level}`}
           className={styles.levelRow}
-          key={item.level}
+          key={level}
         >
-          <span>Level {item.level}</span>
-          <span>{item.attempts || "-"}</span>
-          <span>{item.accuracy}</span>
-          <span>{item.time || "-"}</span>
+          <span>Level {level}</span>
+          <span>-</span>
+          <span>New</span>
+          <span>-</span>
         </Link>
       ))}
     </div>

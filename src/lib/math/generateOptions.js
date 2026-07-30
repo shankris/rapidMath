@@ -12,28 +12,60 @@ function matchParity(answer, value) {
   return value + 1;
 }
 
-export function generateOptions(answer, operation) {
-  const variations = [-10, -5, 5, 10, -2, 2];
-
+export function generateOptions(answer, operation, num1, num2) {
   let options = new Set();
 
-  // correct answer
   options.add(answer);
 
-  while (options.size < 4) {
-    const variation = variations[Math.floor(Math.random() * variations.length)];
+  const smallerNumber = Math.min(num1, num2);
+
+  let attempts = 0;
+
+  while (options.size < 4 && attempts < 100) {
+    attempts++;
+
+    let variation;
+
+    if (answer < 50) {
+      const variations = [-3, -2, -1, 1, 2, 3];
+
+      variation = variations[Math.floor(Math.random() * variations.length)];
+    } else {
+      const variations = [-100, -50, -10, 10, 50, 100];
+
+      variation = variations[Math.floor(Math.random() * variations.length)];
+    }
 
     let option = answer + variation;
 
-    // avoid negative numbers
     if (option < 0) {
       continue;
     }
 
-    // preserve even/odd pattern
+    if (operation === "add" && option < smallerNumber) {
+      continue;
+    }
+
     option = matchParity(answer, option);
 
+    if (operation === "add" && option < smallerNumber) {
+      continue;
+    }
+
     options.add(option);
+  }
+
+  // fallback
+  let fallback = 1;
+
+  while (options.size < 4 && fallback < 100) {
+    const option = answer + fallback;
+
+    if (!options.has(option)) {
+      options.add(option);
+    }
+
+    fallback++;
   }
 
   return shuffle(Array.from(options));

@@ -1,52 +1,42 @@
+// src/components/Practice/practiceData.js
+
 import { Plus, Minus, X, Divide } from "lucide-react";
 
 const practiceData = [
   {
     id: "addition",
+    operation: "add",
     title: "Addition",
     icon: Plus,
-    levels: [
-      { level: 1, attempts: 20, accuracy: "95%" },
-      { level: 2, attempts: 12, accuracy: "87%" },
-      { level: 3, attempts: 0, accuracy: "New" },
-      { level: 4, attempts: 0, accuracy: "New" },
-    ],
+    description: "Practice combining numbers and improve your mental calculation speed.",
+    shortDescription: "Add numbers quickly and accurately.",
   },
 
   {
     id: "subtraction",
+    operation: "sub",
     title: "Subtraction",
     icon: Minus,
-    levels: [
-      { level: 1, attempts: 15, accuracy: "92%" },
-      { level: 2, attempts: 8, accuracy: "84%" },
-      { level: 3, attempts: 0, accuracy: "New" },
-      { level: 4, attempts: 0, accuracy: "New" },
-    ],
+    description: "Practice finding the difference between numbers and improve calculation skills.",
+    shortDescription: "Subtract numbers with speed and accuracy.",
   },
 
   {
     id: "multiplication",
+    operation: "mul",
     title: "Multiplication",
     icon: X,
-    levels: [
-      { level: 1, attempts: 10, accuracy: "90%" },
-      { level: 2, attempts: 6, accuracy: "82%" },
-      { level: 3, attempts: 0, accuracy: "New" },
-      { level: 4, attempts: 0, accuracy: "New" },
-    ],
+    description: "Build multiplication fluency and improve your ability to calculate larger numbers quickly.",
+    shortDescription: "Multiply numbers faster through practice.",
   },
 
   {
     id: "division",
+    operation: "div",
     title: "Division",
     icon: Divide,
-    levels: [
-      { level: 1, attempts: 5, accuracy: "88%" },
-      { level: 2, attempts: 0, accuracy: "New" },
-      { level: 3, attempts: 0, accuracy: "New" },
-      { level: 4, attempts: 0, accuracy: "New" },
-    ],
+    description: "Practice dividing numbers and develop stronger number sense.",
+    shortDescription: "Improve division speed and accuracy.",
   },
 ];
 

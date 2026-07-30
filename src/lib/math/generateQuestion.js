@@ -12,13 +12,18 @@ function randomNumber(min, max) {
 export function generateQuestion(operation, level) {
   const config = LEVEL_CONFIG[level];
 
-  let num1 = randomNumber(config.min, config.max);
-
-  let num2 = randomNumber(config.min, config.max);
+  let num1 = randomNumber(config.num1.min, config.num1.max);
+  let num2 = randomNumber(config.num2.min, config.num2.max);
 
   // avoid division problems
   if (operation === "div") {
-    num1 = num1 * num2;
+    num2 = randomNumber(config.num2.min, config.num2.max);
+
+    const quotient = randomNumber(config.num1.min, config.num1.max);
+    num1 = quotient * num2;
+  } else {
+    num1 = randomNumber(config.num1.min, config.num1.max);
+    num2 = randomNumber(config.num2.min, config.num2.max);
   }
 
   const answer = calculateAnswer(operation, num1, num2);
@@ -32,11 +37,11 @@ export function generateQuestion(operation, level) {
 
     numbers: [num1, num2],
 
-    question: `${num1} ${getSymbol(operation)} ${num2}`,
+    question: `${num1.toLocaleString()} ${getSymbol(operation)} ${num2.toLocaleString()}`,
 
     answer,
 
-    options: generateOptions(answer, operation),
+    options: generateOptions(answer, operation, num1, num2),
   };
 }
 

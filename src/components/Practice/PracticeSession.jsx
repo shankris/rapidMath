@@ -2,21 +2,32 @@
 
 import { useState } from "react";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 import { generateTest } from "@/lib/math/generateTest";
 
+import { QUIZ_CONFIG } from "@/lib/config";
 import QuestionCard from "./QuestionCard";
 import AnswerOptions from "./AnswerOptions";
+import QuizSetup from "./QuizSetup";
+import QuizComplete from "./QuizComplete";
+
 import styles from "./Practice.module.css";
 
 export default function PracticeSession({ operation, level }) {
-  const [questions] = useState(() =>
+  const [questions, setQuestions] = useState(() =>
     generateTest({
       operation,
       level,
-      count: 20,
+      count: QUIZ_CONFIG.QUESTIONS_PER_TEST,
     }),
   );
+
+  const [correctAnswers, setCorrectAnswers] = useState(0);
+  const [reactionTimes, setReactionTimes] = useState([]);
+
+  const [quizStarted, setQuizStarted] = useState(false);
+  const [quizCompleted, setQuizCompleted] = useState(false);
 
   const [startTime, setStartTime] = useState(null);
   const [reactionTime, setReactionTime] = useState(null);
@@ -24,6 +35,35 @@ export default function PracticeSession({ operation, level }) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const question = questions[currentQuestion];
+
+  const router = useRouter();
+
+  function takeAnotherTest() {
+    router.push("/practice");
+  }
+
+  function restartTest() {
+    setQuestions(
+      generateTest({
+        operation,
+        level,
+        count: QUIZ_CONFIG.QUESTIONS_PER_TEST,
+      }),
+    );
+
+    setCurrentQuestion(0);
+    setSelectedAnswer(null);
+
+    setQuizCompleted(false);
+    setQuizStarted(false);
+
+    // Reset statistics
+    setCorrectAnswers(0);
+    setReactionTimes([]);
+
+    setReactionTime(null);
+    setStartTime(null);
+  }
 
   useEffect(() => {
     function handleKeyDown(event) {
@@ -78,21 +118,71 @@ export default function PracticeSession({ operation, level }) {
       return;
     }
 
-    const timeTaken = (Date.now() - startTime) / 1000;
+    // Stop timer
+    const reaction = (Date.now() - startTime) / 1000;
 
-    setReactionTime(timeTaken.toFixed(2));
+    setReactionTime(reaction);
+    setReactionTimes((prev) => [...prev, reaction]);
+
+    if (answer === question.answer) {
+      setCorrectAnswers((prev) => prev + 1);
+    }
 
     setSelectedAnswer(answer);
   }
 
   function handleNext() {
-    setSelectedAnswer(null);
-
     if (currentQuestion < questions.length - 1) {
+      setSelectedAnswer(null);
+      setReactionTime(null);
+
       setCurrentQuestion(currentQuestion + 1);
     } else {
-      console.log("Test completed");
+      setQuizCompleted(true);
     }
+  }
+
+  function handleStartQuiz() {
+    setQuizStarted(true);
+    setStartTime(Date.now());
+  }
+
+  if (!quizStarted) {
+    return (
+      <QuizSetup
+        operation={operation}
+        level={level}
+        onStart={handleStartQuiz}
+      />
+    );
+  }
+
+  const averageTime = reactionTimes.length === 0 ? 0 : (reactionTimes.reduce((a, b) => a + b, 0) / reactionTimes.length).toFixed(2);
+
+  const accuracy = Math.round((correctAnswers / questions.length) * 100);
+
+  const fastestTime = reactionTimes.length === 0 ? 0 : Math.min(...reactionTimes).toFixed(2);
+
+  const slowestTime = reactionTimes.length === 0 ? 0 : Math.max(...reactionTimes).toFixed(2);
+
+  if (quizCompleted) {
+    return (
+      <QuizComplete
+        results={{
+          correct: correctAnswers,
+          total: questions.length,
+          accuracy,
+          averageTime,
+          fastestTime,
+          slowestTime,
+        }}
+        onRetake={restartTest}
+        onAnotherTest={takeAnotherTest}
+        onContinue={() => {
+          console.log("View progress");
+        }}
+      />
+    );
   }
 
   return (

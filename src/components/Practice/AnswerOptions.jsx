@@ -30,7 +30,7 @@ export default function AnswerOptions({ options, correctAnswer, selectedAnswer, 
           onClick={() => onSelect(option)}
           disabled={selectedAnswer !== null}
         >
-          <span className={styles.answerValue}>{option}</span>
+          <span className={styles.answerValue}>{option.toLocaleString()}</span>
 
           <span className={styles.keyboardHint}>Key {index + 1}</span>
 
