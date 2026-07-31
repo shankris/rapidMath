@@ -52,17 +52,12 @@ export function generateQuestion(operation, level) {
 
   return {
     id: `${operation}_${num1}_${num2}`,
-
     operation,
-
     level,
-
     numbers: [num1, num2],
-
+    symbol: getSymbol(operation),
     question: `${num1.toLocaleString()} ${getSymbol(operation)} ${num2.toLocaleString()}`,
-
     answer,
-
     options: generateOptions(answer, operation, num1, num2),
   };
 }

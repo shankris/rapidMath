@@ -92,27 +92,18 @@ button.btnPrimary {
 
 
 .option {
-
   padding: 20px;
-
   font-size: 1.5rem;
-
   border-radius: var(--borderRadius-md);
-
   border: 1px solid var(--borderColor);
-
   background: var(--surfaceColor);
-
   cursor: pointer;
-
 }
 
 
 
 .option:hover {
-
   background: var(--surfaceAlt);
-
 }
 
 .option {
@@ -121,77 +112,48 @@ button.btnPrimary {
 
 
 .correct {
-
   background: #dcfce7;
-
   border-color: #22c55e;
-
 }
 
 
 .wrong {
-
   background: #fee2e2;
-
   border-color: #ef4444;
-
 }
 
 
 .feedbackIcon {
-
   position: absolute;
-
   right: -16px;
-
   bottom: -16px;
-
-
   width: 32px;
-
   height: 32px;
-
-
   border-radius: 50%;
-
-
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
-
   background: white;
-
   box-shadow: var(--shadow-md);
-
 }
 
 .option {
   position: relative;
-
   min-height: 90px;
-
   display: flex;
-
   align-items: center;
-
   justify-content: center;
 }
 
 
 .answerValue {
-
   font-size: 1.5rem;
-
   font-weight: 600;
 
 }
 
 
 .keyboardHint {
-
   position: absolute;
   right: 10px;
   bottom: 8px;
@@ -200,49 +162,28 @@ button.btnPrimary {
 }
 
 .nextButton {
-
   margin-top: 30px;
-
   width: 100%;
-
   padding: 16px;
-
   font-size: 1.2rem;
-
   border-radius: var(--borderRadius-md);
-
   background: var(--accentColor);
-
   color: white;
-
   border: none;
-
   cursor: pointer;
-
 }
 
 .nextButton {
-
   position: relative;
-
   margin-top: 30px;
-
   width: 100%;
-
   padding: 18px;
-
   font-size: 1.2rem;
-
   border-radius: var(--borderRadius-md);
-
   background: var(--accentColor);
-
   color: white;
-
   border: none;
-
   cursor: pointer;
-
 }
 
 
@@ -254,17 +195,11 @@ button.btnPrimary {
 
 
 .nextKeyHint {
-
   position: absolute;
-
   right: 12px;
-
   bottom: 8px;
-
   font-size: 0.7rem;
-
   color: rgba(255, 255, 255, 0.7);
-
 }
 
 
@@ -278,4 +213,33 @@ button.btnPrimary {
 
   color: var(--mutedColor);
 
+}
+
+
+.hintButton {
+  margin-top: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--primary);
+  padding: 4px 0;
+}
+
+.hintBox {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--card-background);
+  overflow: hidden;
+}
+
+.hintTitle {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.hintLine {
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
