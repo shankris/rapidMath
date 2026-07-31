@@ -240,6 +240,39 @@ button.btnPrimary {
 }
 
 .hintLine {
-  font-size: 0.95rem;
-  line-height: 1.5;
+  display: flex;
+  align-items: center;
+  font-family: monospace;
+  line-height: 1.8;
+}
+
+.hintNumber {
+  width: 70px;
+  text-align: right;
+  margin-right: 8px;
+}
+
+.placeValues {
+  display: flex;
+}
+
+.placeValue {
+  text-align: right;
+  margin-right: 4px;
+}
+
+.ones {
+  width: 30px;
+}
+
+.tens {
+  width: 45px;
+}
+
+.hundreds {
+  width: 60px;
+}
+
+.thousands {
+  width: 75px;
 }

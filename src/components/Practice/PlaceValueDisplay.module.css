@@ -1,0 +1,68 @@
+.hintNumber {
+  width: 70px;
+  text-align: right;
+  margin-right: 10px;
+}
+
+.thousands {
+  width: 70px;
+  text-align: right;
+}
+
+.hundreds {
+  width: 60px;
+  text-align: right;
+}
+
+.tens {
+  width: 45px;
+  text-align: right;
+}
+
+.ones {
+  width: 30px;
+  text-align: right;
+}
+
+.placeValueRow {
+  display: flex;
+  align-items: center;
+}
+
+.number {
+  width: 80px;
+  text-align: right;
+  margin-right: 12px;
+}
+
+.values {
+  display: flex;
+}
+
+.placeColumn {
+  width: 70px;
+  text-align: right;
+  position: relative;
+}
+
+.operator {
+  display: inline-block;
+  width: 16px;
+  text-align: center;
+}
+
+.values {
+  display: flex;
+}
+
+.placeColumn {
+  width: 60px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.operator {
+  display: inline-block;
+  width: 14px;
+  text-align: center;
+}

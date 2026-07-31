@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
 import { getHints } from "@/lib/math/hints";
+import PlaceValueDisplay from "./PlaceValueDisplay";
 
 import styles from "./Practice.module.css";
 
@@ -48,12 +48,10 @@ export default function QuestionCard({ question }) {
             <div className={styles.hintTitle}>{hints[0].title}</div>
 
             {hints[0].lines.map((line, index) => (
-              <div
+              <PlaceValueDisplay
                 key={index}
-                className={styles.hintLine}
-              >
-                {line}
-              </div>
+                line={line}
+              />
             ))}
           </motion.div>
         )}
