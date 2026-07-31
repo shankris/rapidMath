@@ -189,13 +189,14 @@ export default function PracticeSession({ operation, level }) {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h1>
-          {OPERATIONS[operation].name} Level {level}
-        </h1>
+        <div>
+          <h1>{OPERATIONS[operation].name}</h1>
+          <span className={styles.level}>Level {level}</span>
+        </div>
 
-        <p>
-          Question {currentQuestion + 1} / {questions.length}
-        </p>
+        <div className={styles.questionProgress}>
+          {currentQuestion + 1} / {questions.length}
+        </div>
       </div>
 
       <QuestionCard question={question} />

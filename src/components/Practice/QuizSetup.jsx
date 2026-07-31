@@ -1,21 +1,22 @@
 "use client";
 
 import styles from "./Practice.module.css";
+import { OPERATIONS } from "@/lib/math/operations";
 
 export default function QuizSetup({ operation, level, onStart }) {
   return (
-    <div className={styles.setup}>
-      <div className={styles.setupHeader}>
-        <h1>
-          {operation.toUpperCase()} - Level {level}
-        </h1>
-
-        <p>Get ready for your math challenge</p>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <div>
+          <h1>{OPERATIONS[operation].name}</h1>
+          <span className={styles.level}>Level {level}</span>
+        </div>
       </div>
 
       {/* Progress Preview */}
       <div className={`card ${styles.progressCard}`}>
         <h2>Your Progress</h2>
+        <p className={styles.muted}>Last 30 days</p>
 
         <div className={styles.stats}>
           <div>
@@ -33,8 +34,6 @@ export default function QuizSetup({ operation, level, onStart }) {
             <span>Attempts</span>
           </div>
         </div>
-
-        <p className={styles.muted}>Your last 30 days performance will appear here.</p>
       </div>
 
       {/* Settings */}
@@ -70,7 +69,7 @@ export default function QuizSetup({ operation, level, onStart }) {
       </div>
 
       <button
-        className='btn-primary'
+        className={styles.btnPrimary}
         onClick={onStart}
       >
         Start Quiz

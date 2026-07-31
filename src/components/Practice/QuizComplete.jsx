@@ -4,12 +4,11 @@ import styles from "./Practice.module.css";
 
 export default function QuizComplete({ results, onRetake, onAnotherTest, onContinue }) {
   return (
-    <div className={styles.complete}>
-      <div className={styles.completeHeader}>
-        <h1>🎉 Quiz Complete!</h1>
-
-        <p>Great work. Here is your performance summary.</p>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h1>Quiz Complete!</h1>
       </div>
+      <p>Great work. Here is your performance summary.</p>
 
       <div className={`card ${styles.resultCard}`}>
         <div className={styles.resultItem}>
