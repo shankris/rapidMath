@@ -276,3 +276,22 @@ button.btnPrimary {
 .thousands {
   width: 75px;
 }
+
+.hintContainer {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.hintButton {
+  background: none;
+  border: none;
+  color: var(--accent);
+  padding: 0;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.hintButton:hover {
+  text-decoration: underline;
+}

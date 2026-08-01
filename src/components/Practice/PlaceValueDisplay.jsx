@@ -1,30 +1,25 @@
 import styles from "./PlaceValueDisplay.module.css";
 
 export default function PlaceValueDisplay({ line }) {
-  const values = {};
-
-  line.values.forEach((item) => {
-    values[item.place] = item.value;
-  });
-
-  const places = ["thousands", "hundreds", "tens", "ones"];
-
   return (
     <div className={styles.placeValueRow}>
       <span className={styles.number}>{line.number} =</span>
 
-      <span className={styles.values}>
-        {places.map((place, index) => (
+      <div className={styles.values}>
+        {line.values.map((item, index) => (
           <span
-            key={place}
-            className={styles.placeColumn}
+            key={item.place}
+            className={`${styles.place} ${styles[item.place]}`}
           >
-            {values[place] ?? ""}
-
-            {index < places.length - 1 && <span className={styles.operator}>+</span>}
+            {!item.isEmpty && (
+              <>
+                {item.value.toLocaleString()}
+                {index < line.values.length - 1 && <span className={styles.operator}> +</span>}
+              </>
+            )}
           </span>
         ))}
-      </span>
+      </div>
     </div>
   );
 }

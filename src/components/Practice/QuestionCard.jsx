@@ -17,45 +17,50 @@ export default function QuestionCard({ question }) {
       <div className={styles.question}>{question.question}</div>
 
       {hints.length > 0 && (
-        <button
-          className={styles.hintButton}
-          onClick={() => setShowHint((prev) => !prev)}
-        >
-          {showHint ? "Hide Hint ▲" : "Show Hint ▼"}
-        </button>
-      )}
+        <>
+          <AnimatePresence initial={false}>
+            {showHint && (
+              <motion.div
+                className={styles.hintBox}
+                initial={{
+                  opacity: 0,
+                  height: 0,
+                }}
+                animate={{
+                  opacity: 1,
+                  height: "auto",
+                }}
+                exit={{
+                  opacity: 0,
+                  height: 0,
+                }}
+                transition={{
+                  duration: 0.25,
+                }}
+                style={{ overflow: "hidden" }}
+              >
+                <div className={styles.hintTitle}>{hints[0].title}</div>
 
-      <AnimatePresence>
-        {showHint && (
-          <motion.div
-            className={styles.hintBox}
-            initial={{
-              opacity: 0,
-              height: 0,
-            }}
-            animate={{
-              opacity: 1,
-              height: "auto",
-            }}
-            exit={{
-              opacity: 0,
-              height: 0,
-            }}
-            transition={{
-              duration: 0.25,
-            }}
+                {hints[0].lines.map((line, index) => (
+                  <PlaceValueDisplay
+                    key={index}
+                    line={line}
+                  />
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <button
+            type='button'
+            className={styles.hintButton}
+            onClick={() => setShowHint((prev) => !prev)}
+            aria-expanded={showHint}
           >
-            <div className={styles.hintTitle}>{hints[0].title}</div>
-
-            {hints[0].lines.map((line, index) => (
-              <PlaceValueDisplay
-                key={index}
-                line={line}
-              />
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
+            💡 {showHint ? "Hide Hint" : "Show Hint"}
+          </button>
+        </>
+      )}
     </div>
   );
 }

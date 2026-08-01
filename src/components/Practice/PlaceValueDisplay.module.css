@@ -66,3 +66,59 @@
   width: 14px;
   text-align: center;
 }
+
+.placeValueRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.number {
+  width: 70px;
+  text-align: right;
+  margin-right: 12px;
+}
+
+.values {
+  display: flex;
+}
+
+.place {
+  text-align: right;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* widths */
+
+.ones {
+  width: 28px;
+}
+
+.tens {
+  width: 48px;
+}
+
+.hundreds {
+  width: 68px;
+}
+
+.thousands {
+  width: 88px;
+}
+
+.tenThousands {
+  width: 108px;
+}
+
+.hundredThousands {
+  width: 128px;
+}
+
+.millions {
+  width: 148px;
+}
+
+.operator {
+  margin-left: 2px;
+}

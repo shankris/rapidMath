@@ -1,6 +1,12 @@
 import { splitIntoPlaceValues } from "./utils";
 
 export function getSubHints(question) {
+  const shouldShow = question.numbers.some((n) => n.toString().length > 1);
+
+  if (!shouldShow) {
+    return [];
+  }
+
   return [
     {
       id: "place-values",
