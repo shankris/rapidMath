@@ -1,3 +1,5 @@
+import { splitIntoPlaceValues } from "./utils";
+
 export function getAddHints(question) {
   const shouldShow = question.numbers.some((n) => n >= 10);
 

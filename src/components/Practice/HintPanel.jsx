@@ -10,11 +10,11 @@ import styles from "./Practice.module.css";
 export default function HintPanel({ hints }) {
   const [showHint, setShowHint] = useState(false);
 
-  if (hints.length === 0) {
+  if (!hints || hints.length === 0) {
     return null;
   }
 
-  const hint = hints[0];
+  const activeHint = hints[0];
 
   return (
     <>
@@ -39,9 +39,9 @@ export default function HintPanel({ hints }) {
             }}
             style={{ overflow: "hidden" }}
           >
-            <div className={styles.hintTitle}>{hint.title}</div>
+            <div className={styles.hintTitle}>{activeHint.title}</div>
 
-            {hint.lines.map((line, index) => (
+            {activeHint.lines.map((line, index) => (
               <PlaceValueDisplay
                 key={index}
                 line={line}

@@ -1,7 +1,7 @@
 "use client";
 
-import HintPanel from "./HintPanel";
 import { getHints } from "@/lib/math/hints";
+import HintPanel from "./HintPanel";
 
 import styles from "./Practice.module.css";
 
