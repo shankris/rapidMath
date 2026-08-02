@@ -1,6 +1,13 @@
 import { splitIntoPlaceValues } from "./utils";
 
 export function getAddHints(question) {
+  const [left, right] = question.numbers;
+
+  // No hints for single digit addition
+  if (left < 10 && right < 10) {
+    return [];
+  }
+
   const shouldShow = question.numbers.some((n) => n >= 10);
 
   if (!shouldShow) {

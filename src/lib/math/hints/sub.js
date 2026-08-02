@@ -1,9 +1,10 @@
 import { splitIntoPlaceValues } from "./utils";
 
 export function getSubHints(question) {
-  const shouldShow = question.numbers.some((n) => n.toString().length > 1);
+  const [left, right] = question.numbers;
 
-  if (!shouldShow) {
+  // No hints for single digit subtraction
+  if (left < 10 && right < 10) {
     return [];
   }
 

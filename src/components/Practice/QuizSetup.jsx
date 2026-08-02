@@ -20,17 +20,17 @@ export default function QuizSetup({ operation, level, onStart }) {
 
         <div className={styles.stats}>
           <div>
-            <strong>--</strong>
+            <div className={styles.graphs}></div>
             <span>Accuracy</span>
           </div>
 
           <div>
-            <strong>--</strong>
+            <div className={styles.graphs}></div>
             <span>Avg Time</span>
           </div>
 
           <div>
-            <strong>--</strong>
+            <div className={styles.graphs}></div>
             <span>Attempts</span>
           </div>
         </div>
@@ -40,32 +40,35 @@ export default function QuizSetup({ operation, level, onStart }) {
       <div className={`card ${styles.settingsCard}`}>
         <h2>Quiz Settings</h2>
 
-        <label className={styles.settingRow}>
+        <div className={styles.row}>
+          <label className={styles.settingRow}>
+            <input
+              type='checkbox'
+              defaultChecked={false}
+            />
+          </label>
           <span>Show hints</span>
+        </div>
 
-          <input
-            type='checkbox'
-            defaultChecked={false}
-          />
-        </label>
-
-        <label className={styles.settingRow}>
+        <div className={styles.row}>
+          <label className={styles.settingRow}>
+            <input
+              type='checkbox'
+              defaultChecked={true}
+            />
+          </label>
           <span>Show timer</span>
+        </div>
 
-          <input
-            type='checkbox'
-            defaultChecked={true}
-          />
-        </label>
-
-        <label className={styles.settingRow}>
+        <div className={styles.row}>
+          <label className={styles.settingRow}>
+            <input
+              type='checkbox'
+              defaultChecked={true}
+            />
+          </label>
           <span>Keyboard shortcuts</span>
-
-          <input
-            type='checkbox'
-            defaultChecked={true}
-          />
-        </label>
+        </div>
       </div>
 
       <button

@@ -1,9 +1,10 @@
 import { getAddHints } from "./add";
 import { getSubHints } from "./sub";
-import { getMulHints } from "./mul";
-import { getDivHints } from "./div";
+// import { getMulHints } from "./mul";
+import { getMulHints } from "./mul/index";
 
 export function getHints(question) {
+  console.log("HINT INDEX LOADED");
   switch (question.operation) {
     case "add":
       return getAddHints(question);
@@ -13,9 +14,6 @@ export function getHints(question) {
 
     case "mul":
       return getMulHints(question);
-
-    case "div":
-      return getDivHints(question);
 
     default:
       return [];

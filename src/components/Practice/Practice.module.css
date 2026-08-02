@@ -3,7 +3,6 @@
 }
 
 .header {
-  margin-bottom: 30px;
   display: flex;
   justify-content: space-between;
 }
@@ -21,15 +20,11 @@
 
 .container {
   max-width: 600px;
-  margin: 40px auto;
+  margin: 14px auto;
   text-align: center;
 }
 
 
-.header h1 {
-  margin: 2px 0;
-  text-align: left;
-}
 
 span.level {
   text-align: left;
@@ -50,7 +45,7 @@ button.btnPrimary {
 
 .progressCard,
 .resultCard {
-  margin: 10px 0 20px;
+  margin: 4px 4px;
   padding: 12px
 }
 
@@ -58,8 +53,8 @@ button.btnPrimary {
 .questionCard {
   background: var(--surfaceColor);
   border-radius: var(--borderRadius-lg);
-  padding: 40px;
-  margin: 30px 0;
+  padding: 16px;
+  margin: 10px 0;
   box-shadow: var(--shadow-md);
 }
 
@@ -108,14 +103,15 @@ button.btnPrimary {
 
 
 .correct {
-  background: #dcfce7;
+  background: #dcfce7 !important;
   border-color: #22c55e;
 }
 
 
 .wrong {
-  background: #fee2e2;
+  background: #fee2e2 !important;
   border-color: #ef4444;
+
 }
 
 
@@ -209,13 +205,18 @@ button.btnPrimary {
 
 
 .hintButton {
-  margin-top: 12px;
+  margin-top: 2px;
   background: none;
   border: none;
   cursor: pointer;
   font-size: 0.9rem;
   color: var(--mutedColor);
-  padding: 0;
+  padding: 10px 20px;
+}
+
+.noHints {
+  font-size: 0.8rem;
+  color: var(--mutedColor);
 }
 
 .hintBox {
@@ -289,4 +290,70 @@ button.btnPrimary {
 
 .hintButton:hover {
   text-decoration: underline;
+}
+
+
+.hintTab {
+  padding: 8px 14px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  color: #666;
+}
+
+.activeHintTab {
+  padding: 8px 14px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2563eb;
+  border-bottom: 2px solid #2563eb;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-around;
+  gap: 6px;
+}
+
+.stats span {
+  font-size: 0.8rem;
+  color: var(--mutedColor);
+}
+
+.graphs {
+  width: 100px;
+  height: 120px;
+  background: var(--mutedColor);
+  border-radius: 4px;
+}
+
+.row {
+  width: 300px;
+  margin: 6px 0 20px 0;
+}
+
+.settingRow {
+  align-items: left;
+}
+
+
+.row input {
+  margin-right: 6px;
+}
+
+button.btnPrimary {
+  width: 90%;
+  display: flex;
+  align-items: center;
+  max-width: 500px;
+  background: var(--accentColor);
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  margin: 20px 0 20px;
+
 }
