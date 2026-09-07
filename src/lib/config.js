@@ -1,7 +1,7 @@
 // src/lib/config.js
 
 export const QUIZ_CONFIG = {
-  QUESTIONS_PER_TEST: 10,
+  QUESTIONS_PER_TEST: 20,
 
   // Future settings
   DEFAULT_SHOW_TIMER: true,

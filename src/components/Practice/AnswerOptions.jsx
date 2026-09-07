@@ -2,9 +2,13 @@
 
 import { Check, X } from "lucide-react";
 
-import styles from "./Practice.module.css";
+import styles from "./AnswerOptions.module.css";
 
 export default function AnswerOptions({ options, correctAnswer, selectedAnswer, onSelect }) {
+  /* --------------------------------------------------
+     Determine Answer State
+  -------------------------------------------------- */
+
   function getClassName(option) {
     if (selectedAnswer === null) {
       return styles.option;
@@ -34,15 +38,29 @@ export default function AnswerOptions({ options, correctAnswer, selectedAnswer, 
 
           <span className={styles.keyboardHint}>Key {index + 1}</span>
 
+          {/* --------------------------------------------------
+             Correct Answer
+          -------------------------------------------------- */}
+
           {selectedAnswer !== null && option === correctAnswer && (
             <span className={styles.feedbackIcon}>
-              <Check size={22} />
+              <Check
+                size={22}
+                className={styles.correctIcon}
+              />
             </span>
           )}
 
+          {/* --------------------------------------------------
+             Incorrect Answer
+          -------------------------------------------------- */}
+
           {selectedAnswer !== null && option === selectedAnswer && option !== correctAnswer && (
             <span className={styles.feedbackIcon}>
-              <X size={22} />
+              <X
+                size={22}
+                className={styles.wrongIcon}
+              />
             </span>
           )}
         </button>

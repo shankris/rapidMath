@@ -1,0 +1,121 @@
+/* --------------------------------------------------
+   Answer Options Grid
+-------------------------------------------------- */
+
+.options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+
+/* --------------------------------------------------
+   Answer Option
+-------------------------------------------------- */
+
+.option {
+  position: relative;
+
+  min-height: 90px;
+  padding: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 1.5rem;
+
+  border-radius: var(--borderRadius-md);
+  border: 1px solid var(--borderColor);
+
+  background: var(--surfaceColor);
+
+  cursor: pointer;
+
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.option:hover {
+  background: var(--surfaceAlt);
+}
+
+
+/* --------------------------------------------------
+   Correct Answer
+-------------------------------------------------- */
+
+.correct {
+  background: #dcfce7 !important;
+  border-color: #22c55e;
+}
+
+
+/* --------------------------------------------------
+   Wrong Answer
+-------------------------------------------------- */
+
+.wrong {
+  background: #fee2e2 !important;
+  border-color: #ef4444;
+}
+
+/* --------------------------------------------------
+   Feedback Icon
+-------------------------------------------------- */
+
+.feedbackIcon {
+  position: absolute;
+  left: -16px;
+  top: -16px;
+
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #efefef;
+  border: 1px solid var(--borderColor);
+  box-shadow: var(--shadow-md);
+}
+
+
+/* --------------------------------------------------
+   Correct / Wrong Icons
+-------------------------------------------------- */
+
+.correctIcon {
+  color: #22c55e;
+}
+
+.wrongIcon {
+  color: #ef4444;
+}
+
+/* --------------------------------------------------
+   Answer Value
+-------------------------------------------------- */
+
+.answerValue {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+
+/* --------------------------------------------------
+   Keyboard Hint
+-------------------------------------------------- */
+
+.keyboardHint {
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
+
+  font-size: 0.7rem;
+  color: var(--mutedColor);
+}

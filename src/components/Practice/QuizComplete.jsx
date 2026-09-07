@@ -1,6 +1,6 @@
 "use client";
 
-import styles from "./Practice.module.css";
+import styles from "./QuizComplete.module.css";
 
 export default function QuizComplete({ results, onRetake, onAnotherTest, onContinue }) {
   return (
@@ -8,44 +8,63 @@ export default function QuizComplete({ results, onRetake, onAnotherTest, onConti
       <div className={styles.header}>
         <h1>Quiz Complete!</h1>
       </div>
-      <p>Great work. Here is your performance summary.</p>
 
-      <div className={`card ${styles.resultCard}`}>
-        <div className={styles.resultItem}>
-          <strong>
-            {results.correct} / {results.total}
-          </strong>
-          <span>Correct Answers</span>
-        </div>
+      {/* --------------------------------------------------
+   Performance Summary
+-------------------------------------------------- */}
 
-        <div className={styles.resultItem}>
-          <strong>{results.accuracy}%</strong>
-          <span>Accuracy</span>
-        </div>
+      <section className={styles.progress}>
+        <h2>
+          Great work - You have improved your average score
+          <br />
+          <br />
+          Your Quiz Results
+        </h2>
 
-        <div className={styles.resultItem}>
-          <strong>{results.averageTime}s</strong>
-          <span>Average Time</span>
+        <div className={styles.stats}>
+          <div>
+            <div className={styles.statValue}>
+              {results.correct} / {results.total}
+            </div>
+            <span>Correct Answers</span>
+          </div>
+
+          <div>
+            <div className={styles.statValue}>{results.accuracy}%</div>
+            <span>Accuracy</span>
+          </div>
+
+          <div>
+            <div className={styles.statValue}>
+              {results.averageTime}
+              <div className={styles.statUnit}>s</div>
+            </div>
+            <span>Avg Reaction Time</span>
+          </div>
         </div>
-      </div>
+      </section>
+
+      {/* --------------------------------------------------
+   Quiz Actions
+-------------------------------------------------- */}
 
       <div className={styles.actions}>
         <button
-          className='btn-primary'
+          className={styles.btnPrimary}
           onClick={onRetake}
         >
           Retake This Test
         </button>
 
         <button
-          className={styles.secondaryButton}
+          className={styles.btnSecondary}
           onClick={onAnotherTest}
         >
           Take Another Test
         </button>
 
         <button
-          className={styles.secondaryButton}
+          className={styles.btnSecondary}
           onClick={onContinue}
         >
           View Progress

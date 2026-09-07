@@ -1,0 +1,204 @@
+/* --------------------------------------------------
+   Quiz Complete Header
+-------------------------------------------------- */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+/* --------------------------------------------------
+   Progress Section
+-------------------------------------------------- */
+
+.progress {
+  margin-top: var(--space-lg);
+}
+
+.progress h2 {
+  margin-bottom: var(--space-md);
+  color: var(--mutedColor);
+  font-size: 16px;
+  font-weight: 400;
+  text-align: center;
+}
+
+
+/* --------------------------------------------------
+   Progress Statistics
+-------------------------------------------------- */
+
+.stats {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  gap: 6px;
+  max-width: 500px;
+  margin-inline: auto;
+}
+
+.stats>div {
+  flex: 1;
+  padding: 12px 6px;
+  text-align: center;
+  background: var(--highLight1);
+  border-radius: var(--borderRadius-md);
+}
+
+.statValue {
+  white-space: nowrap;
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--headingCol);
+}
+
+.stats span {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.8rem;
+  color: var(--mutedColor);
+}
+
+.statUnit {
+  display: inline;
+  margin-left: 2px;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--mutedColor);
+}
+
+
+/* --------------------------------------------------
+   Primary Button
+-------------------------------------------------- */
+
+.btnPrimary {
+  width: 90%;
+  max-width: 500px;
+  min-height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 60px auto;
+  padding: 12px;
+
+  background: var(--accentColor);
+  color: white;
+
+  border: none;
+  border-radius: var(--borderRadius-md);
+
+  font-size: 16px;
+  font-weight: 300;
+  text-align: center;
+
+  cursor: pointer;
+
+  transition:
+    background-color var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.btnPrimary:hover {
+  background: var(--hoverColor);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+/* --------------------------------------------------
+   Quiz Actions
+-------------------------------------------------- */
+
+.actions {
+  width: 90%;
+  max-width: 500px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  margin: 40px auto 0;
+}
+
+
+/* --------------------------------------------------
+   Primary Action
+-------------------------------------------------- */
+
+.btnPrimary {
+  width: 100%;
+  min-height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px 16px;
+
+  background: var(--accentColor);
+  color: white;
+
+  border: 1px solid var(--accentColor);
+  border-radius: var(--borderRadius-md);
+
+  font-size: 15px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.btnPrimary:hover {
+  background: var(--hoverColor);
+  border-color: var(--hoverColor);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+
+/* --------------------------------------------------
+   Secondary Actions
+-------------------------------------------------- */
+
+.btnSecondary {
+  width: 100%;
+  min-height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px 16px;
+
+  background: transparent;
+  color: var(--headingCol);
+
+  border: 1px solid var(--borderColor);
+  border-radius: var(--borderRadius-md);
+
+  font-size: 14px;
+  font-weight: 400;
+
+  cursor: pointer;
+
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.btnSecondary:hover {
+  background: var(--highLight1);
+  border-color: var(--accentColor);
+  transform: translateY(-1px);
+}

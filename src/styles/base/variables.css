@@ -44,7 +44,7 @@
   --footerBg: #e1e1e1;
 
   --bgColor: #f4f6f8;
-  --surfaceColor: #ffffff;
+  --surfaceColor: #f8f8f8;
   --surfaceAlt: #f1f5f9;
   --tab1bg: #cccccc;
   --highLight1: #f0f0f0;
@@ -100,7 +100,7 @@ html[data-theme="dark"] {
   --footerBg: #243062;
 
   --bgColor: #0f172a;
-  --surfaceColor: #020617;
+  --surfaceColor: #3b3b3b;
   --surfaceAlt: #020617;
   --tab1bg: #1a2238;
   --highLight1: #1a2238;
