@@ -24,3 +24,13 @@
 footer {
   margin-top: auto;
 }
+
+/* --------------------------------------------------
+   Mobile Bottom Navigation Space
+-------------------------------------------------- */
+
+@media (max-width: 768px) {
+  .app-main {
+    padding-bottom: 70px;
+  }
+}

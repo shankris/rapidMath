@@ -1,141 +1,184 @@
 .card {
-
-  background: var(--surfaceColor);
-
-  border: 1px solid var(--borderColor);
-
-  border-radius: 12px;
-
-  padding: 24px;
-
-  box-shadow: var(--shadow-sm);
-
-  transition: 0.25s;
-
+  width: 100%;
 }
 
-.card:hover {
 
-  transform: translateY(-4px);
-
-  box-shadow: var(--shadow-md);
-
-}
+/* --------------------------------------------------
+   Operation Header
+-------------------------------------------------- */
 
 .header {
+  width: 100%;
 
   display: flex;
-
   align-items: center;
+  justify-content: space-between;
 
-  gap: 12px;
+  gap: var(--space-sm);
 
-  margin-bottom: 20px;
+  margin: 0;
 
+  padding: 8px 10px;
+
+  background-color: var(--tableHeaderBg);
+
+  border: 0;
+  border-radius: var(--borderRadius-sm);
+
+  color: var(--headingCol);
+
+  font: inherit;
+
+  cursor: pointer;
+
+  text-align: left;
+
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.header:hover {
+  background-color: var(--surfaceAlt);
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
 }
 
 .header h2 {
+  margin: 0;
 
-  font-size: 1.15rem;
-
+  font-size: 18px;
+  color: var(--headingCol);
 }
 
-.levels {
+
+/* --------------------------------------------------
+   Level Grid
+-------------------------------------------------- */
+
+.levelGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-sm);
+}
+
+/* --------------------------------------------------
+   Level Card
+-------------------------------------------------- */
+
+.levelCard {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  max-width: 300px;
-}
-
-.levelHeader,
-.levelRow {
-
-  display: grid;
-
-  grid-template-columns:
-    1fr 50px 70px 60px;
-
-  align-items: center;
-
-}
-
-
-.levelHeader {
-
-  font-size: 0.7rem;
-  color: var(--mutedColor);
-
-  padding: 6px 10px;
-
-}
-
-
-.levelRow {
-
-  padding: 8px 10px;
-
-  border-radius: 6px;
-
-  color: var(--txtColor);
-
+  min-height: 100px;
+  padding: var(--space-sm);
   text-decoration: none;
-
-}
-
-
-.levelRow:hover {
-
   background: var(--surfaceAlt);
-
+  border: 1px solid var(--borderColor);
+  border-radius: var(--borderRadius-md);
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform var(--transition-fast),
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 
-.levelRow span {
+.levelCard:hover {
+  transform: translateY(-2px);
+  border-color: var(--accentColor);
+  box-shadow: var(--shadow-md);
+}
+
+/* --------------------------------------------------
+   Level Number
+-------------------------------------------------- */
+
+.levelNumber {
+  display: block;
+
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--mutedColor);
+}
+
+/* --------------------------------------------------
+   Level Description
+-------------------------------------------------- */
+
+.levelTitle {
+  display: block;
+
+  /* margin-top: var(--space-sm); */
+
   font-size: 14px;
-}
-
-.levelRow {
-
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: center;
-
-  padding: 8px 10px;
-
-  border-radius: 6px;
-
-  text-decoration: none;
+  font-weight: 500;
+  line-height: 1;
 
   color: var(--txtColor);
-
-  transition: var(--transition-fast);
-
 }
 
 
-.levelRow:hover {
+/* --------------------------------------------------
+   Level Statistics
+-------------------------------------------------- */
 
-  background: var(--surfaceAlt);
-
-}
-
-
-.levelName {
-
-  font-size: 0.9rem;
-
-}
-
-
-.stats {
-
+.levelStats {
   display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  /* gap: var(--space-md); */
+  margin-top: auto;
+}
 
-  gap: 14px;
+/* --------------------------------------------------
+   Correct Answers
+-------------------------------------------------- */
 
+.correctAnswers {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 500;
   color: var(--mutedColor);
+  padding: 0 10px;
+}
 
-  font-size: 0.8rem;
+/* --------------------------------------------------
+   Average Reaction Time
+-------------------------------------------------- */
 
+.reactionTime {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 4px 0 10px;
+  margin-top: var(--space-sm);
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: auto;
+  color: var(--mutedColor);
+}
+
+
+/* --------------------------------------------------
+   Responsive Layout
+-------------------------------------------------- */
+
+@media (max-width: 425px) {
+  .levelGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* -------------------------------------------------- Trend Indicators -------------------------------------------------- */
+.trendUp {
+  color: #16a34a;
+}
+
+.trendDown {
+  color: #dc2626;
 }
