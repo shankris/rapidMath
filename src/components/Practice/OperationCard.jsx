@@ -27,7 +27,10 @@ export default function OperationCard({ operation, isOpen, onToggle }) {
         aria-expanded={isOpen}
       >
         <div className={styles.headerContent}>
-          <Icon size={28} />
+          <Icon
+            size={22}
+            className={styles.operationIcon}
+          />
           <h2>{operation.title}</h2>
         </div>
 
@@ -72,15 +75,20 @@ export default function OperationCard({ operation, isOpen, onToggle }) {
                   key={level}
                 >
                   <span className={styles.levelNumber}>Level {level}</span>
+
                   <span className={styles.levelTitle}>{config.title}</span>
+
                   {/* --------------------------------------------------
-   Level Statistics
--------------------------------------------------- */}
-                  <div className={styles.levelStats}>
-                    {/* --------------------------------------------------
-     Correct Answers
+     Level Tooltip
   -------------------------------------------------- */}
 
+                  <span className={styles.tooltip}>{config.details[operation.operation]}</span>
+
+                  {/* --------------------------------------------------
+     Level Statistics
+  -------------------------------------------------- */}
+
+                  <div className={styles.levelStats}>
                     <span className={styles.correctAnswers}>
                       <Check
                         size={15}
@@ -89,16 +97,11 @@ export default function OperationCard({ operation, isOpen, onToggle }) {
                       <span>94%</span>
                     </span>
 
-                    {/* --------------------------------------------------
-     Average Reaction Time
-  -------------------------------------------------- */}
-
                     <span className={styles.reactionTime}>
                       <Timer
                         size={16}
                         strokeWidth={1.8}
                       />
-
                       <span>3.433s</span>
                     </span>
                   </div>
