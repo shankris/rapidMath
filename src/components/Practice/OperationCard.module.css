@@ -63,7 +63,7 @@
 
 .header[aria-expanded="true"] {
   background-color: var(--tab1bg);
-  border-color: var(--accentColor);
+  /* border-color: var(--accentColor); */
   box-shadow: var(--shadow-md);
 }
 

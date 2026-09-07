@@ -1,0 +1,126 @@
+/* --------------------------------------------------
+   Quiz Setup Header
+-------------------------------------------------- */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+/* --------------------------------------------------
+   Level
+-------------------------------------------------- */
+
+span.level {
+  display: block;
+  text-align: left;
+}
+
+
+/* --------------------------------------------------
+   Progress Card
+-------------------------------------------------- */
+
+.progressCard {
+  margin: 4px;
+  padding: 12px;
+}
+
+/* --------------------------------------------------
+   Progress Section
+-------------------------------------------------- */
+
+.progress {
+  margin-top: var(--space-lg);
+}
+
+.progress h2 {
+  margin-bottom: var(--space-md);
+  color: var(--mutedColor);
+  font-size: 16px;
+  font-weight: 400;
+  text-align: center;
+}
+
+/* --------------------------------------------------
+   Progress Statistics
+-------------------------------------------------- */
+
+.stats {
+  display: flex;
+  justify-content: space-around;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+}
+
+.stats>div {
+  text-align: center;
+}
+
+.statValue {
+  font-size: 1.8rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--headingCol);
+}
+
+.stats span {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.8rem;
+  color: var(--mutedColor);
+}
+
+
+/* --------------------------------------------------
+   Progress Graph Placeholder
+-------------------------------------------------- */
+
+.graphs {
+  width: 100px;
+  height: 120px;
+  background: var(--mutedColor);
+  border-radius: 4px;
+}
+
+
+/* --------------------------------------------------
+   Start Practice Button
+-------------------------------------------------- */
+
+.btnPrimary {
+  width: 90%;
+  max-width: 500px;
+  min-height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 60px auto;
+  padding: 12px;
+
+  background: var(--accentColor);
+  color: white;
+
+  border: none;
+  border-radius: var(--borderRadius-md);
+
+  font-size: 16px;
+  font-weight: 300;
+  text-align: center;
+
+  cursor: pointer;
+
+  transition:
+    background-color var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.btnPrimary:hover {
+  background: var(--hoverColor);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
