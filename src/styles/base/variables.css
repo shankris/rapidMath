@@ -47,6 +47,7 @@
   --surfaceColor: #ffffff;
   --surfaceAlt: #f1f5f9;
   --tab1bg: #cccccc;
+  --highLight1: #f0f0f0;
 
   /* Text */
   --txtColor: #1f2933;
@@ -102,6 +103,7 @@ html[data-theme="dark"] {
   --surfaceColor: #020617;
   --surfaceAlt: #020617;
   --tab1bg: #1a2238;
+  --highLight1: #1a2238;
 
   /* Text */
   --txtColor: #e5e7eb;

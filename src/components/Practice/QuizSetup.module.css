@@ -49,17 +49,25 @@ span.level {
 
 .stats {
   display: flex;
-  justify-content: space-around;
-  gap: var(--space-sm);
-  margin-top: var(--space-lg);
+  justify-content: center;
+  align-self: center;
+  gap: 6px;
+  max-width: 500px;
+  margin-inline: auto;
+  /* margin-top: var(--space-lg); */
 }
 
 .stats>div {
+  flex: 1;
   text-align: center;
+  background: var(--highLight1);
+  border-radius: var(--borderRadius-md);
+  padding: 12px 6px;
 }
 
 .statValue {
-  font-size: 1.8rem;
+  white-space: nowrap;
+  font-size: 1.4rem;
   font-weight: 600;
   line-height: 1.2;
   color: var(--headingCol);
@@ -72,6 +80,13 @@ span.level {
   color: var(--mutedColor);
 }
 
+.statUnit {
+  display: inline;
+  margin-left: 2px;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--mutedColor);
+}
 
 /* --------------------------------------------------
    Progress Graph Placeholder

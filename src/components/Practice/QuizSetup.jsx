@@ -30,7 +30,9 @@ export default function QuizSetup({ operation, level, onStart }) {
           </div>
 
           <div>
-            <div className={styles.statValue}>3.43s</div>
+            <div className={styles.statValue}>
+              3.43<div className={styles.statUnit}>s</div>
+            </div>
             <span>Avg Reaction Time</span>
           </div>
 
