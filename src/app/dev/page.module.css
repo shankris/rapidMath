@@ -1,0 +1,143 @@
+/* --------------------------------------------------
+   Development Page
+-------------------------------------------------- */
+
+.container {
+  min-height: 100vh;
+  padding: 40px;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  background: var(--backgroundColor);
+}
+
+
+/* --------------------------------------------------
+   Development Card
+-------------------------------------------------- */
+
+.card {
+  width: 100%;
+  max-width: 700px;
+
+  padding: 32px;
+
+  border: 1px solid var(--borderColor);
+  border-radius: var(--borderRadius-lg);
+
+  background: var(--surfaceColor);
+
+  box-shadow: var(--shadow-md);
+}
+
+
+/* --------------------------------------------------
+   Heading
+-------------------------------------------------- */
+
+.card h1 {
+  margin: 0 0 8px;
+
+  font-size: 1.75rem;
+}
+
+
+.description {
+  margin: 0;
+
+  color: var(--mutedColor);
+}
+
+
+/* --------------------------------------------------
+   Section
+-------------------------------------------------- */
+
+.section {
+  margin-top: 32px;
+  padding-top: 24px;
+
+  border-top: 1px solid var(--borderColor);
+}
+
+.section h2 {
+  margin: 0 0 8px;
+
+  font-size: 1.1rem;
+}
+
+.section p {
+  margin: 0 0 20px;
+
+  color: var(--mutedColor);
+}
+
+
+/* --------------------------------------------------
+   Buttons
+-------------------------------------------------- */
+
+.primaryButton,
+.dangerButton {
+  padding: 10px 18px;
+
+  border: 0;
+  border-radius: var(--borderRadius-md);
+
+  font-size: 0.95rem;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    opacity var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.primaryButton {
+  background: var(--accentColor);
+  color: white;
+}
+
+.dangerButton {
+  background: #ef4444;
+  color: white;
+}
+
+.primaryButton:hover,
+.dangerButton:hover {
+  opacity: 0.9;
+}
+
+.primaryButton:active,
+.dangerButton:active {
+  transform: translateY(1px);
+}
+
+
+/* --------------------------------------------------
+   Responsive
+-------------------------------------------------- */
+
+@media (max-width: 768px) {
+  .container {
+    padding: 24px;
+  }
+
+  .card {
+    padding: 24px;
+  }
+}
+
+
+@media (max-width: 425px) {
+  .container {
+    padding: 16px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+}

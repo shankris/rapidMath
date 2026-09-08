@@ -1,0 +1,43 @@
+/* --------------------------------------------------
+   Performance Trend
+-------------------------------------------------- */
+
+.chartContainer {
+  width: 100%;
+  min-width: 0;
+}
+
+/* --------------------------------------------------
+   Chart Card
+-------------------------------------------------- */
+
+.chartCard {
+  width: 100%;
+  padding: 20px;
+  background: var(--surfaceColor);
+  border: 1px solid var(--borderColor);
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+}
+
+
+/* --------------------------------------------------
+   Responsive — Tablet
+-------------------------------------------------- */
+
+@media (max-width: 768px) {
+  .chartCard {
+    padding: 12px 8px;
+  }
+}
+
+
+/* --------------------------------------------------
+   Responsive — Mobile
+-------------------------------------------------- */
+
+@media (max-width: 425px) {
+  .chartCard {
+    padding: 8px 4px;
+  }
+}

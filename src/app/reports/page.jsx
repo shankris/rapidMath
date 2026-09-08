@@ -1,7 +1,139 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { getDashboardStats } from "@/lib/stats/dashboardStats";
+import PerformanceTrend from "@/components/Reports/PerformanceTrend/PerformanceTrend";
+import styles from "./page.module.css";
+
+/* --------------------------------------------------
+   Period Configuration
+-------------------------------------------------- */
+
+const PERIODS = ["1w", "2w", "1m", "3m", "6m", "1y", "all"];
+
+/* --------------------------------------------------
+   Reports Page
+-------------------------------------------------- */
+
 export default function ReportsPage() {
+  const [period, setPeriod] = useState("1m");
+  const [stats, setStats] = useState(null);
+
+  /* ------------------------------------------------
+     Load Statistics
+  ------------------------------------------------ */
+
+  useEffect(() => {
+    const data = getDashboardStats(period);
+
+    setStats(data);
+  }, [period]);
+
+  /* ------------------------------------------------
+     Render
+  ------------------------------------------------ */
+
   return (
-    <div>
-      <h1>Reports</h1> <p>Reports will appear here.</p>
-    </div>
+    <main className={styles.page}>
+      {/* ------------------------------------------
+          Page Header
+      ------------------------------------------ */}
+
+      <div className={styles.pageHeader}>
+        <h1 className={styles.pageTitle}>Reports</h1>
+
+        <p className={styles.pageDescription}>Review your performance and progress over time.</p>
+      </div>
+
+      {/* ------------------------------------------
+          Performance Overview
+      ------------------------------------------ */}
+
+      <section className={styles.section}>
+        <div className={styles.sectionHeader}>
+          <div>
+            <h2 className={styles.sectionTitle}>Performance Overview</h2>
+
+            <p className={styles.sectionDescription}>Your overall performance for the selected period.</p>
+          </div>
+
+          {/* ----------------------------------------
+              Period Selector
+          ---------------------------------------- */}
+
+          <div
+            className={styles.periodSelector}
+            role='group'
+            aria-label='Performance period'
+          >
+            {PERIODS.map((item) => (
+              <button
+                key={item}
+                type='button'
+                className={`${styles.periodButton} ${period === item ? styles.periodButtonActive : ""}`}
+                onClick={() => setPeriod(item)}
+                aria-pressed={period === item}
+              >
+                {item}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* ------------------------------------------
+            Statistics
+        ------------------------------------------ */}
+
+        {stats && (
+          <div className={styles.statsGrid}>
+            <div className={styles.statCard}>
+              <span className={styles.statLabel}>Accuracy</span>
+
+              <strong className={styles.statValue}>{stats.accuracy}%</strong>
+            </div>
+
+            <div className={styles.statCard}>
+              <span className={styles.statLabel}>Average Time</span>
+
+              <strong className={styles.statValue}>{stats.averageTime}s</strong>
+            </div>
+
+            <div className={styles.statCard}>
+              <span className={styles.statLabel}>Tests Completed</span>
+
+              <strong className={styles.statValue}>{stats.testsCompleted}</strong>
+            </div>
+
+            <div className={styles.statCard}>
+              <span className={styles.statLabel}>Questions Answered</span>
+
+              <strong className={styles.statValue}>{stats.questionsAnswered}</strong>
+            </div>
+          </div>
+        )}
+
+        {/* ------------------------------------------
+    Performance Trend
+------------------------------------------ */}
+
+        <section className={styles.section}>
+          <div className={styles.sectionHeader}>
+            <div>
+              <h2 className={styles.sectionTitle}>Performance Trend</h2>
+
+              <p className={styles.sectionDescription}>Your daily performance for the selected period.</p>
+            </div>
+          </div>
+
+          {/* ----------------------------------------
+      Performance Chart
+  ---------------------------------------- */}
+
+          <div className={styles.chartCard}>
+            <PerformanceTrend period={period} />
+          </div>
+        </section>
+      </section>
+    </main>
   );
 }
