@@ -59,8 +59,8 @@
 
   /* Accent */
   --accentColor: #203060;
-  --hoverColor: #1d4ed8;
-  --focusColor: #2563eb;
+  --hoverColor: #54769b;
+  --focusColor: #54769b;
 
 
   /* Tables */
@@ -115,7 +115,7 @@ html[data-theme="dark"] {
 
   /* Accent */
   --accentColor: #60a5fa;
-  --hoverColor: #93c5fd;
+  --hoverColor: #426d9e;
   --focusColor: #60a5fa;
 
   /* Tables */

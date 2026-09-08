@@ -33,15 +33,40 @@ export default function QuizComplete({ results, onRetake, onAnotherTest, onConti
             <div className={styles.statValue}>{results.accuracy}%</div>
             <span>Accuracy</span>
           </div>
+        </div>
+
+        <div className={styles.stats}>
+          <div>
+            <div className={styles.statValue}>
+              {results.fastestTime}
+              <div className={styles.statUnit}>s</div>
+            </div>
+            <span>Fastest Time</span>
+          </div>
 
           <div>
             <div className={styles.statValue}>
               {results.averageTime}
               <div className={styles.statUnit}>s</div>
             </div>
-            <span>Avg Reaction Time</span>
+            <span>Avg. Time</span>
+          </div>
+
+          <div>
+            <div className={styles.statValue}>
+              {results.slowestTime}
+              <div className={styles.statUnit}>s</div>
+            </div>
+            <span>Slowest Time</span>
           </div>
         </div>
+
+        <button
+          className={styles.btnSecondary}
+          onClick={onContinue}
+        >
+          Analyse Quiz Stats
+        </button>
       </section>
 
       {/* --------------------------------------------------
@@ -61,13 +86,6 @@ export default function QuizComplete({ results, onRetake, onAnotherTest, onConti
           onClick={onAnotherTest}
         >
           Take Another Test
-        </button>
-
-        <button
-          className={styles.btnSecondary}
-          onClick={onContinue}
-        >
-          View Progress
         </button>
       </div>
     </div>
