@@ -1,0 +1,134 @@
+.container {
+  width: 100%;
+  min-width: 0;
+}
+
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.table th {
+  padding: 10px;
+  border-bottom: 2px solid var(--border-subtle);
+
+  color: var(--text-secondary);
+
+  font-size: 12px;
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 10px;
+
+  border-bottom: 1px solid var(--border-subtle);
+
+  color: var(--text-primary);
+
+  white-space: nowrap;
+}
+
+.left {
+  text-align: left;
+}
+
+.right {
+  text-align: right;
+}
+
+/* --------------------------------------------------
+   Operation Name
+-------------------------------------------------- */
+
+.operationName {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  font-weight: 600;
+}
+
+/* --------------------------------------------------
+   Expand / Collapse Button
+-------------------------------------------------- */
+
+.expandButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 22px;
+  height: 22px;
+
+  padding: 0;
+
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+
+  background: var(--bg-surface);
+
+  color: var(--text-secondary);
+
+  font-size: 16px;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.expandButton:hover {
+  background: var(--bg-hover);
+
+  border-color: var(--border-bold);
+
+  color: var(--text-primary);
+}
+
+/* --------------------------------------------------
+   Level Rows
+-------------------------------------------------- */
+
+.levelRow {
+  background: var(--bg-surface-elevated);
+}
+
+.levelName {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  color: var(--text-secondary);
+
+  font-weight: 500;
+}
+
+.levelIndent {
+  width: 22px;
+}
+
+
+/* --------------------------------------------------
+   Performance Column
+-------------------------------------------------- */
+
+.table th:nth-child(2),
+.table td:nth-child(2) {
+  width: 320px;
+  min-width: 320px;
+}
+
+/* --------------------------------------------------
+   Progress Bar
+-------------------------------------------------- */
+
+.progressWrapper {
+  width: 340px;
+  min-width: 160px;
+}

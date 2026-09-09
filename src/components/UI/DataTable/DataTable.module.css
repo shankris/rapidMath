@@ -1,0 +1,441 @@
+.container {
+  width: 100%;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
+  font-size: 14px;
+  color: var(--txtColor);
+}
+
+/* =========================================
+   Top Controls
+   ========================================= */
+
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 16px;
+}
+
+.lengthSelect {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lengthSelect select {
+  padding: 4px 8px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* =========================================
+   Search
+   ========================================= */
+
+.searchInputWrapper {
+  position: relative;
+  width: 440px;
+}
+
+.searchInputWrapper input {
+  width: 100%;
+  height: 38px;
+  box-sizing: border-box;
+  padding: 0 70px 0 36px;
+  border-radius: 4px;
+  outline: none;
+  border: 1px solid var(--borderColor);
+  background: var(--surfaceColor);
+  color: var(--txtColor);
+}
+
+.searchInputWrapper input:focus {
+  border-color: var(--accentColor);
+}
+
+.searchIcon {
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.clearSearch {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.clearSearch:hover {
+  color: var(--text-primary);
+}
+
+.searchInputWrapper:focus-within .searchShortcut {
+  display: none;
+}
+
+.searchShortcut {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 6px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 3px;
+  background: var(--bg-surface-elevated);
+  color: var(--text-muted);
+  font-size: 11px;
+  pointer-events: none;
+}
+
+/* =========================================
+   Hide Page-Size Selector
+
+   Kept in the component for future use.
+   ========================================= */
+
+.pageSize {
+  display: none;
+}
+
+/* =========================================
+   Filtered Layout
+   ========================================= */
+
+.filteredLayout {
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+}
+
+.tableArea {
+  min-width: 0;
+  flex: 1;
+}
+
+/* =========================================
+   Desktop Table
+   ========================================= */
+
+.desktopTable {
+  display: block;
+}
+
+.tableContainer {
+  width: 100%;
+  overflow-x: auto;
+  min-height: 495px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  table-layout: auto;
+}
+
+/* =========================================
+   Alignment
+   ========================================= */
+
+.alignLeft {
+  text-align: left;
+}
+
+.alignCenter {
+  text-align: center;
+}
+
+.alignRight {
+  text-align: right;
+}
+
+/* =========================================
+   Header Content Alignment
+   ========================================= */
+
+.justifyLeft {
+  justify-content: flex-start;
+}
+
+.justifyCenter {
+  justify-content: center;
+}
+
+.justifyRight {
+  justify-content: flex-end;
+}
+
+/* =========================================
+   Table Header
+   ========================================= */
+
+.th {
+  padding: 10px;
+  border-bottom: 2px solid var(--borderColor);
+  text-align: left;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.thContent {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sortIcons {
+  display: flex;
+  flex-direction: column;
+  font-size: 9px;
+  line-height: 0.8;
+  color: var(--text-muted);
+}
+
+.activeSort {
+  color: var(--text-primary);
+  font-weight: bold;
+}
+
+/* =========================================
+   Table Cells
+   ========================================= */
+
+.td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--borderColor);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+/* =========================================
+   Sorted Column Background
+   ========================================= */
+
+.thSorted {
+  background-color: var(--bg-surface-elevated);
+}
+
+.tdSorted {
+  background-color: color-mix(in srgb,
+      var(--bg-surface-elevated) 55%,
+      var(--bg-surface));
+}
+
+.tr:hover .td {
+  background-color: var(--bg-hover);
+}
+
+.tr:hover .tdSorted {
+  background-color: var(--bg-surface-elevated);
+}
+
+/* =========================================
+   Empty Values
+   ========================================= */
+
+.emptyValue {
+  color: var(--text-muted);
+}
+
+/* =========================================
+   No Results
+   ========================================= */
+
+.noResults {
+  text-align: center;
+  padding: 20px;
+  color: var(--text-muted);
+}
+
+/* =========================================
+   Mobile Field / Value Layout
+
+   Hidden by default.
+
+   This is the responsive representation of
+   the same table data. It is not a card view.
+   ========================================= */
+
+.mobileTable {
+  display: none;
+}
+
+.mobileRow {
+  width: 100%;
+  margin-bottom: 16px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--bg-surface);
+}
+
+.mobileField {
+  display: grid;
+  grid-template-columns: 38% 62%;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.mobileField:last-child {
+  border-bottom: none;
+}
+
+.mobileLabel {
+  min-width: 0;
+  padding: 10px 12px;
+  background: var(--bg-surface-elevated);
+  color: var(--text-secondary);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.mobileValue {
+  min-width: 0;
+  padding: 10px 12px;
+  color: var(--text-primary);
+  overflow-wrap: anywhere;
+}
+
+.mobileNoResults {
+  padding: 24px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+/* =========================================
+   Bottom Controls
+   ========================================= */
+
+.bottomBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  gap: 16px;
+}
+
+.info {
+  color: var(--text-muted);
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pageBtn {
+  min-width: 34px;
+  height: 34px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid var(--borderColor);
+  background: var(--surfaceColor);
+  color: var(--txtColor);
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.pageBtn:hover:not(:disabled) {
+  background: var(--highLight1);
+  border-color: var(--hoverColor);
+}
+
+.pageBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.activePage {
+  background: var(--accentColor);
+  color: #ffffff;
+  border-color: var(--accentColor);
+}
+
+.activePage:hover {
+  background-color: rgb(121, 120, 120);
+  color: rgb(22, 22, 90);
+  border-color: var(--accentColor);
+}
+
+.dots {
+  padding: 0 8px;
+}
+
+/* =========================================
+   Responsive Layout
+   ========================================= */
+
+@media (max-width: 768px) {
+  .desktopTable {
+    display: none;
+  }
+
+  .mobileTable {
+    display: block;
+  }
+
+  .topBar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search {
+    width: 100%;
+  }
+
+  .searchInputWrapper {
+    width: 100%;
+  }
+
+  .bottomBar {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .pagination {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .info {
+    text-align: center;
+  }
+}

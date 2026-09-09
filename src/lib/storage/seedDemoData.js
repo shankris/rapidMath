@@ -57,9 +57,11 @@ function getDateDaysAgo(days) {
 function generateAttemptId(timestamp) {
   const date = new Date(timestamp);
 
-  const datePart = date.toISOString().slice(0, 10).replace(/-/g, "");
+  const isoTimestamp = date.toISOString();
 
-  const timePart = date.toTimeString().slice(0, 8).replace(/:/g, "");
+  const datePart = isoTimestamp.slice(0, 10).replace(/-/g, "");
+
+  const timePart = isoTimestamp.slice(11, 19).replace(/:/g, "");
 
   const randomPart = Math.random().toString(36).substring(2, 5);
 
@@ -99,7 +101,7 @@ function generateQuizAttempt({ date, operation, level, dayIndex, testIndex, accu
 
   const totalTime = questions.reduce((sum, question) => sum + question.time, 0);
 
-  const completedAt = startedAt.getTime() + totalTime * 1000;
+  const completedAt = new Date(startedAt.getTime() + totalTime * 1000).toISOString();
 
   return {
     id: generateAttemptId(startedAt.getTime()),
@@ -107,7 +109,7 @@ function generateQuizAttempt({ date, operation, level, dayIndex, testIndex, accu
     operation,
     level,
 
-    startedAt: startedAt.getTime(),
+    startedAt: startedAt.toISOString(),
     completedAt,
 
     status: "completed",
@@ -131,7 +133,40 @@ function generateDailyActivity({ date, tests, questions, correct, totalTime }) {
 }
 
 /* --------------------------------------------------
-   Generate Monthly Statistics
+   Create Empty Level Statistics
+-------------------------------------------------- */
+
+function createEmptyLevelStats() {
+  return {
+    testsCompleted: 0,
+    questionsAnswered: 0,
+    correctAnswers: 0,
+    totalTime: 0,
+  };
+}
+
+/* --------------------------------------------------
+   Create Empty Operation Statistics
+-------------------------------------------------- */
+
+function createEmptyOperationStats() {
+  return {
+    testsCompleted: 0,
+    questionsAnswered: 0,
+    correctAnswers: 0,
+    totalTime: 0,
+
+    levels: {
+      1: createEmptyLevelStats(),
+      2: createEmptyLevelStats(),
+      3: createEmptyLevelStats(),
+      4: createEmptyLevelStats(),
+    },
+  };
+}
+
+/* --------------------------------------------------
+   Create Empty Monthly Statistics
 -------------------------------------------------- */
 
 function createEmptyMonth(month) {
@@ -143,33 +178,10 @@ function createEmptyMonth(month) {
     correctAnswers: 0,
 
     operations: {
-      add: {
-        testsCompleted: 0,
-        questionsAnswered: 0,
-        correctAnswers: 0,
-        totalTime: 0,
-      },
-
-      sub: {
-        testsCompleted: 0,
-        questionsAnswered: 0,
-        correctAnswers: 0,
-        totalTime: 0,
-      },
-
-      mul: {
-        testsCompleted: 0,
-        questionsAnswered: 0,
-        correctAnswers: 0,
-        totalTime: 0,
-      },
-
-      div: {
-        testsCompleted: 0,
-        questionsAnswered: 0,
-        correctAnswers: 0,
-        totalTime: 0,
-      },
+      add: createEmptyOperationStats(),
+      sub: createEmptyOperationStats(),
+      mul: createEmptyOperationStats(),
+      div: createEmptyOperationStats(),
     },
   };
 }
@@ -208,6 +220,24 @@ function addAttemptToMonth(monthStats, attempt) {
   operationStats.correctAnswers += correct;
 
   operationStats.totalTime += totalTime;
+
+  /* ----------------------------------------------
+     Level Statistics
+  ---------------------------------------------- */
+
+  const levelStats = operationStats.levels[attempt.level];
+
+  if (!levelStats) {
+    return;
+  }
+
+  levelStats.testsCompleted += 1;
+
+  levelStats.questionsAnswered += questions.length;
+
+  levelStats.correctAnswers += correct;
+
+  levelStats.totalTime += totalTime;
 }
 
 /* --------------------------------------------------

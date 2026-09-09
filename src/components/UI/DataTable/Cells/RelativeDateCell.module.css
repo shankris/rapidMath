@@ -1,0 +1,5 @@
+.relativeDate {
+  white-space: nowrap;
+  color: var(--mutedColor);
+  font-weight: 500;
+}

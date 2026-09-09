@@ -23,9 +23,11 @@ import styles from "./Practice.module.css";
 function generateAttemptId(timestamp) {
   const date = new Date(timestamp);
 
-  const datePart = date.toISOString().slice(0, 10).replace(/-/g, "");
+  const isoTimestamp = date.toISOString();
 
-  const timePart = date.toTimeString().slice(0, 8).replace(/:/g, "");
+  const datePart = isoTimestamp.slice(0, 10).replace(/-/g, "");
+
+  const timePart = isoTimestamp.slice(11, 19).replace(/:/g, "");
 
   const randomPart = Math.random().toString(36).substring(2, 5);
 
@@ -54,6 +56,7 @@ export default function PracticeSession({ operation, level }) {
   -------------------------------------------------- */
 
   const [quizStarted, setQuizStarted] = useState(false);
+
   const [quizCompleted, setQuizCompleted] = useState(false);
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -62,17 +65,18 @@ export default function PracticeSession({ operation, level }) {
 
   /* --------------------------------------------------
      Current Question Timer
-     
-     This is only used to calculate the reaction time
-     for the current question.
+
+     This is only used to calculate the reaction
+     time for the current question.
   -------------------------------------------------- */
 
   const [startTime, setStartTime] = useState(null);
+
   const [reactionTime, setReactionTime] = useState(null);
 
   /* --------------------------------------------------
      Quiz Attempt
-     
+
      This is the single source of truth for the
      persisted quiz attempt.
   -------------------------------------------------- */
@@ -140,7 +144,7 @@ export default function PracticeSession({ operation, level }) {
 
   /* --------------------------------------------------
      Keyboard Controls
-     
+
      1 - 4 and A - D select answers.
      Enter moves to the next question.
   -------------------------------------------------- */
@@ -223,7 +227,7 @@ export default function PracticeSession({ operation, level }) {
 
     /* ----------------------------------------------
        Create Minimal Answer Record
-       
+
        Only the information required for history
        and future statistics is stored.
     ---------------------------------------------- */
@@ -236,7 +240,7 @@ export default function PracticeSession({ operation, level }) {
 
     /* ----------------------------------------------
        Update Quiz Attempt
-    --------------------------------------------------
+
        Save the updated attempt immediately so that
        every answered question is persisted.
     ---------------------------------------------- */
@@ -280,14 +284,14 @@ export default function PracticeSession({ operation, level }) {
     }
 
     /* --------------------------------------------------
-   Complete Quiz Attempt
---------------------------------------------------
-   The final answer has already been saved.
-   We only need to update the attempt status
-   and record the practice streak.
--------------------------------------------------- */
+       Complete Quiz Attempt
 
-    const completedAt = Date.now();
+       The final answer has already been saved.
+       We only need to update the attempt status
+       and record the practice streak.
+    -------------------------------------------------- */
+
+    const completedAt = new Date().toISOString();
 
     const completedAttempt = {
       ...attempt,
@@ -311,7 +315,7 @@ export default function PracticeSession({ operation, level }) {
   -------------------------------------------------- */
 
   function handleStartQuiz() {
-    const startedAt = Date.now();
+    const startedAt = new Date().toISOString();
 
     /* ----------------------------------------------
        Create New Quiz Attempt
@@ -333,7 +337,7 @@ export default function PracticeSession({ operation, level }) {
 
     /* ----------------------------------------------
        Save Attempt
-       
+
        The attempt is created before the first
        question is answered.
     ---------------------------------------------- */
@@ -360,9 +364,10 @@ export default function PracticeSession({ operation, level }) {
 
   /* --------------------------------------------------
      Quiz Results
-     
-     Summary values are calculated from the persisted
-     question records rather than being stored.
+
+     Summary values are calculated from the
+     persisted question records rather than
+     being stored.
   -------------------------------------------------- */
 
   if (quizCompleted && attempt) {

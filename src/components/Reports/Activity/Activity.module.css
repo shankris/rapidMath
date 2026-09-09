@@ -1,0 +1,202 @@
+/* --------------------------------------------------
+   Recent Activity
+-------------------------------------------------- */
+
+.activityLog {
+  width: 100%;
+}
+
+
+/* --------------------------------------------------
+   Activity Group
+-------------------------------------------------- */
+
+.activityGroup {
+  width: 100%;
+}
+
+.activityGroup+.activityGroup {
+  margin-top: 28px;
+}
+
+
+/* --------------------------------------------------
+   Date Header
+-------------------------------------------------- */
+
+.dateHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+
+  border-bottom: 1px solid var(--borderColor);
+}
+
+.periodLabel {
+  flex: 0 0 110px;
+  width: 110px;
+
+  color: var(--headingCol);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.date {
+  color: var(--mutedColor);
+  font-size: 13px;
+}
+
+
+/* --------------------------------------------------
+   Activity Rows
+-------------------------------------------------- */
+
+.activityRows {
+  width: 100%;
+}
+
+.activityRow {
+  display: grid;
+
+  grid-template-columns:
+    78px minmax(130px, 1fr) 70px 100px 70px 55px 70px 65px;
+
+  align-items: center;
+  gap: 12px;
+
+  min-height: 48px;
+  padding: 8px 10px;
+
+  border-bottom: 1px solid var(--borderColor);
+
+  color: var(--txtColor);
+  font-size: 13px;
+}
+
+.activityRow:last-child {
+  border-bottom: 0;
+}
+
+.activityRow:hover {
+  background: var(--highLight1);
+}
+
+
+/* --------------------------------------------------
+   Activity Values
+-------------------------------------------------- */
+
+.time {
+  color: var(--mutedColor);
+}
+
+.operation {
+  color: var(--headingCol);
+  font-weight: 500;
+}
+
+.level {
+  color: var(--mutedColor);
+}
+
+.questions {
+  color: var(--mutedColor);
+}
+
+.correct {
+  color: var(--txtColor);
+  font-weight: 500;
+}
+
+.accuracy {
+  color: var(--headingCol);
+  font-weight: 600;
+}
+
+.averageTime,
+.duration {
+  color: var(--mutedColor);
+}
+
+
+/* --------------------------------------------------
+   Empty State
+-------------------------------------------------- */
+
+.emptyState {
+  padding: 32px 16px;
+
+  color: var(--mutedColor);
+  font-size: 13px;
+  text-align: center;
+
+  border: 1px solid var(--borderColor);
+  border-radius: 8px;
+  background: var(--surfaceColor);
+}
+
+
+/* --------------------------------------------------
+   Responsive — Tablet
+-------------------------------------------------- */
+
+@media (max-width: 768px) {
+  .activityRow {
+    grid-template-columns:
+      70px minmax(120px, 1fr) 65px 85px 60px 55px;
+
+    gap: 8px;
+  }
+
+  .averageTime {
+    display: none;
+  }
+
+  .duration {
+    display: none;
+  }
+}
+
+
+/* --------------------------------------------------
+   Responsive — Mobile
+-------------------------------------------------- */
+
+@media (max-width: 425px) {
+  .dateHeader {
+    gap: 8px;
+  }
+
+  .periodLabel {
+    flex: 0 0 100px;
+    width: 100px;
+  }
+
+  .activityRow {
+    grid-template-columns:
+      65px minmax(0, 1fr) 60px;
+
+    gap: 8px;
+
+    padding: 10px 6px;
+  }
+
+  .level {
+    display: none;
+  }
+
+  .questions {
+    display: none;
+  }
+
+  .correct {
+    text-align: right;
+  }
+
+  .accuracy {
+    text-align: right;
+  }
+}

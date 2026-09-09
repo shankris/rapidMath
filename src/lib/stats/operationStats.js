@@ -22,6 +22,8 @@ const PERIOD_DAYS = {
 
 const OPERATIONS = ["add", "sub", "mul", "div"];
 
+const LEVELS = [1, 2, 3, 4];
+
 /* --------------------------------------------------
    Date Helpers
 -------------------------------------------------- */
@@ -36,7 +38,7 @@ function getDateDaysAgo(days) {
 }
 
 /* --------------------------------------------------
-   Create Empty Operation Statistics
+   Create Empty Statistics
 -------------------------------------------------- */
 
 function createEmptyStats() {
@@ -49,15 +51,63 @@ function createEmptyStats() {
 }
 
 /* --------------------------------------------------
-   Create Empty Operation Results
+   Create Empty Level Statistics
+-------------------------------------------------- */
+
+function createEmptyLevelStats() {
+  return {
+    testsCompleted: 0,
+    questionsAnswered: 0,
+    correctAnswers: 0,
+    totalTime: 0,
+  };
+}
+
+/* --------------------------------------------------
+   Create Empty Operation Statistics
 -------------------------------------------------- */
 
 function createEmptyOperationStats() {
   return {
-    add: createEmptyStats(),
-    sub: createEmptyStats(),
-    mul: createEmptyStats(),
-    div: createEmptyStats(),
+    add: {
+      ...createEmptyStats(),
+      levels: {
+        1: createEmptyLevelStats(),
+        2: createEmptyLevelStats(),
+        3: createEmptyLevelStats(),
+        4: createEmptyLevelStats(),
+      },
+    },
+
+    sub: {
+      ...createEmptyStats(),
+      levels: {
+        1: createEmptyLevelStats(),
+        2: createEmptyLevelStats(),
+        3: createEmptyLevelStats(),
+        4: createEmptyLevelStats(),
+      },
+    },
+
+    mul: {
+      ...createEmptyStats(),
+      levels: {
+        1: createEmptyLevelStats(),
+        2: createEmptyLevelStats(),
+        3: createEmptyLevelStats(),
+        4: createEmptyLevelStats(),
+      },
+    },
+
+    div: {
+      ...createEmptyStats(),
+      levels: {
+        1: createEmptyLevelStats(),
+        2: createEmptyLevelStats(),
+        3: createEmptyLevelStats(),
+        4: createEmptyLevelStats(),
+      },
+    },
   };
 }
 
@@ -75,12 +125,16 @@ function getAttemptsForPeriod(attempts, period) {
   const startDate = getDateDaysAgo(days - 1);
 
   return attempts.filter((attempt) => {
+    if (!attempt.startedAt) {
+      return false;
+    }
+
     return new Date(attempt.startedAt) >= startDate;
   });
 }
 
 /* --------------------------------------------------
-   Calculate Statistics From Attempts
+   Calculate Statistics From Detailed Attempts
 -------------------------------------------------- */
 
 function calculateAttemptStats(attempts) {
@@ -88,6 +142,7 @@ function calculateAttemptStats(attempts) {
 
   attempts.forEach((attempt) => {
     const operation = attempt.operation;
+    const level = Number(attempt.level);
 
     if (!statistics[operation]) {
       return;
@@ -95,15 +150,47 @@ function calculateAttemptStats(attempts) {
 
     statistics[operation].testsCompleted += 1;
 
+    const levelStats = statistics[operation].levels[level];
+
     attempt.questions.forEach((question) => {
+      const time = question.time || 0;
+
+      /* ----------------------------------------------
+         Operation Statistics
+      -------------------------------------------------- */
+
       statistics[operation].questionsAnswered += 1;
 
       if (question.correct) {
         statistics[operation].correctAnswers += 1;
       }
 
-      statistics[operation].totalTime += question.time || 0;
+      statistics[operation].totalTime += time;
+
+      /* ----------------------------------------------
+         Level Statistics
+      -------------------------------------------------- */
+
+      if (!levelStats) {
+        return;
+      }
+
+      levelStats.questionsAnswered += 1;
+
+      if (question.correct) {
+        levelStats.correctAnswers += 1;
+      }
+
+      levelStats.totalTime += time;
     });
+
+    /* ----------------------------------------------
+       Level Test Count
+    -------------------------------------------------- */
+
+    if (levelStats) {
+      levelStats.testsCompleted += 1;
+    }
   });
 
   return statistics;
@@ -122,6 +209,10 @@ function calculateMonthlyStats(monthlyStats) {
         return;
       }
 
+      /* --------------------------------------------
+           Operation Totals
+        -------------------------------------------- */
+
       statistics[operation].testsCompleted += data.testsCompleted || 0;
 
       statistics[operation].questionsAnswered += data.questionsAnswered || 0;
@@ -129,6 +220,30 @@ function calculateMonthlyStats(monthlyStats) {
       statistics[operation].correctAnswers += data.correctAnswers || 0;
 
       statistics[operation].totalTime += data.totalTime || 0;
+
+      /* --------------------------------------------
+           Level Totals
+           
+           Older monthly data may not contain
+           level statistics. In that case we
+           simply skip the level data.
+        -------------------------------------------- */
+
+      Object.entries(data.levels || {}).forEach(([level, levelData]) => {
+        const numericLevel = Number(level);
+
+        if (!statistics[operation].levels[numericLevel]) {
+          return;
+        }
+
+        statistics[operation].levels[numericLevel].testsCompleted += levelData.testsCompleted || 0;
+
+        statistics[operation].levels[numericLevel].questionsAnswered += levelData.questionsAnswered || 0;
+
+        statistics[operation].levels[numericLevel].correctAnswers += levelData.correctAnswers || 0;
+
+        statistics[operation].levels[numericLevel].totalTime += levelData.totalTime || 0;
+      });
     });
   });
 
@@ -143,6 +258,10 @@ function combineStats(recentStats, olderStats) {
   const combined = createEmptyOperationStats();
 
   OPERATIONS.forEach((operation) => {
+    /* ----------------------------------------------
+       Operation Totals
+    -------------------------------------------------- */
+
     combined[operation].testsCompleted = recentStats[operation].testsCompleted + olderStats[operation].testsCompleted;
 
     combined[operation].questionsAnswered = recentStats[operation].questionsAnswered + olderStats[operation].questionsAnswered;
@@ -150,6 +269,20 @@ function combineStats(recentStats, olderStats) {
     combined[operation].correctAnswers = recentStats[operation].correctAnswers + olderStats[operation].correctAnswers;
 
     combined[operation].totalTime = recentStats[operation].totalTime + olderStats[operation].totalTime;
+
+    /* ----------------------------------------------
+       Level Totals
+    -------------------------------------------------- */
+
+    LEVELS.forEach((level) => {
+      combined[operation].levels[level].testsCompleted = recentStats[operation].levels[level].testsCompleted + olderStats[operation].levels[level].testsCompleted;
+
+      combined[operation].levels[level].questionsAnswered = recentStats[operation].levels[level].questionsAnswered + olderStats[operation].levels[level].questionsAnswered;
+
+      combined[operation].levels[level].correctAnswers = recentStats[operation].levels[level].correctAnswers + olderStats[operation].levels[level].correctAnswers;
+
+      combined[operation].levels[level].totalTime = recentStats[operation].levels[level].totalTime + olderStats[operation].levels[level].totalTime;
+    });
   });
 
   return combined;
@@ -165,9 +298,47 @@ function formatStats(statistics) {
   OPERATIONS.forEach((operation) => {
     const data = statistics[operation];
 
+    /* ----------------------------------------------
+       Operation Accuracy
+    -------------------------------------------------- */
+
     const accuracy = data.questionsAnswered > 0 ? (data.correctAnswers / data.questionsAnswered) * 100 : 0;
 
+    /* ----------------------------------------------
+       Operation Average Time
+    -------------------------------------------------- */
+
     const averageTime = data.questionsAnswered > 0 ? data.totalTime / data.questionsAnswered : 0;
+
+    /* ----------------------------------------------
+       Level Statistics
+    -------------------------------------------------- */
+
+    const levels = {};
+
+    LEVELS.forEach((level) => {
+      const levelData = data.levels[level];
+
+      const levelAccuracy = levelData.questionsAnswered > 0 ? (levelData.correctAnswers / levelData.questionsAnswered) * 100 : 0;
+
+      const levelAverageTime = levelData.questionsAnswered > 0 ? levelData.totalTime / levelData.questionsAnswered : 0;
+
+      levels[level] = {
+        accuracy: Number(levelAccuracy.toFixed(1)),
+
+        averageTime: Number(levelAverageTime.toFixed(2)),
+
+        testsCompleted: levelData.testsCompleted,
+
+        questionsAnswered: levelData.questionsAnswered,
+
+        correctAnswers: levelData.correctAnswers,
+      };
+    });
+
+    /* ----------------------------------------------
+       Formatted Operation Result
+    -------------------------------------------------- */
 
     formatted[operation] = {
       accuracy: Number(accuracy.toFixed(1)),
@@ -177,6 +348,10 @@ function formatStats(statistics) {
       testsCompleted: data.testsCompleted,
 
       questionsAnswered: data.questionsAnswered,
+
+      correctAnswers: data.correctAnswers,
+
+      levels,
     };
   });
 
@@ -204,23 +379,22 @@ function calculateLongPeriodStats(period) {
   const monthlyStats = getMonthlyStats();
 
   /* ----------------------------------------------
-     Recent detailed attempts
+     Recent Detailed Attempts
      
      Detailed quiz attempts are retained
      for approximately 30 days.
-  ---------------------------------------------- */
+  -------------------------------------------------- */
 
   const recentAttempts = getAttemptsForPeriod(attempts, "1m");
 
   const recentStats = calculateAttemptStats(recentAttempts);
 
   /* ----------------------------------------------
-     Older monthly summaries
+     Older Monthly Summaries
      
-     Use monthly operation summaries for
-     history before the detailed-attempt
-     retention window.
-  ---------------------------------------------- */
+     Use monthly summaries for history
+     outside the detailed-attempt window.
+  -------------------------------------------------- */
 
   const retentionStart = getDateDaysAgo(29);
 
@@ -248,7 +422,7 @@ function calculateLongPeriodStats(period) {
 export function getOperationStats(period = "1m") {
   /* ----------------------------------------------
      All-Time Statistics
-  ---------------------------------------------- */
+  -------------------------------------------------- */
 
   if (period === "all") {
     return {
@@ -260,9 +434,9 @@ export function getOperationStats(period = "1m") {
   /* ----------------------------------------------
      Short Periods
      
-     Up to 30 days can use the detailed
+     Up to 30 days can use detailed
      quiz attempts directly.
-  ---------------------------------------------- */
+  -------------------------------------------------- */
 
   if (PERIOD_DAYS[period] <= 30) {
     const attempts = getQuizAttempts();
@@ -280,9 +454,9 @@ export function getOperationStats(period = "1m") {
   /* ----------------------------------------------
      Long Periods
      
-     Combine recent detailed attempts with
-     older monthly summaries.
-  ---------------------------------------------- */
+     Combine recent detailed attempts
+     with older monthly summaries.
+  -------------------------------------------------- */
 
   const statistics = calculateLongPeriodStats(period);
 
