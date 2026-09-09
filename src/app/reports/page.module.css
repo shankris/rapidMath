@@ -129,13 +129,13 @@
 -------------------------------------------------- */
 
 .statCard {
-  min-height: 110px;
-  padding: 20px;
+  min-height: 70px;
+  padding: 10px;
   background: var(--surfaceColor);
   border: 1px solid var(--borderColor);
   border-radius: 8px;
   box-shadow: var(--shadow-sm);
-
+  margin: 0 0 14px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
