@@ -31,6 +31,7 @@ const columns = [
   },
   {
     key: "startedAt",
+    id: "relativeDate",
     label: "Relative Date",
     align: "left",
     cell: "RelativeDateCell",

@@ -1,0 +1,8 @@
+/* --------------------------------------------------
+   Animated Number
+-------------------------------------------------- */
+
+.container {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+}

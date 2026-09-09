@@ -1,0 +1,222 @@
+.container {
+  width: 100%;
+  overflow-x: auto;
+  padding: 12px 0;
+}
+
+.heatMap {
+  width: max-content;
+  min-width: 100%;
+}
+
+/* --------------------------------------------------
+Month Labels
+-------------------------------------------------- */
+
+.monthLabels {
+  display: flex;
+  margin-bottom: 6px;
+}
+
+.labelSpacer {
+  width: 36px;
+  flex-shrink: 0;
+}
+
+.monthGrid {
+  display: grid;
+  grid-template-columns: repeat(53, 12px);
+  gap: 4px;
+}
+
+.monthLabel {
+  height: 16px;
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------
+Map Body
+-------------------------------------------------- */
+
+.mapBody {
+  display: flex;
+  align-items: flex-start;
+}
+
+.dayLabels {
+  width: 36px;
+  flex-shrink: 0;
+  display: grid;
+  grid-template-rows: repeat(7, 12px);
+  gap: 4px;
+  padding-right: 8px;
+}
+
+.dayLabels span {
+  font-size: 10px;
+  line-height: 12px;
+  color: var(--text-muted);
+}
+
+.dayLabels span:nth-child(1) {
+  grid-row: 2;
+}
+
+.dayLabels span:nth-child(2) {
+  grid-row: 4;
+}
+
+.dayLabels span:nth-child(3) {
+  grid-row: 6;
+}
+
+/* --------------------------------------------------
+Heat Map Grid
+-------------------------------------------------- */
+
+.grid {
+  display: flex;
+  gap: 4px;
+  width: max-content;
+  padding: 0;
+}
+
+.week {
+  display: grid;
+  grid-template-rows: repeat(7, 12px);
+  gap: 4px;
+}
+
+.day {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+/* --------------------------------------------------
+Activity Levels
+-------------------------------------------------- */
+
+.level0 {
+  background: #e5e7eb;
+}
+
+.level1 {
+  background: #bfdbfe;
+}
+
+.level2 {
+  background: #60a5fa;
+}
+
+.level3 {
+  background: #3b82f6;
+}
+
+.level4 {
+  background: #1d4ed8;
+}
+
+/* --------------------------------------------------
+Responsive
+-------------------------------------------------- */
+
+@media (max-width: 768px) {
+  .monthGrid {
+    grid-template-columns: repeat(53, 10px);
+    gap: 3px;
+  }
+
+  .week {
+    grid-template-rows: repeat(7, 10px);
+    gap: 3px;
+  }
+
+  .day {
+    width: 10px;
+    height: 10px;
+  }
+
+  .dayLabels {
+    grid-template-rows: repeat(7, 10px);
+    gap: 3px;
+  }
+
+  .dayLabels span {
+    line-height: 10px;
+    font-size: 9px;
+  }
+}
+
+/* --------------------------------------------------
+Day Interaction
+-------------------------------------------------- */
+
+.day {
+  cursor: pointer;
+  transition:
+    transform 120ms ease,
+    filter 120ms ease;
+}
+
+.day:hover {
+  transform: scale(1.2);
+  filter: brightness(1.08);
+  position: relative;
+  z-index: 2;
+}
+
+/* --------------------------------------------------
+Activity Tooltip
+-------------------------------------------------- */
+
+.tooltip {
+  position: fixed;
+  z-index: 1000;
+  min-width: 150px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color, #d1d5db);
+  border-radius: 6px;
+  background: var(--surface, #ffffff);
+  color: var(--text-primary, #111827);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  pointer-events: none;
+  transform: translate(-50%, -100%);
+}
+
+.tooltipDate {
+  margin-bottom: 7px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.tooltipStats {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.tooltipRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 11px;
+}
+
+.tooltipRow span {
+  color: var(--text-muted, #6b7280);
+}
+
+.tooltipRow strong {
+  font-weight: 600;
+}
+
+.tooltipEmpty {
+  color: var(--text-muted, #6b7280);
+  font-size: 11px;
+}

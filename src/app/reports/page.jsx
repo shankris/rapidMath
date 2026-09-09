@@ -5,6 +5,8 @@ import { getDashboardStats } from "@/lib/stats/dashboardStats";
 import Activity from "@/components/Reports/Activity/Activity";
 import PerformanceTrend from "@/components/Reports/PerformanceTrend/PerformanceTrend";
 import OperationPerformance from "@/components/Reports/OperationPerformance/OperationPerformance";
+import AnimatedNumber from "@/components/UI/AnimatedNumber/AnimatedNumber";
+import ActivityHeatMap from "@/components/Reports/ActivityHeatMap/ActivityHeatMap";
 import styles from "./page.module.css";
 
 /* --------------------------------------------------
@@ -83,22 +85,46 @@ export default function ReportsPage() {
           <div className={styles.statsGrid}>
             <div className={styles.statCard}>
               <span className={styles.statLabel}>Accuracy</span>
-              <strong className={styles.statValue}>{stats.accuracy}%</strong>
+              <strong className={styles.statValue}>
+                <AnimatedNumber
+                  value={stats.accuracy}
+                  duration={850}
+                  decimals={1}
+                />
+                <span className={styles.unit}>%</span>
+              </strong>
             </div>
 
             <div className={styles.statCard}>
               <span className={styles.statLabel}>Average Time</span>
-              <strong className={styles.statValue}>{stats.averageTime}s</strong>
+              <strong className={styles.statValue}>
+                <AnimatedNumber
+                  value={stats.averageTime}
+                  duration={700}
+                  decimals={2}
+                />
+                <span className={styles.unit}>s</span>
+              </strong>
             </div>
 
             <div className={styles.statCard}>
               <span className={styles.statLabel}>Tests Completed</span>
-              <strong className={styles.statValue}>{stats.testsCompleted}</strong>
+              <strong className={styles.statValue}>
+                <AnimatedNumber
+                  value={stats.testsCompleted}
+                  duration={1000}
+                />
+              </strong>
             </div>
 
             <div className={styles.statCard}>
               <span className={styles.statLabel}>Questions Answered</span>
-              <strong className={styles.statValue}>{stats.questionsAnswered}</strong>
+              <strong className={styles.statValue}>
+                <AnimatedNumber
+                  value={stats.questionsAnswered}
+                  duration={800}
+                />
+              </strong>
             </div>
           </div>
         )}
@@ -153,6 +179,19 @@ export default function ReportsPage() {
 
         <div className={styles.chartCard}>
           <Activity />
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <div className={styles.sectionHeader}>
+          <div>
+            <h2 className={styles.sectionTitle}>Activity</h2>
+            <p className={styles.sectionDescription}>Your practice activity over the past year.</p>
+          </div>
+        </div>
+
+        <div className={styles.chartCard}>
+          <ActivityHeatMap />
         </div>
       </section>
     </main>

@@ -125,8 +125,8 @@ export default function DataTable({ data = [], config = [], filters = [] }) {
         const sortValue = typeof col === "object" && Array.isArray(col.sortValue) ? col.sortValue : null;
 
         const columnDefinition = {
+          id: typeof col === "object" && col.id ? col.id : undefined,
           header: label,
-
           meta: {
             align,
             hideHeader: col.hideHeader === true,
