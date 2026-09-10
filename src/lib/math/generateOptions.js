@@ -2,16 +2,18 @@
 
 import { shuffle, matchParity, randomFrom } from "./options/utils";
 
-export function generateOptions(answer, operation, num1, num2) {
+/* --------------------------------------------------
+   Generate Options
+-------------------------------------------------- */
+
+export function generateOptions(answer, operation) {
   if (operation === "div") {
     return generateDivisionOptions(answer);
   }
 
-  let options = new Set();
+  const options = new Set();
 
   options.add(answer);
-
-  const smallerNumber = Math.min(num1, num2);
 
   let attempts = 0;
 
@@ -22,35 +24,47 @@ export function generateOptions(answer, operation, num1, num2) {
 
     let option = answer + randomFrom(variations);
 
+    /*
+     * Do not allow negative answer choices.
+     */
     if (option < 0) {
-      continue;
-    }
-
-    if (operation === "add" && option < smallerNumber) {
       continue;
     }
 
     option = matchParity(answer, option);
 
-    if (operation === "add" && option < smallerNumber) {
+    if (option < 0) {
       continue;
     }
 
     options.add(option);
   }
 
+  /* ------------------------------------------------
+     Fallback Options
+  ------------------------------------------------ */
+
   let fallback = 1;
 
   while (options.size < 4) {
-    options.add(answer + fallback);
+    const option = answer + fallback;
+
+    if (option >= 0) {
+      options.add(option);
+    }
+
     fallback++;
   }
 
   return shuffle([...options]);
 }
 
+/* --------------------------------------------------
+   Division Options
+-------------------------------------------------- */
+
 function generateDivisionOptions(answer) {
-  let options = new Set();
+  const options = new Set();
 
   options.add(answer);
 
