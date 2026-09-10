@@ -1,6 +1,6 @@
 // src/components/Practice/practiceData.js
 
-import { Plus, Minus, X, Divide } from "lucide-react";
+import { Plus, Minus, X, Divide, Calculator } from "lucide-react";
 
 const practiceData = [
   {
@@ -37,6 +37,15 @@ const practiceData = [
     icon: Divide,
     description: "Practice dividing numbers and develop stronger number sense.",
     shortDescription: "Improve division speed and accuracy.",
+  },
+
+  {
+    id: "mixed-operations",
+    operation: "mixedOperations",
+    title: "Mixed Operations",
+    icon: Calculator,
+    description: "Combine addition, subtraction, multiplication, and division while applying order of operations.",
+    shortDescription: "Solve mixed expressions with speed and accuracy.",
   },
 ];
 

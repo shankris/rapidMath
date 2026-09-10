@@ -1,490 +1,164 @@
 // src/lib/math/levels.js
 
+import { ADDITION_LEVELS } from "./levels/addition";
+import { SUBTRACTION_LEVELS } from "./levels/subtraction";
+import { MULTIPLICATION_LEVELS } from "./levels/multiplication";
+import { DIVISION_LEVELS } from "./levels/division";
+import { MIXED_OPERATIONS_LEVELS } from "./levels/mixedOperations";
+
 /* --------------------------------------------------
-   Level Configuration
+   Level Metadata
 -------------------------------------------------- */
 
-export const LEVEL_CONFIG = {
-  /* ------------------------------------------------
-     Level 1
-  ------------------------------------------------ */
-
+const LEVEL_METADATA = {
   1: {
     title: "Single Digits",
     description: "Practice basic arithmetic with single digit numbers.",
-
     details: {
       add: "Add numbers up to 18",
       sub: "Subtract numbers up to 9",
       mul: "Multiply numbers up to 25",
       div: "Divide numbers up to 5",
     },
-
-    addition: {
-      addends: [
-        { min: 1, max: 9 },
-        { min: 1, max: 9 },
-      ],
-      maxResult: 18,
-      carryProbability: 0.25,
-    },
-
-    num1: { min: 1, max: 9 },
-    num2: { min: 1, max: 9 },
-    subtractionMinDifference: 5,
-
-    multiplication: {
-      num1: { min: 2, max: 5 },
-      num2: { min: 2, max: 5 },
-    },
-
-    division: {
-      divisor: { min: 2, max: 5 },
-      quotient: { min: 2, max: 5 },
-    },
   },
-
-  /* ------------------------------------------------
-     Level 2
-  ------------------------------------------------ */
 
   2: {
     title: "Single + Double Digit",
     description: "Combine single digit numbers with larger values.",
-
     details: {
       add: "Add numbers up to 60",
-      sub: "Subtract numbers up to 30",
+      sub: "Subtract numbers up to 29",
       mul: "Multiply numbers up to 49",
       div: "Divide numbers up to 10",
     },
-
-    addition: {
-      addends: [
-        { min: 10, max: 59 },
-        { min: 1, max: 9 },
-      ],
-      maxResult: 60,
-      carryProbability: 0.35,
-    },
-
-    num1: { min: 1, max: 9 },
-    num2: { min: 10, max: 30 },
-    subtractionMinDifference: 10,
-
-    multiplication: {
-      num1: { min: 2, max: 7 },
-      num2: { min: 2, max: 7 },
-    },
-
-    division: {
-      divisor: { min: 2, max: 7 },
-      quotient: { min: 2, max: 10 },
-    },
   },
-
-  /* ------------------------------------------------
-     Level 3
-  ------------------------------------------------ */
 
   3: {
     title: "Double Digit Basics",
     description: "Practice working with two digit numbers.",
-
     details: {
       add: "Add numbers up to 120",
-      sub: "Subtract numbers up to 30",
+      sub: "Subtract numbers up to 50",
       mul: "Multiply numbers up to 81",
       div: "Divide numbers up to 12",
     },
-
-    addition: {
-      addends: [
-        { min: 10, max: 99 },
-        { min: 10, max: 99 },
-      ],
-      maxResult: 120,
-      carryProbability: 0.45,
-    },
-
-    num1: { min: 10, max: 30 },
-    num2: { min: 10, max: 30 },
-    subtractionMinDifference: 10,
-
-    multiplication: {
-      num1: { min: 2, max: 9 },
-      num2: { min: 2, max: 9 },
-    },
-
-    division: {
-      divisor: { min: 2, max: 9 },
-      quotient: { min: 2, max: 12 },
-    },
   },
 
-  /* ------------------------------------------------
-     Level 4
-  ------------------------------------------------ */
-
   4: {
-    title: "Double Digit Practice",
-    description: "Improve calculation speed with larger numbers.",
-
+    title: "Three + Two Digit",
+    description: "Subtract a two digit number from a three digit number.",
     details: {
       add: "Add numbers up to 200",
-      sub: "Subtract numbers up to 60",
+      sub: "Subtract numbers up to 190",
       mul: "Multiply numbers up to 144",
       div: "Divide numbers up to 20",
     },
-
-    addition: {
-      addends: [
-        { min: 10, max: 99 },
-        { min: 10, max: 99 },
-      ],
-      maxResult: 200,
-      carryProbability: 0.55,
-    },
-
-    num1: { min: 10, max: 60 },
-    num2: { min: 10, max: 60 },
-    subtractionMinDifference: 20,
-
-    multiplication: {
-      num1: { min: 2, max: 12 },
-      num2: { min: 2, max: 12 },
-    },
-
-    division: {
-      divisor: { min: 2, max: 12 },
-      quotient: { min: 5, max: 20 },
-    },
   },
 
-  /* ------------------------------------------------
-     Level 5
-  ------------------------------------------------ */
-
   5: {
-    title: "Three + Two Digit",
-    description: "Add a three digit number and a two digit number.",
-
+    title: "Three Digit Subtraction",
+    description: "Practice subtracting three digit numbers.",
     details: {
       add: "Add numbers up to 300",
-      sub: "Subtract numbers up to 99",
+      sub: "Subtract numbers up to 490",
       mul: "Multiply numbers up to 270",
       div: "Divide numbers up to 20",
     },
-
-    addition: {
-      addends: [
-        { min: 100, max: 299 },
-        { min: 10, max: 99 },
-      ],
-      maxResult: 300,
-      carryProbability: 0.6,
-    },
-
-    num1: { min: 10, max: 99 },
-    num2: { min: 10, max: 99 },
-    subtractionMinDifference: 30,
-
-    multiplication: {
-      num1: { min: 10, max: 30 },
-      num2: { min: 2, max: 9 },
-    },
-
-    division: {
-      divisor: { min: 2, max: 9 },
-      quotient: { min: 10, max: 20 },
-    },
   },
 
-  /* ------------------------------------------------
-     Level 6
-  ------------------------------------------------ */
-
   6: {
-    title: "Three Number Addition",
-    description: "Add three single digit numbers.",
-
+    title: "One Digit Mixed",
+    description: "Combine addition and subtraction with three single digit numbers.",
     details: {
       add: "Add three numbers up to 27",
-      sub: "Subtract numbers up to 999",
+      sub: "Add and subtract single digit numbers",
       mul: "Multiply numbers up to 600",
       div: "Divide numbers up to 30",
     },
-
-    addition: {
-      addends: [
-        { min: 1, max: 9 },
-        { min: 1, max: 9 },
-        { min: 1, max: 9 },
-      ],
-      maxResult: 27,
-      carryProbability: 0.3,
-    },
-
-    num1: { min: 10, max: 99 },
-    num2: { min: 100, max: 999 },
-    subtractionMinDifference: 100,
-
-    multiplication: {
-      num1: { min: 20, max: 50 },
-      num2: { min: 2, max: 12 },
-    },
-
-    division: {
-      divisor: { min: 2, max: 12 },
-      quotient: { min: 10, max: 30 },
-    },
   },
 
-  /* ------------------------------------------------
-     Level 7
-  ------------------------------------------------ */
-
   7: {
-    title: "Two + One + One",
-    description: "Add one two digit number and two single digit numbers.",
-
+    title: "Two + One − One",
+    description: "Combine a two digit number with two single digit operations.",
     details: {
       add: "Add three numbers up to 60",
-      sub: "Subtract numbers up to 999",
+      sub: "Add and subtract numbers up to 68",
       mul: "Multiply numbers up to 1,000",
       div: "Divide numbers up to 30",
     },
-
-    addition: {
-      addends: [
-        { min: 10, max: 59 },
-        { min: 1, max: 9 },
-        { min: 1, max: 9 },
-      ],
-      maxResult: 60,
-      carryProbability: 0.45,
-    },
-
-    num1: { min: 100, max: 999 },
-    num2: { min: 100, max: 999 },
-    subtractionMinDifference: 300,
-
-    multiplication: {
-      num1: { min: 10, max: 50 },
-      num2: { min: 10, max: 20 },
-    },
-
-    division: {
-      divisor: { min: 10, max: 20 },
-      quotient: { min: 10, max: 30 },
-    },
   },
 
-  /* ------------------------------------------------
-     Level 8
-  ------------------------------------------------ */
-
   8: {
-    title: "Two + Two + One",
-    description: "Add two two digit numbers and one single digit number.",
-
+    title: "Two + Two − One",
+    description: "Combine two two digit numbers with a single digit subtraction.",
     details: {
       add: "Add three numbers up to 100",
-      sub: "Subtract numbers up to 9,999",
+      sub: "Add and subtract numbers up to 158",
       mul: "Multiply numbers up to 2,970",
       div: "Divide numbers up to 50",
     },
-
-    addition: {
-      addends: [
-        { min: 10, max: 89 },
-        { min: 10, max: 89 },
-        { min: 1, max: 9 },
-      ],
-      maxResult: 100,
-      carryProbability: 0.55,
-    },
-
-    num1: { min: 1000, max: 9999 },
-    num2: { min: 1000, max: 9999 },
-    subtractionMinDifference: 1000,
-
-    multiplication: {
-      num1: { min: 20, max: 99 },
-      num2: { min: 10, max: 30 },
-    },
-
-    division: {
-      divisor: { min: 10, max: 30 },
-      quotient: { min: 20, max: 50 },
-    },
   },
 
-  /* ------------------------------------------------
-     Level 9
-  ------------------------------------------------ */
-
   9: {
-    title: "Three Two Digit Numbers",
-    description: "Add three two digit numbers.",
-
+    title: "Two + Two − Two",
+    description: "Combine three two digit numbers using addition and subtraction.",
     details: {
       add: "Add three numbers up to 150",
-      sub: "Subtract numbers up to 99,999",
+      sub: "Add and subtract numbers up to 170",
       mul: "Multiply numbers up to 9,801",
       div: "Divide numbers up to 100",
     },
-
-    addition: {
-      addends: [
-        { min: 10, max: 99 },
-        { min: 10, max: 99 },
-        { min: 10, max: 99 },
-      ],
-      maxResult: 150,
-      carryProbability: 0.65,
-    },
-
-    num1: { min: 10000, max: 99999 },
-    num2: { min: 10000, max: 99999 },
-    subtractionMinDifference: 10000,
-
-    multiplication: {
-      num1: { min: 25, max: 99 },
-      num2: { min: 10, max: 99 },
-    },
-
-    division: {
-      divisor: { min: 10, max: 50 },
-      quotient: { min: 20, max: 100 },
-    },
   },
 
-  /* ------------------------------------------------
-     Level 10
-  ------------------------------------------------ */
-
   10: {
-    title: "Three Digit + Two + Two",
-    description: "Add one three digit number and two two digit numbers.",
-
+    title: "Three + Two − Two",
+    description: "Combine a three digit number with two two digit operations.",
     details: {
       add: "Add three numbers up to 300",
-      sub: "Subtract numbers up to 999,999",
+      sub: "Add and subtract numbers up to 589",
       mul: "Multiply numbers up to 97,902",
       div: "Divide numbers up to 200",
     },
-
-    addition: {
-      addends: [
-        { min: 100, max: 299 },
-        { min: 10, max: 99 },
-        { min: 10, max: 99 },
-      ],
-      maxResult: 300,
-      carryProbability: 0.7,
-    },
-
-    num1: { min: 100000, max: 999999 },
-    num2: { min: 100000, max: 999999 },
-    subtractionMinDifference: 100000,
-
-    multiplication: {
-      num1: { min: 50, max: 999 },
-      num2: { min: 2, max: 99 },
-    },
-
-    division: {
-      divisor: { min: 10, max: 99 },
-      quotient: { min: 50, max: 200 },
-    },
   },
-
-  /* ------------------------------------------------
-     Level 11
-  ------------------------------------------------ */
 
   11: {
-    title: "Four Digit + Two + Two",
-    description: "Add one four digit number and two two digit numbers.",
-
+    title: "Three + Three − Two",
+    description: "Combine two three digit numbers with a two digit subtraction.",
     details: {
       add: "Add three numbers up to 1,500",
-      sub: "Advanced subtraction",
+      sub: "Add and subtract numbers up to 1,889",
       mul: "Advanced multiplication",
       div: "Advanced division",
-    },
-
-    addition: {
-      addends: [
-        { min: 1000, max: 1400 },
-        { min: 10, max: 99 },
-        { min: 10, max: 99 },
-      ],
-      maxResult: 1500,
-      carryProbability: 0.8,
-    },
-
-    /*
-     * Existing values below are retained temporarily
-     * for the operations that have not yet been redesigned.
-     */
-    num1: { min: 100000, max: 999999 },
-    num2: { min: 100000, max: 999999 },
-    subtractionMinDifference: 100000,
-
-    multiplication: {
-      num1: { min: 50, max: 999 },
-      num2: { min: 2, max: 99 },
-    },
-
-    division: {
-      divisor: { min: 10, max: 99 },
-      quotient: { min: 50, max: 200 },
     },
   },
 
-  /* ------------------------------------------------
-     Level 12
-  ------------------------------------------------ */
-
   12: {
-    title: "Four + Three + Two Digit",
-    description: "Add four, three and two digit numbers with frequent carrying.",
-
+    title: "Four + Three − Three",
+    description: "Combine four, three and three digit numbers with frequent borrowing.",
     details: {
       add: "Add three numbers up to 2,000",
-      sub: "Advanced subtraction",
+      sub: "Add and subtract numbers up to 10,898",
       mul: "Advanced multiplication",
       div: "Advanced division",
-    },
-
-    addition: {
-      addends: [
-        { min: 1000, max: 1900 },
-        { min: 100, max: 999 },
-        { min: 10, max: 99 },
-      ],
-      maxResult: 2000,
-      carryProbability: 0.9,
-    },
-
-    /*
-     * Existing values below are retained temporarily
-     * for the operations that have not yet been redesigned.
-     */
-    num1: { min: 100000, max: 999999 },
-    num2: { min: 100000, max: 999999 },
-    subtractionMinDifference: 100000,
-
-    multiplication: {
-      num1: { min: 50, max: 999 },
-      num2: { min: 2, max: 99 },
-    },
-
-    division: {
-      divisor: { min: 10, max: 99 },
-      quotient: { min: 50, max: 200 },
     },
   },
 };
+
+/* --------------------------------------------------
+   Build Level Configuration
+-------------------------------------------------- */
+
+export const LEVEL_CONFIG = Object.fromEntries(
+  Object.keys(LEVEL_METADATA).map((level) => [
+    level,
+    {
+      ...LEVEL_METADATA[level],
+
+      addition: ADDITION_LEVELS[level],
+      subtraction: SUBTRACTION_LEVELS[level],
+      multiplication: MULTIPLICATION_LEVELS[level],
+      division: DIVISION_LEVELS[level],
+      mixedOperations: MIXED_OPERATIONS_LEVELS[level],
+    },
+  ]),
+);

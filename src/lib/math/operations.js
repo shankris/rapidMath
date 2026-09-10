@@ -1,5 +1,9 @@
 // src/lib/math/operations.js
 
+/* --------------------------------------------------
+   Operation Definitions
+-------------------------------------------------- */
+
 export const OPERATIONS = {
   add: {
     name: "Addition",
@@ -20,7 +24,16 @@ export const OPERATIONS = {
     name: "Division",
     symbol: "÷",
   },
+
+  mixedOperations: {
+    name: "Mixed Operations",
+    symbol: "",
+  },
 };
+
+/* --------------------------------------------------
+   Calculate Answer
+-------------------------------------------------- */
 
 export function calculateAnswer(operation, num1, num2) {
   switch (operation) {

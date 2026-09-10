@@ -20,20 +20,28 @@ export function generateOptions(answer, operation) {
   while (options.size < 4 && attempts < 100) {
     attempts++;
 
-    const variations = answer < 50 ? [-3, -2, -1, 1, 2, 3] : [-100, -50, -10, 10, 50, 100];
+    const variations = Math.abs(answer) < 50 ? [-3, -2, -1, 1, 2, 3] : [-100, -50, -10, 10, 50, 100];
 
     let option = answer + randomFrom(variations);
 
     /*
-     * Do not allow negative answer choices.
+     * Addition and multiplication should not produce
+     * negative answer choices.
+     *
+     * Subtraction is different because negative answers
+     * are valid from the appropriate levels.
      */
-    if (option < 0) {
+    if (operation !== "sub" && option < 0) {
       continue;
     }
 
     option = matchParity(answer, option);
 
-    if (option < 0) {
+    /*
+     * Keep negative options for Subtraction.
+     * Other operations continue to reject them.
+     */
+    if (operation !== "sub" && option < 0) {
       continue;
     }
 
@@ -49,7 +57,7 @@ export function generateOptions(answer, operation) {
   while (options.size < 4) {
     const option = answer + fallback;
 
-    if (option >= 0) {
+    if (operation === "sub" || option >= 0) {
       options.add(option);
     }
 
