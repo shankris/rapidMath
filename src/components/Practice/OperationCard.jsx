@@ -45,6 +45,9 @@ function getCategoryConfig(operation) {
     case "fractions":
       return "fractions";
 
+    case "percentages":
+      return "percentages";
+
     default:
       return null;
   }

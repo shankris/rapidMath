@@ -10,6 +10,7 @@ import { COMPARISON_LEVELS } from "./levels/comparison";
 import { ESTIMATION_LEVELS } from "./levels/estimation";
 import { SEQUENCES_LEVELS } from "./levels/sequences";
 import { FRACTIONS_LEVELS } from "./levels/fractions";
+import { PERCENTAGES_LEVELS } from "./levels/percentages";
 
 /* --------------------------------------------------
    Level Metadata
@@ -26,6 +27,7 @@ const LEVEL_METADATA = {
       div: "Divide numbers up to 5",
       estimation: "Estimate easy additions",
       fractions: "Simplify fractions",
+      percentages: "Find percentages of numbers",
     },
   },
 
@@ -39,6 +41,7 @@ const LEVEL_METADATA = {
       div: "Divide numbers up to 10",
       estimation: "Estimate larger additions",
       fractions: "Find equivalent fractions",
+      percentages: "Find common percentages of larger numbers",
     },
   },
 
@@ -52,6 +55,7 @@ const LEVEL_METADATA = {
       div: "Divide numbers up to 12",
       estimation: "Estimate easy subtractions",
       fractions: "Compare two fractions",
+      percentages: "Calculate percentage increases",
     },
   },
 
@@ -65,6 +69,7 @@ const LEVEL_METADATA = {
       div: "Divide numbers up to 20",
       estimation: "Estimate larger subtractions",
       fractions: "Add and subtract with common denominators",
+      percentages: "Calculate percentage decreases",
     },
   },
 
@@ -78,6 +83,7 @@ const LEVEL_METADATA = {
       div: "Divide numbers up to 20",
       estimation: "Estimate easy multiplications",
       fractions: "Add and subtract with different denominators",
+      percentages: "Find the original amount",
     },
   },
 
@@ -91,6 +97,7 @@ const LEVEL_METADATA = {
       div: "Divide numbers up to 30",
       estimation: "Estimate larger multiplications",
       fractions: "Multiply and simplify fractions",
+      percentages: "Find what percentage one number is of another",
     },
   },
 
@@ -104,6 +111,7 @@ const LEVEL_METADATA = {
       div: "Divide numbers up to 30",
       estimation: "Estimate mixed operations",
       fractions: "Divide and simplify fractions",
+      percentages: "Solve multi-step percentage problems",
     },
   },
 
@@ -117,6 +125,7 @@ const LEVEL_METADATA = {
       div: "Divide numbers up to 50",
       estimation: "Estimate challenging expressions",
       fractions: "Solve mixed fraction expressions",
+      percentages: "Solve mixed percentage problems",
     },
   },
 
@@ -185,6 +194,7 @@ export const LEVEL_CONFIG = Object.fromEntries(
       estimation: ESTIMATION_LEVELS[level],
       sequences: SEQUENCES_LEVELS[level],
       fractions: FRACTIONS_LEVELS[level],
+      percentages: PERCENTAGES_LEVELS[level],
     },
   ]),
 );

@@ -1,6 +1,6 @@
 // src/components/Practice/practiceData.js
 
-import { Plus, Minus, X, Divide, Calculator, Search, ArrowLeftRight, ListOrdered, Sigma } from "lucide-react";
+import { Plus, Minus, X, Divide, Calculator, Search, ArrowLeftRight, ListOrdered, Sigma, Percent } from "lucide-react";
 
 const practiceData = [
   {
@@ -90,6 +90,14 @@ const practiceData = [
     icon: Sigma,
     description: "Practice simplifying, comparing, and calculating with fractions.",
     shortDescription: "Build speed and accuracy with fractions.",
+  },
+  {
+    id: "percentages",
+    operation: "percentages",
+    title: "Percentages",
+    icon: Percent,
+    description: "Practice percentage calculations and improve your ability to work with percentages quickly and accurately.",
+    shortDescription: "Calculate percentages quickly and accurately.",
   },
 ];
 

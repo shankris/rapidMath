@@ -13,6 +13,7 @@ import { generateComparisonQuestion } from "./generators/comparison";
 import { generateEstimationQuestion } from "./generators/estimation";
 import { generateSequenceQuestion } from "./generators/sequences";
 import { generateFractionQuestion } from "./generators/fractions";
+import { generatePercentageQuestion } from "./generators/percentages";
 
 /* --------------------------------------------------
    Generate Question
@@ -178,6 +179,23 @@ export function generateQuestion(operation, level) {
     return generateFractionQuestion({
       level,
       config: fractionsConfig,
+    });
+  }
+
+  /* ------------------------------------------------
+   Percentages
+  ------------------------------------------------ */
+
+  if (operation === "percentages") {
+    const percentagesConfig = config.percentages;
+
+    if (!percentagesConfig) {
+      throw new Error(`Percentages configuration is missing for level ${level}.`);
+    }
+
+    return generatePercentageQuestion({
+      level,
+      config: percentagesConfig,
     });
   }
 

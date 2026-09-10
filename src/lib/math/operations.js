@@ -54,6 +54,11 @@ export const OPERATIONS = {
     name: "Fractions",
     symbol: "",
   },
+
+  percentages: {
+    name: "Percentages",
+    symbol: "%",
+  },
 };
 
 /* --------------------------------------------------
