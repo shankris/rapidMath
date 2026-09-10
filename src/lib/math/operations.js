@@ -29,6 +29,31 @@ export const OPERATIONS = {
     name: "Mixed Operations",
     symbol: "",
   },
+
+  missingNumber: {
+    name: "Missing Number",
+    symbol: "",
+  },
+
+  comparison: {
+    name: "Comparison",
+    symbol: "",
+  },
+
+  estimation: {
+    name: "Estimation",
+    symbol: "",
+  },
+
+  sequences: {
+    name: "Sequences & Progressions",
+    symbol: "",
+  },
+
+  fractions: {
+    name: "Fractions",
+    symbol: "",
+  },
 };
 
 /* --------------------------------------------------

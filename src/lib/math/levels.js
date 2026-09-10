@@ -5,6 +5,11 @@ import { SUBTRACTION_LEVELS } from "./levels/subtraction";
 import { MULTIPLICATION_LEVELS } from "./levels/multiplication";
 import { DIVISION_LEVELS } from "./levels/division";
 import { MIXED_OPERATIONS_LEVELS } from "./levels/mixedOperations";
+import { MISSING_NUMBER_LEVELS } from "./levels/missingNumber";
+import { COMPARISON_LEVELS } from "./levels/comparison";
+import { ESTIMATION_LEVELS } from "./levels/estimation";
+import { SEQUENCES_LEVELS } from "./levels/sequences";
+import { FRACTIONS_LEVELS } from "./levels/fractions";
 
 /* --------------------------------------------------
    Level Metadata
@@ -19,6 +24,8 @@ const LEVEL_METADATA = {
       sub: "Subtract numbers up to 9",
       mul: "Multiply numbers up to 25",
       div: "Divide numbers up to 5",
+      estimation: "Estimate easy additions",
+      fractions: "Simplify fractions",
     },
   },
 
@@ -30,6 +37,8 @@ const LEVEL_METADATA = {
       sub: "Subtract numbers up to 29",
       mul: "Multiply numbers up to 49",
       div: "Divide numbers up to 10",
+      estimation: "Estimate larger additions",
+      fractions: "Find equivalent fractions",
     },
   },
 
@@ -41,6 +50,8 @@ const LEVEL_METADATA = {
       sub: "Subtract numbers up to 50",
       mul: "Multiply numbers up to 81",
       div: "Divide numbers up to 12",
+      estimation: "Estimate easy subtractions",
+      fractions: "Compare two fractions",
     },
   },
 
@@ -52,6 +63,8 @@ const LEVEL_METADATA = {
       sub: "Subtract numbers up to 190",
       mul: "Multiply numbers up to 144",
       div: "Divide numbers up to 20",
+      estimation: "Estimate larger subtractions",
+      fractions: "Add and subtract with common denominators",
     },
   },
 
@@ -63,6 +76,8 @@ const LEVEL_METADATA = {
       sub: "Subtract numbers up to 490",
       mul: "Multiply numbers up to 270",
       div: "Divide numbers up to 20",
+      estimation: "Estimate easy multiplications",
+      fractions: "Add and subtract with different denominators",
     },
   },
 
@@ -74,6 +89,8 @@ const LEVEL_METADATA = {
       sub: "Add and subtract single digit numbers",
       mul: "Multiply numbers up to 600",
       div: "Divide numbers up to 30",
+      estimation: "Estimate larger multiplications",
+      fractions: "Multiply and simplify fractions",
     },
   },
 
@@ -85,6 +102,8 @@ const LEVEL_METADATA = {
       sub: "Add and subtract numbers up to 68",
       mul: "Multiply numbers up to 1,000",
       div: "Divide numbers up to 30",
+      estimation: "Estimate mixed operations",
+      fractions: "Divide and simplify fractions",
     },
   },
 
@@ -96,6 +115,8 @@ const LEVEL_METADATA = {
       sub: "Add and subtract numbers up to 158",
       mul: "Multiply numbers up to 2,970",
       div: "Divide numbers up to 50",
+      estimation: "Estimate challenging expressions",
+      fractions: "Solve mixed fraction expressions",
     },
   },
 
@@ -159,6 +180,11 @@ export const LEVEL_CONFIG = Object.fromEntries(
       multiplication: MULTIPLICATION_LEVELS[level],
       division: DIVISION_LEVELS[level],
       mixedOperations: MIXED_OPERATIONS_LEVELS[level],
+      missingNumber: MISSING_NUMBER_LEVELS[level],
+      comparison: COMPARISON_LEVELS[level],
+      estimation: ESTIMATION_LEVELS[level],
+      sequences: SEQUENCES_LEVELS[level],
+      fractions: FRACTIONS_LEVELS[level],
     },
   ]),
 );

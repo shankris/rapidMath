@@ -8,10 +8,15 @@ import { generateSubtractionQuestion } from "./generators/subtraction";
 import { generateMultiplicationQuestion } from "./generators/multiplication";
 import { generateDivisionQuestion } from "./generators/division";
 import { generateMixedOperationsQuestion } from "./generators/mixedOperations";
+import { generateMissingNumberQuestion } from "./generators/missingNumber";
+import { generateComparisonQuestion } from "./generators/comparison";
+import { generateEstimationQuestion } from "./generators/estimation";
+import { generateSequenceQuestion } from "./generators/sequences";
+import { generateFractionQuestion } from "./generators/fractions";
 
 /* --------------------------------------------------
    Generate Question
--------------------------------------------------- */
+  -------------------------------------------------- */
 
 export function generateQuestion(operation, level) {
   const config = LEVEL_CONFIG[level];
@@ -88,6 +93,91 @@ export function generateQuestion(operation, level) {
     return generateMixedOperationsQuestion({
       level,
       config: mixedOperationsConfig,
+    });
+  }
+
+  /* ------------------------------------------------
+   Missing Number
+  ------------------------------------------------ */
+
+  if (operation === "missingNumber") {
+    const missingNumberConfig = config.missingNumber;
+
+    if (!missingNumberConfig) {
+      throw new Error(`Missing Number configuration is missing for level ${level}.`);
+    }
+
+    return generateMissingNumberQuestion({
+      level,
+      config: missingNumberConfig,
+    });
+  }
+
+  /* ------------------------------------------------
+   Comparison
+  ------------------------------------------------ */
+
+  if (operation === "comparison") {
+    const comparisonConfig = config.comparison;
+
+    if (!comparisonConfig) {
+      throw new Error(`Comparison configuration is missing for level ${level}.`);
+    }
+
+    return generateComparisonQuestion({
+      level,
+      config: comparisonConfig,
+    });
+  }
+
+  /* ------------------------------------------------
+   Estimation
+  ------------------------------------------------ */
+
+  if (operation === "estimation") {
+    const estimationConfig = config.estimation;
+
+    if (!estimationConfig) {
+      throw new Error(`Estimation configuration is missing for level ${level}.`);
+    }
+
+    return generateEstimationQuestion({
+      level,
+      config: estimationConfig,
+    });
+  }
+
+  /* ------------------------------------------------
+   Sequences
+  ------------------------------------------------ */
+
+  if (operation === "sequences") {
+    const sequencesConfig = config.sequences;
+
+    if (!sequencesConfig) {
+      throw new Error(`Sequences configuration is missing for level ${level}.`);
+    }
+
+    return generateSequenceQuestion({
+      level,
+      config: sequencesConfig,
+    });
+  }
+
+  /* ------------------------------------------------
+   Fractions
+  ------------------------------------------------ */
+
+  if (operation === "fractions") {
+    const fractionsConfig = config.fractions;
+
+    if (!fractionsConfig) {
+      throw new Error(`Fractions configuration is missing for level ${level}.`);
+    }
+
+    return generateFractionQuestion({
+      level,
+      config: fractionsConfig,
     });
   }
 

@@ -30,6 +30,21 @@ function getCategoryConfig(operation) {
     case "mixedOperations":
       return "mixedOperations";
 
+    case "missingNumber":
+      return "missingNumber";
+
+    case "comparison":
+      return "comparison";
+
+    case "estimation":
+      return "estimation";
+
+    case "sequences":
+      return "sequences";
+
+    case "fractions":
+      return "fractions";
+
     default:
       return null;
   }

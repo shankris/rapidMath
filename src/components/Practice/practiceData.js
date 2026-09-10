@@ -1,6 +1,6 @@
 // src/components/Practice/practiceData.js
 
-import { Plus, Minus, X, Divide, Calculator } from "lucide-react";
+import { Plus, Minus, X, Divide, Calculator, Search, ArrowLeftRight, ListOrdered, Sigma } from "lucide-react";
 
 const practiceData = [
   {
@@ -46,6 +46,50 @@ const practiceData = [
     icon: Calculator,
     description: "Combine addition, subtraction, multiplication, and division while applying order of operations.",
     shortDescription: "Solve mixed expressions with speed and accuracy.",
+  },
+
+  {
+    id: "missing-number",
+    operation: "missingNumber",
+    title: "Missing Number",
+    icon: Search,
+    description: "Find the missing number and strengthen your mental calculation and problem-solving skills.",
+    shortDescription: "Find missing numbers quickly and accurately.",
+  },
+
+  {
+    id: "comparison",
+    operation: "comparison",
+    title: "Comparison",
+    icon: ArrowLeftRight,
+    description: "Compare calculated values and strengthen your mental math and number sense.",
+    shortDescription: "Compare numbers and expressions quickly.",
+  },
+
+  {
+    id: "estimation",
+    operation: "estimation",
+    title: "Estimation",
+    icon: Calculator,
+    description: "Estimate calculations quickly using rounding and number sense.",
+    shortDescription: "Estimate calculations quickly.",
+  },
+
+  {
+    id: "sequences",
+    operation: "sequences",
+    title: "Sequences & Progressions",
+    icon: ListOrdered,
+    description: "Find patterns and predict the next number in a sequence.",
+    shortDescription: "Find patterns and predict what comes next.",
+  },
+  {
+    id: "fractions",
+    operation: "fractions",
+    title: "Fractions",
+    icon: Sigma,
+    description: "Practice simplifying, comparing, and calculating with fractions.",
+    shortDescription: "Build speed and accuracy with fractions.",
   },
 ];
 
