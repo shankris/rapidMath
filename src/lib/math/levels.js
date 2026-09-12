@@ -11,6 +11,9 @@ import { ESTIMATION_LEVELS } from "./levels/estimation";
 import { SEQUENCES_LEVELS } from "./levels/sequences";
 import { FRACTIONS_LEVELS } from "./levels/fractions";
 import { PERCENTAGES_LEVELS } from "./levels/percentages";
+import { POWERS_ROOTS_LEVELS } from "./levels/powersRoots";
+import { COMBINATIONS_LEVELS } from "./levels/combinations";
+import { PROBABILITY_LEVELS } from "./levels/probability";
 
 /* --------------------------------------------------
    Level Metadata
@@ -28,6 +31,9 @@ const LEVEL_METADATA = {
       estimation: "Estimate easy additions",
       fractions: "Simplify fractions",
       percentages: "Find percentages of numbers",
+      powersRoots: "Calculate squares and cubes",
+      combinations: "Calculate factorials and factorial expressions",
+      probability: "Calculate basic probabilities",
     },
   },
 
@@ -42,6 +48,9 @@ const LEVEL_METADATA = {
       estimation: "Estimate larger additions",
       fractions: "Find equivalent fractions",
       percentages: "Find common percentages of larger numbers",
+      powersRoots: "Calculate square roots and cube roots",
+      combinations: "Solve basic permutation problems",
+      probability: "Express probability as simplified fractions",
     },
   },
 
@@ -56,6 +65,9 @@ const LEVEL_METADATA = {
       estimation: "Estimate easy subtractions",
       fractions: "Compare two fractions",
       percentages: "Calculate percentage increases",
+      powersRoots: "Solve mixed powers and roots",
+      combinations: "Solve advanced permutation problems",
+      probability: "Solve probability problems with dice, cards, and objects",
     },
   },
 
@@ -70,6 +82,9 @@ const LEVEL_METADATA = {
       estimation: "Estimate larger subtractions",
       fractions: "Add and subtract with common denominators",
       percentages: "Calculate percentage decreases",
+      powersRoots: "Solve advanced powers and roots",
+      combinations: "Solve basic combination problems",
+      probability: "Use complementary probability",
     },
   },
 
@@ -84,6 +99,8 @@ const LEVEL_METADATA = {
       estimation: "Estimate easy multiplications",
       fractions: "Add and subtract with different denominators",
       percentages: "Find the original amount",
+      combinations: "Solve advanced combination problems",
+      probability: "Solve two-step probability problems",
     },
   },
 
@@ -98,6 +115,8 @@ const LEVEL_METADATA = {
       estimation: "Estimate larger multiplications",
       fractions: "Multiply and simplify fractions",
       percentages: "Find what percentage one number is of another",
+      combinations: "Solve mixed permutation and combination problems",
+      probability: "Calculate probabilities of independent events",
     },
   },
 
@@ -112,6 +131,8 @@ const LEVEL_METADATA = {
       estimation: "Estimate mixed operations",
       fractions: "Divide and simplify fractions",
       percentages: "Solve multi-step percentage problems",
+      combinations: "Solve advanced counting problems",
+      probability: "Solve conditional probability problems",
     },
   },
 
@@ -126,6 +147,7 @@ const LEVEL_METADATA = {
       estimation: "Estimate challenging expressions",
       fractions: "Solve mixed fraction expressions",
       percentages: "Solve mixed percentage problems",
+      probability: "Solve advanced mixed probability problems",
     },
   },
 
@@ -195,6 +217,9 @@ export const LEVEL_CONFIG = Object.fromEntries(
       sequences: SEQUENCES_LEVELS[level],
       fractions: FRACTIONS_LEVELS[level],
       percentages: PERCENTAGES_LEVELS[level],
+      powersRoots: POWERS_ROOTS_LEVELS[level],
+      combinations: COMBINATIONS_LEVELS[level],
+      probability: PROBABILITY_LEVELS[level],
     },
   ]),
 );

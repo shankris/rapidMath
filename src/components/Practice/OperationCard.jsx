@@ -48,6 +48,15 @@ function getCategoryConfig(operation) {
     case "percentages":
       return "percentages";
 
+    case "powersRoots":
+      return "powersRoots";
+
+    case "combinations":
+      return "combinations";
+
+    case "probability":
+      return "probability";
+
     default:
       return null;
   }

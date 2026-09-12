@@ -59,6 +59,21 @@ export const OPERATIONS = {
     name: "Percentages",
     symbol: "%",
   },
+
+  powersRoots: {
+    name: "Powers & Roots",
+    symbol: "",
+  },
+
+  combinations: {
+    name: "Factorials, Permutations & Combinations",
+    symbol: "",
+  },
+
+  probability: {
+    name: "Probability",
+    symbol: "",
+  },
 };
 
 /* --------------------------------------------------

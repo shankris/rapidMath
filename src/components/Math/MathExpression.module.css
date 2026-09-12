@@ -1,0 +1,9 @@
+/* --------------------------------------------------
+   src/components/Math/MathExpression.module.css
+-------------------------------------------------- */
+
+.math {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1.2;
+}

@@ -14,6 +14,9 @@ import { generateEstimationQuestion } from "./generators/estimation";
 import { generateSequenceQuestion } from "./generators/sequences";
 import { generateFractionQuestion } from "./generators/fractions";
 import { generatePercentageQuestion } from "./generators/percentages";
+import { generatePowersRootsQuestion } from "./generators/powersRoots";
+import { generateCombinationsQuestion } from "./generators/combinations";
+import { generateProbabilityQuestion } from "./generators/probability";
 
 /* --------------------------------------------------
    Generate Question
@@ -196,6 +199,57 @@ export function generateQuestion(operation, level) {
     return generatePercentageQuestion({
       level,
       config: percentagesConfig,
+    });
+  }
+
+  /* ------------------------------------------------
+   Power and Roots
+  ------------------------------------------------ */
+
+  if (operation === "powersRoots") {
+    const powersRootsConfig = config.powersRoots;
+
+    if (!powersRootsConfig) {
+      throw new Error(`Powers & Roots configuration is missing for level ${level}.`);
+    }
+
+    return generatePowersRootsQuestion({
+      level,
+      config: powersRootsConfig,
+    });
+  }
+
+  /* --------------------------------------------------
+   Factorials, Permutations & Combinations
+  -------------------------------------------------- */
+
+  if (operation === "combinations") {
+    const combinationsConfig = config.combinations;
+
+    if (!combinationsConfig) {
+      throw new Error(`Factorials, Permutations & Combinations configuration is missing for level ${level}.`);
+    }
+
+    return generateCombinationsQuestion({
+      level,
+      config: combinationsConfig,
+    });
+  }
+
+  /* --------------------------------------------------
+   Probability
+  -------------------------------------------------- */
+
+  if (operation === "probability") {
+    const probabilityConfig = config.probability;
+
+    if (!probabilityConfig) {
+      throw new Error(`Probability configuration is missing for level ${level}.`);
+    }
+
+    return generateProbabilityQuestion({
+      level,
+      config: probabilityConfig,
     });
   }
 

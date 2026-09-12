@@ -33,6 +33,16 @@ export function getQuizAttempts() {
 }
 
 /* --------------------------------------------------
+   Get Attempts For Operation + Level
+-------------------------------------------------- */
+
+export function getQuizAttemptsByLevel(operation, level) {
+  const attempts = getQuizAttempts();
+
+  return attempts.filter((attempt) => attempt.operation === operation && Number(attempt.level) === Number(level));
+}
+
+/* --------------------------------------------------
    Save Quiz Attempt
 -------------------------------------------------- */
 

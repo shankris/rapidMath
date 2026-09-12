@@ -1,6 +1,6 @@
 // src/components/Practice/practiceData.js
 
-import { Plus, Minus, X, Divide, Calculator, Search, ArrowLeftRight, ListOrdered, Sigma, Percent } from "lucide-react";
+import { Plus, Minus, X, Divide, Calculator, Search, ArrowLeftRight, ListOrdered, Sigma, Percent, Radical, ListChecks, CircleDot } from "lucide-react";
 
 const practiceData = [
   {
@@ -83,6 +83,7 @@ const practiceData = [
     description: "Find patterns and predict the next number in a sequence.",
     shortDescription: "Find patterns and predict what comes next.",
   },
+
   {
     id: "fractions",
     operation: "fractions",
@@ -91,6 +92,7 @@ const practiceData = [
     description: "Practice simplifying, comparing, and calculating with fractions.",
     shortDescription: "Build speed and accuracy with fractions.",
   },
+
   {
     id: "percentages",
     operation: "percentages",
@@ -98,6 +100,33 @@ const practiceData = [
     icon: Percent,
     description: "Practice percentage calculations and improve your ability to work with percentages quickly and accurately.",
     shortDescription: "Calculate percentages quickly and accurately.",
+  },
+
+  {
+    id: "powers-roots",
+    operation: "powersRoots",
+    title: "Powers & Roots",
+    icon: Radical,
+    description: "Practice powers, roots, and increasingly challenging mathematical expressions.",
+    shortDescription: "Build speed with powers and roots.",
+  },
+
+  {
+    id: "combinations",
+    operation: "combinations",
+    title: "Factorials, Permutations & Combinations",
+    icon: ListChecks,
+    description: "Practice factorials, permutations, combinations, and increasingly challenging counting problems.",
+    shortDescription: "Build speed with counting and arrangement problems.",
+  },
+
+  {
+    id: "probability",
+    operation: "probability",
+    title: "Probability",
+    icon: CircleDot,
+    description: "Practice probability with increasingly challenging questions involving outcomes, events, and chance.",
+    shortDescription: "Build speed with probability and chance.",
   },
 ];
 

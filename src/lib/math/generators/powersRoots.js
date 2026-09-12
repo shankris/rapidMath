@@ -1,337 +1,411 @@
 // src/lib/math/generators/powersRoots.js
 
 /* --------------------------------------------------
-   Powers & Roots Utilities
+   Utility Functions
 -------------------------------------------------- */
 
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function shuffle(values) {
-  const result = [...values];
-
-  for (let index = result.length - 1; index > 0; index--) {
-    const randomIndex = Math.floor(Math.random() * (index + 1));
-
-    [result[index], result[randomIndex]] = [result[randomIndex], result[index]];
-  }
-
-  return result;
+function randomItem(items) {
+  return items[Math.floor(Math.random() * items.length)];
 }
 
-function generateNumericOptions(answer, step = 1) {
-  const candidates = [answer - step, answer + step, answer - step * 2, answer + step * 2, answer - step * 3, answer + step * 3];
+function createQuestionId(level) {
+  return `powers-roots-${level}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
 
-  const options = [];
-  const used = new Set([answer]);
+/* --------------------------------------------------
+   Perfect Root Helpers
+-------------------------------------------------- */
 
-  for (const candidate of candidates) {
-    if (candidate >= 0 && Number.isFinite(candidate) && !used.has(candidate)) {
-      used.add(candidate);
-      options.push(candidate);
+function createSquare(value) {
+  return value * value;
+}
+
+function createCube(value) {
+  return value * value * value;
+}
+
+/* --------------------------------------------------
+   Answer Option Generation
+-------------------------------------------------- */
+
+function createOptions(answer) {
+  const offsets = [-2, -1, 1, 2, -3, 3, -4, 4];
+  const options = [answer];
+
+  for (const offset of offsets) {
+    const value = answer + offset;
+
+    if (value < 0 || options.includes(value)) {
+      continue;
     }
 
-    if (options.length === 3) {
+    options.push(value);
+
+    if (options.length === 4) {
       break;
     }
   }
 
-  while (options.length < 3) {
-    const candidate = answer + randomInt(-10, 10) * step;
-
-    if (candidate >= 0 && Number.isFinite(candidate) && !used.has(candidate)) {
-      used.add(candidate);
-      options.push(candidate);
-    }
-  }
-
-  return shuffle([answer, ...options]);
+  return options.sort(() => Math.random() - 0.5);
 }
 
 /* --------------------------------------------------
-   Level 1
-   Squares of Small Numbers
+   Question Builder
 -------------------------------------------------- */
 
-function generateSquareSmallQuestion() {
-  const number = randomInt(2, 12);
-  const answer = number * number;
-
+function buildQuestion({ level, question, answer, operation, numbers = [], operators = [] }) {
   return {
-    numbers: [number],
-    operators: ["²"],
-    question: `${number}² = ?`,
+    id: createQuestionId(level),
+    operation,
+    level,
+    numbers,
+    operators,
+    symbol: "powers-roots",
+    question,
     answer,
-    options: generateNumericOptions(answer, 1),
+    options: createOptions(answer),
   };
 }
 
 /* --------------------------------------------------
-   Level 2
-   Cubes of Small Numbers
+   Level 1 — Powers
 -------------------------------------------------- */
 
-function generateCubeSmallQuestion() {
-  const number = randomInt(2, 8);
-  const answer = number * number * number;
+function generatePowersQuestion({ level, config }) {
+  const useSquare = Math.random() < 0.5;
 
-  return {
-    numbers: [number],
-    operators: ["³"],
+  if (useSquare) {
+    const number = randomInt(config.square.min, config.square.max);
+    const answer = createSquare(number);
+
+    return buildQuestion({
+      level,
+      operation: "powersRoots",
+      question: `${number}² = ?`,
+      answer,
+      numbers: [number],
+      operators: ["²"],
+    });
+  }
+
+  const number = randomInt(config.cube.min, config.cube.max);
+  const answer = createCube(number);
+
+  return buildQuestion({
+    level,
+    operation: "powersRoots",
     question: `${number}³ = ?`,
     answer,
-    options: generateNumericOptions(answer, number),
-  };
-}
-
-/* --------------------------------------------------
-   Level 3
-   Squares of Larger Numbers
--------------------------------------------------- */
-
-function generateSquareLargeQuestion() {
-  const number = randomInt(13, 30);
-  const answer = number * number;
-
-  return {
     numbers: [number],
-    operators: ["²"],
-    question: `${number}² = ?`,
-    answer,
-    options: generateNumericOptions(answer, number),
-  };
+    operators: ["³"],
+  });
 }
 
 /* --------------------------------------------------
-   Level 4
-   Powers of 2 and 10
+   Level 2 — Roots
 -------------------------------------------------- */
 
-function generatePowersQuestion() {
-  const useTwo = Math.random() < 0.5;
+function generateRootsQuestion({ level, config }) {
+  const useSquareRoot = Math.random() < 0.65;
 
-  const base = useTwo ? 2 : 10;
-  const exponent = useTwo ? randomInt(3, 10) : randomInt(2, 4);
+  if (useSquareRoot) {
+    const root = randomInt(config.squareRoot.min, config.squareRoot.max);
 
-  const answer = base ** exponent;
+    const radicand = createSquare(root);
 
-  return {
-    numbers: [base, exponent],
-    operators: ["^"],
-    question: `${base}^${exponent} = ?`,
-    answer,
-    options: generateNumericOptions(answer, base === 2 ? Math.max(2, answer / 16) : 10),
-  };
-}
-
-/* --------------------------------------------------
-   Level 5
-   Square Roots
--------------------------------------------------- */
-
-function generateSquareRootQuestion() {
-  const root = randomInt(2, 20);
-  const number = root * root;
-
-  return {
-    numbers: [number],
-    operators: ["√"],
-    question: `√${number} = ?`,
-    answer: root,
-    options: generateNumericOptions(root, 1),
-  };
-}
-
-/* --------------------------------------------------
-   Level 6
-   Cube Roots
--------------------------------------------------- */
-
-function generateCubeRootQuestion() {
-  const root = randomInt(2, 10);
-  const number = root * root * root;
-
-  return {
-    numbers: [number],
-    operators: ["∛"],
-    question: `∛${number} = ?`,
-    answer: root,
-    options: generateNumericOptions(root, 1),
-  };
-}
-
-/* --------------------------------------------------
-   Level 7
-   Mixed Powers and Roots
--------------------------------------------------- */
-
-function generateMixedPowersRootsQuestion() {
-  const type = randomInt(1, 4);
-
-  let question;
-  let answer;
-  let numbers;
-  let operators;
-
-  if (type === 1) {
-    const number = randomInt(3, 12);
-
-    answer = number * number;
-    question = `${number}² + ${number} = ?`;
-    answer += number;
-
-    numbers = [number];
-    operators = ["²", "+"];
-  } else if (type === 2) {
-    const root = randomInt(3, 12);
-    const number = root * root;
-
-    answer = root + 5;
-    question = `√${number} + 5 = ?`;
-
-    numbers = [number, 5];
-    operators = ["√", "+"];
-  } else if (type === 3) {
-    const number = randomInt(2, 8);
-
-    answer = number * number * number - number;
-    question = `${number}³ − ${number} = ?`;
-
-    numbers = [number];
-    operators = ["³", "−"];
-  } else {
-    const root = randomInt(2, 8);
-    const number = root * root * root;
-
-    answer = root * 2;
-    question = `∛${number} × 2 = ?`;
-
-    numbers = [number, 2];
-    operators = ["∛", "×"];
+    return buildQuestion({
+      level,
+      operation: "powersRoots",
+      question: `√${radicand} = ?`,
+      answer: root,
+      numbers: [radicand],
+      operators: ["√"],
+    });
   }
 
-  return {
-    numbers,
-    operators,
-    question,
-    answer,
-    options: generateNumericOptions(answer, Math.max(1, Math.floor(answer / 10))),
-  };
+  const root = randomInt(config.cubeRoot.min, config.cubeRoot.max);
+
+  const radicand = createCube(root);
+
+  return buildQuestion({
+    level,
+    operation: "powersRoots",
+    question: `∛${radicand} = ?`,
+    answer: root,
+    numbers: [radicand],
+    operators: ["∛"],
+  });
 }
 
 /* --------------------------------------------------
-   Level 8
-   Advanced Powers and Roots
+   Level 3 — Mixed Powers & Roots
 -------------------------------------------------- */
 
-function generateAdvancedQuestion() {
-  const type = randomInt(1, 4);
+function generateMixedQuestion({ level, config }) {
+  const templates = ["square-plus-square-root", "cube-plus-square-root", "square-plus-cube-root", "cube-minus-square-root", "square-minus-cube-root", "square-times-square-root"];
 
-  let question;
-  let answer;
-  let numbers;
-  let operators;
+  const template = randomItem(templates);
 
-  if (type === 1) {
-    const base = randomInt(2, 5);
-    const exponent = randomInt(2, 4);
-    const addition = randomInt(2, 10);
+  switch (template) {
+    case "square-plus-square-root": {
+      const squareNumber = randomInt(config.square.min, config.square.max);
+      const root = randomInt(config.squareRoot.min, config.squareRoot.max);
 
-    answer = base ** exponent + addition;
+      const square = createSquare(squareNumber);
+      const radicand = createSquare(root);
+      const answer = square + root;
 
-    question = `${base}^${exponent} + ${addition} = ?`;
-
-    numbers = [base, exponent, addition];
-    operators = ["^", "+"];
-  } else if (type === 2) {
-    const root = randomInt(3, 15);
-    const multiplier = randomInt(2, 5);
-    const number = root * root;
-
-    answer = root * multiplier;
-
-    question = `√${number} × ${multiplier} = ?`;
-
-    numbers = [number, multiplier];
-    operators = ["√", "×"];
-  } else if (type === 3) {
-    const base = randomInt(2, 5);
-    const exponent = randomInt(2, 4);
-    const subtraction = randomInt(1, 10);
-
-    answer = base ** exponent - subtraction;
-
-    if (answer < 0) {
-      return generateAdvancedQuestion();
+      return buildQuestion({
+        level,
+        operation: "powersRoots",
+        question: `${squareNumber}² + √${radicand} = ?`,
+        answer,
+        numbers: [squareNumber, radicand],
+        operators: ["²", "+", "√"],
+      });
     }
 
-    question = `${base}^${exponent} − ${subtraction} = ?`;
+    case "cube-plus-square-root": {
+      const cubeNumber = randomInt(config.cube.min, config.cube.max);
+      const root = randomInt(config.squareRoot.min, config.squareRoot.max);
 
-    numbers = [base, exponent, subtraction];
-    operators = ["^", "−"];
-  } else {
-    const root = randomInt(2, 8);
-    const number = root * root * root;
-    const addition = randomInt(2, 10);
+      const cube = createCube(cubeNumber);
+      const radicand = createSquare(root);
+      const answer = cube + root;
 
-    answer = root + addition;
+      return buildQuestion({
+        level,
+        operation: "powersRoots",
+        question: `${cubeNumber}³ + √${radicand} = ?`,
+        answer,
+        numbers: [cubeNumber, radicand],
+        operators: ["³", "+", "√"],
+      });
+    }
 
-    question = `∛${number} + ${addition} = ?`;
+    case "square-plus-cube-root": {
+      const squareNumber = randomInt(config.square.min, config.square.max);
+      const root = randomInt(config.cubeRoot.min, config.cubeRoot.max);
 
-    numbers = [number, addition];
-    operators = ["∛", "+"];
+      const square = createSquare(squareNumber);
+      const radicand = createCube(root);
+      const answer = square + root;
+
+      return buildQuestion({
+        level,
+        operation: "powersRoots",
+        question: `${squareNumber}² + ∛${radicand} = ?`,
+        answer,
+        numbers: [squareNumber, radicand],
+        operators: ["²", "+", "∛"],
+      });
+    }
+
+    case "cube-minus-square-root": {
+      const cubeNumber = randomInt(config.cube.min, config.cube.max);
+      const root = randomInt(config.squareRoot.min, config.squareRoot.max);
+
+      const cube = createCube(cubeNumber);
+      const radicand = createSquare(root);
+
+      if (cube <= root) {
+        return generateMixedQuestion({ level, config });
+      }
+
+      const answer = cube - root;
+
+      return buildQuestion({
+        level,
+        operation: "powersRoots",
+        question: `${cubeNumber}³ − √${radicand} = ?`,
+        answer,
+        numbers: [cubeNumber, radicand],
+        operators: ["³", "−", "√"],
+      });
+    }
+
+    case "square-minus-cube-root": {
+      const squareNumber = randomInt(config.square.min, config.square.max);
+      const root = randomInt(config.cubeRoot.min, config.cubeRoot.max);
+
+      const square = createSquare(squareNumber);
+      const radicand = createCube(root);
+
+      if (square <= root) {
+        return generateMixedQuestion({ level, config });
+      }
+
+      const answer = square - root;
+
+      return buildQuestion({
+        level,
+        operation: "powersRoots",
+        question: `${squareNumber}² − ∛${radicand} = ?`,
+        answer,
+        numbers: [squareNumber, radicand],
+        operators: ["²", "−", "∛"],
+      });
+    }
+
+    case "square-times-square-root": {
+      const squareNumber = randomInt(config.square.min, config.square.max);
+      const root = randomInt(config.squareRoot.min, config.squareRoot.max);
+
+      const square = createSquare(squareNumber);
+      const radicand = createSquare(root);
+      const answer = square * root;
+
+      return buildQuestion({
+        level,
+        operation: "powersRoots",
+        question: `${squareNumber}² × √${radicand} = ?`,
+        answer,
+        numbers: [squareNumber, radicand],
+        operators: ["²", "×", "√"],
+      });
+    }
+
+    default:
+      return generateMixedQuestion({ level, config });
   }
-
-  return {
-    numbers,
-    operators,
-    question,
-    answer,
-    options: generateNumericOptions(answer, Math.max(1, Math.floor(answer / 10))),
-  };
 }
 
 /* --------------------------------------------------
-   Template Generators
+   Level 4 — Advanced
 -------------------------------------------------- */
 
-const TEMPLATE_GENERATORS = {
-  "square-small": generateSquareSmallQuestion,
-  "cube-small": generateCubeSmallQuestion,
-  "square-large": generateSquareLargeQuestion,
-  powers: generatePowersQuestion,
-  "square-root": generateSquareRootQuestion,
-  "cube-root": generateCubeRootQuestion,
-  "mixed-powers-roots": generateMixedPowersRootsQuestion,
-  advanced: generateAdvancedQuestion,
-};
+function generateAdvancedQuestion({ level, config }) {
+  const templates = ["square-plus-root-times-number", "cube-minus-square-plus-root", "root-plus-square-times-number", "square-root-combination"];
+
+  const template = randomItem(templates);
+
+  switch (template) {
+    case "square-plus-root-times-number": {
+      const squareNumber = randomInt(config.square.min, config.square.max);
+      const root = randomInt(config.squareRoot.min, config.squareRoot.max);
+      const multiplier = randomInt(2, 5);
+
+      const radicand = createSquare(root);
+      const answer = (createSquare(squareNumber) + root) * multiplier;
+
+      return buildQuestion({
+        level,
+        operation: "powersRoots",
+        question: `(${squareNumber}² + √${radicand}) × ${multiplier} = ?`,
+        answer,
+        numbers: [squareNumber, radicand, multiplier],
+        operators: ["²", "+", "√", "×"],
+      });
+    }
+
+    case "cube-minus-square-plus-root": {
+      const cubeNumber = randomInt(config.cube.min, config.cube.max);
+      const squareNumber = randomInt(config.square.min, config.square.max);
+      const root = randomInt(config.squareRoot.min, config.squareRoot.max);
+
+      const cube = createCube(cubeNumber);
+      const square = createSquare(squareNumber);
+      const radicand = createSquare(root);
+      const answer = cube - square + root;
+
+      if (answer <= 0) {
+        return generateAdvancedQuestion({ level, config });
+      }
+
+      return buildQuestion({
+        level,
+        operation: "powersRoots",
+        question: `${cubeNumber}³ − ${squareNumber}² + √${radicand} = ?`,
+        answer,
+        numbers: [cubeNumber, squareNumber, radicand],
+        operators: ["³", "−", "²", "+", "√"],
+      });
+    }
+
+    case "root-plus-square-times-number": {
+      const root = randomInt(config.squareRoot.min, config.squareRoot.max);
+      const squareNumber = randomInt(config.square.min, config.square.max);
+      const multiplier = randomInt(2, 4);
+
+      const radicand = createSquare(root);
+      const square = createSquare(squareNumber);
+      const answer = (root + square) * multiplier;
+
+      return buildQuestion({
+        level,
+        operation: "powersRoots",
+        question: `(√${radicand} + ${squareNumber}²) × ${multiplier} = ?`,
+        answer,
+        numbers: [radicand, squareNumber, multiplier],
+        operators: ["√", "+", "²", "×"],
+      });
+    }
+
+    case "square-root-combination": {
+      const squareNumber = randomInt(config.square.min, config.square.max);
+      const root = randomInt(config.squareRoot.min, config.squareRoot.max);
+      const cubeNumber = randomInt(config.cube.min, config.cube.max);
+
+      const square = createSquare(squareNumber);
+      const radicand = createSquare(root);
+      const cube = createCube(cubeNumber);
+
+      const answer = square + root - cube;
+
+      if (answer <= 0) {
+        return generateAdvancedQuestion({ level, config });
+      }
+
+      return buildQuestion({
+        level,
+        operation: "powersRoots",
+        question: `${squareNumber}² + √${radicand} − ${cubeNumber}³ = ?`,
+        answer,
+        numbers: [squareNumber, radicand, cubeNumber],
+        operators: ["²", "+", "√", "−", "³"],
+      });
+    }
+
+    default:
+      return generateAdvancedQuestion({ level, config });
+  }
+}
 
 /* --------------------------------------------------
-   Generate Powers & Roots Question
+   Public Generator
 -------------------------------------------------- */
 
 export function generatePowersRootsQuestion({ level, config }) {
-  if (!config) {
-    throw new Error(`Powers & Roots configuration is missing for level ${level}.`);
+  switch (config.template) {
+    case "powers":
+      return generatePowersQuestion({
+        level,
+        config,
+      });
+
+    case "roots":
+      return generateRootsQuestion({
+        level,
+        config,
+      });
+
+    case "mixed-powers-roots":
+      return generateMixedQuestion({
+        level,
+        config,
+      });
+
+    case "advanced":
+      return generateAdvancedQuestion({
+        level,
+        config,
+      });
+
+    default:
+      throw new Error(`Unknown Powers & Roots template: ${config.template}`);
   }
-
-  const generator = TEMPLATE_GENERATORS[config.template];
-
-  if (!generator) {
-    throw new Error(`Unknown Powers & Roots template "${config.template}" for level ${level}.`);
-  }
-
-  const generated = generator();
-
-  return {
-    id: `powersRoots_${level}_${generated.question}_${generated.answer}`,
-    operation: "powersRoots",
-    level,
-    numbers: generated.numbers,
-    operators: generated.operators,
-    question: generated.question,
-    answer: generated.answer,
-    options: generated.options,
-  };
 }

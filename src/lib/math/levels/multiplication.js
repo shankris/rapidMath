@@ -16,8 +16,8 @@ export const MULTIPLICATION_LEVELS = {
   },
 
   3: {
-    multiplier: { min: 2, max: 6 },
-    multiplicand: { min: 1, max: 9 },
+    num1: { min: 2, max: 6 },
+    num2: { min: 1, max: 9 },
   },
 
   4: {
