@@ -1,6 +1,8 @@
+// src/components/Practice/PracticeSession.jsx
+
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { generateTest } from "@/lib/math/generateTest";
@@ -77,11 +79,16 @@ export default function PracticeSession({ operation, level }) {
   /* --------------------------------------------------
      Quiz Attempt
 
-     This is the single source of truth for the
-     persisted quiz attempt.
+     React state is used for rendering.
+
+     The ref is used whenever we need the latest
+     attempt synchronously, especially when completing
+     the final question.
   -------------------------------------------------- */
 
   const [attempt, setAttempt] = useState(null);
+
+  const attemptRef = useRef(null);
 
   /* --------------------------------------------------
      Current Question
@@ -124,6 +131,7 @@ export default function PracticeSession({ operation, level }) {
     setQuizStarted(false);
 
     setAttempt(null);
+    attemptRef.current = null;
 
     setReactionTime(null);
     setStartTime(null);
@@ -205,62 +213,55 @@ export default function PracticeSession({ operation, level }) {
   }, [question, selectedAnswer]);
 
   /* --------------------------------------------------
-     Handle Answer
+     Record Answer
   -------------------------------------------------- */
 
   function handleAnswer(answer) {
-    /* ----------------------------------------------
-       Prevent Multiple Answers
-    ---------------------------------------------- */
+    const currentAttempt = attemptRef.current;
 
-    if (selectedAnswer !== null || !startTime || !attempt) {
+    if (selectedAnswer !== null || !startTime || !currentAttempt) {
       return;
     }
-
-    /* ----------------------------------------------
-       Calculate Reaction Time
-    ---------------------------------------------- */
 
     const reaction = (Date.now() - startTime) / 1000;
 
     setReactionTime(reaction);
 
-    /* ----------------------------------------------
-       Create Minimal Answer Record
-
-       Only the information required for history
-       and future statistics is stored.
-    ---------------------------------------------- */
-
     const answerRecord = {
       id: question.id,
+      question: question.question,
+      correctAnswer: question.answer,
+      selectedAnswer: answer,
       correct: answer === question.answer,
       time: reaction,
     };
 
-    /* ----------------------------------------------
-       Update Quiz Attempt
-
-       Save the updated attempt immediately so that
-       every answered question is persisted.
-    ---------------------------------------------- */
-
-    const updatedQuestions = [...attempt.questions, answerRecord];
+    const updatedQuestions = [...currentAttempt.questions, answerRecord];
 
     const updatedAttempt = {
-      ...attempt,
+      ...currentAttempt,
       questions: updatedQuestions,
     };
 
-    updateQuizAttempt(attempt.id, {
-      questions: updatedQuestions,
-    });
+    /* ----------------------------------------------
+       Keep Ref and React State In Sync
+
+       The ref is updated first so handleNext() can
+       immediately access this answer, even though the
+       React state update is asynchronous.
+    ---------------------------------------------- */
+
+    attemptRef.current = updatedAttempt;
 
     setAttempt(updatedAttempt);
 
     /* ----------------------------------------------
-       Update Selected Answer
+       Persist Answer
     ---------------------------------------------- */
+
+    updateQuizAttempt(currentAttempt.id, {
+      questions: updatedQuestions,
+    });
 
     setSelectedAnswer(answer);
   }
@@ -286,25 +287,95 @@ export default function PracticeSession({ operation, level }) {
     /* --------------------------------------------------
        Complete Quiz Attempt
 
-       The final answer has already been saved.
-       We only need to update the attempt status
-       and record the practice streak.
+       Read the latest attempt from the ref rather than
+       React state. This guarantees that the answer to
+       the final question is included.
     -------------------------------------------------- */
+
+    const currentAttempt = attemptRef.current;
+
+    if (!currentAttempt) {
+      return;
+    }
 
     const completedAt = new Date().toISOString();
 
-    const completedAttempt = {
-      ...attempt,
-      completedAt,
-      status: "completed",
+    const records = currentAttempt.questions;
+
+    const total = records.length;
+
+    const correctRecords = records.filter((record) => record.correct);
+
+    const correct = correctRecords.length;
+
+    const incorrect = total - correct;
+
+    /* ----------------------------------------------
+       Correct Answer Timing
+
+       Timing statistics are based only on answers
+       that were answered correctly.
+    ---------------------------------------------- */
+
+    const correctTimes = correctRecords.map((record) => Number(record.time) || 0).filter((time) => time > 0);
+
+    const totalTime = records.reduce((sum, record) => sum + (Number(record.time) || 0), 0);
+
+    const accuracy = total === 0 ? 0 : Math.round((correct / total) * 100);
+
+    const averageCorrectTime = correctTimes.length === 0 ? 0 : Number((correctTimes.reduce((sum, time) => sum + time, 0) / correctTimes.length).toFixed(2));
+
+    const fastestCorrectTime = correctTimes.length === 0 ? 0 : Number(Math.min(...correctTimes).toFixed(2));
+
+    const slowestCorrectTime = correctTimes.length === 0 ? 0 : Number(Math.max(...correctTimes).toFixed(2));
+
+    /* ----------------------------------------------
+       Test Summary
+    ---------------------------------------------- */
+
+    const stats = {
+      questions: total,
+      correct,
+      incorrect,
+      accuracy,
+      averageCorrectTime,
+      fastestCorrectTime,
+      slowestCorrectTime,
+      totalTime: Number(totalTime.toFixed(2)),
     };
 
-    updateQuizAttempt(attempt.id, {
+    /* ----------------------------------------------
+       Completed Attempt
+    ---------------------------------------------- */
+
+    const completedAttempt = {
+      ...currentAttempt,
       completedAt,
       status: "completed",
+      stats,
+    };
+
+    /* ----------------------------------------------
+       Persist Completed Attempt
+
+       The questions have already been saved when each
+       answer was selected. Here we save the completion
+       state and final summary.
+    ---------------------------------------------- */
+
+    updateQuizAttempt(currentAttempt.id, {
+      completedAt,
+      status: "completed",
+      stats,
     });
 
     updateStreak();
+
+    /* ----------------------------------------------
+       Keep Ref and React State In Sync
+    ---------------------------------------------- */
+
+    attemptRef.current = completedAttempt;
 
     setAttempt(completedAttempt);
     setQuizCompleted(true);
@@ -344,6 +415,15 @@ export default function PracticeSession({ operation, level }) {
 
     saveQuizAttempt(newAttempt);
 
+    /* ----------------------------------------------
+       Keep Ref and React State In Sync
+
+       The ref gives us immediate access to the new
+       attempt without waiting for React's state update.
+    ---------------------------------------------- */
+
+    attemptRef.current = newAttempt;
+
     setAttempt(newAttempt);
     setQuizStarted(true);
   }
@@ -365,27 +445,11 @@ export default function PracticeSession({ operation, level }) {
   /* --------------------------------------------------
      Quiz Results
 
-     Summary values are calculated from the
-     persisted question records rather than
-     being stored.
+     Results are read from the persisted test summary.
   -------------------------------------------------- */
 
   if (quizCompleted && attempt) {
-    const records = attempt.questions;
-
-    const total = records.length;
-
-    const correct = records.filter((record) => record.correct).length;
-
-    const times = records.map((record) => record.time);
-
-    const accuracy = total === 0 ? 0 : Math.round((correct / total) * 100);
-
-    const averageTime = times.length === 0 ? 0 : Number((times.reduce((sum, time) => sum + time, 0) / times.length).toFixed(2));
-
-    const fastestTime = times.length === 0 ? 0 : Number(Math.min(...times).toFixed(2));
-
-    const slowestTime = times.length === 0 ? 0 : Number(Math.max(...times).toFixed(2));
+    const { correct, questions: total, accuracy, averageCorrectTime, fastestCorrectTime, slowestCorrectTime } = attempt.stats;
 
     return (
       <QuizComplete
@@ -393,9 +457,9 @@ export default function PracticeSession({ operation, level }) {
           correct,
           total,
           accuracy,
-          averageTime,
-          fastestTime,
-          slowestTime,
+          averageTime: averageCorrectTime,
+          fastestTime: fastestCorrectTime,
+          slowestTime: slowestCorrectTime,
         }}
         onRetake={restartTest}
         onAnotherTest={takeAnotherTest}

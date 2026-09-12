@@ -1,0 +1,270 @@
+/* src/app/review/Review.module.css */
+
+/* --------------------------------------------------
+   Page
+-------------------------------------------------- */
+
+.page {
+  width: 100%;
+  max-width: 1900px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+/* --------------------------------------------------
+   Page Header
+-------------------------------------------------- */
+
+.header {
+  margin-bottom: 24px;
+}
+
+.title {
+  margin: 0;
+  color: var(--headingCol);
+  font-family: var(--font-montserrat);
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.description {
+  max-width: 700px;
+  margin: 6px 0 0;
+  color: var(--mutedColor);
+  font-family: var(--font-open-sans);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* --------------------------------------------------
+   Operation Sections
+-------------------------------------------------- */
+
+.operations {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.operationSection {
+  width: 100%;
+}
+
+.operationHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.operationTitle {
+  margin: 0;
+  color: var(--headingCol);
+  font-family: var(--font-montserrat);
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.levelCount {
+  color: var(--mutedColor);
+  font-family: var(--font-open-sans);
+  font-size: 12px;
+}
+
+/* --------------------------------------------------
+   Level Grid
+-------------------------------------------------- */
+
+.levelGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+/* --------------------------------------------------
+   Level Card
+-------------------------------------------------- */
+
+.levelCard {
+  display: block;
+  min-width: 0;
+  padding: 15px;
+  border: 1px solid var(--borderColor);
+  border-radius: 8px;
+  background: var(--surfaceColor);
+  box-shadow: var(--shadow-sm);
+  color: inherit;
+  text-decoration: none;
+
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    transform 150ms ease;
+}
+
+.levelCard:hover {
+  border-color: var(--accentColor);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+/* --------------------------------------------------
+   Card Header
+-------------------------------------------------- */
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 64px;
+  padding-bottom: 13px;
+  border-bottom: 1px solid var(--borderColor);
+}
+
+.levelLabel {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--mutedColor);
+  font-family: var(--font-open-sans);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.levelNumber {
+  margin: 0;
+  color: var(--headingCol);
+  font-family: var(--font-montserrat);
+  font-size: 23px;
+  font-weight: 600;
+}
+
+/* --------------------------------------------------
+   Statistics Row
+-------------------------------------------------- */
+
+.stats {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 0;
+
+  color: var(--mutedColor);
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stat svg {
+  flex: 0 0 auto;
+}
+
+.stat strong {
+  color: var(--headingCol);
+  font-family: var(--font-open-sans);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.statDivider {
+  color: var(--borderColor);
+  font-family: var(--font-open-sans);
+  font-size: 14px;
+}
+
+/* --------------------------------------------------
+   Review Text
+-------------------------------------------------- */
+
+.reviewText {
+  margin: 0;
+  padding-top: 10px;
+  border-top: 1px solid var(--borderColor);
+
+  color: var(--mutedColor);
+  font-family: var(--font-open-sans);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------
+   Empty State
+-------------------------------------------------- */
+
+.emptyState {
+  padding: 40px 24px;
+  border: 1px dashed var(--borderColor);
+  border-radius: 8px;
+  background: var(--surfaceColor);
+  text-align: center;
+}
+
+.emptyState h2 {
+  margin: 0 0 6px;
+  color: var(--headingCol);
+  font-family: var(--font-montserrat);
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.emptyState p {
+  margin: 0;
+  color: var(--mutedColor);
+  font-family: var(--font-open-sans);
+  font-size: 13px;
+}
+
+/* --------------------------------------------------
+   Responsive Layout
+-------------------------------------------------- */
+
+@media (max-width: 1200px) {
+  .levelGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .levelGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding: 10px;
+  }
+
+  .header {
+    margin-bottom: 20px;
+  }
+
+  .title {
+    font-size: 21px;
+  }
+
+  .description {
+    font-size: 13px;
+  }
+
+  .operations {
+    gap: 22px;
+  }
+
+  .levelGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .levelCard {
+    padding: 14px;
+  }
+
+  .reviewText {
+    font-size: 11px;
+  }
+}

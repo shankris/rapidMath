@@ -49,6 +49,10 @@
   --tab1bg: #cccccc;
   --highLight1: #f0f0f0;
 
+  --card1bg: #ededed;
+  --accordionHead1: #9ba8cd;
+
+
   /* Text */
   --txtColor: #1f2933;
   --mutedColor: #6b7280;
@@ -105,6 +109,10 @@ html[data-theme="dark"] {
   --tab1bg: #1a2238;
   --highLight1: #1a2238;
 
+  --card1bg: #2d2d2d;
+  --accordionHead1: #3d496b;
+
+
   /* Text */
   --txtColor: #e5e7eb;
   --mutedColor: #9ca3af;
@@ -120,7 +128,7 @@ html[data-theme="dark"] {
 
   /* Tables */
   --tableHeaderBg: #020617;
-  --rowAltBg: #020617;
+  --rowAltBg: #384057;
   --tableHoverBg: #020617;
 
   /*   Shadows   */

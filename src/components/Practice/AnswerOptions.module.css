@@ -79,7 +79,7 @@
 
   border-radius: 50%;
 
-  background: #efefef;
+  background: #ffffff;
   border: 1px solid var(--borderColor);
   box-shadow: var(--shadow-md);
 }

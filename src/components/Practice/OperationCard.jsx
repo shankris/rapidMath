@@ -4,10 +4,17 @@
 
 import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
-import { Timer, ChevronDown, Check } from "lucide-react";
+import { Timer, CalendarDays, ChevronDown, Check } from "lucide-react";
+import { useEffect, useState } from "react";
 import { LEVEL_CONFIG } from "@/lib/math/levels";
 
 import styles from "./OperationCard.module.css";
+
+/* --------------------------------------------------
+   Local Storage Configuration
+-------------------------------------------------- */
+
+const STORAGE_KEY = "rapidMath.quizAttempts";
 
 /* --------------------------------------------------
    Category Configuration
@@ -63,11 +70,133 @@ function getCategoryConfig(operation) {
 }
 
 /* --------------------------------------------------
+   Relative Time
+-------------------------------------------------- */
+
+function getRelativeTime(timestamp) {
+  if (!timestamp) {
+    return null;
+  }
+
+  const completedAt = new Date(timestamp);
+  const now = new Date();
+
+  const difference = now.getTime() - completedAt.getTime();
+
+  if (difference < 0) {
+    return "just now";
+  }
+
+  const minutes = Math.floor(difference / (1000 * 60));
+
+  if (minutes < 1) {
+    return "just now";
+  }
+
+  if (minutes < 60) {
+    return `${minutes}m ago`;
+  }
+
+  const hours = Math.floor(minutes / 60);
+
+  if (hours < 24) {
+    return `${hours}h ago`;
+  }
+
+  const days = Math.floor(hours / 24);
+
+  if (days < 7) {
+    return `${days}d ago`;
+  }
+
+  const weeks = Math.floor(days / 7);
+
+  if (weeks < 5) {
+    return `${weeks}w ago`;
+  }
+
+  const months = Math.floor(days / 30);
+
+  if (months < 12) {
+    return `${months}mo ago`;
+  }
+
+  const years = Math.floor(days / 365);
+
+  return `${years}y ago`;
+}
+
+/* --------------------------------------------------
+   Level Statistics
+-------------------------------------------------- */
+
+function getLevelStatistics(attempts, operation, level) {
+  const levelAttempts = attempts.filter((attempt) => attempt.operation === operation && String(attempt.level) === String(level) && attempt.status === "completed");
+
+  if (levelAttempts.length === 0) {
+    return null;
+  }
+
+  const latestAttempt = levelAttempts.reduce((latest, attempt) => {
+    if (!latest) {
+      return attempt;
+    }
+
+    return new Date(attempt.completedAt) > new Date(latest.completedAt) ? attempt : latest;
+  }, null);
+
+  const questions = levelAttempts.flatMap((attempt) => attempt.questions || []);
+
+  if (questions.length === 0) {
+    return null;
+  }
+
+  const correctAnswers = questions.filter((question) => question.correct === true).length;
+
+  const accuracy = Math.round((correctAnswers / questions.length) * 100);
+
+  const timedQuestions = questions.filter((question) => typeof question.time === "number");
+
+  const averageTime = timedQuestions.length > 0 ? timedQuestions.reduce((total, question) => total + question.time, 0) / timedQuestions.length : null;
+
+  return {
+    accuracy,
+    averageTime,
+    completedAt: latestAttempt?.completedAt || null,
+    relativeTime: getRelativeTime(latestAttempt?.completedAt),
+  };
+}
+
+/* --------------------------------------------------
    Operation Card
 -------------------------------------------------- */
 
 export default function OperationCard({ operation, isOpen, onToggle }) {
   const Icon = operation.icon;
+
+  const [attempts, setAttempts] = useState([]);
+
+  /* --------------------------------------------------
+     Load Quiz Attempts
+  -------------------------------------------------- */
+
+  useEffect(() => {
+    try {
+      const storedAttempts = localStorage.getItem(STORAGE_KEY);
+
+      if (!storedAttempts) {
+        setAttempts([]);
+        return;
+      }
+
+      const parsedAttempts = JSON.parse(storedAttempts);
+
+      setAttempts(Array.isArray(parsedAttempts) ? parsedAttempts : []);
+    } catch (error) {
+      console.error("Unable to load quiz attempts:", error);
+      setAttempts([]);
+    }
+  }, []);
 
   const categoryKey = getCategoryConfig(operation.operation);
 
@@ -148,47 +277,66 @@ export default function OperationCard({ operation, isOpen, onToggle }) {
             -------------------------------------------------- */}
 
             <div className={styles.levelGrid}>
-              {levels.map(([level, config]) => (
-                <Link
-                  href={`/practice/${operation.operation}/${level}`}
-                  className={styles.levelCard}
-                  key={level}
-                >
-                  <span className={styles.levelNumber}>Level {level}</span>
+              {levels.map(([level, config]) => {
+                const statistics = getLevelStatistics(attempts, operation.operation, level);
 
-                  <span className={styles.levelTitle}>{config.title}</span>
+                return (
+                  <Link
+                    href={`/practice/${operation.operation}/${level}`}
+                    className={styles.levelCard}
+                    key={level}
+                  >
+                    <span className={styles.levelNumber}>Level {level}</span>
 
-                  {/* --------------------------------------------------
-                     Level Tooltip
-                  -------------------------------------------------- */}
+                    <span className={styles.levelTitle}>{config.title}</span>
 
-                  <span className={styles.tooltip}>{config.details?.[operation.operation]}</span>
+                    {/* --------------------------------------------------
+                       Level Tooltip
+                    -------------------------------------------------- */}
 
-                  {/* --------------------------------------------------
-                     Level Statistics
-                  -------------------------------------------------- */}
+                    <span className={styles.tooltip}>{config.details?.[operation.operation]}</span>
 
-                  <div className={styles.levelStats}>
-                    <span className={styles.correctAnswers}>
-                      <Check
-                        size={15}
-                        strokeWidth={2}
-                      />
+                    {/* --------------------------------------------------
+                       Level Statistics
+                    -------------------------------------------------- */}
 
-                      <span>94%</span>
-                    </span>
+                    <div className={styles.levelStats}>
+                      {statistics ? (
+                        <>
+                          <span className={styles.correctAnswers}>
+                            <Check
+                              size={15}
+                              strokeWidth={2}
+                            />
 
-                    <span className={styles.reactionTime}>
-                      <Timer
-                        size={16}
-                        strokeWidth={1.8}
-                      />
+                            <span>{statistics.accuracy}%</span>
+                          </span>
 
-                      <span>3.433s</span>
-                    </span>
-                  </div>
-                </Link>
-              ))}
+                          <span className={styles.reactionTime}>
+                            <Timer
+                              size={16}
+                              strokeWidth={1.8}
+                            />
+
+                            <span>{statistics.averageTime != null ? `${statistics.averageTime.toFixed(3)}s` : "—"}</span>
+                          </span>
+
+                          <span className={styles.testTime}>
+                            <CalendarDays
+                              size={15}
+                              strokeWidth={1.8}
+                            />
+
+                            <span>{statistics.relativeTime || "—"}</span>
+                          </span>
+                        </>
+                      ) : (
+                        <span className={styles.notAttempted}>Not attempted</span>
+                      )}
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           </motion.div>
         )}

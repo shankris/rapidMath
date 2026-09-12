@@ -65,7 +65,7 @@ export default function QuizComplete({ results, onRetake, onAnotherTest, onConti
           className={styles.btnSecondary}
           onClick={onContinue}
         >
-          Analyse Quiz Stats
+          Review Quiz Performance
         </button>
       </section>
 
@@ -78,14 +78,14 @@ export default function QuizComplete({ results, onRetake, onAnotherTest, onConti
           className={styles.btnPrimary}
           onClick={onRetake}
         >
-          Retake This Test
+          Retake This Quiz
         </button>
 
         <button
           className={styles.btnSecondary}
           onClick={onAnotherTest}
         >
-          Take Another Test
+          Take Another Quiz
         </button>
       </div>
     </div>

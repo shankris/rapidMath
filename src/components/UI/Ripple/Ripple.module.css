@@ -1,0 +1,38 @@
+/* src/components/UI/Ripple/Ripple.module.css */
+
+/* --------------------------------------------------
+   Ripple Container
+-------------------------------------------------- */
+
+.container {
+  position: relative;
+}
+
+/* --------------------------------------------------
+   Ripple Effect
+-------------------------------------------------- */
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple 600ms linear;
+  background-color: rgba(255, 255, 255, 0.7);
+  pointer-events: none;
+}
+
+.button {
+  position: relative;
+  overflow: hidden;
+}
+
+/* --------------------------------------------------
+   Ripple Animation
+-------------------------------------------------- */
+
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}

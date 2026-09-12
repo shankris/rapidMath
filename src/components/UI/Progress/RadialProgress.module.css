@@ -1,0 +1,91 @@
+/* src/components/UI/Progress/RadialProgress.module.css */
+
+/* --------------------------------------------------
+   Radial Progress Container
+-------------------------------------------------- */
+
+.progress {
+  position: relative;
+  width: var(--progress-size);
+  height: var(--progress-size);
+  flex: 0 0 var(--progress-size);
+}
+
+/* --------------------------------------------------
+   SVG
+-------------------------------------------------- */
+
+.svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+/* --------------------------------------------------
+   Background Track
+-------------------------------------------------- */
+
+.track {
+  fill: none;
+  stroke: var(--borderColor);
+  stroke-width: 8;
+}
+
+/* --------------------------------------------------
+   Progress Indicator
+-------------------------------------------------- */
+
+.indicator {
+  fill: none;
+  stroke-width: 8;
+  stroke-linecap: round;
+
+  transition:
+    stroke-dasharray 400ms ease,
+    stroke 200ms ease;
+}
+
+/* --------------------------------------------------
+   Accuracy Shades
+-------------------------------------------------- */
+
+/* 0–24% */
+.progress[data-range="low"] .indicator {
+  stroke: #d9f0da;
+}
+
+/* 25–49% */
+.progress[data-range="medium-low"] .indicator {
+  stroke: #b8dfba;
+}
+
+/* 50–74% */
+.progress[data-range="medium-high"] .indicator {
+  stroke: #94cf98;
+}
+
+/* 75–100% */
+.progress[data-range="high"] .indicator {
+  stroke: #62b967;
+}
+
+/* --------------------------------------------------
+   Percentage
+-------------------------------------------------- */
+
+.value {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--headingCol);
+  font-family: var(--font-montserrat);
+  font-size: 15px;
+  font-weight: 600;
+
+  pointer-events: none;
+}

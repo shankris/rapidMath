@@ -111,6 +111,18 @@
   box-shadow: var(--shadow-md);
 }
 
+
+.btnSecondary {
+  width: 90%;
+  max-width: 500px;
+  min-height: 52px;
+  margin: 20px auto;
+  padding: 12px;
+
+}
+
+
+
 /* --------------------------------------------------
    Quiz Actions
 -------------------------------------------------- */
