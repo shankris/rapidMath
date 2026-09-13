@@ -277,7 +277,16 @@
  }
 
  .historyStats span {
+   display: inline-flex;
+   align-items: center;
+   gap: 5px;
+
    white-space: nowrap;
+ }
+
+ .historyStats svg {
+   flex: 0 0 auto;
+   color: var(--mutedColor);
  }
 
  .historyStats strong {
@@ -413,4 +422,31 @@
    .historyStats {
      gap: 7px 14px;
    }
+ }
+
+ /* --------------------------------------------------
+   History Status
+-------------------------------------------------- */
+
+ .historyStatus {
+   display: inline-flex;
+   align-items: center;
+   gap: 6px;
+
+   color: var(--mutedColor);
+   font-family: var(--font-montserrat);
+   font-size: 13px;
+   font-weight: 600;
+ }
+
+ .historyStatus svg {
+   flex: 0 0 auto;
+ }
+
+ .completedStatus {
+   color: #2e8b57;
+ }
+
+ .timedOutStatus {
+   color: #c94a4a;
  }

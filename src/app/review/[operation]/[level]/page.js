@@ -4,7 +4,7 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { ArrowLeft, CheckCircle2, CircleX, Clock3 } from "lucide-react";
+import { ArrowLeft, CheckCircle2, CircleCheck, CircleQuestionMark, ClockFading, Target, Timer, CircleX, Clock3 } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { getReviewForLevel } from "@/lib/stats/review";
@@ -344,7 +344,21 @@ export default function ReviewLevelPage() {
 
               <div className={styles.historyMain}>
                 <div>
-                  <strong className={styles.historyStatus}>{formatAttemptStatus(attempt.status)}</strong>
+                  <strong className={`${styles.historyStatus} ${attempt.status === "completed" ? styles.completedStatus : styles.timedOutStatus}`}>
+                    {attempt.status === "completed" ? (
+                      <CircleCheck
+                        size={15}
+                        strokeWidth={2}
+                      />
+                    ) : (
+                      <ClockFading
+                        size={15}
+                        strokeWidth={2}
+                      />
+                    )}
+
+                    {formatAttemptStatus(attempt.status)}
+                  </strong>
 
                   <span className={styles.historyDate}>{formatPracticeDate(attempt.startedAt)}</span>
                 </div>
@@ -353,25 +367,39 @@ export default function ReviewLevelPage() {
               {/* --------------------------------------------------
                  Performance Details
               -------------------------------------------------- */}
-
               <div className={styles.historyStats}>
-                <span>
-                  Accuracy <strong>{attempt.accuracy}%</strong>
+                <span title={`Accuracy: ${attempt.accuracy}%`}>
+                  <Target
+                    size={16}
+                    strokeWidth={1.8}
+                  />
+                  <strong>{attempt.accuracy}%</strong>
                 </span>
 
-                <span>
-                  Correct{" "}
+                <span title={`Correct: ${attempt.correct}/${attempt.answered}`}>
+                  <CircleCheck
+                    size={16}
+                    strokeWidth={1.8}
+                  />
                   <strong>
                     {attempt.correct}/{attempt.answered}
                   </strong>
                 </span>
 
-                <span>
-                  Avg. <strong>{formatTime(attempt.averageCorrectTime)}</strong>
+                <span title={`Avg. reaction time: ${formatTime(attempt.averageCorrectTime)}`}>
+                  <Timer
+                    size={16}
+                    strokeWidth={1.8}
+                  />
+                  <strong>{formatTime(attempt.averageCorrectTime)}</strong>
                 </span>
 
-                <span>
-                  Questions <strong>{attempt.answered}</strong>
+                <span title={`Questions answered: ${attempt.answered}`}>
+                  <CircleQuestionMark
+                    size={16}
+                    strokeWidth={1.8}
+                  />
+                  <strong>{attempt.answered}</strong>
                 </span>
               </div>
             </article>
