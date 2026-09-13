@@ -16,22 +16,10 @@ import styles from "./Review.module.css";
 -------------------------------------------------- */
 
 const OPERATIONS = [
-  {
-    key: "add",
-    label: "Addition",
-  },
-  {
-    key: "sub",
-    label: "Subtraction",
-  },
-  {
-    key: "mul",
-    label: "Multiplication",
-  },
-  {
-    key: "div",
-    label: "Division",
-  },
+  { key: "add", label: "Addition" },
+  { key: "sub", label: "Subtraction" },
+  { key: "mul", label: "Multiplication" },
+  { key: "div", label: "Division" },
 ];
 
 /* --------------------------------------------------
@@ -53,17 +41,9 @@ function formatTime(seconds) {
 export default function ReviewPage() {
   const [summaries, setSummaries] = useState([]);
 
-  /* --------------------------------------------------
-     Load Review Data
-  -------------------------------------------------- */
-
   useEffect(() => {
     setSummaries(getReviewSummary());
   }, []);
-
-  /* --------------------------------------------------
-     Group Summaries By Operation
-  -------------------------------------------------- */
 
   const operationGroups = useMemo(() => {
     return OPERATIONS.map((operation) => ({
@@ -86,7 +66,7 @@ export default function ReviewPage() {
         <section className={styles.emptyState}>
           <h2>No practice activity yet</h2>
 
-          <p>Complete a minimum of 50 practice questions and your learning history will appear here.</p>
+          <p>Complete some practice questions and your learning history will appear here.</p>
         </section>
       ) : (
         <div className={styles.operations}>
@@ -98,21 +78,25 @@ export default function ReviewPage() {
               <div className={styles.operationHeader}>
                 <h2 className={styles.operationTitle}>{operation.label}</h2>
 
-                {/* <span className={styles.levelCount}>
+                <span className={styles.levelCount}>
                   {operation.levels.length} {operation.levels.length === 1 ? "level" : "levels"}
-                </span> */}
+                </span>
               </div>
 
               <div className={styles.levelGrid}>
                 {operation.levels.map((summary) => (
-                  <Link
+                  <article
                     key={`${summary.operation}-${summary.level}`}
-                    href={`/review/${summary.operation}/${summary.level}`}
                     className={styles.levelCard}
                   >
+                    {/* --------------------------------------------------
+                       Card Header
+                    -------------------------------------------------- */}
+
                     <div className={styles.cardHeader}>
                       <div>
                         <span className={styles.levelLabel}>Level</span>
+
                         <h3 className={styles.levelNumber}>{summary.level}</h3>
                       </div>
 
@@ -121,6 +105,10 @@ export default function ReviewPage() {
                         size={64}
                       />
                     </div>
+
+                    {/* --------------------------------------------------
+                       Statistics
+                    -------------------------------------------------- */}
 
                     <div className={styles.stats}>
                       <div className={styles.stat}>
@@ -144,8 +132,26 @@ export default function ReviewPage() {
                       </div>
                     </div>
 
-                    <p className={styles.reviewText}>Keep practicing — you're making good progress.</p>
-                  </Link>
+                    {/* --------------------------------------------------
+                       Card Actions
+                    -------------------------------------------------- */}
+
+                    <div className={styles.cardActions}>
+                      <Link
+                        href={`/practice/${summary.operation}/${summary.level}/targeted`}
+                        className={styles.targetedPracticeLink}
+                      >
+                        Targeted Practice
+                      </Link>
+
+                      <Link
+                        href={`/review/${summary.operation}/${summary.level}`}
+                        className={styles.historyLink}
+                      >
+                        View History
+                      </Link>
+                    </div>
+                  </article>
                 ))}
               </div>
             </section>

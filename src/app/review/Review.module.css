@@ -268,3 +268,47 @@
     font-size: 11px;
   }
 }
+
+/* --------------------------------------------------
+   Card Actions
+-------------------------------------------------- */
+
+.cardActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--borderColor);
+  font-family: var(--font-open-sans);
+  font-size: 12px;
+}
+
+.targetedPracticeLink,
+.historyLink {
+  color: var(--accentColor);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.targetedPracticeLink:hover,
+.historyLink:hover {
+  color: var(--headingCol);
+}
+
+.cardActions::before {
+  content: "";
+  order: 2;
+  width: 1px;
+  height: 14px;
+  background: var(--borderColor);
+}
+
+.historyLink {
+  order: 3;
+  color: var(--mutedColor);
+  font-weight: 500;
+}

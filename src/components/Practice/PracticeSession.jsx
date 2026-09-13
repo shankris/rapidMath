@@ -10,7 +10,7 @@ import { OPERATIONS } from "@/lib/math/operations";
 import { QUIZ_CONFIG } from "@/lib/config";
 import { saveQuizAttempt, updateQuizAttempt } from "@/lib/storage/quizHistory";
 import { updateStreak } from "@/lib/storage/streak";
-
+import { generateTargetedAdditionTest } from "@/lib/math/generators/targetedTest";
 import QuestionCard from "./QuestionCard";
 import AnswerOptions from "./AnswerOptions";
 import QuizSetup from "./QuizSetup";
@@ -40,18 +40,22 @@ function generateAttemptId(timestamp) {
    Practice Session
 -------------------------------------------------- */
 
-export default function PracticeSession({ operation, level }) {
+export default function PracticeSession({ operation, level, targeted = false }) {
   /* --------------------------------------------------
      Quiz Questions
   -------------------------------------------------- */
 
-  const [questions, setQuestions] = useState(() =>
-    generateTest({
+  const [questions, setQuestions] = useState(() => {
+    if (targeted && operation === "add") {
+      return generateTargetedAdditionTest(level, QUIZ_CONFIG.QUESTIONS_PER_TEST);
+    }
+
+    return generateTest({
       operation,
       level,
       count: QUIZ_CONFIG.QUESTIONS_PER_TEST,
-    }),
-  );
+    });
+  });
 
   /* --------------------------------------------------
      Quiz State
@@ -115,13 +119,16 @@ export default function PracticeSession({ operation, level }) {
   -------------------------------------------------- */
 
   function restartTest() {
-    setQuestions(
-      generateTest({
-        operation,
-        level,
-        count: QUIZ_CONFIG.QUESTIONS_PER_TEST,
-      }),
-    );
+    const newQuestions =
+      targeted && operation === "add"
+        ? generateTargetedAdditionTest(level, QUIZ_CONFIG.QUESTIONS_PER_TEST)
+        : generateTest({
+            operation,
+            level,
+            count: QUIZ_CONFIG.QUESTIONS_PER_TEST,
+          });
+
+    setQuestions(newQuestions);
 
     setCurrentQuestion(0);
 
@@ -227,14 +234,8 @@ export default function PracticeSession({ operation, level }) {
 
     setReactionTime(reaction);
 
-    const answerRecord = {
-      id: question.id,
-      question: question.question,
-      correctAnswer: question.answer,
-      selectedAnswer: answer,
-      correct: answer === question.answer,
-      time: reaction,
-    };
+    const answerRecord = { id: question.id, question: question.question, correctAnswer: question.answer, selectedAnswer: answer, correct: answer === question.answer, time: reaction, questionData: question };
+    /* * Keep the original generated question data. * * Targeted Practice uses this to identify patterns * such as carries, borrowing, multiplication tables, * divisors, remainders, etc. */
 
     const updatedQuestions = [...currentAttempt.questions, answerRecord];
 
@@ -438,6 +439,7 @@ export default function PracticeSession({ operation, level }) {
         operation={operation}
         level={level}
         onStart={handleStartQuiz}
+        targeted={targeted}
       />
     );
   }

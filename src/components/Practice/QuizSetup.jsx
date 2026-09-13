@@ -97,7 +97,7 @@ function calculateAttemptResult(attempt) {
    Quiz Setup
 -------------------------------------------------- */
 
-export default function QuizSetup({ operation, level, onStart }) {
+export default function QuizSetup({ operation, level, onStart, targeted = false }) {
   /* --------------------------------------------------
      Local Quiz History
   -------------------------------------------------- */
@@ -157,9 +157,7 @@ export default function QuizSetup({ operation, level, onStart }) {
       -------------------------------------------------- */}
 
       <div className={styles.header}>
-        <h1>
-          {OPERATIONS[operation].name} · Level {level}
-        </h1>
+        <h1>{targeted ? `Targeted Practice · ${OPERATIONS[operation].name} · Level ${level}` : `${OPERATIONS[operation].name} · Level ${level}`}</h1>
       </div>
 
       {/* --------------------------------------------------
@@ -167,9 +165,7 @@ export default function QuizSetup({ operation, level, onStart }) {
       -------------------------------------------------- */}
 
       <section className={styles.progress}>
-        <h2>
-          Your progress at - {OPERATIONS[operation].name} Level {level}
-        </h2>
+        <h2>{targeted ? `Targeted practice for ${OPERATIONS[operation].name} Level ${level}` : `Your progress at - ${OPERATIONS[operation].name} Level ${level}`}</h2>
 
         {!progress.hasHistory ? (
           <div className={styles.noHistory}>

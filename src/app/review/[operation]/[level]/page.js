@@ -4,7 +4,7 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { ArrowLeft, CheckCircle2, CircleCheck, CircleQuestionMark, ClockFading, Target, Timer, CircleX, Clock3 } from "lucide-react";
+import { ArrowLeft, CalendarClock, CircleQuestionMark, Target, Timer } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { getReviewForLevel } from "@/lib/stats/review";
@@ -269,9 +269,15 @@ export default function ReviewLevelPage() {
           </p>
         </div>
 
-        <div className={styles.accuracy}>
-          <span>Accuracy</span>
-          <strong>{summary.accuracy}%</strong>
+        <div className={styles.targetedPractice}>
+          <Link
+            href={`/practice/${summary.operation}/${summary.level}/targeted`}
+            className={styles.targetedPracticeButton}
+          >
+            Targeted Practice
+          </Link>
+
+          <span className={styles.targetedPracticeNote}>Quiz based on your performance to address your weak areas</span>
         </div>
       </header>
 
@@ -281,7 +287,22 @@ export default function ReviewLevelPage() {
 
       <section className={styles.statsGrid}>
         <article className={styles.statCard}>
-          <CheckCircle2 size={20} />
+          <Target
+            size={32}
+            strokeWidth={1.8}
+          />
+
+          <div>
+            <span>Accuracy</span>
+            <strong>{summary.accuracy}%</strong>
+          </div>
+        </article>
+
+        <article className={styles.statCard}>
+          <CircleQuestionMark
+            size={32}
+            strokeWidth={1.8}
+          />
 
           <div>
             <span>Questions</span>
@@ -290,25 +311,22 @@ export default function ReviewLevelPage() {
         </article>
 
         <article className={styles.statCard}>
-          <CircleX size={20} />
+          <Timer
+            size={32}
+            strokeWidth={1.8}
+          />
 
           <div>
-            <span>Incorrect</span>
-            <strong>{summary.incorrect}</strong>
-          </div>
-        </article>
-
-        <article className={styles.statCard}>
-          <Clock3 size={20} />
-
-          <div>
-            <span>Avg. correct time</span>
+            <span>Avg. reaction time</span>
             <strong>{formatTime(summary.averageCorrectTime)}</strong>
           </div>
         </article>
 
         <article className={styles.statCard}>
-          <Clock3 size={20} />
+          <CalendarClock
+            size={32}
+            strokeWidth={1.8}
+          />
 
           <div>
             <span>Total practice time</span>
@@ -344,21 +362,7 @@ export default function ReviewLevelPage() {
 
               <div className={styles.historyMain}>
                 <div>
-                  <strong className={`${styles.historyStatus} ${attempt.status === "completed" ? styles.completedStatus : styles.timedOutStatus}`}>
-                    {attempt.status === "completed" ? (
-                      <CircleCheck
-                        size={15}
-                        strokeWidth={2}
-                      />
-                    ) : (
-                      <ClockFading
-                        size={15}
-                        strokeWidth={2}
-                      />
-                    )}
-
-                    {formatAttemptStatus(attempt.status)}
-                  </strong>
+                  <strong className={`${styles.historyStatus} ${attempt.status === "completed" ? styles.completedStatus : styles.timedOutStatus}`}>{attempt.status === "completed" ? "Completed" : "Timed out"}</strong>
 
                   <span className={styles.historyDate}>{formatPracticeDate(attempt.startedAt)}</span>
                 </div>
@@ -367,6 +371,7 @@ export default function ReviewLevelPage() {
               {/* --------------------------------------------------
                  Performance Details
               -------------------------------------------------- */}
+
               <div className={styles.historyStats}>
                 <span title={`Accuracy: ${attempt.accuracy}%`}>
                   <Target
@@ -377,7 +382,7 @@ export default function ReviewLevelPage() {
                 </span>
 
                 <span title={`Correct: ${attempt.correct}/${attempt.answered}`}>
-                  <CircleCheck
+                  <CircleQuestionMark
                     size={16}
                     strokeWidth={1.8}
                   />

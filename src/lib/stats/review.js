@@ -1,3 +1,5 @@
+// src/lib/stats/review.js
+
 import { getQuizAttempts } from "../storage/quizHistory";
 
 /* --------------------------------------------------
@@ -6,6 +8,33 @@ import { getQuizAttempts } from "../storage/quizHistory";
 
 const MINIMUM_QUESTIONS = 50;
 const MAX_LEVELS_PER_OPERATION = 4;
+const REVIEW_DAYS = 30;
+
+/* --------------------------------------------------
+   Get Review Start Date
+-------------------------------------------------- */
+
+function getReviewStartDate() {
+  const date = new Date();
+
+  date.setDate(date.getDate() - REVIEW_DAYS);
+
+  return date;
+}
+
+/* --------------------------------------------------
+   Check Recent Attempt
+-------------------------------------------------- */
+
+function isRecentAttempt(attempt, startDate) {
+  if (!attempt.startedAt) {
+    return false;
+  }
+
+  const startedAt = new Date(attempt.startedAt);
+
+  return !Number.isNaN(startedAt.getTime()) && startedAt >= startDate;
+}
 
 /* --------------------------------------------------
    Calculate Attempt Statistics
@@ -70,6 +99,7 @@ function calculateAttemptStats(attempt) {
 
 function groupAttempts(attempts) {
   const groups = new Map();
+  const reviewStartDate = getReviewStartDate();
 
   attempts.forEach((attempt) => {
     const stats = calculateAttemptStats(attempt);
@@ -85,7 +115,11 @@ function groupAttempts(attempts) {
         operation: stats.operation,
         level: stats.level,
 
+        // Keep complete history for the History section.
         attempts: [],
+
+        // Recent activity is used for current statistics.
+        recentAttempts: [],
 
         completedAttempts: 0,
         incompleteAttempts: 0,
@@ -101,7 +135,20 @@ function groupAttempts(attempts) {
 
     const group = groups.get(key);
 
+    /*
+     * Always keep the attempt in history.
+     */
     group.attempts.push(stats);
+
+    /*
+     * Only the last 30 days contribute to current
+     * performance statistics.
+     */
+    if (!isRecentAttempt(attempt, reviewStartDate)) {
+      return;
+    }
+
+    group.recentAttempts.push(stats);
 
     if (stats.status === "completed") {
       group.completedAttempts += 1;
@@ -141,7 +188,8 @@ function buildReviewSummary(group) {
        Activity Counts
     -------------------------------------------------- */
 
-    attempts: group.attempts.length,
+    // These counts represent the last 30 days.
+    attempts: group.recentAttempts.length,
     completedAttempts: group.completedAttempts,
     incompleteAttempts: group.incompleteAttempts,
 
@@ -149,6 +197,7 @@ function buildReviewSummary(group) {
        Learning Totals
     -------------------------------------------------- */
 
+    // These totals represent the last 30 days.
     questions: group.questions,
     correct: group.correct,
     incorrect: group.incorrect,
@@ -159,10 +208,12 @@ function buildReviewSummary(group) {
        Timing
     -------------------------------------------------- */
 
-    // Average across every answered question.
+    // Average across every answered question
+    // from the last 30 days.
     averageTime: Number(averageTime.toFixed(2)),
 
-    // Average across correct answers only.
+    // Average across correct answers only
+    // from the last 30 days.
     averageCorrectTime: Number(averageCorrectTime.toFixed(2)),
 
     totalTime: Number(group.totalTime.toFixed(2)),
@@ -172,6 +223,7 @@ function buildReviewSummary(group) {
        Latest Activity
     -------------------------------------------------- */
 
+    // Latest activity remains based on complete history.
     latestAttempt: history[0] ?? null,
     latestActivity: history[0]?.startedAt ?? null,
 
@@ -179,6 +231,7 @@ function buildReviewSummary(group) {
        History
     -------------------------------------------------- */
 
+    // Keep all historical attempts available for review.
     history,
   };
 }
@@ -203,8 +256,10 @@ function filterReviewLevels(summaries) {
   const operationGroups = new Map();
 
   summaries.forEach((summary) => {
-    // Levels with fewer than 50 answered questions
-    // are not yet strong enough to appear in Review.
+    /*
+     * The 50-question requirement is based on
+     * current 30-day activity, not lifetime history.
+     */
     if (summary.questions < MINIMUM_QUESTIONS) {
       return;
     }

@@ -450,3 +450,60 @@
  .timedOutStatus {
    color: #c94a4a;
  }
+
+ /* --------------------------------------------------
+   Targeted Practice
+-------------------------------------------------- */
+
+ .targetedPractice {
+   display: flex;
+   flex-direction: column;
+   align-items: flex-end;
+   flex: 0 0 auto;
+   max-width: 240px;
+ }
+
+ .targetedPracticeButton {
+   padding: 9px 15px;
+   border: 1px solid var(--accentColor);
+   border-radius: 6px;
+   background: var(--accentColor);
+   color: #ffffff;
+   font-family: var(--font-open-sans);
+   font-size: 13px;
+   font-weight: 500;
+   line-height: 1.3;
+   letter-spacing: 0;
+   -webkit-font-smoothing: antialiased;
+   -moz-osx-font-smoothing: grayscale;
+   cursor: pointer;
+   transition:
+     background-color 150ms ease,
+     border-color 150ms ease,
+     box-shadow 150ms ease,
+     transform 150ms ease;
+ }
+
+ .targetedPracticeButton:hover {
+   border-color: var(--accentColor);
+   box-shadow: var(--shadow-sm);
+   transform: translateY(-1px);
+ }
+
+ .targetedPracticeButton:active {
+   transform: translateY(0);
+ }
+
+ .targetedPracticeButton:focus-visible {
+   outline: 2px solid var(--accentColor);
+   outline-offset: 2px;
+ }
+
+ .targetedPracticeNote {
+   margin-top: 6px;
+   color: var(--mutedColor);
+   font-family: var(--font-open-sans);
+   font-size: 11px;
+   line-height: 1.4;
+   text-align: right;
+ }
