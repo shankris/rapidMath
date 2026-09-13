@@ -86,7 +86,7 @@ export default function ReviewPage() {
         <section className={styles.emptyState}>
           <h2>No practice activity yet</h2>
 
-          <p>Complete some practice questions and your learning history will appear here.</p>
+          <p>Complete a minimum of 50 practice questions and your learning history will appear here.</p>
         </section>
       ) : (
         <div className={styles.operations}>
@@ -113,7 +113,6 @@ export default function ReviewPage() {
                     <div className={styles.cardHeader}>
                       <div>
                         <span className={styles.levelLabel}>Level</span>
-
                         <h3 className={styles.levelNumber}>{summary.level}</h3>
                       </div>
 

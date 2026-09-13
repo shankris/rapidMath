@@ -23,15 +23,173 @@ const OPERATION_LABELS = {
 };
 
 /* --------------------------------------------------
-   Format Time
+   Format Duration
 -------------------------------------------------- */
 
 function formatTime(seconds) {
-  if (!seconds) {
+  const value = Number(seconds);
+
+  if (!Number.isFinite(value) || value <= 0) {
     return "—";
   }
 
-  return `${Number(seconds).toFixed(2)}s`;
+  /* --------------------------------------------------
+     Less Than 10 Seconds
+  -------------------------------------------------- */
+
+  if (value < 10) {
+    return `${value.toFixed(2)}s`;
+  }
+
+  /* --------------------------------------------------
+     Seconds
+  -------------------------------------------------- */
+
+  if (value < 60) {
+    return `${Math.round(value)}s`;
+  }
+
+  const totalSeconds = Math.round(value);
+  const minutes = Math.floor(totalSeconds / 60);
+  const remainingSeconds = totalSeconds % 60;
+
+  /* --------------------------------------------------
+     Less Than 10 Minutes
+  -------------------------------------------------- */
+
+  if (minutes < 10) {
+    return remainingSeconds > 0 ? `${minutes}m ${remainingSeconds}s` : `${minutes}m`;
+  }
+
+  /* --------------------------------------------------
+     Less Than 1 Hour
+  -------------------------------------------------- */
+
+  if (minutes < 60) {
+    return `${minutes}m`;
+  }
+
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = minutes % 60;
+
+  /* --------------------------------------------------
+     Less Than 1 Day
+  -------------------------------------------------- */
+
+  if (hours < 24) {
+    return remainingMinutes > 0 ? `${hours}h ${remainingMinutes}m` : `${hours}h`;
+  }
+
+  /* --------------------------------------------------
+     Days
+  -------------------------------------------------- */
+
+  const days = Math.floor(hours / 24);
+  const remainingHours = hours % 24;
+
+  return remainingHours > 0 ? `${days}d ${remainingHours}h` : `${days}d`;
+}
+
+/* --------------------------------------------------
+   Format Relative Date
+-------------------------------------------------- */
+
+function getRelativeDate(date) {
+  const now = new Date();
+
+  const dateStart = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  const yesterdayStart = new Date(todayStart);
+  yesterdayStart.setDate(yesterdayStart.getDate() - 1);
+
+  const differenceInDays = Math.floor((todayStart - dateStart) / (1000 * 60 * 60 * 24));
+
+  /* --------------------------------------------------
+     Today / Yesterday
+  -------------------------------------------------- */
+
+  if (dateStart.getTime() === todayStart.getTime()) {
+    return "Today";
+  }
+
+  if (dateStart.getTime() === yesterdayStart.getTime()) {
+    return "Yesterday";
+  }
+
+  /* --------------------------------------------------
+     Days
+  -------------------------------------------------- */
+
+  if (differenceInDays < 7) {
+    return `${differenceInDays}d ago`;
+  }
+
+  /* --------------------------------------------------
+     Weeks
+  -------------------------------------------------- */
+
+  if (differenceInDays < 30) {
+    return `${Math.floor(differenceInDays / 7)}w ago`;
+  }
+
+  /* --------------------------------------------------
+     Months
+  -------------------------------------------------- */
+
+  const months = (now.getFullYear() - date.getFullYear()) * 12 + (now.getMonth() - date.getMonth());
+
+  if (months < 12) {
+    return `${Math.max(1, months)}mo ago`;
+  }
+
+  /* --------------------------------------------------
+     Years
+  -------------------------------------------------- */
+
+  const years = now.getFullYear() - date.getFullYear();
+
+  return `${Math.max(1, years)}y ago`;
+}
+
+/* --------------------------------------------------
+   Format Practice Date
+-------------------------------------------------- */
+
+function formatPracticeDate(timestamp) {
+  if (!timestamp) {
+    return "—";
+  }
+
+  const date = new Date(timestamp);
+
+  if (Number.isNaN(date.getTime())) {
+    return "—";
+  }
+
+  const relativeDate = getRelativeDate(date);
+
+  const formattedDate = date.toLocaleDateString(undefined, {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+
+  const formattedTime = date.toLocaleTimeString(undefined, {
+    hour: "numeric",
+    minute: "2-digit",
+  });
+
+  return `${relativeDate} — ${formattedDate} ${formattedTime}`;
+}
+
+/* --------------------------------------------------
+   Format Attempt Status
+-------------------------------------------------- */
+
+function formatAttemptStatus(status) {
+  return status === "completed" ? "Completed" : "Timed out";
 }
 
 /* --------------------------------------------------
@@ -126,7 +284,7 @@ export default function ReviewLevelPage() {
           <CheckCircle2 size={20} />
 
           <div>
-            <span>Questions answered</span>
+            <span>Questions</span>
             <strong>{summary.questions}</strong>
           </div>
         </article>
@@ -180,15 +338,21 @@ export default function ReviewLevelPage() {
               key={attempt.id}
               className={styles.historyCard}
             >
+              {/* --------------------------------------------------
+                 Activity Header
+              -------------------------------------------------- */}
+
               <div className={styles.historyMain}>
                 <div>
-                  <span className={styles.historyDate}>{new Date(attempt.startedAt).toLocaleString()}</span>
+                  <strong className={styles.historyStatus}>{formatAttemptStatus(attempt.status)}</strong>
 
-                  <strong>{attempt.answered} questions answered</strong>
+                  <span className={styles.historyDate}>{formatPracticeDate(attempt.startedAt)}</span>
                 </div>
-
-                <span className={`${styles.status} ${attempt.status === "completed" ? styles.completed : styles.incomplete}`}>{attempt.status === "completed" ? "Completed" : "Incomplete"}</span>
               </div>
+
+              {/* --------------------------------------------------
+                 Performance Details
+              -------------------------------------------------- */}
 
               <div className={styles.historyStats}>
                 <span>
@@ -203,7 +367,11 @@ export default function ReviewLevelPage() {
                 </span>
 
                 <span>
-                  Avg. correct time <strong>{formatTime(attempt.averageCorrectTime)}</strong>
+                  Avg. <strong>{formatTime(attempt.averageCorrectTime)}</strong>
+                </span>
+
+                <span>
+                  Questions <strong>{attempt.answered}</strong>
                 </span>
               </div>
             </article>
