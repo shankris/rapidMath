@@ -3,168 +3,36 @@
     "operation": "add",
     "title": "Addition",
     "description": "Practice adding numbers quickly and accurately.",
-    "levels": [
-      {
-        "level": 1,
-        "lastUse": "2d ago",
-        "accuracy": "100%",
-        "reactionTime": "2.58s",
-        "questions": 2200
-      },
-      {
-        "level": 2,
-        "lastUse": "Play now",
-        "accuracy": "100%",
-        "reactionTime": "2.58s",
-        "questions": 2200
-      },
-      {
-        "level": 3,
-        "lastUse": "Play now",
-        "accuracy": "100%",
-        "reactionTime": "2.58s",
-        "questions": 2200
-      }
-    ]
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
     "operation": "sub",
     "title": "Subtraction",
     "description": "Build speed and accuracy with subtraction.",
-    "levels": [
-      {
-        "level": 1,
-        "lastUse": "12m ago",
-        "accuracy": "100%",
-        "reactionTime": "2.58s",
-        "questions": 2200
-      },
-      {
-        "level": 2,
-        "lastUse": "Play now",
-        "accuracy": "100%",
-        "reactionTime": "2.58s",
-        "questions": 2200
-      },
-      {
-        "level": 3,
-        "lastUse": "Play now",
-        "accuracy": "100%",
-        "reactionTime": "2.58s",
-        "questions": 2200
-      }
-    ]
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
     "operation": "mul",
     "title": "Multiplication",
     "description": "Improve your multiplication speed and recall.",
-    "levels": [
-      {
-        "level": 1,
-        "lastUse": "Try now",
-        "accuracy": "100%",
-        "reactionTime": "2.58s",
-        "questions": 2200
-      },
-      {
-        "level": 2,
-        "lastUse": "Try now",
-        "accuracy": "100%",
-        "reactionTime": "2.58s",
-        "questions": 2200
-      },
-      {
-        "level": 3,
-        "lastUse": "Try now",
-        "accuracy": "100%",
-        "reactionTime": "2.58s",
-        "questions": 2200
-      }
-    ]
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
     "operation": "div",
     "title": "Division",
     "description": "Strengthen division skills and mental calculation.",
-    "levels": [
-      {
-        "level": 1,
-        "lastUse": "Try now",
-        "accuracy": "100%",
-        "reactionTime": "2.58s",
-        "questions": 2200
-      },
-      {
-        "level": 2,
-        "lastUse": "Try now",
-        "accuracy": "100%",
-        "reactionTime": "2.58s",
-        "questions": 2200
-      },
-      {
-        "level": 3,
-        "lastUse": "Try now",
-        "accuracy": "100%",
-        "reactionTime": "2.58s",
-        "questions": 2200
-      }
-    ]
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
     "operation": "mixedOperations",
     "title": "Mixed Operations",
     "description": "Practice solving problems using different operations.",
-    "levels": [
-      {
-        "level": 1,
-        "lastUse": "Try now",
-        "accuracy": "100%",
-        "reactionTime": "2.58s",
-        "questions": 2200
-      },
-      {
-        "level": 2,
-        "lastUse": "Try now",
-        "accuracy": "100%",
-        "reactionTime": "2.58s",
-        "questions": 2200
-      },
-      {
-        "level": 3,
-        "lastUse": "Try now",
-        "accuracy": "100%",
-        "reactionTime": "2.58s",
-        "questions": 2200
-      }
-    ]
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
     "operation": "missingNumber",
     "title": "Missing Number",
     "description": "Find the missing number using mental math.",
-    "levels": [
-      {
-        "level": 1,
-        "lastUse": "Try now",
-        "accuracy": "100%",
-        "reactionTime": "2.58s",
-        "questions": 2200
-      },
-      {
-        "level": 2,
-        "lastUse": "Try now",
-        "accuracy": "100%",
-        "reactionTime": "2.58s",
-        "questions": 2200
-      },
-      {
-        "level": 3,
-        "lastUse": "Try now",
-        "accuracy": "100%",
-        "reactionTime": "2.58s",
-        "questions": 2200
-      }
-    ]
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   }
 ]

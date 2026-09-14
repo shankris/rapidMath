@@ -44,8 +44,11 @@
 -------------------------------------------------- */
 
 .operationCard {
-  padding: 18px;
+  display: flex;
+  flex-direction: column;
   min-width: 0;
+  /* padding: 18px; */
+  overflow: visible;
 }
 
 .operationHeader h2 {
@@ -53,6 +56,7 @@
   font-size: 18px;
   font-weight: 400;
   color: var(--headingCol);
+  padding: 12px 12px 0;
 }
 
 .operationHeader p {
@@ -60,6 +64,7 @@
   font-size: 13px;
   line-height: 1.5;
   color: var(--mutedColor);
+  padding: 0px 12px;
 }
 
 /* --------------------------------------------------
@@ -68,9 +73,9 @@
 
 .levels {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-  margin-top: 18px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: auto;
+  padding-top: 18px;
 }
 
 .level {
@@ -78,10 +83,11 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 64px;
+  min-width: 0;
+  min-height: 60px;
   padding: 8px;
   border: 1px solid var(--borderColor);
-  border-radius: 4px;
+  border-radius: 0;
   text-decoration: none;
   background: var(--surfaceAlt);
   transition:
@@ -90,12 +96,23 @@
     transform 150ms ease;
 }
 
+.level:first-child {
+  border-radius: 0px 0 0 6px;
+}
+
+.level:last-child {
+  border-radius: 0 0px 4px 0;
+}
+
+.level+.level {
+  border-left: 0;
+}
+
 .level:hover {
-  border-color: var(--accentColor);
+  /* border-color: var(--accentColor); */
   transform: translateY(-1px);
   z-index: 10;
 }
-
 
 /* --------------------------------------------------
    Level Link States
@@ -117,59 +134,58 @@
   font-size: 13px;
   font-weight: 600;
   color: var(--headingCol);
+  text-align: center;
 }
 
 .levelPlaceholder {
   margin-top: 4px;
   font-size: 11px;
   color: var(--mutedColor);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
 }
 
 /* --------------------------------------------------
    Responsive Layout
 -------------------------------------------------- */
 
+@media (max-width: 900px) {
+  .operations {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 768px) {
   .operations {
     grid-template-columns: 1fr;
-  }
-
-  .levels {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 480px) {
   .levels {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .level:first-child {
+    border-radius: 4px 0 0 0;
+  }
+
+  .level:nth-child(2) {
+    border-radius: 0 4px 0 0;
+  }
+
+  .level:nth-child(3) {
+    border-left: 1px solid var(--borderColor);
+    border-radius: 0 0 0 4px;
+  }
+
+  .level:last-child {
+    border-radius: 0 0 4px 0;
   }
 }
 
-/* --------------------------------------------------
-   Recommended Level
--------------------------------------------------- */
-
-.recommended {
-  background: var(--tab2Bg);
-  color: var(--tab2Txt);
-}
-
-.recommended:hover {
-  border-color: var(--headingCol);
-}
-
-.recommended .levelNumber {
-  color: var(--tab2Txt);
-}
-
-.recommended .levelPlaceholder {
-  color: var(--text-primary);
-  font-weight: 500;
-}
-
-.recommended:hover {
-  border-color: var(--headingCol);
-}
 
 /* --------------------------------------------------
    Level Default Content
@@ -233,23 +249,18 @@
   left: 50%;
   top: calc(100% + 8px);
   z-index: 20;
-
   display: flex;
   align-items: stretch;
   gap: 0;
-
   min-width: 250px;
   padding: 10px 12px;
-
   border: 1px solid var(--borderColor);
   border-radius: 8px;
   background: var(--surfaceColor);
   box-shadow: var(--shadow-md);
-
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-
   transform: translate(-50%, -4px);
   transition:
     opacity 150ms ease,

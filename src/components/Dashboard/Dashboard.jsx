@@ -111,7 +111,7 @@ export default function Dashboard() {
                   <Link
                     key={level.level}
                     href={`/practice/${operation.operation}/${level.level}`}
-                    className={`${styles.level} ${level.level === 1 ? styles.recommended : ""}`}
+                    className={styles.level}
                   >
                     <span className={styles.levelNumber}>L{level.level}</span>
 
