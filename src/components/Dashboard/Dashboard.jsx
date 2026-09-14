@@ -1,4 +1,4 @@
-// src/components/Dashboard/Dashboard.jsx
+/* src/components/Dashboard/Dashboard.jsx */
 
 "use client";
 
@@ -6,7 +6,27 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import styles from "./Dashboard.module.css";
 import dashboardData from "./dashboardData.json";
-import { formatLastUse, getDashboardLevelStats } from "@/lib/stats/dashboard";
+import DonutChart from "@/components/DonutChart/DonutChart";
+import { formatLastUse, getDashboardLevelStats, getPracticeTimeDistribution } from "@/lib/stats/dashboard";
+
+/* --------------------------------------------------
+   Operation Names
+-------------------------------------------------- */
+
+const OPERATION_NAMES = {
+  add: "Addition",
+  sub: "Subtraction",
+  mul: "Multiplication",
+  div: "Division",
+  mixedOperations: "Mixed Operations",
+  missingNumber: "Missing Number",
+  comparison: "Comparison",
+  estimation: "Estimation",
+  sequences: "Sequences & Progressions",
+  fractions: "Fractions",
+  percentages: "Percentages",
+  powersRoots: "Power & Roots",
+};
 
 /* --------------------------------------------------
    Dashboard Component
@@ -14,6 +34,7 @@ import { formatLastUse, getDashboardLevelStats } from "@/lib/stats/dashboard";
 
 export default function Dashboard() {
   const [levelStats, setLevelStats] = useState({});
+  const [practiceTime, setPracticeTime] = useState([]);
 
   /* --------------------------------------------------
      Load Dashboard Statistics
@@ -31,6 +52,25 @@ export default function Dashboard() {
     });
 
     setLevelStats(stats);
+
+    /* ------------------------------------------------
+       Practice Time Distribution
+    ------------------------------------------------ */
+
+    const distribution = getPracticeTimeDistribution();
+
+    const totalTime = Object.values(distribution).reduce((total, value) => total + value, 0);
+
+    const timeData = Object.entries(distribution)
+      .map(([operation, value]) => ({
+        operation,
+        name: OPERATION_NAMES[operation] ?? operation,
+        value,
+        percentage: totalTime > 0 ? (value / totalTime) * 100 : 0,
+      }))
+      .sort((a, b) => b.value - a.value);
+
+    setPracticeTime(timeData);
   }, []);
 
   /* --------------------------------------------------
@@ -81,6 +121,47 @@ export default function Dashboard() {
 
     return `${value}%`;
   }
+
+  /* --------------------------------------------------
+     Format Practice Time
+  -------------------------------------------------- */
+
+  function formatPracticeTime(seconds) {
+    if (!Number.isFinite(seconds) || seconds <= 0) {
+      return "0m";
+    }
+
+    if (seconds < 60) {
+      return ">1m";
+    }
+
+    return `${Math.round(seconds / 60)}m`;
+  }
+
+  /* --------------------------------------------------
+   Get Donut Chart Data
+-------------------------------------------------- */
+
+  const chartData = practiceTime.map((item) => {
+    const stats = dashboardData.flatMap((operation) => operation.levels.map((level) => getDashboardLevelStats(operation.operation, level.level)));
+
+    return {
+      name: item.name,
+      value: item.value,
+    };
+  });
+
+  /* --------------------------------------------------
+     Get Smaller Operations
+  -------------------------------------------------- */
+
+  const majorOperations = practiceTime.filter((item) => item.percentage >= 10);
+
+  const smallerOperations = practiceTime.filter((item) => item.percentage < 10);
+
+  const othersTime = smallerOperations.reduce((total, item) => total + item.value, 0);
+
+  const othersPercentage = smallerOperations.reduce((total, item) => total + item.percentage, 0);
 
   return (
     <section className={styles.dashboard}>
@@ -142,6 +223,76 @@ export default function Dashboard() {
             </div>
           </article>
         ))}
+      </div>
+
+      <div className={styles.dashboardChart}>
+        <article className={`card ${styles.chartCard}`}>
+          <div className={styles.chartHeader}>
+            <h2>Practice Time</h2>
+
+            <p>How your practice time is distributed.</p>
+          </div>
+
+          <DonutChart
+            data={chartData}
+            colors={["#4f46e5", "#0891b2", "#16a34a", "#d97706", "#9333ea", "#dc2626"]}
+          />
+
+          <div className={styles.practiceBreakdown}>
+            {majorOperations.map((item) => (
+              <div
+                key={item.operation}
+                className={styles.practiceRow}
+              >
+                <span>{item.name}</span>
+
+                <span>{formatPracticeTime(item.value)}</span>
+
+                <span>{item.percentage.toFixed(1)}%</span>
+              </div>
+            ))}
+
+            {smallerOperations.length === 1 && (
+              <div
+                key={smallerOperations[0].operation}
+                className={styles.practiceRow}
+              >
+                <span>{smallerOperations[0].name}</span>
+
+                <span>{formatPracticeTime(smallerOperations[0].value)}</span>
+
+                <span>{smallerOperations[0].percentage.toFixed(1)}%</span>
+              </div>
+            )}
+
+            {smallerOperations.length > 1 && (
+              <>
+                <div className={`${styles.practiceRow} ${styles.othersHeader}`}>
+                  <span>Others</span>
+
+                  <span>{formatPracticeTime(othersTime)}</span>
+
+                  <span>{othersPercentage.toFixed(1)}%</span>
+                </div>
+
+                <div className={styles.othersItems}>
+                  {smallerOperations.map((item) => (
+                    <div
+                      key={item.operation}
+                      className={styles.practiceRow}
+                    >
+                      <span>{item.name}</span>
+
+                      <span>{formatPracticeTime(item.value)}</span>
+
+                      <span>{item.percentage.toFixed(1)}%</span>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        </article>
       </div>
     </section>
   );

@@ -252,3 +252,35 @@ export function getPracticeDistribution() {
 
   return distribution;
 }
+
+/* --------------------------------------------------
+   Get Practice Time Distribution
+-------------------------------------------------- */
+
+export function getPracticeTimeDistribution() {
+  const attempts = getQuizAttempts();
+
+  const distribution = {};
+
+  attempts.forEach((attempt) => {
+    if (!attempt.operation || !Array.isArray(attempt.questions)) {
+      return;
+    }
+
+    attempt.questions.forEach((question) => {
+      if (!question || question.selectedAnswer === undefined || question.selectedAnswer === null) {
+        return;
+      }
+
+      const time = Number(question.time);
+
+      if (!Number.isFinite(time) || time < 0) {
+        return;
+      }
+
+      distribution[attempt.operation] = (distribution[attempt.operation] ?? 0) + time;
+    });
+  });
+
+  return distribution;
+}

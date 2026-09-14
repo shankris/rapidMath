@@ -47,24 +47,24 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  /* padding: 18px; */
   overflow: visible;
+  min-height: 150px;
 }
 
 .operationHeader h2 {
   margin: 0;
+  padding: 12px 12px 0;
   font-size: 18px;
   font-weight: 400;
   color: var(--headingCol);
-  padding: 12px 12px 0;
 }
 
 .operationHeader p {
   margin: 6px 0 0;
+  padding: 0 12px;
   font-size: 13px;
   line-height: 1.5;
   color: var(--mutedColor);
-  padding: 0px 12px;
 }
 
 /* --------------------------------------------------
@@ -97,11 +97,11 @@
 }
 
 .level:first-child {
-  border-radius: 0px 0 0 6px;
+  border-radius: 0 0 0 6px;
 }
 
 .level:last-child {
-  border-radius: 0 0px 4px 0;
+  border-radius: 0 0 4px 0;
 }
 
 .level+.level {
@@ -109,7 +109,6 @@
 }
 
 .level:hover {
-  /* border-color: var(--accentColor); */
   transform: translateY(-1px);
   z-index: 10;
 }
@@ -145,99 +144,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: center;
-}
-
-/* --------------------------------------------------
-   Responsive Layout
--------------------------------------------------- */
-
-@media (max-width: 900px) {
-  .operations {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 768px) {
-  .operations {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 480px) {
-  .levels {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .level:first-child {
-    border-radius: 4px 0 0 0;
-  }
-
-  .level:nth-child(2) {
-    border-radius: 0 4px 0 0;
-  }
-
-  .level:nth-child(3) {
-    border-left: 1px solid var(--borderColor);
-    border-radius: 0 0 0 4px;
-  }
-
-  .level:last-child {
-    border-radius: 0 0 4px 0;
-  }
-}
-
-
-/* --------------------------------------------------
-   Level Default Content
--------------------------------------------------- */
-
-.levelDefault {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  transition: opacity 150ms ease;
-}
-
-/* --------------------------------------------------
-   Level Statistics
--------------------------------------------------- */
-
-.levelStats {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  width: 100%;
-  opacity: 0;
-  transition: opacity 150ms ease;
-}
-
-.levelStats span {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-  font-size: 10px;
-  color: var(--mutedColor);
-}
-
-.levelStats strong {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--headingCol);
-}
-
-/* --------------------------------------------------
-   Level Hover State
--------------------------------------------------- */
-
-.level:hover .levelDefault {
-  opacity: 0;
-  display: none;
-}
-
-.level:hover .levelStats {
-  opacity: 1;
 }
 
 /* --------------------------------------------------
@@ -302,4 +208,57 @@
   line-height: 1.2;
   color: var(--mutedColor);
   white-space: nowrap;
+}
+
+/* --------------------------------------------------
+   Practice Time Section
+-------------------------------------------------- */
+
+.dashboardChart {
+  margin-top: 12px;
+}
+
+.chartCard {
+  overflow: hidden;
+}
+
+.chartHeader {
+  padding: 14px 16px 0;
+}
+
+.chartHeader h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--headingCol);
+}
+
+.chartHeader p {
+  margin: 6px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--mutedColor);
+}
+
+/* --------------------------------------------------
+   Practice Time Breakdown
+-------------------------------------------------- */
+
+.practiceBreakdown {
+  width: 100%;
+  padding: 0 16px 16px;
+}
+
+/* --------------------------------------------------
+   Practice Time Row
+-------------------------------------------------- */
+
+.practiceRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 70px 70px;
+  align-items: center;
+  gap: 12px;
+  min-height: 36px;
+  border-bottom: 1px solid var(--borderColor);
+  font-size: 12px;
 }

@@ -16,7 +16,7 @@
   width: var(--contentWidth);
   max-width: var(--contentWidthMax);
   padding: var(--genericPadding, 10px);
-  padding-top: var(--headerHeight);
+  padding-top: calc(var(--headerHeight) + 20px);
   margin-inline: auto;
 }
 
