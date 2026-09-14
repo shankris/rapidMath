@@ -1,39 +1,294 @@
+/* src/components/Dashboard/Dashboard.module.css */
+
+/* --------------------------------------------------
+   Dashboard Layout
+-------------------------------------------------- */
+
 .dashboard {
-  max-width: var(--contentWidth);
-  margin: 0 auto;
-  padding: var(--space-lg);
+  width: 100%;
 }
 
+/* --------------------------------------------------
+   Dashboard Header
+-------------------------------------------------- */
 
-.hero {
-  margin-bottom: var(--space-xl);
+.header {
+  margin-bottom: 20px;
 }
-
 
 .title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
   color: var(--headingCol);
-  font-family: var(--font-montserrat);
-  font-size: 2rem;
 }
-
 
 .subtitle {
+  margin: 6px 0 0;
+  font-size: 14px;
   color: var(--mutedColor);
-  margin-top: var(--space-sm);
 }
 
+/* --------------------------------------------------
+   Operations Grid
+-------------------------------------------------- */
 
-.stats {
+.operations {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-lg);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
 }
 
+/* --------------------------------------------------
+   Operation Card
+-------------------------------------------------- */
+
+.operationCard {
+  padding: 18px;
+  min-width: 0;
+}
+
+.operationHeader h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--headingCol);
+}
+
+.operationHeader p {
+  margin: 6px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--mutedColor);
+}
+
+/* --------------------------------------------------
+   Level Links
+-------------------------------------------------- */
+
+.levels {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.level {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 64px;
+  padding: 8px;
+  border: 1px solid var(--borderColor);
+  border-radius: 4px;
+  text-decoration: none;
+  background: var(--surfaceAlt);
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    transform 150ms ease;
+}
+
+.level:hover {
+  border-color: var(--accentColor);
+  transform: translateY(-1px);
+  z-index: 10;
+}
+
+
+/* --------------------------------------------------
+   Level Link States
+-------------------------------------------------- */
+
+.level,
+.level:hover,
+.level:visited,
+.level:focus,
+.level:active {
+  text-decoration: none;
+}
+
+/* --------------------------------------------------
+   Level Content
+-------------------------------------------------- */
+
+.levelNumber {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--headingCol);
+}
+
+.levelPlaceholder {
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--mutedColor);
+}
+
+/* --------------------------------------------------
+   Responsive Layout
+-------------------------------------------------- */
 
 @media (max-width: 768px) {
-
-  .stats {
+  .operations {
     grid-template-columns: 1fr;
   }
 
+  .levels {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .levels {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --------------------------------------------------
+   Recommended Level
+-------------------------------------------------- */
+
+.recommended {
+  background: var(--tab2Bg);
+  color: var(--tab2Txt);
+}
+
+.recommended:hover {
+  border-color: var(--headingCol);
+}
+
+.recommended .levelNumber {
+  color: var(--tab2Txt);
+}
+
+.recommended .levelPlaceholder {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.recommended:hover {
+  border-color: var(--headingCol);
+}
+
+/* --------------------------------------------------
+   Level Default Content
+-------------------------------------------------- */
+
+.levelDefault {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: opacity 150ms ease;
+}
+
+/* --------------------------------------------------
+   Level Statistics
+-------------------------------------------------- */
+
+.levelStats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+
+.levelStats span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  font-size: 10px;
+  color: var(--mutedColor);
+}
+
+.levelStats strong {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--headingCol);
+}
+
+/* --------------------------------------------------
+   Level Hover State
+-------------------------------------------------- */
+
+.level:hover .levelDefault {
+  opacity: 0;
+  display: none;
+}
+
+.level:hover .levelStats {
+  opacity: 1;
+}
+
+/* --------------------------------------------------
+   Level Tooltip
+-------------------------------------------------- */
+
+.tooltip {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 8px);
+  z-index: 20;
+
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+
+  min-width: 250px;
+  padding: 10px 12px;
+
+  border: 1px solid var(--borderColor);
+  border-radius: 8px;
+  background: var(--surfaceColor);
+  box-shadow: var(--shadow-md);
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transform: translate(-50%, -4px);
+  transition:
+    opacity 150ms ease,
+    visibility 150ms ease,
+    transform 150ms ease;
+}
+
+.level:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+
+/* --------------------------------------------------
+   Tooltip Statistics
+-------------------------------------------------- */
+
+.tooltip>span {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 3px;
+  padding: 0 10px;
+}
+
+.tooltip>span+span {
+  border-left: 1px solid var(--borderColor);
+}
+
+.tooltip strong {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--headingCol);
+}
+
+.tooltip small {
+  font-size: 10px;
+  line-height: 1.2;
+  color: var(--mutedColor);
+  white-space: nowrap;
 }

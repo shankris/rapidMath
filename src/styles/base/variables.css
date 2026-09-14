@@ -47,6 +47,8 @@
   --surfaceColor: #f8f8f8;
   --surfaceAlt: #f1f5f9;
   --tab1bg: #cccccc;
+  --tab2Bg: #263f3d;
+  --tab2Txt: #fff;
   --highLight1: #f0f0f0;
 
   --card1bg: #ededed;
@@ -107,6 +109,8 @@ html[data-theme="dark"] {
   --surfaceColor: #3b3b3b;
   --surfaceAlt: #020617;
   --tab1bg: #1a2238;
+  --tab2Bg: #49736f;
+  --tab2Txt: #fff;
   --highLight1: #1a2238;
 
   --card1bg: #2d2d2d;

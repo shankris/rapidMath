@@ -1,66 +1,147 @@
+// src/components/Dashboard/Dashboard.jsx
+
+"use client";
+
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import styles from "./Dashboard.module.css";
-import StatCard from "./StatCard";
+import dashboardData from "./dashboardData.json";
+import { formatLastUse, getDashboardLevelStats } from "@/lib/stats/dashboard";
+
+/* --------------------------------------------------
+   Dashboard Component
+-------------------------------------------------- */
 
 export default function Dashboard() {
+  const [levelStats, setLevelStats] = useState({});
+
+  /* --------------------------------------------------
+     Load Dashboard Statistics
+  -------------------------------------------------- */
+
+  useEffect(() => {
+    const stats = {};
+
+    dashboardData.forEach((operation) => {
+      operation.levels.forEach((level) => {
+        const key = `${operation.operation}-${level.level}`;
+
+        stats[key] = getDashboardLevelStats(operation.operation, level.level);
+      });
+    });
+
+    setLevelStats(stats);
+  }, []);
+
+  /* --------------------------------------------------
+     Refresh Relative Times
+  -------------------------------------------------- */
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLevelStats((currentStats) => {
+        const updatedStats = {};
+
+        Object.entries(currentStats).forEach(([key, stats]) => {
+          updatedStats[key] = {
+            ...stats,
+            lastUse: formatLastUse(stats.lastUseTimestamp),
+          };
+        });
+
+        return updatedStats;
+      });
+    }, 60 * 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  /* --------------------------------------------------
+     Format Reaction Time
+  -------------------------------------------------- */
+
+  function formatReactionTime(value) {
+    if (value === null || value === undefined) {
+      return "—";
+    }
+
+    return `${value.toFixed(2)}s`;
+  }
+
+  /* --------------------------------------------------
+     Format Accuracy
+  -------------------------------------------------- */
+
+  function formatAccuracy(value) {
+    if (value === null || value === undefined) {
+      return "—";
+    }
+
+    return `${value}%`;
+  }
+
   return (
     <section className={styles.dashboard}>
-      {/* Welcome section */}
-      <div className={styles.hero}>
-        <h1 className={styles.title}>Welcome back 👋</h1>
+      <header className={styles.header}>
+        <h1 className={styles.title}>Dashboard</h1>
 
-        <p className={styles.subtitle}>Ready for today's math challenge?</p>
+        <p className={styles.subtitle}>Continue building your mental math skills.</p>
+      </header>
 
-        <button className='btn-primary'>Start Practice</button>
-      </div>
+      <div className={styles.operations}>
+        {dashboardData.map((operation) => (
+          <article
+            key={operation.operation}
+            className={`card ${styles.operationCard}`}
+          >
+            <div className={styles.operationHeader}>
+              <h2>{operation.title}</h2>
 
-      {/* Statistics */}
-      <div className={styles.section}>
-        <h2 className={styles.sectionTitle}>Your Progress</h2>
+              <p>{operation.description}</p>
+            </div>
 
-        <div className={styles.stats}>
-          <StatCard
-            icon='🔥'
-            title='Current Streak'
-            value='7 Days'
-          />
+            <div className={styles.levels}>
+              {operation.levels.map((level) => {
+                const key = `${operation.operation}-${level.level}`;
+                const stats = levelStats[key];
 
-          <StatCard
-            icon='🎯'
-            title='Accuracy'
-            value='92%'
-          />
+                return (
+                  <Link
+                    key={level.level}
+                    href={`/practice/${operation.operation}/${level.level}`}
+                    className={`${styles.level} ${level.level === 1 ? styles.recommended : ""}`}
+                  >
+                    <span className={styles.levelNumber}>L{level.level}</span>
 
-          <StatCard
-            icon='⚡'
-            title='Average Time'
-            value='1.8s'
-          />
-        </div>
-      </div>
+                    <span className={styles.levelPlaceholder}>{stats?.lastUse ?? "Play now"}</span>
 
-      {/* Recent Activity */}
-      <div className={`card ${styles.activity}`}>
-        <h2 className={styles.sectionTitle}>Recent Activity</h2>
+                    <span className={styles.tooltip}>
+                      <span>
+                        <strong>{formatAccuracy(stats?.accuracy)}</strong>
 
-        <div className={styles.activityRow}>
-          <div>
-            <strong>Addition Practice</strong>
+                        <small>Accuracy</small>
+                      </span>
 
-            <p>20 questions completed</p>
-          </div>
+                      <span>
+                        <strong>{formatReactionTime(stats?.reactionTime)}</strong>
 
-          <div className={styles.score}>18 / 20</div>
-        </div>
+                        <small>Reaction time</small>
+                      </span>
 
-        <div className={styles.activityRow}>
-          <div>
-            <strong>Multiplication Practice</strong>
+                      <span>
+                        <strong>{stats?.questions ?? 0}</strong>
 
-            <p>20 questions completed</p>
-          </div>
-
-          <div className={styles.score}>16 / 20</div>
-        </div>
+                        <small>Questions</small>
+                      </span>
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
+          </article>
+        ))}
       </div>
     </section>
   );
