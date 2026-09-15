@@ -251,7 +251,7 @@ export default function Dashboard() {
 
         <article className={`card ${styles.insightCard}`}>
           <div className={styles.insightHeader}>
-            <h2>Monthly Activity</h2>
+            <h2 className={styles.OperationHeader}>Quiz Practice</h2>
 
             <p>Your practice activity over the last 30 days.</p>
           </div>

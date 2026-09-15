@@ -223,7 +223,7 @@ Detail Table
   width: 98%;
   border-collapse: collapse;
   table-layout: fixed;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 /* --------------------------------------------------
@@ -257,7 +257,7 @@ Detail Table Header
 
 .detailTable th {
   padding: 3px 3px;
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 400;
   color: var(--mutedColor);
   text-align: right;

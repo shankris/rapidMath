@@ -30,7 +30,9 @@ function parseDateKey(dateKey) {
 
 function addDays(date, amount) {
   const result = new Date(date);
+
   result.setDate(result.getDate() + amount);
+
   return result;
 }
 
@@ -39,12 +41,11 @@ function addDays(date, amount) {
 -------------------------------------------------- */
 
 /*
-   A practice day only counts when at least one question
+   A practice day counts when at least one question
    has actually been answered.
 
-   This keeps streak calculation consistent with the
-   Monthly Activity calendar and prevents an abandoned
-   in-progress quiz from creating a practice day.
+   In-progress attempts with zero answered questions
+   therefore do not create a practice day.
 */
 
 function getPracticeDates() {
@@ -58,29 +59,24 @@ function getPracticeDates() {
 
     const answeredQuestions = attempt.questions.filter((question) => question && question.selectedAnswer !== undefined && question.selectedAnswer !== null);
 
-    if (answeredQuestions.length === 0) {
+    if (answeredQuestions.length === 0 || !attempt.startedAt) {
       return;
     }
 
-    answeredQuestions.forEach((question) => {
-      /*
-         Use the attempt start time for the calendar date.
+    /*
+       Use the attempt start date for the practice day.
 
-         A quiz belongs to the day on which it was started,
-         matching the existing dashboard activity logic.
-      */
+       This matches the Dashboard activity calculation
+       and keeps the same quiz assigned to the day on
+       which it was started.
+    */
 
-      if (!attempt.startedAt) {
-        return;
-      }
+    const date = new Date(attempt.startedAt);
+    const dateKey = getLocalDateKey(date);
 
-      const date = new Date(attempt.startedAt);
-      const dateKey = getLocalDateKey(date);
-
-      if (dateKey) {
-        dates.add(dateKey);
-      }
-    });
+    if (dateKey) {
+      dates.add(dateKey);
+    }
   });
 
   return Array.from(dates).sort();
@@ -132,9 +128,9 @@ function calculateLongestStreak(dateKeys) {
     }
   }
 
-  /*
-     Check the final streak after the loop.
-  */
+  /* --------------------------------------------------
+     Check Final Streak
+  -------------------------------------------------- */
 
   if (currentCount > longestCount) {
     longestCount = currentCount;
@@ -176,12 +172,16 @@ function calculateCurrentStreak(dateKeys) {
     };
   }
 
-  /*
-     If the most recent practice day was more than
-     one day ago, there is no active current streak.
-  */
+  /* --------------------------------------------------
+     Check Whether Streak Is Still Active
+  -------------------------------------------------- */
 
   const daysSinceLatest = Math.round((todayObject.getTime() - latestDateObject.getTime()) / (24 * 60 * 60 * 1000));
+
+  /*
+     A current streak remains active when the user
+     practiced either today or yesterday.
+  */
 
   if (daysSinceLatest > 1) {
     return {
@@ -190,6 +190,10 @@ function calculateCurrentStreak(dateKeys) {
       endDate: null,
     };
   }
+
+  /* --------------------------------------------------
+     Walk Back Through Consecutive Practice Days
+  -------------------------------------------------- */
 
   let count = 1;
   let startDate = latestDate;
@@ -227,15 +231,26 @@ export function getStreakStats() {
   const practiceDates = getPracticeDates();
 
   const current = calculateCurrentStreak(practiceDates);
-  const longest = calculateLongestStreak(practiceDates);
+
+  /* --------------------------------------------------
+     Remove Current Streak From Previous History
+  -------------------------------------------------- */
+
+  let previousDates = practiceDates;
+
+  if (current.count > 0) {
+    previousDates = practiceDates.filter((dateKey) => dateKey < current.startDate || dateKey > current.endDate);
+  }
+
+  const previousLongest = calculateLongestStreak(previousDates);
 
   return {
     currentStreak: current.count,
     currentStartDate: current.startDate,
     currentEndDate: current.endDate,
 
-    bestStreak: longest.count,
-    bestStartDate: longest.startDate,
-    bestEndDate: longest.endDate,
+    previousLongestStreak: previousLongest.count,
+    previousLongestStartDate: previousLongest.startDate,
+    previousLongestEndDate: previousLongest.endDate,
   };
 }

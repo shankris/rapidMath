@@ -1,271 +1,101 @@
-// src/lib/stats/streak.js
+"use client";
+
+/* src/components/StreakStats/StreakStats.jsx */
+
+import { Flame, Trophy } from "lucide-react";
+import { getStreakStats } from "@/lib/stats/streak";
+import styles from "./StreakStats.module.css";
 
 /* --------------------------------------------------
-   Storage Configuration
+   Format Streak Date Range
 -------------------------------------------------- */
 
-const STORAGE_KEY = "rapidMath.dailyActivity";
-
-/* --------------------------------------------------
-   Date Helpers
--------------------------------------------------- */
-
-function getLocalDateKey(date) {
-  if (!(date instanceof Date) || Number.isNaN(date.getTime())) {
-    return null;
+function formatStreakDateRange(startDate, endDate) {
+  if (!startDate || !endDate) {
+    return "";
   }
 
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
+  const start = new Date(`${startDate}T00:00:00`);
+  const end = new Date(`${endDate}T00:00:00`);
 
-  return `${year}-${month}-${day}`;
-}
-
-function parseDateKey(dateKey) {
-  if (!dateKey) {
-    return null;
+  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) {
+    return "";
   }
 
-  const date = new Date(`${dateKey}T00:00:00`);
+  const startYear = start.getFullYear();
+  const endYear = end.getFullYear();
 
-  return Number.isNaN(date.getTime()) ? null : date;
-}
+  const startFormatter = new Intl.DateTimeFormat(undefined, {
+    day: "numeric",
+    month: "short",
+    year: startYear !== endYear ? "numeric" : undefined,
+  });
 
-function addDays(date, amount) {
-  const result = new Date(date);
+  const endFormatter = new Intl.DateTimeFormat(undefined, {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
 
-  result.setDate(result.getDate() + amount);
-
-  return result;
-}
-
-/* --------------------------------------------------
-   Get Practice Dates
--------------------------------------------------- */
-
-/*
-   dailyActivity is the long-term calendar history for
-   Rapid Fire Math.
-
-   A date counts as a practice day when at least one
-   question was answered.
-
-   This intentionally uses dailyActivity rather than
-   quizAttempts so streak history continues to work even
-   after detailed quiz attempts are removed.
-*/
-
-function getPracticeDates() {
-  if (typeof window === "undefined") {
-    return [];
-  }
-
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-
-    if (!stored) {
-      return [];
-    }
-
-    const activity = JSON.parse(stored);
-
-    if (!Array.isArray(activity)) {
-      return [];
-    }
-
-    const dates = new Set();
-
-    activity.forEach((day) => {
-      if (!day?.date) {
-        return;
-      }
-
-      const questions = Number(day.questions) || 0;
-
-      if (questions <= 0) {
-        return;
-      }
-
-      const date = parseDateKey(day.date);
-
-      if (!date) {
-        return;
-      }
-
-      const dateKey = getLocalDateKey(date);
-
-      if (dateKey) {
-        dates.add(dateKey);
-      }
-    });
-
-    return Array.from(dates).sort();
-  } catch (error) {
-    console.error("Failed to read daily activity for streak:", error);
-
-    return [];
-  }
+  return `${startFormatter.format(start)} – ${endFormatter.format(end)}`;
 }
 
 /* --------------------------------------------------
-   Calculate Longest Streak
+   Streak Item
 -------------------------------------------------- */
 
-function calculateLongestStreak(dateKeys) {
-  if (dateKeys.length === 0) {
-    return {
-      count: 0,
-      startDate: null,
-      endDate: null,
-    };
-  }
+function StreakItem({ icon: Icon, value, label, startDate, endDate }) {
+  const dateRange = formatStreakDateRange(startDate, endDate);
 
-  let longestCount = 1;
-  let longestStart = dateKeys[0];
-  let longestEnd = dateKeys[0];
+  return (
+    <div className={styles.stat}>
+      <div className={styles.icon}>
+        <Icon
+          size={18}
+          strokeWidth={1.8}
+          aria-hidden='true'
+        />
+      </div>
 
-  let currentCount = 1;
-  let currentStart = dateKeys[0];
+      <div className={styles.content}>
+        <strong>{value} Days</strong>
 
-  for (let index = 1; index < dateKeys.length; index += 1) {
-    const previousDate = parseDateKey(dateKeys[index - 1]);
-    const currentDate = parseDateKey(dateKeys[index]);
+        <span>{label}</span>
 
-    if (!previousDate || !currentDate) {
-      continue;
-    }
-
-    const expectedDate = addDays(previousDate, 1);
-
-    const isConsecutive = getLocalDateKey(expectedDate) === dateKeys[index];
-
-    if (isConsecutive) {
-      currentCount += 1;
-    } else {
-      if (currentCount > longestCount) {
-        longestCount = currentCount;
-        longestStart = currentStart;
-        longestEnd = dateKeys[index - 1];
-      }
-
-      currentCount = 1;
-      currentStart = dateKeys[index];
-    }
-  }
-
-  /* --------------------------------------------------
-     Check Final Streak
-  -------------------------------------------------- */
-
-  if (currentCount > longestCount) {
-    longestCount = currentCount;
-    longestStart = currentStart;
-    longestEnd = dateKeys[dateKeys.length - 1];
-  }
-
-  return {
-    count: longestCount,
-    startDate: longestStart,
-    endDate: longestEnd,
-  };
+        {dateRange && <small>{dateRange}</small>}
+      </div>
+    </div>
+  );
 }
 
 /* --------------------------------------------------
-   Calculate Current Streak
+   Streak Stats
 -------------------------------------------------- */
 
-function calculateCurrentStreak(dateKeys) {
-  if (dateKeys.length === 0) {
-    return {
-      count: 0,
-      startDate: null,
-      endDate: null,
-    };
-  }
+export default function StreakStats() {
+  const { currentStreak, currentStartDate, currentEndDate, previousLongestStreak, previousLongestStartDate, previousLongestEndDate } = getStreakStats();
 
-  const today = getLocalDateKey(new Date());
-  const latestDate = dateKeys[dateKeys.length - 1];
+  const hasPreviousLongestStreak = Number(previousLongestStreak) > 0 && previousLongestStartDate && previousLongestEndDate;
 
-  const latestDateObject = parseDateKey(latestDate);
-  const todayObject = parseDateKey(today);
+  return (
+    <div className={styles.stats}>
+      <StreakItem
+        icon={Flame}
+        value={currentStreak}
+        label='Current streak'
+        startDate={currentStartDate}
+        endDate={currentEndDate}
+      />
 
-  if (!latestDateObject || !todayObject) {
-    return {
-      count: 0,
-      startDate: null,
-      endDate: null,
-    };
-  }
-
-  /* --------------------------------------------------
-     Check Whether Streak Is Still Active
-  -------------------------------------------------- */
-
-  const daysSinceLatest = Math.round((todayObject.getTime() - latestDateObject.getTime()) / (24 * 60 * 60 * 1000));
-
-  /*
-     A streak is active when the user practiced either
-     today or yesterday.
-  */
-
-  if (daysSinceLatest > 1) {
-    return {
-      count: 0,
-      startDate: null,
-      endDate: null,
-    };
-  }
-
-  /* --------------------------------------------------
-     Walk Back Through Consecutive Practice Days
-  -------------------------------------------------- */
-
-  let count = 1;
-  let startDate = latestDate;
-
-  for (let index = dateKeys.length - 1; index > 0; index -= 1) {
-    const currentDate = parseDateKey(dateKeys[index]);
-    const previousDate = parseDateKey(dateKeys[index - 1]);
-
-    if (!currentDate || !previousDate) {
-      break;
-    }
-
-    const expectedDate = addDays(previousDate, 1);
-
-    if (getLocalDateKey(expectedDate) !== dateKeys[index]) {
-      break;
-    }
-
-    count += 1;
-    startDate = dateKeys[index - 1];
-  }
-
-  return {
-    count,
-    startDate,
-    endDate: latestDate,
-  };
-}
-
-/* --------------------------------------------------
-   Get Streak Stats
--------------------------------------------------- */
-
-export function getStreakStats() {
-  const practiceDates = getPracticeDates();
-
-  const current = calculateCurrentStreak(practiceDates);
-  const longest = calculateLongestStreak(practiceDates);
-
-  return {
-    currentStreak: current.count,
-    currentStartDate: current.startDate,
-    currentEndDate: current.endDate,
-
-    bestStreak: longest.count,
-    bestStartDate: longest.startDate,
-    bestEndDate: longest.endDate,
-  };
+      {hasPreviousLongestStreak && (
+        <StreakItem
+          icon={Trophy}
+          value={previousLongestStreak}
+          label='Previous longest streak'
+          startDate={previousLongestStartDate}
+          endDate={previousLongestEndDate}
+        />
+      )}
+    </div>
+  );
 }

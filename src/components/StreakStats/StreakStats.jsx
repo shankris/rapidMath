@@ -2,6 +2,7 @@
 
 /* src/components/StreakStats/StreakStats.jsx */
 
+import { useEffect, useState } from "react";
 import { Flame, Trophy } from "lucide-react";
 import { getStreakStats } from "@/lib/stats/streak";
 import styles from "./StreakStats.module.css";
@@ -51,14 +52,17 @@ function StreakItem({ icon: Icon, value, label, startDate, endDate }) {
     <div className={styles.stat}>
       <div className={styles.icon}>
         <Icon
-          size={18}
+          size={36}
           strokeWidth={1.8}
           aria-hidden='true'
         />
       </div>
 
       <div className={styles.content}>
-        <strong>{value} Days</strong>
+        <strong>
+          {value} <span>days</span>
+        </strong>
+
         <span>{label}</span>
 
         {dateRange && <small>{dateRange}</small>}
@@ -72,7 +76,31 @@ function StreakItem({ icon: Icon, value, label, startDate, endDate }) {
 -------------------------------------------------- */
 
 export default function StreakStats() {
-  const { currentStreak, currentStartDate, currentEndDate, bestStreak, bestStartDate, bestEndDate } = getStreakStats();
+  const [streakStats, setStreakStats] = useState(null);
+
+  /* --------------------------------------------------
+     Load Streak Data After Hydration
+  -------------------------------------------------- */
+
+  useEffect(() => {
+    setStreakStats(getStreakStats());
+  }, []);
+
+  /*
+     Keep the server render and initial client render
+     identical.
+
+     Streak data is loaded from localStorage only after
+     hydration has completed.
+  */
+
+  if (!streakStats) {
+    return null;
+  }
+
+  const { currentStreak, currentStartDate, currentEndDate, previousLongestStreak, previousLongestStartDate, previousLongestEndDate } = streakStats;
+
+  const hasPreviousLongestStreak = Number(previousLongestStreak) > 0 && previousLongestStartDate && previousLongestEndDate;
 
   return (
     <div className={styles.stats}>
@@ -84,13 +112,15 @@ export default function StreakStats() {
         endDate={currentEndDate}
       />
 
-      <StreakItem
-        icon={Trophy}
-        value={bestStreak}
-        label='Longest streak'
-        startDate={bestStartDate}
-        endDate={bestEndDate}
-      />
+      {hasPreviousLongestStreak && (
+        <StreakItem
+          icon={Trophy}
+          value={previousLongestStreak}
+          label='Previous longest streak'
+          startDate={previousLongestStartDate}
+          endDate={previousLongestEndDate}
+        />
+      )}
     </div>
   );
 }
