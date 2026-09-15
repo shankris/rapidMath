@@ -335,7 +335,7 @@ Calendar
                       <th scope='col'>Level</th>
                       <th scope='col'>Qs</th>
                       <th scope='col'>Accuracy</th>
-                      <th scope='col'>Time</th>
+                      <th scope='col'>Avg.</th>
                     </tr>
                   </thead>
 
