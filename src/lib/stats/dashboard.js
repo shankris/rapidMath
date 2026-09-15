@@ -123,6 +123,36 @@ function getLastUseTimestamp(attempts, operation, level) {
 }
 
 /* --------------------------------------------------
+   Get Today's Level Usage
+-------------------------------------------------- */
+
+function getTodayLevelUsage(attempts, operation, level) {
+  const today = getDaysAgoDateKey(0);
+
+  return attempts.filter((attempt) => {
+    if (attempt.operation !== operation || Number(attempt.level) !== Number(level) || !attempt.startedAt || !Array.isArray(attempt.questions)) {
+      return false;
+    }
+
+    const attemptDate = getLocalDateKey(new Date(attempt.startedAt));
+
+    if (attemptDate !== today) {
+      return false;
+    }
+
+    /*
+       Count the attempt once it has at least one
+       answered question.
+
+       An abandoned attempt with zero answers therefore
+       does not count as a level use.
+    */
+
+    return attempt.questions.some((question) => question && question.selectedAnswer !== undefined && question.selectedAnswer !== null);
+  }).length;
+}
+
+/* --------------------------------------------------
 Get Level Statistics
 -------------------------------------------------- */
 
@@ -141,12 +171,15 @@ export function getDashboardLevelStats(operation, level) {
 
   const lastUseTimestamp = getLastUseTimestamp(attempts, operation, level);
 
+  const todayUses = getTodayLevelUsage(attempts, operation, level);
+
   return {
     lastUseTimestamp,
     lastUse: formatLastUse(lastUseTimestamp),
     accuracy,
     reactionTime: averageReactionTime,
     questions: questions.length,
+    todayUses,
   };
 }
 

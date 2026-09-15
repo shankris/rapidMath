@@ -314,3 +314,37 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* --------------------------------------------------
+   Today's Practice Indicator
+-------------------------------------------------- */
+
+.todayUsage {
+  position: absolute;
+  top: 7px;
+  left: 8px;
+
+  display: flex;
+  align-items: center;
+  /* gap: 3px; */
+
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--successColor, #5f9f78);
+  white-space: nowrap;
+}
+
+/* .todayUsage span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+} */
+
+/* --------------------------------------------------
+   Today's Practice Checks
+-------------------------------------------------- */
+
+.todayCheck+.todayCheck {
+  margin-left: -6px;
+}

@@ -10,6 +10,8 @@ import MonthlyActivity from "@/components/MonthlyActivity/MonthlyActivity";
 import StreakStats from "@/components/StreakStats/StreakStats";
 import { formatLastUse, getDashboardActivity, getDashboardActivityDetails, getDashboardLevelStats, getPracticeTimeDistribution } from "@/lib/stats/dashboard";
 
+import { Check } from "lucide-react";
+
 /* --------------------------------------------------
 Operation Names
 -------------------------------------------------- */
@@ -167,11 +169,8 @@ export default function Dashboard() {
   -------------------------------------------------- */
 
   const majorOperations = practiceTime.filter((item) => item.percentage >= 10);
-
   const smallerOperations = practiceTime.filter((item) => item.percentage < 10);
-
   const othersTime = smallerOperations.reduce((total, item) => total + item.value, 0);
-
   const othersPercentage = smallerOperations.reduce((total, item) => total + item.percentage, 0);
 
   return (
@@ -209,6 +208,35 @@ export default function Dashboard() {
                     href={`/practice/${operation.operation}/${level.level}`}
                     className={styles.level}
                   >
+                    {/* --------------------------------------------------
+     Today's Practice Indicator
+  -------------------------------------------------- */}
+
+                    {stats?.todayUses > 0 && (
+                      <span
+                        className={styles.todayUsage}
+                        aria-label={`Practiced ${stats.todayUses} ${stats.todayUses === 1 ? "time" : "times"} today`}
+                      >
+                        {stats.todayUses < 4 ? (
+                          Array.from({ length: stats.todayUses }).map((_, index) => (
+                            <Check
+                              key={index}
+                              size={11}
+                              strokeWidth={2.5}
+                              className={styles.todayCheck}
+                              style={{ marginLeft: index === 0 ? 0 : -2 }}
+                              aria-hidden='true'
+                            />
+                          ))
+                        ) : (
+                          <>
+                            <span aria-hidden='true'>✓</span>
+                            <span>{stats.todayUses}</span>
+                          </>
+                        )}
+                      </span>
+                    )}
+
                     <span className={styles.levelNumber}>L{level.level}</span>
 
                     <span className={styles.levelPlaceholder}>{stats?.lastUse ?? "Play now"}</span>
