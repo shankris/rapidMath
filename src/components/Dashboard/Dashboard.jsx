@@ -225,72 +225,78 @@ export default function Dashboard() {
         ))}
       </div>
 
-      <div className={styles.dashboardChart}>
+      <div className={styles.dashboardInsights}>
+        <article className={`card ${styles.activityCard}`}>{/* Monthly heatmap + streak stats */}</article>
+
         <article className={`card ${styles.chartCard}`}>
-          <div className={styles.chartHeader}>
-            <h2>Practice Time</h2>
+          <div className={styles.dashboardChart}>
+            <article className={`card ${styles.chartCard}`}>
+              <div className={styles.chartHeader}>
+                <h2>Practice Time</h2>
 
-            <p>How your practice time is distributed.</p>
-          </div>
-
-          <DonutChart
-            data={chartData}
-            colors={["#4f46e5", "#0891b2", "#16a34a", "#d97706", "#9333ea", "#dc2626"]}
-          />
-
-          <div className={styles.practiceBreakdown}>
-            {majorOperations.map((item) => (
-              <div
-                key={item.operation}
-                className={styles.practiceRow}
-              >
-                <span>{item.name}</span>
-
-                <span>{formatPracticeTime(item.value)}</span>
-
-                <span>{item.percentage.toFixed(1)}%</span>
+                <p>How your practice time is distributed.</p>
               </div>
-            ))}
 
-            {smallerOperations.length === 1 && (
-              <div
-                key={smallerOperations[0].operation}
-                className={styles.practiceRow}
-              >
-                <span>{smallerOperations[0].name}</span>
+              <DonutChart
+                data={chartData}
+                colors={["#4f46e5", "#0891b2", "#16a34a", "#d97706", "#9333ea", "#dc2626"]}
+              />
 
-                <span>{formatPracticeTime(smallerOperations[0].value)}</span>
+              <div className={styles.practiceBreakdown}>
+                {majorOperations.map((item) => (
+                  <div
+                    key={item.operation}
+                    className={styles.practiceRow}
+                  >
+                    <span>{item.name}</span>
 
-                <span>{smallerOperations[0].percentage.toFixed(1)}%</span>
-              </div>
-            )}
+                    <span>{formatPracticeTime(item.value)}</span>
 
-            {smallerOperations.length > 1 && (
-              <>
-                <div className={`${styles.practiceRow} ${styles.othersHeader}`}>
-                  <span>Others</span>
+                    <span>{item.percentage.toFixed(1)}%</span>
+                  </div>
+                ))}
 
-                  <span>{formatPracticeTime(othersTime)}</span>
+                {smallerOperations.length === 1 && (
+                  <div
+                    key={smallerOperations[0].operation}
+                    className={styles.practiceRow}
+                  >
+                    <span>{smallerOperations[0].name}</span>
 
-                  <span>{othersPercentage.toFixed(1)}%</span>
-                </div>
+                    <span>{formatPracticeTime(smallerOperations[0].value)}</span>
 
-                <div className={styles.othersItems}>
-                  {smallerOperations.map((item) => (
-                    <div
-                      key={item.operation}
-                      className={styles.practiceRow}
-                    >
-                      <span>{item.name}</span>
+                    <span>{smallerOperations[0].percentage.toFixed(1)}%</span>
+                  </div>
+                )}
 
-                      <span>{formatPracticeTime(item.value)}</span>
+                {smallerOperations.length > 1 && (
+                  <>
+                    <div className={`${styles.practiceRow} ${styles.othersHeader}`}>
+                      <span>Others</span>
 
-                      <span>{item.percentage.toFixed(1)}%</span>
+                      <span>{formatPracticeTime(othersTime)}</span>
+
+                      <span>{othersPercentage.toFixed(1)}%</span>
                     </div>
-                  ))}
-                </div>
-              </>
-            )}
+
+                    <div className={styles.othersItems}>
+                      {smallerOperations.map((item) => (
+                        <div
+                          key={item.operation}
+                          className={styles.practiceRow}
+                        >
+                          <span>{item.name}</span>
+
+                          <span>{formatPracticeTime(item.value)}</span>
+
+                          <span>{item.percentage.toFixed(1)}%</span>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+            </article>
           </div>
         </article>
       </div>

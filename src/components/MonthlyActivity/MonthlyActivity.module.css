@@ -1,0 +1,121 @@
+/* src/components/MonthlyActivity/MonthlyActivity.module.css */
+
+/* --------------------------------------------------
+   Activity Container
+-------------------------------------------------- */
+
+.activity {
+  width: 100%;
+}
+
+/* --------------------------------------------------
+   Day Labels
+-------------------------------------------------- */
+
+.dayLabels {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.dayLabels span {
+  font-size: 10px;
+  line-height: 1.2;
+  color: var(--mutedColor);
+  text-align: center;
+}
+
+/* --------------------------------------------------
+   Activity Grid
+-------------------------------------------------- */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+}
+
+/* --------------------------------------------------
+   Activity Cell
+-------------------------------------------------- */
+
+.cell,
+.emptyCell {
+  width: 100%;
+  aspect-ratio: 1;
+  min-width: 0;
+  border-radius: 4px;
+}
+
+.cell {
+  border: 1px solid transparent;
+  background: var(--surfaceAlt);
+}
+
+/* --------------------------------------------------
+   Activity Levels
+-------------------------------------------------- */
+
+.cell[data-level="0"] {
+  background: var(--surfaceAlt);
+  border-color: var(--borderColor);
+}
+
+.cell[data-level="1"] {
+  background: color-mix(in srgb,
+      var(--primary) 20%,
+      var(--surfaceAlt));
+}
+
+.cell[data-level="2"] {
+  background: color-mix(in srgb,
+      var(--primary) 40%,
+      var(--surfaceAlt));
+}
+
+.cell[data-level="3"] {
+  background: color-mix(in srgb,
+      var(--primary) 65%,
+      var(--surfaceAlt));
+}
+
+.cell[data-level="4"] {
+  background: var(--primary);
+}
+
+/* --------------------------------------------------
+   Empty State
+-------------------------------------------------- */
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  color: var(--mutedColor);
+  font-size: 13px;
+}
+
+/* --------------------------------------------------
+   Responsive Layout
+-------------------------------------------------- */
+
+@media (max-width: 480px) {
+  .dayLabels {
+    gap: 3px;
+  }
+
+  .grid {
+    gap: 3px;
+  }
+
+  .dayLabels span {
+    font-size: 9px;
+  }
+
+  .cell,
+  .emptyCell {
+    border-radius: 3px;
+  }
+}

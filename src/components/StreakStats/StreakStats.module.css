@@ -1,0 +1,78 @@
+/* src/components/StreakStats/StreakStats.module.css */
+
+/* --------------------------------------------------
+Streak Stats
+-------------------------------------------------- */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+}
+
+/* --------------------------------------------------
+Stat
+-------------------------------------------------- */
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--borderColor);
+  border-radius: 8px;
+  background: var(--surfaceAlt);
+}
+
+/* --------------------------------------------------
+Icon
+-------------------------------------------------- */
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: var(--surfaceColor);
+  color: var(--headingCol);
+}
+
+/* --------------------------------------------------
+Content
+-------------------------------------------------- */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.content strong {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--headingCol);
+}
+
+.content span {
+  margin-top: 3px;
+  font-size: 11px;
+  line-height: 1.2;
+  color: var(--mutedColor);
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------
+Responsive Layout
+-------------------------------------------------- */
+
+@media (max-width: 480px) {
+  .stats {
+    grid-template-columns: 1fr;
+  }
+}
