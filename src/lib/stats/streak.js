@@ -1,4 +1,3 @@
-js;
 // src/lib/stats/streak.js
 
 import { getQuizAttempts } from "@/lib/storage/quizHistory";
