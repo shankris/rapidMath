@@ -1,15 +1,29 @@
 /* src/components/MonthlyActivity/MonthlyActivity.module.css */
 
 /* --------------------------------------------------
-   Activity Container
+Activity Layout
 -------------------------------------------------- */
 
 .activity {
-  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  width: 96%;
+  margin: 12px auto;
 }
 
 /* --------------------------------------------------
-   Day Labels
+Calendar
+-------------------------------------------------- */
+
+.calendar {
+  min-width: 0;
+  max-width: 360px;
+  margin: 12px 0 0 0;
+}
+
+/* --------------------------------------------------
+Day Labels
 -------------------------------------------------- */
 
 .dayLabels {
@@ -20,14 +34,14 @@
 }
 
 .dayLabels span {
-  font-size: 10px;
+  font-size: 9px;
   line-height: 1.2;
   color: var(--mutedColor);
   text-align: center;
 }
 
 /* --------------------------------------------------
-   Activity Grid
+Activity Grid
 -------------------------------------------------- */
 
 .grid {
@@ -37,24 +51,30 @@
 }
 
 /* --------------------------------------------------
-   Activity Cell
+Activity Cell
 -------------------------------------------------- */
 
 .cell,
 .emptyCell {
+  position: relative;
   width: 100%;
   aspect-ratio: 1;
   min-width: 0;
-  border-radius: 4px;
+  border-radius: 3px;
 }
 
 .cell {
+  padding: 0;
   border: 1px solid transparent;
   background: var(--surfaceAlt);
+  cursor: pointer;
+  transition:
+    border-color 150ms ease,
+    transform 150ms ease;
 }
 
 /* --------------------------------------------------
-   Activity Levels
+Activity Levels
 -------------------------------------------------- */
 
 .cell[data-level="0"] {
@@ -64,28 +84,212 @@
 
 .cell[data-level="1"] {
   background: color-mix(in srgb,
-      var(--primary) 20%,
+      var(--accentColor) 20%,
       var(--surfaceAlt));
 }
 
 .cell[data-level="2"] {
   background: color-mix(in srgb,
-      var(--primary) 40%,
+      var(--accentColor) 35%,
       var(--surfaceAlt));
 }
 
 .cell[data-level="3"] {
   background: color-mix(in srgb,
-      var(--primary) 65%,
+      var(--accentColor) 50%,
       var(--surfaceAlt));
 }
 
 .cell[data-level="4"] {
-  background: var(--primary);
+  background: color-mix(in srgb,
+      var(--accentColor) 70%,
+      var(--surfaceAlt));
+}
+
+.cell[data-level="5"] {
+  background: var(--accentColor);
 }
 
 /* --------------------------------------------------
-   Empty State
+Cell Hover
+-------------------------------------------------- */
+
+.cell:hover {
+  border-color: var(--headingCol);
+  transform: translateY(-1px);
+}
+
+/* --------------------------------------------------
+Selected Cell
+-------------------------------------------------- */
+
+.cell.selected {
+  border-color: var(--headingCol);
+  box-shadow: 0 0 0 1px var(--headingCol);
+}
+
+/* --------------------------------------------------
+Day Number
+-------------------------------------------------- */
+
+.dayNumber {
+  position: absolute;
+  right: 3px;
+  bottom: 2px;
+  font-size: 8px;
+  line-height: 1;
+  font-weight: 400;
+  color: var(--mutedColor);
+  pointer-events: none;
+}
+
+/* --------------------------------------------------
+Selected Day Details
+-------------------------------------------------- */
+
+.details {
+  min-width: 0;
+}
+
+/* --------------------------------------------------
+Details Header
+-------------------------------------------------- */
+
+.detailsHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  display: flex;
+  padding: 6px 6px 6px 0;
+  margin: 0 0 6px;
+  border-bottom: 1px solid var(--borderColor);
+}
+
+.detailsHeader h3 {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--headingCol);
+}
+
+.relativeDate {
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--mutedColor);
+}
+
+.questionCount {
+  flex-shrink: 0;
+  font-size: 10px;
+  color: var(--mutedColor);
+}
+
+/* --------------------------------------------------
+Detail List
+-------------------------------------------------- */
+
+.detailList {
+  display: flex;
+  flex-direction: column;
+}
+
+/* --------------------------------------------------
+Operation Group
+-------------------------------------------------- */
+
+.operationGroup {
+  padding: 9px 0;
+  border-bottom: 1px solid var(--borderColor);
+}
+
+.operationName {
+  margin: 0 0 5px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--headingCol);
+}
+
+/* --------------------------------------------------
+Detail Table
+-------------------------------------------------- */
+
+.detailTable {
+  width: 98%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 10px;
+}
+
+/* --------------------------------------------------
+Detail Table Columns
+-------------------------------------------------- */
+
+.detailTable th:first-child,
+.detailTable td:first-child {
+  width: 32%;
+  text-align: left;
+}
+
+.detailTable th:nth-child(2),
+.detailTable td:nth-child(2) {
+  width: 25%;
+}
+
+.detailTable th:nth-child(3),
+.detailTable td:nth-child(3) {
+  width: 23%;
+}
+
+.detailTable th:nth-child(4),
+.detailTable td:nth-child(4) {
+  width: 20%;
+}
+
+/* --------------------------------------------------
+Detail Table Header
+-------------------------------------------------- */
+
+.detailTable th {
+  padding: 3px 3px;
+  font-size: 9px;
+  font-weight: 400;
+  color: var(--mutedColor);
+  text-align: right;
+}
+
+/* --------------------------------------------------
+Detail Table Body
+-------------------------------------------------- */
+
+.detailTable td {
+  padding: 3px 3px;
+  color: var(--mutedColor);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.detailTable td:first-child {
+  color: var(--headingCol);
+}
+
+/* --------------------------------------------------
+No Activity
+-------------------------------------------------- */
+
+.noActivity {
+  padding-top: 14px;
+  font-size: 11px;
+  color: var(--mutedColor);
+}
+
+/* --------------------------------------------------
+Empty State
 -------------------------------------------------- */
 
 .empty {
@@ -98,10 +302,29 @@
 }
 
 /* --------------------------------------------------
-   Responsive Layout
+Responsive Layout
 -------------------------------------------------- */
 
+@media (max-width: 768px) {
+  .activity {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .calendar {
+    max-width: 360px;
+  }
+}
+
 @media (max-width: 480px) {
+  .activity {
+    gap: 16px;
+  }
+
+  .calendar {
+    max-width: none;
+  }
+
   .dayLabels {
     gap: 3px;
   }
@@ -110,12 +333,28 @@
     gap: 3px;
   }
 
-  .dayLabels span {
-    font-size: 9px;
-  }
-
   .cell,
   .emptyCell {
     border-radius: 3px;
+  }
+
+  .dayNumber {
+    right: 3px;
+    bottom: 2px;
+    font-size: 8px;
+  }
+
+  .detailsHeader {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .detailTable {
+    font-size: 10px;
+  }
+
+  .detailTable th {
+    font-size: 8px;
   }
 }

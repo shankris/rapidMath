@@ -1,10 +1,11 @@
+css
 /* src/components/StreakStats/StreakStats.module.css */
 
 /* --------------------------------------------------
-Streak Stats
+   Streak Stats
 -------------------------------------------------- */
 
-.stats {
+.streakStats {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
@@ -12,38 +13,40 @@ Streak Stats
 }
 
 /* --------------------------------------------------
-Stat
+   Streak Item
 -------------------------------------------------- */
 
-.stat {
+.streakItem {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   min-width: 0;
-  padding: 12px;
-  border: 1px solid var(--borderColor);
-  border-radius: 8px;
-  background: var(--surfaceAlt);
 }
 
 /* --------------------------------------------------
-Icon
+   Icon
 -------------------------------------------------- */
 
 .icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 0 0 32px;
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
-  background: var(--surfaceColor);
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  background: var(--surfaceAlt);
   color: var(--headingCol);
 }
 
+.icon svg {
+  width: 26px;
+  height: 26px;
+  stroke-width: 1.8;
+}
+
 /* --------------------------------------------------
-Content
+   Content
 -------------------------------------------------- */
 
 .content {
@@ -52,15 +55,41 @@ Content
   min-width: 0;
 }
 
-.content strong {
-  font-size: 18px;
+/* --------------------------------------------------
+   Value
+-------------------------------------------------- */
+
+.value {
+  font-size: 20px;
   font-weight: 600;
   line-height: 1.2;
   color: var(--headingCol);
 }
 
-.content span {
+.value span {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--mutedColor);
+}
+
+/* --------------------------------------------------
+   Label
+-------------------------------------------------- */
+
+.label {
   margin-top: 3px;
+  font-size: 12px;
+  line-height: 1.2;
+  color: var(--mutedColor);
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------
+   Date Range
+-------------------------------------------------- */
+
+.dateRange {
+  margin-top: 4px;
   font-size: 11px;
   line-height: 1.2;
   color: var(--mutedColor);
@@ -68,11 +97,11 @@ Content
 }
 
 /* --------------------------------------------------
-Responsive Layout
+   Responsive Layout
 -------------------------------------------------- */
 
 @media (max-width: 480px) {
-  .stats {
+  .streakStats {
     grid-template-columns: 1fr;
   }
 }

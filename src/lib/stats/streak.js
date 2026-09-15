@@ -1,10 +1,7 @@
+js;
 // src/lib/stats/streak.js
 
-/* --------------------------------------------------
-   Storage Configuration
--------------------------------------------------- */
-
-const STORAGE_KEY = "rapidMath.dailyActivity";
+import { getQuizAttempts } from "@/lib/storage/quizHistory";
 
 /* --------------------------------------------------
    Date Helpers
@@ -34,9 +31,7 @@ function parseDateKey(dateKey) {
 
 function addDays(date, amount) {
   const result = new Date(date);
-
   result.setDate(result.getDate() + amount);
-
   return result;
 }
 
@@ -45,67 +40,51 @@ function addDays(date, amount) {
 -------------------------------------------------- */
 
 /*
-   dailyActivity is the long-term calendar history for
-   Rapid Fire Math.
+   A practice day only counts when at least one question
+   has actually been answered.
 
-   A date counts as a practice day when at least one
-   question was answered.
-
-   This intentionally uses dailyActivity rather than
-   quizAttempts so streak history continues to work even
-   after detailed quiz attempts are removed.
+   This keeps streak calculation consistent with the
+   Monthly Activity calendar and prevents an abandoned
+   in-progress quiz from creating a practice day.
 */
 
 function getPracticeDates() {
-  if (typeof window === "undefined") {
-    return [];
-  }
+  const attempts = getQuizAttempts();
+  const dates = new Set();
 
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-
-    if (!stored) {
-      return [];
+  attempts.forEach((attempt) => {
+    if (!Array.isArray(attempt?.questions)) {
+      return;
     }
 
-    const activity = JSON.parse(stored);
+    const answeredQuestions = attempt.questions.filter((question) => question && question.selectedAnswer !== undefined && question.selectedAnswer !== null);
 
-    if (!Array.isArray(activity)) {
-      return [];
+    if (answeredQuestions.length === 0) {
+      return;
     }
 
-    const dates = new Set();
+    answeredQuestions.forEach((question) => {
+      /*
+         Use the attempt start time for the calendar date.
 
-    activity.forEach((day) => {
-      if (!day?.date) {
+         A quiz belongs to the day on which it was started,
+         matching the existing dashboard activity logic.
+      */
+
+      if (!attempt.startedAt) {
         return;
       }
 
-      const questions = Number(day.questions) || 0;
-
-      if (questions <= 0) {
-        return;
-      }
-
-      const date = parseDateKey(day.date);
-
-      if (!date) {
-        return;
-      }
-
+      const date = new Date(attempt.startedAt);
       const dateKey = getLocalDateKey(date);
 
       if (dateKey) {
         dates.add(dateKey);
       }
     });
+  });
 
-    return Array.from(dates).sort();
-  } catch (error) {
-    console.error("Failed to read daily activity for streak:", error);
-
-    return [];
-  }
+  return Array.from(dates).sort();
 }
 
 /* --------------------------------------------------
@@ -154,9 +133,9 @@ function calculateLongestStreak(dateKeys) {
     }
   }
 
-  /* --------------------------------------------------
-     Check Final Streak
-  -------------------------------------------------- */
+  /*
+     Check the final streak after the loop.
+  */
 
   if (currentCount > longestCount) {
     longestCount = currentCount;
@@ -198,16 +177,12 @@ function calculateCurrentStreak(dateKeys) {
     };
   }
 
-  /* --------------------------------------------------
-     Check Whether Streak Is Still Active
-  -------------------------------------------------- */
+  /*
+     If the most recent practice day was more than
+     one day ago, there is no active current streak.
+  */
 
   const daysSinceLatest = Math.round((todayObject.getTime() - latestDateObject.getTime()) / (24 * 60 * 60 * 1000));
-
-  /*
-     A streak is active when the user practiced either
-     today or yesterday.
-  */
 
   if (daysSinceLatest > 1) {
     return {
@@ -216,10 +191,6 @@ function calculateCurrentStreak(dateKeys) {
       endDate: null,
     };
   }
-
-  /* --------------------------------------------------
-     Walk Back Through Consecutive Practice Days
-  -------------------------------------------------- */
 
   let count = 1;
   let startDate = latestDate;

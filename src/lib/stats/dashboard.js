@@ -1,15 +1,15 @@
-// src/lib/stats/dashboard.js
+/* src/lib/stats/dashboard.js */
 
 import { getQuizAttempts } from "@/lib/storage/quizHistory";
 
 /* --------------------------------------------------
-   Configuration
+Configuration
 -------------------------------------------------- */
 
 const DASHBOARD_DAYS = 30;
 
 /* --------------------------------------------------
-   Get Local Date Key
+Get Local Date Key
 -------------------------------------------------- */
 
 function getLocalDateKey(date) {
@@ -21,7 +21,7 @@ function getLocalDateKey(date) {
 }
 
 /* --------------------------------------------------
-   Get Date Key For Previous Day
+Get Date Key For Previous Day
 -------------------------------------------------- */
 
 function getDaysAgoDateKey(daysAgo) {
@@ -34,7 +34,7 @@ function getDaysAgoDateKey(daysAgo) {
 }
 
 /* --------------------------------------------------
-   Format Relative Last-Use Time
+Format Relative Last-Use Time
 -------------------------------------------------- */
 
 export function formatLastUse(timestamp) {
@@ -61,17 +61,9 @@ export function formatLastUse(timestamp) {
   const month = 30 * day;
   const year = 365 * day;
 
-  /* ------------------------------------------------
-     Less Than One Minute
-  ------------------------------------------------ */
-
   if (differenceMs < minute) {
     return "Used just now";
   }
-
-  /* ------------------------------------------------
-     Minutes
-  ------------------------------------------------ */
 
   if (differenceMs < hour) {
     const minutes = Math.floor(differenceMs / minute);
@@ -79,19 +71,11 @@ export function formatLastUse(timestamp) {
     return `Used ${minutes}m ago`;
   }
 
-  /* ------------------------------------------------
-     Hours
-  ------------------------------------------------ */
-
   if (differenceMs < day) {
     const hours = Math.floor(differenceMs / hour);
 
     return `Used ${hours}h ago`;
   }
-
-  /* ------------------------------------------------
-     Calendar Yesterday
-  ------------------------------------------------ */
 
   const yesterday = getDaysAgoDateKey(1);
   const practiceDate = getLocalDateKey(date);
@@ -100,19 +84,11 @@ export function formatLastUse(timestamp) {
     return "Used yesterday";
   }
 
-  /* ------------------------------------------------
-     Days
-  ------------------------------------------------ */
-
   if (differenceMs < month) {
     const days = Math.floor(differenceMs / day);
 
     return `Used ${days}d ago`;
   }
-
-  /* ------------------------------------------------
-     Months
-  ------------------------------------------------ */
 
   if (differenceMs < year) {
     const months = Math.floor(differenceMs / month);
@@ -120,17 +96,13 @@ export function formatLastUse(timestamp) {
     return `Used ${months}mo ago`;
   }
 
-  /* ------------------------------------------------
-     Years
-  ------------------------------------------------ */
-
   const years = Math.floor(differenceMs / year);
 
   return `Used ${years}y ago`;
 }
 
 /* --------------------------------------------------
-   Get Answered Questions
+Get Answered Questions
 -------------------------------------------------- */
 
 function getAnsweredQuestions(attempts, operation, level) {
@@ -141,17 +113,17 @@ function getAnsweredQuestions(attempts, operation, level) {
 }
 
 /* --------------------------------------------------
-   Get Last Use Timestamp
+Get Last Use Timestamp
 -------------------------------------------------- */
 
 function getLastUseTimestamp(attempts, operation, level) {
-  const matchingAttempts = attempts.filter((attempt) => attempt.operation === operation && Number(attempt.level) === Number(level) && Array.isArray(attempt.questions) && attempt.questions.length > 0).sort((a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime());
+  const matchingAttempts = attempts.filter((attempt) => attempt.operation === operation && Number(attempt.level) === Number(level) && Array.isArray(attempt.questions) && attempt.questions.some((question) => question && question.selectedAnswer !== undefined && question.selectedAnswer !== null)).sort((a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime());
 
   return matchingAttempts[0]?.startedAt ?? null;
 }
 
 /* --------------------------------------------------
-   Get Level Statistics
+Get Level Statistics
 -------------------------------------------------- */
 
 export function getDashboardLevelStats(operation, level) {
@@ -179,7 +151,7 @@ export function getDashboardLevelStats(operation, level) {
 }
 
 /* --------------------------------------------------
-   Get Thirty-Day Activity
+Get Thirty-Day Activity
 -------------------------------------------------- */
 
 export function getDashboardActivity() {
@@ -228,7 +200,119 @@ export function getDashboardActivity() {
 }
 
 /* --------------------------------------------------
-   Get Practice Distribution
+Get Thirty-Day Activity Details
+-------------------------------------------------- */
+
+export function getDashboardActivityDetails() {
+  const attempts = getQuizAttempts();
+  const details = {};
+
+  const firstDate = getDaysAgoDateKey(DASHBOARD_DAYS - 1);
+
+  const lastDate = getDaysAgoDateKey(0);
+
+  attempts.forEach((attempt) => {
+    if (!attempt.startedAt || !Array.isArray(attempt.questions) || !attempt.operation) {
+      return;
+    }
+
+    const attemptDate = getLocalDateKey(new Date(attempt.startedAt));
+
+    if (attemptDate < firstDate || attemptDate > lastDate) {
+      return;
+    }
+
+    /* ----------------------------------------------
+   Only include answered questions
+---------------------------------------------- */
+
+    const answeredQuestions = attempt.questions.filter((question) => question && question.selectedAnswer !== undefined && question.selectedAnswer !== null);
+
+    if (answeredQuestions.length === 0) {
+      return;
+    }
+
+    if (!details[attemptDate]) {
+      details[attemptDate] = {};
+    }
+
+    const levelKey = Number(attempt.level);
+
+    const groupKey = `${attempt.operation}-${levelKey}`;
+
+    if (!details[attemptDate][groupKey]) {
+      details[attemptDate][groupKey] = {
+        operation: attempt.operation,
+        level: levelKey,
+        questions: 0,
+        correct: 0,
+        reactionTimes: [],
+      };
+    }
+
+    const group = details[attemptDate][groupKey];
+
+    answeredQuestions.forEach((question) => {
+      group.questions += 1;
+
+      if (question.correct === true) {
+        group.correct += 1;
+
+        const time = Number(question.time);
+
+        if (Number.isFinite(time) && time >= 0) {
+          group.reactionTimes.push(time);
+        }
+      }
+    });
+  });
+
+  const formattedDetails = {};
+
+  Object.entries(details).forEach(([date, groups]) => {
+    formattedDetails[date] = Object.values(groups).map((group) => {
+      const reactionTimes = group.reactionTimes;
+
+      const averageReactionTime = reactionTimes.length > 0 ? reactionTimes.reduce((total, time) => total + time, 0) / reactionTimes.length : null;
+
+      return {
+        operation: getDashboardOperationName(group.operation),
+        level: group.level,
+        questions: group.questions,
+        accuracy: group.questions > 0 ? Math.round((group.correct / group.questions) * 100) : null,
+        reactionTime: averageReactionTime,
+      };
+    });
+  });
+
+  return formattedDetails;
+}
+
+/* --------------------------------------------------
+Operation Display Names
+-------------------------------------------------- */
+
+function getDashboardOperationName(operation) {
+  const names = {
+    add: "Addition",
+    sub: "Subtraction",
+    mul: "Multiplication",
+    div: "Division",
+    mixedOperations: "Mixed Operations",
+    missingNumber: "Missing Number",
+    comparison: "Comparison",
+    estimation: "Estimation",
+    sequences: "Sequences & Progressions",
+    fractions: "Fractions",
+    percentages: "Percentages",
+    powersRoots: "Power & Roots",
+  };
+
+  return names[operation] ?? operation;
+}
+
+/* --------------------------------------------------
+Get Practice Distribution
 -------------------------------------------------- */
 
 export function getPracticeDistribution() {
@@ -254,7 +338,7 @@ export function getPracticeDistribution() {
 }
 
 /* --------------------------------------------------
-   Get Practice Time Distribution
+Get Practice Time Distribution
 -------------------------------------------------- */
 
 export function getPracticeTimeDistribution() {
