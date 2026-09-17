@@ -1,0 +1,190 @@
+/* src/components/ReactionTimeChart/ReactionTimeChart.module.css */
+
+/* --------------------------------------------------
+Chart Container
+-------------------------------------------------- */
+
+.chart {
+  width: 100%;
+}
+
+/* --------------------------------------------------
+Header
+-------------------------------------------------- */
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.3;
+  font-weight: 600;
+  color: var(--headingCol);
+}
+
+.header p {
+  margin: 4px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--mutedColor);
+}
+
+/* --------------------------------------------------
+Filters
+-------------------------------------------------- */
+
+.filters {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.filter {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.filter span {
+  font-size: 10px;
+  line-height: 1.2;
+  color: var(--mutedColor);
+}
+
+.filter select {
+  min-width: 130px;
+  height: 32px;
+  padding: 0 28px 0 9px;
+
+  border: 1px solid var(--borderColor);
+  border-radius: 6px;
+
+  background: var(--surfaceColor);
+  color: var(--headingCol);
+
+  font-family: inherit;
+  font-size: 11px;
+
+  cursor: pointer;
+  outline: none;
+
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease;
+}
+
+.filter select:hover {
+  border-color: var(--headingCol);
+}
+
+.filter select:focus {
+  border-color: var(--accentColor);
+}
+
+.filter select:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* --------------------------------------------------
+Chart Area
+-------------------------------------------------- */
+
+.chartArea {
+  width: 100%;
+  min-height: 280px;
+}
+
+/* --------------------------------------------------
+Tooltip
+-------------------------------------------------- */
+
+.tooltip {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  min-width: 150px;
+  padding: 9px 11px;
+
+  border: 1px solid var(--borderColor);
+  border-radius: 6px;
+
+  background: var(--surfaceColor);
+  box-shadow: var(--shadow-sm);
+
+  font-size: 11px;
+}
+
+.tooltip>strong {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--headingCol);
+}
+
+.tooltip>span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.tooltipLabel {
+  color: var(--mutedColor);
+}
+
+.tooltipValue {
+  font-weight: 600;
+  color: var(--headingCol);
+}
+
+/* --------------------------------------------------
+Empty State
+-------------------------------------------------- */
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 280px;
+  padding: 30px;
+
+  border: 1px dashed var(--borderColor);
+  border-radius: 8px;
+
+  color: var(--mutedColor);
+  font-size: 12px;
+  text-align: center;
+}
+
+/* --------------------------------------------------
+Responsive Layout
+-------------------------------------------------- */
+
+@media (max-width: 700px) {
+  .header {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .filters {
+    width: 100%;
+  }
+
+  .filter {
+    flex: 1;
+  }
+
+  .filter select {
+    width: 100%;
+    min-width: 0;
+  }
+}

@@ -348,3 +348,180 @@
 .todayCheck+.todayCheck {
   margin-left: -6px;
 }
+
+
+/* --------------------------------------------------
+   Reaction Time Filters
+-------------------------------------------------- */
+
+.filters {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  flex-shrink: 0;
+  margin: 12px;
+}
+
+.filter {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.filter>span {
+  font-size: 10px;
+  line-height: 1.2;
+  color: var(--mutedColor);
+}
+
+/* --------------------------------------------------
+   Reaction Time Dropdown
+-------------------------------------------------- */
+
+.filter select {
+  width: 140px;
+  height: 32px;
+  padding: 0 30px 0 10px;
+
+  border: 1px solid var(--borderColor);
+  border-radius: 6px;
+
+  appearance: none;
+
+  background-color: var(--surfaceColor);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--mutedColor) 50%),
+    linear-gradient(135deg, var(--mutedColor) 50%, transparent 50%);
+  background-position:
+    calc(100% - 13px) 13px,
+    calc(100% - 8px) 13px;
+  background-size:
+    5px 5px,
+    5px 5px;
+  background-repeat: no-repeat;
+
+  color: var(--headingCol);
+  font-family: inherit;
+  font-size: 11px;
+
+  cursor: pointer;
+  outline: none;
+
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease;
+}
+
+.filter select:hover {
+  border-color: var(--headingCol);
+}
+
+.filter select:focus {
+  border-color: var(--accentColor);
+}
+
+.filter select:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* --------------------------------------------------
+   Reaction Time Chart Area
+-------------------------------------------------- */
+
+.chartArea {
+  width: 100%;
+  min-height: 280px;
+}
+
+/* --------------------------------------------------
+   Reaction Time Tooltip
+-------------------------------------------------- */
+
+.chartTooltip {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  min-width: 165px;
+  padding: 9px 11px;
+
+  border: 1px solid var(--borderColor);
+  border-radius: 6px;
+
+  background: var(--surfaceColor);
+  box-shadow: var(--shadow-sm);
+
+  font-size: 11px;
+}
+
+.chartTooltip>strong {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--headingCol);
+}
+
+.chartTooltip>span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.chartTooltipLabel {
+  color: var(--mutedColor);
+}
+
+.chartTooltipValue {
+  font-weight: 600;
+  color: var(--headingCol);
+}
+
+/* --------------------------------------------------
+   Reaction Time Empty State
+-------------------------------------------------- */
+
+.chartEmpty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 280px;
+  padding: 30px;
+
+  border: 1px dashed var(--borderColor);
+  border-radius: 8px;
+
+  color: var(--mutedColor);
+  font-size: 12px;
+  text-align: center;
+}
+
+/* --------------------------------------------------
+   Reaction Time Responsive Filters
+-------------------------------------------------- */
+
+@media (max-width: 700px) {
+  .filters {
+    width: 100%;
+  }
+
+  .filter {
+    flex: 1;
+  }
+
+  .filter select {
+    width: 100%;
+  }
+}
+
+/* --------------------------------------------------
+   Full-width Performance Section
+-------------------------------------------------- */
+
+.performanceCard {
+  width: 100%;
+  margin-top: 12px;
+  overflow: hidden;
+}

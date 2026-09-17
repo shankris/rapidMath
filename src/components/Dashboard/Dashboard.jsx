@@ -1,4 +1,5 @@
 "use client";
+
 /* src/components/Dashboard/Dashboard.jsx */
 
 import Link from "next/link";
@@ -9,13 +10,10 @@ import DonutChart from "@/components/DonutChart/DonutChart";
 import MonthlyActivity from "@/components/MonthlyActivity/MonthlyActivity";
 import StreakStats from "@/components/StreakStats/StreakStats";
 import ReactionTimeChart from "@/components/ReactionTimeChart/ReactionTimeChart";
+import AccuracyChart from "@/components/AccuracyChart/AccuracyChart";
 import { formatLastUse, getDashboardActivity, getDashboardActivityDetails, getDashboardLevelStats, getPracticeTimeDistribution } from "@/lib/stats/dashboard";
 
 import { Check } from "lucide-react";
-
-/* --------------------------------------------------
-Operation Names
--------------------------------------------------- */
 
 const OPERATION_NAMES = {
   add: "Addition",
@@ -32,15 +30,18 @@ const OPERATION_NAMES = {
   powersRoots: "Power & Roots",
 };
 
-/* --------------------------------------------------
-Dashboard Component
--------------------------------------------------- */
-
 export default function Dashboard() {
   const [levelStats, setLevelStats] = useState({});
   const [practiceTime, setPracticeTime] = useState([]);
   const [activity, setActivity] = useState([]);
   const [activityDetails, setActivityDetails] = useState({});
+
+  const [performanceSelection, setPerformanceSelection] = useState({
+    operation: "",
+    level: "",
+  });
+
+  const [performanceDayCount, setPerformanceDayCount] = useState(0);
 
   /* --------------------------------------------------
 Load Dashboard Statistics
@@ -60,7 +61,7 @@ Load Dashboard Statistics
     setLevelStats(stats);
 
     /* ------------------------------------------------
-Practice Time Distribution
+   Practice Time Distribution
 ------------------------------------------------ */
 
     const distribution = getPracticeTimeDistribution();
@@ -79,13 +80,13 @@ Practice Time Distribution
     setPracticeTime(timeData);
 
     /* ------------------------------------------------
-Monthly Activity
+   Monthly Activity
 ------------------------------------------------ */
 
     setActivity(getDashboardActivity());
 
     /* ------------------------------------------------
-Monthly Activity Details
+   Monthly Activity Details
 ------------------------------------------------ */
 
     setActivityDetails(getDashboardActivityDetails());
@@ -166,16 +167,26 @@ Get Donut Chart Data
   }));
 
   /* --------------------------------------------------
-Get Smaller Operations
+Get Major Operations
 -------------------------------------------------- */
 
   const majorOperations = practiceTime.filter((item) => item.percentage >= 10);
+
+  /* --------------------------------------------------
+Get Smaller Operations
+-------------------------------------------------- */
 
   const smallerOperations = practiceTime.filter((item) => item.percentage < 10);
 
   const othersTime = smallerOperations.reduce((total, item) => total + item.value, 0);
 
   const othersPercentage = smallerOperations.reduce((total, item) => total + item.percentage, 0);
+
+  /* --------------------------------------------------
+Performance Chart Layout
+-------------------------------------------------- */
+
+  const performanceLayoutClass = performanceDayCount > 0 && performanceDayCount < 10 ? styles.performanceChartsCompact : styles.performanceCharts;
 
   return (
     <section className={styles.dashboard}>
@@ -186,7 +197,7 @@ Get Smaller Operations
         <p className={styles.subtitle}>Continue building your mental math skills.</p>
       </header>
       {/* ------------------------------------------------
-  Operation Cards
+     Operation Cards
   ------------------------------------------------ */}
       <div className={styles.operations}>
         {dashboardData.map((operation) => (
@@ -211,10 +222,6 @@ Get Smaller Operations
                     href={`/practice/${operation.operation}/${level.level}`}
                     className={styles.level}
                   >
-                    {/* --------------------------------------------------
-                Today's Practice Indicator
-                -------------------------------------------------- */}
-
                     {stats?.todayUses > 0 && (
                       <span
                         className={styles.todayUsage}
@@ -276,19 +283,55 @@ Get Smaller Operations
         ))}
       </div>
       {/* ------------------------------------------------
-  Dashboard Insights
+     Performance Charts
+     Reaction Time + Accuracy
+  ------------------------------------------------ */}
+      <div className={styles.performanceCard}>
+        <div className={performanceLayoutClass}>
+          <ReactionTimeChart
+            operation={performanceSelection.operation}
+            level={performanceSelection.level}
+            onSelectionChange={setPerformanceSelection}
+            onActiveDayCountChange={setPerformanceDayCount}
+          />
+
+          <AccuracyChart
+            operation={performanceSelection.operation}
+            level={performanceSelection.level}
+            onSelectionChange={setPerformanceSelection}
+          />
+        </div>
+      </div>
+      {/* ------------------------------------------------
+     Dashboard Insights
+     Quiz Practice + Practice Time
   ------------------------------------------------ */}
       <div className={styles.dashboardInsights}>
         {/* ----------------------------------------------
-    Reaction Time
+       Quiz Practice
     ---------------------------------------------- */}
 
-        <article className={`card ${styles.chartCard}`}>
-          <ReactionTimeChart />
+        <article className={`card ${styles.insightCard}`}>
+          <div className={styles.insightHeader}>
+            <h2 className={styles.OperationHeader}>Quiz Practice</h2>
+
+            <p>Your practice activity over the last 30 days.</p>
+          </div>
+
+          <div className={styles.streakStats}>
+            <StreakStats />
+          </div>
+
+          <div className={styles.activityChart}>
+            <MonthlyActivity
+              data={activity}
+              details={activityDetails}
+            />
+          </div>
         </article>
 
         {/* ----------------------------------------------
-    Practice Time
+       Practice Time
     ---------------------------------------------- */}
 
         <article className={`card ${styles.chartCard}`}>
@@ -356,29 +399,6 @@ Get Smaller Operations
                 </div>
               </>
             )}
-          </div>
-        </article>
-
-        {/* ----------------------------------------------
-    Monthly Activity
-    ---------------------------------------------- */}
-
-        <article className={`card ${styles.insightCard}`}>
-          <div className={styles.insightHeader}>
-            <h2 className={styles.OperationHeader}>Quiz Practice</h2>
-
-            <p>Your practice activity over the last 30 days.</p>
-          </div>
-
-          <div className={styles.streakStats}>
-            <StreakStats />
-          </div>
-
-          <div className={styles.activityChart}>
-            <MonthlyActivity
-              data={activity}
-              details={activityDetails}
-            />
           </div>
         </article>
       </div>
