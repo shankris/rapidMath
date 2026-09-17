@@ -8,6 +8,7 @@ import dashboardData from "./dashboardData.json";
 import DonutChart from "@/components/DonutChart/DonutChart";
 import MonthlyActivity from "@/components/MonthlyActivity/MonthlyActivity";
 import StreakStats from "@/components/StreakStats/StreakStats";
+import ReactionTimeChart from "@/components/ReactionTimeChart/ReactionTimeChart";
 import { formatLastUse, getDashboardActivity, getDashboardActivityDetails, getDashboardLevelStats, getPracticeTimeDistribution } from "@/lib/stats/dashboard";
 
 import { Check } from "lucide-react";
@@ -42,8 +43,8 @@ export default function Dashboard() {
   const [activityDetails, setActivityDetails] = useState({});
 
   /* --------------------------------------------------
-  Load Dashboard Statistics
-  -------------------------------------------------- */
+Load Dashboard Statistics
+-------------------------------------------------- */
 
   useEffect(() => {
     const stats = {};
@@ -59,8 +60,8 @@ export default function Dashboard() {
     setLevelStats(stats);
 
     /* ------------------------------------------------
-    Practice Time Distribution
-    ------------------------------------------------ */
+Practice Time Distribution
+------------------------------------------------ */
 
     const distribution = getPracticeTimeDistribution();
 
@@ -78,21 +79,21 @@ export default function Dashboard() {
     setPracticeTime(timeData);
 
     /* ------------------------------------------------
-    Monthly Activity
-    ------------------------------------------------ */
+Monthly Activity
+------------------------------------------------ */
 
     setActivity(getDashboardActivity());
 
     /* ------------------------------------------------
-    Monthly Activity Details
-    ------------------------------------------------ */
+Monthly Activity Details
+------------------------------------------------ */
 
     setActivityDetails(getDashboardActivityDetails());
   }, []);
 
   /* --------------------------------------------------
-  Refresh Relative Times
-  -------------------------------------------------- */
+Refresh Relative Times
+-------------------------------------------------- */
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -116,8 +117,8 @@ export default function Dashboard() {
   }, []);
 
   /* --------------------------------------------------
-  Format Reaction Time
-  -------------------------------------------------- */
+Format Reaction Time
+-------------------------------------------------- */
 
   function formatReactionTime(value) {
     if (value === null || value === undefined) {
@@ -128,8 +129,8 @@ export default function Dashboard() {
   }
 
   /* --------------------------------------------------
-  Format Accuracy
-  -------------------------------------------------- */
+Format Accuracy
+-------------------------------------------------- */
 
   function formatAccuracy(value) {
     if (value === null || value === undefined) {
@@ -140,8 +141,8 @@ export default function Dashboard() {
   }
 
   /* --------------------------------------------------
-  Format Practice Time
-  -------------------------------------------------- */
+Format Practice Time
+-------------------------------------------------- */
 
   function formatPracticeTime(seconds) {
     if (!Number.isFinite(seconds) || seconds <= 0) {
@@ -156,8 +157,8 @@ export default function Dashboard() {
   }
 
   /* --------------------------------------------------
-  Get Donut Chart Data
-  -------------------------------------------------- */
+Get Donut Chart Data
+-------------------------------------------------- */
 
   const chartData = practiceTime.map((item) => ({
     name: item.name,
@@ -165,26 +166,28 @@ export default function Dashboard() {
   }));
 
   /* --------------------------------------------------
-  Get Smaller Operations
-  -------------------------------------------------- */
+Get Smaller Operations
+-------------------------------------------------- */
 
   const majorOperations = practiceTime.filter((item) => item.percentage >= 10);
+
   const smallerOperations = practiceTime.filter((item) => item.percentage < 10);
+
   const othersTime = smallerOperations.reduce((total, item) => total + item.value, 0);
+
   const othersPercentage = smallerOperations.reduce((total, item) => total + item.percentage, 0);
 
   return (
     <section className={styles.dashboard}>
+      {" "}
       <header className={styles.header}>
+        {" "}
         <h1 className={styles.title}>Dashboard</h1>
-
         <p className={styles.subtitle}>Continue building your mental math skills.</p>
       </header>
-
       {/* ------------------------------------------------
-      Operation Cards
-      ------------------------------------------------ */}
-
+  Operation Cards
+  ------------------------------------------------ */}
       <div className={styles.operations}>
         {dashboardData.map((operation) => (
           <article
@@ -209,8 +212,8 @@ export default function Dashboard() {
                     className={styles.level}
                   >
                     {/* --------------------------------------------------
-     Today's Practice Indicator
-  -------------------------------------------------- */}
+                Today's Practice Indicator
+                -------------------------------------------------- */}
 
                     {stats?.todayUses > 0 && (
                       <span
@@ -218,19 +221,24 @@ export default function Dashboard() {
                         aria-label={`Practiced ${stats.todayUses} ${stats.todayUses === 1 ? "time" : "times"} today`}
                       >
                         {stats.todayUses < 4 ? (
-                          Array.from({ length: stats.todayUses }).map((_, index) => (
+                          Array.from({
+                            length: stats.todayUses,
+                          }).map((_, index) => (
                             <Check
                               key={index}
                               size={11}
                               strokeWidth={2.5}
                               className={styles.todayCheck}
-                              style={{ marginLeft: index === 0 ? 0 : -2 }}
+                              style={{
+                                marginLeft: index === 0 ? 0 : -2,
+                              }}
                               aria-hidden='true'
                             />
                           ))
                         ) : (
                           <>
                             <span aria-hidden='true'>✓</span>
+
                             <span>{stats.todayUses}</span>
                           </>
                         )}
@@ -267,38 +275,21 @@ export default function Dashboard() {
           </article>
         ))}
       </div>
-
       {/* ------------------------------------------------
-      Dashboard Insights
-      ------------------------------------------------ */}
-
+  Dashboard Insights
+  ------------------------------------------------ */}
       <div className={styles.dashboardInsights}>
         {/* ----------------------------------------------
-        Monthly Activity
-        ---------------------------------------------- */}
+    Reaction Time
+    ---------------------------------------------- */}
 
-        <article className={`card ${styles.insightCard}`}>
-          <div className={styles.insightHeader}>
-            <h2 className={styles.OperationHeader}>Quiz Practice</h2>
-
-            <p>Your practice activity over the last 30 days.</p>
-          </div>
-
-          <div className={styles.streakStats}>
-            <StreakStats />
-          </div>
-
-          <div className={styles.activityChart}>
-            <MonthlyActivity
-              data={activity}
-              details={activityDetails}
-            />
-          </div>
+        <article className={`card ${styles.chartCard}`}>
+          <ReactionTimeChart />
         </article>
 
         {/* ----------------------------------------------
-        Practice Time
-        ---------------------------------------------- */}
+    Practice Time
+    ---------------------------------------------- */}
 
         <article className={`card ${styles.chartCard}`}>
           <div className={styles.chartHeader}>
@@ -365,6 +356,29 @@ export default function Dashboard() {
                 </div>
               </>
             )}
+          </div>
+        </article>
+
+        {/* ----------------------------------------------
+    Monthly Activity
+    ---------------------------------------------- */}
+
+        <article className={`card ${styles.insightCard}`}>
+          <div className={styles.insightHeader}>
+            <h2 className={styles.OperationHeader}>Quiz Practice</h2>
+
+            <p>Your practice activity over the last 30 days.</p>
+          </div>
+
+          <div className={styles.streakStats}>
+            <StreakStats />
+          </div>
+
+          <div className={styles.activityChart}>
+            <MonthlyActivity
+              data={activity}
+              details={activityDetails}
+            />
           </div>
         </article>
       </div>
