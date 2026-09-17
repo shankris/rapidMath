@@ -410,14 +410,13 @@ export default function ReactionTimeChart({ operation: selectedOperation = "", l
          Header
       ------------------------------------------------ */}
 
-      <header className={styles.chartHeader}>
-        <div>
+      <div className={styles.performanceChartHeader}>
+        <div className={styles.performanceChartHeading}>
           <h2>Reaction Time</h2>
-
-          <p>Track your average reaction time over the last 30 days.</p>
+          <p>Track your reaction time over the last 30 days.</p>
         </div>
 
-        <div className={styles.filters}>
+        <div className={styles.performanceChartControls}>
           <label className={styles.filter}>
             <span>Operation</span>
 
@@ -478,7 +477,7 @@ export default function ReactionTimeChart({ operation: selectedOperation = "", l
             </select>
           </label>
         </div>
-      </header>
+      </div>
 
       {/* ------------------------------------------------
          Chart
@@ -508,8 +507,8 @@ export default function ReactionTimeChart({ operation: selectedOperation = "", l
               <XAxis
                 dataKey='displayDate'
                 padding={{
-                  left: 18,
-                  right: 18,
+                  left: 88,
+                  right: 88,
                 }}
                 tick={{
                   fill: "var(--mutedColor)",

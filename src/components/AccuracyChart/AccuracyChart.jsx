@@ -233,7 +233,6 @@ function AccuracyTooltip({ active, payload, label }) {
 
   return (
     <div className={styles.chartTooltip}>
-      {" "}
       <strong>{formatDateLabel(label)}</strong>
       <span>
         <span className={styles.chartTooltipLabel}>Accuracy</span>
@@ -465,11 +464,8 @@ Empty State
   if (operations.length === 0) {
     return (
       <section className={styles.chartCard}>
-        {" "}
         <header className={styles.chartHeader}>
-          {" "}
           <div>
-            {" "}
             <h2>Accuracy</h2>
             <p>Track your accuracy over the last 30 days.</p>
           </div>
@@ -481,15 +477,13 @@ Empty State
 
   return (
     <section className={styles.chartCard}>
-      {" "}
-      <header className={styles.chartHeader}>
-        {" "}
-        <div>
-          {" "}
+      <div className={styles.performanceChartHeader}>
+        <div className={styles.performanceChartHeading}>
           <h2>Accuracy</h2>
           <p>Track your accuracy over the last 30 days.</p>
         </div>
-        <div className={styles.filters}>
+
+        <div className={styles.performanceChartControls}>
           <label className={styles.filter}>
             <span>Operation</span>
 
@@ -550,7 +544,8 @@ Empty State
             </select>
           </label>
         </div>
-      </header>
+      </div>
+
       {chartData.length > 0 ? (
         <div className={styles.chartArea}>
           <ResponsiveContainer
