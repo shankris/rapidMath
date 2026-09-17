@@ -24,7 +24,7 @@ const OPERATION_NAMES = {
 };
 
 /* --------------------------------------------------
-   Date Helpers
+Date Helpers
 -------------------------------------------------- */
 
 function getLocalDateKey(date) {
@@ -59,7 +59,7 @@ function getLast30Days() {
 }
 
 /* --------------------------------------------------
-   Available Operations
+Available Operations
 -------------------------------------------------- */
 
 function getAvailableOperations(attempts) {
@@ -93,7 +93,7 @@ function getAvailableOperations(attempts) {
 }
 
 /* --------------------------------------------------
-   Available Levels
+Available Levels
 -------------------------------------------------- */
 
 function getAvailableLevels(attempts, operation) {
@@ -122,7 +122,7 @@ function getAvailableLevels(attempts, operation) {
 }
 
 /* --------------------------------------------------
-   Date Formatting
+Date Formatting
 -------------------------------------------------- */
 
 function formatDateLabel(dateKey) {
@@ -139,7 +139,7 @@ function formatDateLabel(dateKey) {
 }
 
 /* --------------------------------------------------
-   Accuracy Formatting
+Accuracy Formatting
 -------------------------------------------------- */
 
 function formatAccuracy(value) {
@@ -151,7 +151,7 @@ function formatAccuracy(value) {
 }
 
 /* --------------------------------------------------
-   Accuracy Y-Axis Range
+Accuracy Y-Axis Range
 -------------------------------------------------- */
 
 function getAccuracyAxisRange(chartData) {
@@ -168,10 +168,10 @@ function getAccuracyAxisRange(chartData) {
   const maximum = Math.max(...values);
 
   /*
-     Keep the full 0–100 scale when the data has
-     substantial variation. Otherwise zoom in around
-     the actual accuracy range.
-  */
+Keep the full 0–100 scale when the data has
+substantial variation. Otherwise zoom in around
+the actual accuracy range.
+*/
 
   if (minimum <= 70) {
     return {
@@ -204,9 +204,9 @@ function getAccuracyAxisRange(chartData) {
   }
 
   /*
-     For very small differences, use a rounded lower
-     boundary while never exceeding 90%.
-  */
+For very small differences, use a rounded lower
+boundary while never exceeding 90%.
+*/
 
   const lowerBoundary = Math.floor(minimum / 5) * 5 - 5;
 
@@ -217,7 +217,7 @@ function getAccuracyAxisRange(chartData) {
 }
 
 /* --------------------------------------------------
-   Accuracy Tooltip
+Accuracy Tooltip
 -------------------------------------------------- */
 
 function AccuracyTooltip({ active, payload, label }) {
@@ -233,8 +233,8 @@ function AccuracyTooltip({ active, payload, label }) {
 
   return (
     <div className={styles.chartTooltip}>
+      {" "}
       <strong>{formatDateLabel(label)}</strong>
-
       <span>
         <span className={styles.chartTooltipLabel}>Accuracy</span>
 
@@ -245,54 +245,58 @@ function AccuracyTooltip({ active, payload, label }) {
 }
 
 /* --------------------------------------------------
-   Accuracy Chart
+Accuracy Chart
 -------------------------------------------------- */
 
 export default function AccuracyChart({ operation: selectedOperation = "", level: selectedLevel = "", onSelectionChange }) {
   const [attempts, setAttempts] = useState([]);
+
   const [operation, setOperation] = useState(selectedOperation);
+
   const [level, setLevel] = useState(selectedLevel);
+
   const [chartData, setChartData] = useState([]);
+
   const [axisRange, setAxisRange] = useState({
     min: 0,
     max: 100,
   });
 
   /* ------------------------------------------------
-     Load Attempts
-  ------------------------------------------------ */
+Load Attempts
+------------------------------------------------ */
 
   useEffect(() => {
     setAttempts(getQuizAttempts());
   }, []);
 
   /* ------------------------------------------------
-     Available Filters
-  ------------------------------------------------ */
+Available Filters
+------------------------------------------------ */
 
   const operations = useMemo(() => getAvailableOperations(attempts), [attempts]);
 
   const levels = useMemo(() => getAvailableLevels(attempts, operation), [attempts, operation]);
 
   /* ------------------------------------------------
-     Synchronize Selection From Dashboard
-  ------------------------------------------------ */
+Synchronize Selection From Dashboard
+------------------------------------------------ */
 
   useEffect(() => {
-    if (selectedOperation && operations.includes(selectedOperation)) {
+    if (selectedOperation && operations.includes(selectedOperation) && selectedOperation !== operation) {
       setOperation(selectedOperation);
     }
-  }, [selectedOperation, operations]);
+  }, [selectedOperation, operations, operation]);
 
   useEffect(() => {
-    if (selectedLevel && levels.includes(Number(selectedLevel))) {
+    if (selectedLevel && levels.includes(Number(selectedLevel)) && String(selectedLevel) !== String(level)) {
       setLevel(String(selectedLevel));
     }
-  }, [selectedLevel, levels]);
+  }, [selectedLevel, levels, level]);
 
   /* ------------------------------------------------
-     Initialize Selection
-  ------------------------------------------------ */
+Initialize Selection
+------------------------------------------------ */
 
   useEffect(() => {
     if (operations.length === 0) {
@@ -319,8 +323,8 @@ export default function AccuracyChart({ operation: selectedOperation = "", level
   }, [levels, level]);
 
   /* ------------------------------------------------
-     Notify Dashboard Of Selection
-  ------------------------------------------------ */
+Notify Dashboard Of Selection
+------------------------------------------------ */
 
   useEffect(() => {
     if (!operation || !level || !onSelectionChange) {
@@ -334,39 +338,63 @@ export default function AccuracyChart({ operation: selectedOperation = "", level
   }, [operation, level, onSelectionChange]);
 
   /* ------------------------------------------------
-     Build Accuracy Data
-  ------------------------------------------------ */
+Build Accuracy Data
+------------------------------------------------ */
 
   useEffect(() => {
     if (!operation || !level) {
       setChartData([]);
+
       setAxisRange({
         min: 0,
         max: 100,
       });
+
       return;
     }
+
+    /*
+   The shared performance range is determined from
+   answered questions for this operation + level.
+
+   Only leading and trailing empty calendar days
+   are removed. Empty days inside the range remain.
+*/
 
     const dateRange = getPerformanceDateRange(operation, Number(level));
 
     if (!dateRange.startDate || !dateRange.endDate) {
       setChartData([]);
+
       setAxisRange({
         min: 0,
         max: 100,
       });
+
       return;
     }
 
     const days = getLast30Days();
 
     const startIndex = days.indexOf(dateRange.startDate);
+
     const endIndex = days.indexOf(dateRange.endDate);
 
     if (startIndex === -1 || endIndex === -1) {
       setChartData([]);
+
+      setAxisRange({
+        min: 0,
+        max: 100,
+      });
+
       return;
     }
+
+    /*
+   This is the exact same calendar-day range used
+   by Reaction Time.
+*/
 
     const visibleDays = days.slice(startIndex, endIndex + 1);
 
@@ -379,6 +407,10 @@ export default function AccuracyChart({ operation: selectedOperation = "", level
         },
       ]),
     );
+
+    /* ----------------------------------------------
+   Collect Daily Accuracy
+---------------------------------------------- */
 
     attempts.forEach((attempt) => {
       if (!attempt || attempt.operation !== operation || Number(attempt.level) !== Number(level) || !attempt.startedAt || !Array.isArray(attempt.questions)) {
@@ -406,6 +438,10 @@ export default function AccuracyChart({ operation: selectedOperation = "", level
       });
     });
 
+    /* ----------------------------------------------
+   Build Chart Data
+---------------------------------------------- */
+
     const data = visibleDays.map((date) => {
       const day = dayMap.get(date);
 
@@ -423,19 +459,21 @@ export default function AccuracyChart({ operation: selectedOperation = "", level
   }, [attempts, operation, level]);
 
   /* ------------------------------------------------
-     Empty States
-  ------------------------------------------------ */
+Empty State
+------------------------------------------------ */
 
   if (operations.length === 0) {
     return (
       <section className={styles.chartCard}>
+        {" "}
         <header className={styles.chartHeader}>
+          {" "}
           <div>
+            {" "}
             <h2>Accuracy</h2>
             <p>Track your accuracy over the last 30 days.</p>
           </div>
         </header>
-
         <div className={styles.chartEmpty}>No accuracy data available yet.</div>
       </section>
     );
@@ -443,12 +481,14 @@ export default function AccuracyChart({ operation: selectedOperation = "", level
 
   return (
     <section className={styles.chartCard}>
+      {" "}
       <header className={styles.chartHeader}>
+        {" "}
         <div>
+          {" "}
           <h2>Accuracy</h2>
           <p>Track your accuracy over the last 30 days.</p>
         </div>
-
         <div className={styles.filters}>
           <label className={styles.filter}>
             <span>Operation</span>
@@ -490,7 +530,7 @@ export default function AccuracyChart({ operation: selectedOperation = "", level
 
                 setLevel(nextLevel);
 
-                if (onSelectionChange) {
+                if (onSelectionChange && operation) {
                   onSelectionChange({
                     operation,
                     level: nextLevel,
@@ -511,7 +551,6 @@ export default function AccuracyChart({ operation: selectedOperation = "", level
           </label>
         </div>
       </header>
-
       {chartData.length > 0 ? (
         <div className={styles.chartArea}>
           <ResponsiveContainer

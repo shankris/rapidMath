@@ -190,11 +190,15 @@ function ReactionTimeTooltip({ active, payload, label }) {
    Reaction Time Chart
 -------------------------------------------------- */
 
-export default function ReactionTimeChart() {
+export default function ReactionTimeChart({ operation: selectedOperation = "", level: selectedLevel = "", onSelectionChange, onActiveDayCountChange }) {
   const [attempts, setAttempts] = useState([]);
-  const [operation, setOperation] = useState("");
-  const [level, setLevel] = useState("");
+
+  const [operation, setOperation] = useState(selectedOperation);
+
+  const [level, setLevel] = useState(selectedLevel);
+
   const [chartData, setChartData] = useState([]);
+
   const [overallAverage, setOverallAverage] = useState(null);
 
   /* ------------------------------------------------
@@ -210,6 +214,16 @@ export default function ReactionTimeChart() {
   ------------------------------------------------ */
 
   const operations = useMemo(() => getAvailableOperations(attempts), [attempts]);
+
+  /* ------------------------------------------------
+     Sync Selected Operation From Dashboard
+  ------------------------------------------------ */
+
+  useEffect(() => {
+    if (selectedOperation && operations.includes(selectedOperation)) {
+      setOperation(selectedOperation);
+    }
+  }, [selectedOperation, operations]);
 
   /* ------------------------------------------------
      Set Initial Operation
@@ -233,6 +247,16 @@ export default function ReactionTimeChart() {
   const levels = useMemo(() => getAvailableLevels(attempts, operation), [attempts, operation]);
 
   /* ------------------------------------------------
+     Sync Selected Level From Dashboard
+  ------------------------------------------------ */
+
+  useEffect(() => {
+    if (selectedLevel && levels.includes(Number(selectedLevel))) {
+      setLevel(String(selectedLevel));
+    }
+  }, [selectedLevel, levels]);
+
+  /* ------------------------------------------------
      Set Initial Level
   ------------------------------------------------ */
 
@@ -250,6 +274,21 @@ export default function ReactionTimeChart() {
   }, [levels, level]);
 
   /* ------------------------------------------------
+     Report Selection To Dashboard
+  ------------------------------------------------ */
+
+  useEffect(() => {
+    if (!operation || !level || !onSelectionChange) {
+      return;
+    }
+
+    onSelectionChange({
+      operation,
+      level,
+    });
+  }, [operation, level, onSelectionChange]);
+
+  /* ------------------------------------------------
      Build Chart Data
   ------------------------------------------------ */
 
@@ -257,6 +296,11 @@ export default function ReactionTimeChart() {
     if (!operation || !level) {
       setChartData([]);
       setOverallAverage(null);
+
+      if (onActiveDayCountChange) {
+        onActiveDayCountChange(0);
+      }
+
       return;
     }
 
@@ -265,28 +309,67 @@ export default function ReactionTimeChart() {
     if (!result) {
       setChartData([]);
       setOverallAverage(null);
+
+      if (onActiveDayCountChange) {
+        onActiveDayCountChange(0);
+      }
+
       return;
     }
 
     /* ----------------------------------------------
-       Remove Leading/Trailing Empty Days
+       Use Shared Performance Date Range
+
+       The shared range is determined by answered
+       questions, not by reaction-time values.
+
+       This means:
+       - leading empty days are removed
+       - trailing empty days are removed
+       - internal empty days remain
+       - the calendar-day count includes internal gaps
     ---------------------------------------------- */
 
-    const firstDataIndex = result.days.findIndex((day) => Number.isFinite(day.average));
-
-    const lastDataIndex = result.days.map((day) => Number.isFinite(day.average)).lastIndexOf(true);
-
-    if (firstDataIndex === -1 || lastDataIndex === -1) {
+    if (!result.startDate || !result.endDate) {
       setChartData([]);
       setOverallAverage(null);
+
+      if (onActiveDayCountChange) {
+        onActiveDayCountChange(0);
+      }
+
       return;
     }
 
-    const visibleDays = result.days.slice(firstDataIndex, lastDataIndex + 1);
+    const days = getLast30Days();
+
+    const startIndex = days.indexOf(result.startDate);
+    const endIndex = days.indexOf(result.endDate);
+
+    if (startIndex === -1 || endIndex === -1) {
+      setChartData([]);
+      setOverallAverage(null);
+
+      if (onActiveDayCountChange) {
+        onActiveDayCountChange(0);
+      }
+
+      return;
+    }
+
+    const visibleDays = result.days.slice(startIndex, endIndex + 1);
 
     setChartData(visibleDays);
     setOverallAverage(result.overallAverage);
-  }, [operation, level]);
+
+    /* ----------------------------------------------
+       Report Calendar-Day Range To Dashboard
+    ---------------------------------------------- */
+
+    if (onActiveDayCountChange) {
+      onActiveDayCountChange(result.activeDayCount ?? visibleDays.length);
+    }
+  }, [operation, level, onActiveDayCountChange]);
 
   /* ------------------------------------------------
      Chart Data With Display Date
@@ -311,6 +394,7 @@ export default function ReactionTimeChart() {
         <header className={styles.chartHeader}>
           <div>
             <h2>Reaction Time</h2>
+
             <p>Your reaction-time progress over the last 30 days.</p>
           </div>
         </header>
@@ -340,8 +424,17 @@ export default function ReactionTimeChart() {
             <select
               value={operation}
               onChange={(event) => {
-                setOperation(event.target.value);
+                const nextOperation = event.target.value;
+
+                setOperation(nextOperation);
                 setLevel("");
+
+                if (onSelectionChange) {
+                  onSelectionChange({
+                    operation: nextOperation,
+                    level: "",
+                  });
+                }
               }}
             >
               {operations.map((item) => (
@@ -361,7 +454,16 @@ export default function ReactionTimeChart() {
             <select
               value={level}
               onChange={(event) => {
-                setLevel(event.target.value);
+                const nextLevel = event.target.value;
+
+                setLevel(nextLevel);
+
+                if (onSelectionChange && operation) {
+                  onSelectionChange({
+                    operation,
+                    level: nextLevel,
+                  });
+                }
               }}
               disabled={levels.length === 0}
             >
@@ -402,9 +504,13 @@ export default function ReactionTimeChart() {
                 strokeDasharray='3 3'
                 vertical={false}
               />
-
+              /* ------------------------------------------------ X Axis ------------------------------------------------ */
               <XAxis
                 dataKey='displayDate'
+                padding={{
+                  left: 18,
+                  right: 18,
+                }}
                 tick={{
                   fill: "var(--mutedColor)",
                   fontSize: 10,
@@ -415,7 +521,6 @@ export default function ReactionTimeChart() {
                 }}
                 minTickGap={20}
               />
-
               <YAxis
                 tick={{
                   fill: "var(--mutedColor)",
@@ -426,9 +531,7 @@ export default function ReactionTimeChart() {
                 tickFormatter={(value) => `${value.toFixed(1)}s`}
                 width={42}
               />
-
               <Tooltip content={<ReactionTimeTooltip />} />
-
               {Number.isFinite(overallAverage) && (
                 <ReferenceLine
                   y={overallAverage}
@@ -443,7 +546,6 @@ export default function ReactionTimeChart() {
                   }}
                 />
               )}
-
               <Line
                 type='monotone'
                 dataKey='average'
