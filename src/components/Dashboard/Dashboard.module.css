@@ -601,3 +601,225 @@
     width: 100%;
   }
 }
+
+/* --------------------------------------------------
+   Practice Roadmap
+-------------------------------------------------- */
+
+.exerciseRoadmap {
+  margin-top: 24px;
+}
+
+.roadmapHeader {
+  margin-bottom: 16px;
+}
+
+.roadmapHeader h2 {
+  margin: 0;
+}
+
+.roadmapHeader p {
+  margin: 4px 0 0;
+  color: var(--mutedColor);
+  font-size: 14px;
+}
+
+
+/* --------------------------------------------------
+   Roadmap Tabs
+-------------------------------------------------- */
+
+.roadmapTabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 16px;
+  padding: 4px;
+  width: fit-content;
+  max-width: 100%;
+  background: var(--surfaceAlt);
+  border: 1px solid var(--borderColor);
+  border-radius: 8px;
+}
+
+.roadmapTab {
+  border: 0;
+  background: transparent;
+  color: var(--mutedColor);
+  padding: 8px 18px;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.roadmapTab:hover {
+  color: var(--headingCol);
+}
+
+.roadmapTabActive {
+  background: var(--surfaceColor);
+  color: var(--headingCol);
+  box-shadow: var(--shadow-sm);
+}
+
+
+/* --------------------------------------------------
+   Roadmap Exercise Grid
+-------------------------------------------------- */
+
+.roadmapGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+
+/* --------------------------------------------------
+   Roadmap Exercise Card
+-------------------------------------------------- */
+
+.roadmapCard {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--borderColor);
+  border-radius: 8px;
+  background: var(--surfaceColor);
+}
+
+.roadmapCardAvailable {
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.roadmapCardAvailable:hover {
+  border-color: var(--accentColor);
+  box-shadow: var(--shadow-sm);
+}
+
+.roadmapCardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.roadmapCardHeader h3 {
+  margin: 0;
+  min-width: 0;
+  color: var(--headingCol);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.roadmapCard p {
+  margin: 6px 0 14px;
+  color: var(--mutedColor);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+
+/* --------------------------------------------------
+   Roadmap Status
+-------------------------------------------------- */
+
+.status {
+  flex-shrink: 0;
+  padding: 3px 7px;
+  border: 1px solid var(--borderColor);
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.statusavailable {
+  color: var(--headingCol);
+  background: var(--surfaceAlt);
+}
+
+.statuscomingSoon {
+  color: var(--mutedColor);
+  background: var(--surfaceAlt);
+}
+
+.statusplanned {
+  color: var(--mutedColor);
+  background: transparent;
+}
+
+
+/* --------------------------------------------------
+   Roadmap Actions
+-------------------------------------------------- */
+
+.roadmapAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  padding: 6px 12px;
+  border: 1px solid var(--borderColor);
+  border-radius: 6px;
+  color: var(--headingCol);
+  background: var(--surfaceAlt);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease;
+}
+
+.roadmapAction:hover {
+  border-color: var(--accentColor);
+}
+
+.roadmapPlaceholder {
+  display: block;
+  color: var(--mutedColor);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+
+/* --------------------------------------------------
+   Responsive Roadmap
+-------------------------------------------------- */
+
+@media (max-width: 700px) {
+  .roadmapTabs {
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .roadmapTabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .roadmapTab {
+    flex: 1 0 auto;
+    padding: 8px 14px;
+  }
+
+  .roadmapGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .roadmapCardHeader {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .status {
+    align-self: flex-start;
+  }
+}

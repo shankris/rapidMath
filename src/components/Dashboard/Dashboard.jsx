@@ -1,5 +1,4 @@
 "use client";
-
 /* src/components/Dashboard/Dashboard.jsx */
 
 import Link from "next/link";
@@ -11,9 +10,14 @@ import MonthlyActivity from "@/components/MonthlyActivity/MonthlyActivity";
 import StreakStats from "@/components/StreakStats/StreakStats";
 import ReactionTimeChart from "@/components/ReactionTimeChart/ReactionTimeChart";
 import AccuracyChart from "@/components/AccuracyChart/AccuracyChart";
+
 import { formatLastUse, getDashboardActivity, getDashboardActivityDetails, getDashboardLevelStats, getPracticeTimeDistribution } from "@/lib/stats/dashboard";
 
 import { Check } from "lucide-react";
+
+/* --------------------------------------------------
+Operation Names
+-------------------------------------------------- */
 
 const OPERATION_NAMES = {
   add: "Addition",
@@ -21,20 +25,82 @@ const OPERATION_NAMES = {
   mul: "Multiplication",
   div: "Division",
   mixedOperations: "Mixed Operations",
-  missingNumber: "Missing Number",
+  missingNumber: "Find X",
   comparison: "Comparison",
   estimation: "Estimation",
-  sequences: "Sequences & Progressions",
+  rounding: "Rounding",
+  orderOfOperations: "Order of Operations",
+  numberSense: "Number Sense",
+  factorsMultiples: "Factors & Multiples",
+  divisibility: "Divisibility",
   fractions: "Fractions",
   percentages: "Percentages",
-  powersRoots: "Power & Roots",
+  decimals: "Decimals",
+  ratiosProportions: "Ratios & Proportions",
+  powersRoots: "Powers & Roots",
+  averages: "Averages",
+  negativeNumbers: "Negative Numbers",
+  simpleEquations: "Simple Equations",
+  simpleInequalities: "Simple Inequalities",
+  scientificNotation: "Scientific Notation",
+  unitConversions: "Unit Conversions",
+  basicGeometry: "Basic Geometry",
+  basicStatistics: "Basic Statistics",
+  algebra: "Algebra",
+  linearEquations: "Linear Equations",
+  quadraticEquations: "Quadratic Equations",
+  polynomials: "Polynomials",
+  sequences: "Sequences & Progressions",
+  coordinateGeometry: "Coordinate Geometry",
+  geometry: "Geometry",
+  trigonometry: "Trigonometry",
+  statistics: "Statistics",
+  probability: "Probability",
+  multiStepWordProblems: "Multi-step Word Problems",
+  dataInterpretation: "Data Interpretation",
+  multiStepAlgebra: "Multi-step Algebra",
+  advancedEquations: "Advanced Equations",
+  advancedGeometry: "Advanced Geometry",
+  advancedTrigonometry: "Advanced Trigonometry",
+  complexProbability: "Complex Probability",
+  challengingSequences: "Challenging Sequences",
+  multiTopicProblems: "Multi-topic Problems",
+  satStyleProblems: "SAT-style Problems",
+  olympiadStyleProblems: "Olympiad-style Problems",
 };
+
+/* --------------------------------------------------
+Category Labels
+-------------------------------------------------- */
+
+const CATEGORY_LABELS = {
+  basic: "Basics",
+  intermediate: "Intermediate",
+  advanced: "Advanced",
+  challenge: "Challenge",
+};
+
+/* --------------------------------------------------
+Status Labels
+-------------------------------------------------- */
+
+const STATUS_LABELS = {
+  available: "Available",
+  comingSoon: "Coming soon",
+  planned: "Planned",
+};
+
+/* --------------------------------------------------
+Dashboard Component
+-------------------------------------------------- */
 
 export default function Dashboard() {
   const [levelStats, setLevelStats] = useState({});
   const [practiceTime, setPracticeTime] = useState([]);
   const [activity, setActivity] = useState([]);
   const [activityDetails, setActivityDetails] = useState({});
+
+  const [activeCategory, setActiveCategory] = useState("basic");
 
   const [performanceSelection, setPerformanceSelection] = useState({
     operation: "",
@@ -61,7 +127,7 @@ Load Dashboard Statistics
     setLevelStats(stats);
 
     /* ------------------------------------------------
-   Practice Time Distribution
+Practice Time Distribution
 ------------------------------------------------ */
 
     const distribution = getPracticeTimeDistribution();
@@ -80,13 +146,13 @@ Load Dashboard Statistics
     setPracticeTime(timeData);
 
     /* ------------------------------------------------
-   Monthly Activity
+Monthly Activity
 ------------------------------------------------ */
 
     setActivity(getDashboardActivity());
 
     /* ------------------------------------------------
-   Monthly Activity Details
+Monthly Activity Details
 ------------------------------------------------ */
 
     setActivityDetails(getDashboardActivityDetails());
@@ -167,14 +233,10 @@ Get Donut Chart Data
   }));
 
   /* --------------------------------------------------
-Get Major Operations
+Get Smaller Operations
 -------------------------------------------------- */
 
   const majorOperations = practiceTime.filter((item) => item.percentage >= 10);
-
-  /* --------------------------------------------------
-Get Smaller Operations
--------------------------------------------------- */
 
   const smallerOperations = practiceTime.filter((item) => item.percentage < 10);
 
@@ -183,156 +245,201 @@ Get Smaller Operations
   const othersPercentage = smallerOperations.reduce((total, item) => total + item.percentage, 0);
 
   /* --------------------------------------------------
-Performance Chart Layout
+Get Active Category Operations
 -------------------------------------------------- */
 
-  const performanceLayoutClass = performanceDayCount > 0 && performanceDayCount < 10 ? styles.performanceChartsCompact : styles.performanceCharts;
+  const categoryOperations = dashboardData.filter((operation) => operation.category === activeCategory);
 
   return (
     <section className={styles.dashboard}>
-      {" "}
+      {/* ------------------------------------------------
+      Dashboard Header
+      ------------------------------------------------ */}
+
       <header className={styles.header}>
-        {" "}
         <h1 className={styles.title}>Dashboard</h1>
+
         <p className={styles.subtitle}>Continue building your mental math skills.</p>
       </header>
+
       {/* ------------------------------------------------
-     Operation Cards
-  ------------------------------------------------ */}
-      <div className={styles.operations}>
-        {dashboardData.map((operation) => (
-          <article
-            key={operation.operation}
-            className={`card ${styles.operationCard}`}
-          >
-            <div className={styles.operationHeader}>
-              <h2>{operation.title}</h2>
+      Rapid Math Drills
+      ------------------------------------------------ */}
 
-              <p>{operation.description}</p>
-            </div>
+      <section className={styles.exerciseRoadmap}>
+        <div className={styles.roadmapHeader}>
+          <div>
+            <h2>Rapid Math Drills</h2>
 
-            <div className={styles.levels}>
-              {operation.levels.map((level) => {
-                const key = `${operation.operation}-${level.level}`;
-                const stats = levelStats[key];
-
-                return (
-                  <Link
-                    key={level.level}
-                    href={`/practice/${operation.operation}/${level.level}`}
-                    className={styles.level}
-                  >
-                    {stats?.todayUses > 0 && (
-                      <span
-                        className={styles.todayUsage}
-                        aria-label={`Practiced ${stats.todayUses} ${stats.todayUses === 1 ? "time" : "times"} today`}
-                      >
-                        {stats.todayUses < 4 ? (
-                          Array.from({
-                            length: stats.todayUses,
-                          }).map((_, index) => (
-                            <Check
-                              key={index}
-                              size={11}
-                              strokeWidth={2.5}
-                              className={styles.todayCheck}
-                              style={{
-                                marginLeft: index === 0 ? 0 : -2,
-                              }}
-                              aria-hidden='true'
-                            />
-                          ))
-                        ) : (
-                          <>
-                            <span aria-hidden='true'>✓</span>
-
-                            <span>{stats.todayUses}</span>
-                          </>
-                        )}
-                      </span>
-                    )}
-
-                    <span className={styles.levelNumber}>L{level.level}</span>
-
-                    <span className={styles.levelPlaceholder}>{stats?.lastUse ?? "Play now"}</span>
-
-                    <span className={styles.tooltip}>
-                      <span>
-                        <strong>{formatAccuracy(stats?.accuracy)}</strong>
-
-                        <small>Accuracy</small>
-                      </span>
-
-                      <span>
-                        <strong>{formatReactionTime(stats?.reactionTime)}</strong>
-
-                        <small>Reaction time</small>
-                      </span>
-
-                      <span>
-                        <strong>{stats?.questions ?? 0}</strong>
-
-                        <small>Questions</small>
-                      </span>
-                    </span>
-                  </Link>
-                );
-              })}
-            </div>
-          </article>
-        ))}
-      </div>
-      {/* ------------------------------------------------
-     Performance Charts
-     Reaction Time + Accuracy
-  ------------------------------------------------ */}
-      <div className={styles.performanceCard}>
-        <div className={performanceLayoutClass}>
-          <ReactionTimeChart
-            operation={performanceSelection.operation}
-            level={performanceSelection.level}
-            onSelectionChange={setPerformanceSelection}
-            onActiveDayCountChange={setPerformanceDayCount}
-          />
-
-          <AccuracyChart
-            operation={performanceSelection.operation}
-            level={performanceSelection.level}
-            onSelectionChange={setPerformanceSelection}
-          />
+            <p>Explore the exercises available now and what's coming next.</p>
+          </div>
         </div>
-      </div>
+
+        {/* ------------------------------------------------
+        Difficulty Tabs
+        ------------------------------------------------ */}
+
+        <div
+          className={styles.roadmapTabs}
+          role='tablist'
+          aria-label='Practice levels'
+        >
+          {Object.entries(CATEGORY_LABELS).map(([category, label]) => (
+            <button
+              key={category}
+              type='button'
+              role='tab'
+              aria-selected={activeCategory === category}
+              className={`${styles.roadmapTab} ${activeCategory === category ? styles.roadmapTabActive : ""}`}
+              onClick={() => setActiveCategory(category)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
+        {/* ------------------------------------------------
+        Exercises
+        ------------------------------------------------ */}
+
+        <div
+          className={styles.roadmapGrid}
+          role='tabpanel'
+          aria-label={`${CATEGORY_LABELS[activeCategory]} exercises`}
+        >
+          {categoryOperations.map((operation) => {
+            const isAvailable = operation.status === "available";
+
+            /* ------------------------------------------------
+            Available Exercise
+            ------------------------------------------------ */
+
+            if (isAvailable) {
+              return (
+                <article
+                  key={operation.operation}
+                  className={`card ${styles.operationCard}`}
+                >
+                  <div className={styles.operationHeader}>
+                    <h2>{OPERATION_NAMES[operation.operation] ?? operation.title}</h2>
+
+                    <p>{operation.description}</p>
+                  </div>
+
+                  <div className={styles.levels}>
+                    {operation.levels.map((level) => {
+                      const key = `${operation.operation}-${level.level}`;
+                      const stats = levelStats[key];
+
+                      return (
+                        <Link
+                          key={level.level}
+                          href={`/practice/${operation.operation}/${level.level}`}
+                          className={styles.level}
+                        >
+                          {/* --------------------------------------------------
+                          Today's Practice Indicator
+                          -------------------------------------------------- */}
+
+                          {stats?.todayUses > 0 && (
+                            <span
+                              className={styles.todayUsage}
+                              aria-label={`Practiced ${stats.todayUses} ${stats.todayUses === 1 ? "time" : "times"} today`}
+                            >
+                              {stats.todayUses < 4 ? (
+                                Array.from({
+                                  length: stats.todayUses,
+                                }).map((_, index) => (
+                                  <Check
+                                    key={index}
+                                    size={11}
+                                    strokeWidth={2.5}
+                                    className={styles.todayCheck}
+                                    style={{
+                                      marginLeft: index === 0 ? 0 : -2,
+                                    }}
+                                    aria-hidden='true'
+                                  />
+                                ))
+                              ) : (
+                                <>
+                                  <span aria-hidden='true'>✓</span>
+
+                                  <span>{stats.todayUses}</span>
+                                </>
+                              )}
+                            </span>
+                          )}
+
+                          <span className={styles.levelNumber}>L{level.level}</span>
+
+                          <span className={styles.levelPlaceholder}>{stats?.lastUse ?? "Play now"}</span>
+
+                          <span className={styles.tooltip}>
+                            <span>
+                              <strong>{formatAccuracy(stats?.accuracy)}</strong>
+
+                              <small>Accuracy</small>
+                            </span>
+
+                            <span>
+                              <strong>{formatReactionTime(stats?.reactionTime)}</strong>
+
+                              <small>Reaction time</small>
+                            </span>
+
+                            <span>
+                              <strong>{stats?.questions ?? 0}</strong>
+
+                              <small>Questions</small>
+                            </span>
+                          </span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </article>
+              );
+            }
+
+            /* ------------------------------------------------
+            Coming Soon / Planned Exercise
+            ------------------------------------------------ */
+
+            return (
+              <article
+                key={operation.operation}
+                className={styles.roadmapCard}
+              >
+                <div className={styles.roadmapCardHeader}>
+                  <h3>{OPERATION_NAMES[operation.operation] ?? operation.title}</h3>
+
+                  <span className={`${styles.status} ${styles[`status${operation.status}`]}`}>{STATUS_LABELS[operation.status]}</span>
+                </div>
+
+                <p>{operation.description}</p>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+
       {/* ------------------------------------------------
-     Dashboard Insights
-     Quiz Practice + Practice Time
-  ------------------------------------------------ */}
+      Dashboard Insights
+      ------------------------------------------------ */}
+
       <div className={styles.dashboardInsights}>
         {/* ----------------------------------------------
-       Quiz Practice
-    ---------------------------------------------- */}
+        Reaction Time
+        ---------------------------------------------- */}
 
-        <article className={`card ${styles.insightCard}`}>
-          <div className={styles.insightHeader}>
-            <h2 className={styles.OperationHeader}>Quiz Practice</h2>
-
-            <p>Your practice activity over the last 30 days.</p>
-          </div>
-
-          <div className={styles.streakStats}>
-            <StreakStats />
-          </div>
-
-          <div className={styles.activityChart}>
-            <MonthlyActivity
-              data={activity}
-              details={activityDetails}
-            />
-          </div>
+        <article className={`card ${styles.chartCard}`}>
+          <ReactionTimeChart />
         </article>
 
         {/* ----------------------------------------------
-       Practice Time
-    ---------------------------------------------- */}
+        Practice Time
+        ---------------------------------------------- */}
 
         <article className={`card ${styles.chartCard}`}>
           <div className={styles.chartHeader}>
@@ -399,6 +506,29 @@ Performance Chart Layout
                 </div>
               </>
             )}
+          </div>
+        </article>
+
+        {/* ----------------------------------------------
+        Monthly Activity
+        ---------------------------------------------- */}
+
+        <article className={`card ${styles.insightCard}`}>
+          <div className={styles.insightHeader}>
+            <h2 className={styles.OperationHeader}>Quiz Practice</h2>
+
+            <p>Your practice activity over the last 30 days.</p>
+          </div>
+
+          <div className={styles.streakStats}>
+            <StreakStats />
+          </div>
+
+          <div className={styles.activityChart}>
+            <MonthlyActivity
+              data={activity}
+              details={activityDetails}
+            />
           </div>
         </article>
       </div>
