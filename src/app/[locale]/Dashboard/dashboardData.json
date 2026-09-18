@@ -1,0 +1,425 @@
+[
+  {
+    "operation": "add",
+    "category": "basic",
+    "status": "available",
+    "homeOrder": 1,
+    "title": "Addition",
+    "description": "Practice adding numbers quickly and accurately.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "sub",
+    "category": "basic",
+    "status": "available",
+    "homeOrder": 2,
+    "title": "Subtraction",
+    "description": "Build speed and accuracy with subtraction.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "mul",
+    "category": "basic",
+    "status": "available",
+    "homeOrder": 3,
+    "title": "Multiplication",
+    "description": "Improve your multiplication speed and recall.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "div",
+    "category": "basic",
+    "status": "available",
+    "homeOrder": 4,
+    "title": "Division",
+    "description": "Strengthen division skills and mental calculation.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "mixedOperations",
+    "category": "basic",
+    "status": "comingSoon",
+    "homeOrder": null,
+    "title": "Mixed Operations",
+    "description": "Practice solving problems using different operations.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "missingNumber",
+    "category": "intermediate",
+    "status": "comingSoon",
+    "homeOrder": null,
+    "title": "Find X",
+    "description": "Find the missing value using mental math.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "comparison",
+    "category": "basic",
+    "status": "comingSoon",
+    "homeOrder": null,
+    "title": "Comparison",
+    "description": "Compare numbers and expressions quickly.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "estimation",
+    "category": "basic",
+    "status": "comingSoon",
+    "homeOrder": null,
+    "title": "Estimation",
+    "description": "Develop quick and accurate estimation skills.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "rounding",
+    "category": "basic",
+    "status": "comingSoon",
+    "homeOrder": null,
+    "title": "Rounding",
+    "description": "Practice rounding numbers quickly and accurately.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "orderOfOperations",
+    "category": "basic",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Order of Operations",
+    "description": "Build speed and accuracy when solving multi-operation expressions.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "numberSense",
+    "category": "basic",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Number Sense",
+    "description": "Develop a stronger feel for numbers and numerical relationships.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "factorsMultiples",
+    "category": "basic",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Factors & Multiples",
+    "description": "Practice identifying factors, multiples, and numerical relationships.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "divisibility",
+    "category": "basic",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Divisibility",
+    "description": "Recognize divisibility patterns and rules.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "fractions",
+    "category": "intermediate",
+    "status": "comingSoon",
+    "homeOrder": null,
+    "title": "Fractions",
+    "description": "Build confidence working with fractions.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "percentages",
+    "category": "intermediate",
+    "status": "comingSoon",
+    "homeOrder": null,
+    "title": "Percentages",
+    "description": "Practice calculating and comparing percentages.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "decimals",
+    "category": "intermediate",
+    "status": "comingSoon",
+    "homeOrder": null,
+    "title": "Decimals",
+    "description": "Build speed and accuracy when working with decimals.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "ratiosProportions",
+    "category": "intermediate",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Ratios & Proportions",
+    "description": "Practice working with ratios and proportional relationships.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "powersRoots",
+    "category": "intermediate",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Powers & Roots",
+    "description": "Practice powers, squares, cubes, and roots.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "averages",
+    "category": "intermediate",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Averages",
+    "description": "Practice calculating and interpreting averages.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "negativeNumbers",
+    "category": "intermediate",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Negative Numbers",
+    "description": "Build confidence working with positive and negative numbers.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "simpleEquations",
+    "category": "intermediate",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Simple Equations",
+    "description": "Solve straightforward equations using mental math.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "simpleInequalities",
+    "category": "intermediate",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Simple Inequalities",
+    "description": "Practice comparing values and solving simple inequalities.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "scientificNotation",
+    "category": "intermediate",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Scientific Notation",
+    "description": "Practice working with numbers expressed in scientific notation.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "unitConversions",
+    "category": "intermediate",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Unit Conversions",
+    "description": "Practice converting between common units quickly and accurately.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "basicGeometry",
+    "category": "intermediate",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Basic Geometry",
+    "description": "Practice basic geometry calculations and relationships.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "basicStatistics",
+    "category": "intermediate",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Basic Statistics",
+    "description": "Practice basic statistical calculations and interpretation.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "algebra",
+    "category": "advanced",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Algebra",
+    "description": "Develop fluency with algebraic expressions and relationships.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "linearEquations",
+    "category": "advanced",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Linear Equations",
+    "description": "Practice solving and reasoning with linear equations.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "quadraticEquations",
+    "category": "advanced",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Quadratic Equations",
+    "description": "Practice solving and analyzing quadratic equations.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "polynomials",
+    "category": "advanced",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Polynomials",
+    "description": "Build fluency with polynomial expressions and operations.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "sequences",
+    "category": "advanced",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Sequences & Progressions",
+    "description": "Recognize patterns and continue numerical sequences.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "coordinateGeometry",
+    "category": "advanced",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Coordinate Geometry",
+    "description": "Practice relationships between algebra and geometry on the coordinate plane.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "geometry",
+    "category": "advanced",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Geometry",
+    "description": "Practice more advanced geometric calculations and relationships.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "trigonometry",
+    "category": "advanced",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Trigonometry",
+    "description": "Practice trigonometric relationships and calculations.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "statistics",
+    "category": "advanced",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Statistics",
+    "description": "Develop skills in statistical reasoning and calculation.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "probability",
+    "category": "advanced",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Probability",
+    "description": "Practice probability calculations and reasoning.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "multiStepWordProblems",
+    "category": "advanced",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Multi-step Word Problems",
+    "description": "Solve problems that combine multiple mathematical ideas.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "dataInterpretation",
+    "category": "advanced",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Data Interpretation",
+    "description": "Practice extracting and reasoning from numerical data.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "multiStepAlgebra",
+    "category": "challenge",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Multi-step Algebra",
+    "description": "Tackle more demanding algebraic problems requiring multiple steps.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "advancedEquations",
+    "category": "challenge",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Advanced Equations",
+    "description": "Solve challenging equations using multiple techniques.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "advancedGeometry",
+    "category": "challenge",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Advanced Geometry",
+    "description": "Explore challenging geometric problems and relationships.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "advancedTrigonometry",
+    "category": "challenge",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Advanced Trigonometry",
+    "description": "Solve more challenging trigonometric problems.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "complexProbability",
+    "category": "challenge",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Complex Probability",
+    "description": "Tackle more challenging probability problems and reasoning.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "challengingSequences",
+    "category": "challenge",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Challenging Sequences",
+    "description": "Solve more demanding sequence and progression problems.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "multiTopicProblems",
+    "category": "challenge",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Multi-topic Problems",
+    "description": "Solve challenging problems combining multiple mathematical topics.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "satStyleProblems",
+    "category": "challenge",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "SAT-style Problems",
+    "description": "Practice challenging problems inspired by standardized test formats.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "olympiadStyleProblems",
+    "category": "challenge",
+    "status": "planned",
+    "homeOrder": null,
+    "title": "Olympiad-style Problems",
+    "description": "Tackle challenging problems requiring deeper mathematical reasoning.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  }
+]

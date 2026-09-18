@@ -3,10 +3,17 @@
 /* src/components/AccuracyChart/AccuracyChart.jsx */
 
 import { useEffect, useMemo, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+
 import { getQuizAttempts } from "@/lib/storage/quizHistory";
 import { getPerformanceDateRange } from "@/lib/stats/reactionTime";
+
 import styles from "@/components/Dashboard/Dashboard.module.css";
+
+/* --------------------------------------------------
+   Operation Names
+-------------------------------------------------- */
 
 const OPERATION_NAMES = {
   add: "Addition",
@@ -24,7 +31,7 @@ const OPERATION_NAMES = {
 };
 
 /* --------------------------------------------------
-Date Helpers
+   Date Helpers
 -------------------------------------------------- */
 
 function getLocalDateKey(date) {
@@ -59,7 +66,7 @@ function getLast30Days() {
 }
 
 /* --------------------------------------------------
-Available Operations
+   Available Operations
 -------------------------------------------------- */
 
 function getAvailableOperations(attempts) {
@@ -93,7 +100,7 @@ function getAvailableOperations(attempts) {
 }
 
 /* --------------------------------------------------
-Available Levels
+   Available Levels
 -------------------------------------------------- */
 
 function getAvailableLevels(attempts, operation) {
@@ -122,24 +129,24 @@ function getAvailableLevels(attempts, operation) {
 }
 
 /* --------------------------------------------------
-Date Formatting
+   Date Formatting
 -------------------------------------------------- */
 
-function formatDateLabel(dateKey) {
+function formatDateLabel(dateKey, locale) {
   const date = new Date(`${dateKey}T00:00:00`);
 
   if (Number.isNaN(date.getTime())) {
     return dateKey;
   }
 
-  return date.toLocaleDateString(undefined, {
+  return date.toLocaleDateString(locale, {
     day: "numeric",
     month: "short",
   });
 }
 
 /* --------------------------------------------------
-Accuracy Formatting
+   Accuracy Formatting
 -------------------------------------------------- */
 
 function formatAccuracy(value) {
@@ -151,7 +158,7 @@ function formatAccuracy(value) {
 }
 
 /* --------------------------------------------------
-Accuracy Y-Axis Range
+   Accuracy Y-Axis Range
 -------------------------------------------------- */
 
 function getAccuracyAxisRange(chartData) {
@@ -168,10 +175,10 @@ function getAccuracyAxisRange(chartData) {
   const maximum = Math.max(...values);
 
   /*
-Keep the full 0–100 scale when the data has
-substantial variation. Otherwise zoom in around
-the actual accuracy range.
-*/
+  Keep the full 0–100 scale when the data has
+  substantial variation. Otherwise zoom in around
+  the actual accuracy range.
+  */
 
   if (minimum <= 70) {
     return {
@@ -204,9 +211,9 @@ the actual accuracy range.
   }
 
   /*
-For very small differences, use a rounded lower
-boundary while never exceeding 90%.
-*/
+  For very small differences, use a rounded lower
+  boundary while never exceeding 90%.
+  */
 
   const lowerBoundary = Math.floor(minimum / 5) * 5 - 5;
 
@@ -217,10 +224,10 @@ boundary while never exceeding 90%.
 }
 
 /* --------------------------------------------------
-Accuracy Tooltip
+   Accuracy Tooltip
 -------------------------------------------------- */
 
-function AccuracyTooltip({ active, payload, label }) {
+function AccuracyTooltip({ active, payload, label, translate, locale }) {
   if (!active || !payload?.length) {
     return null;
   }
@@ -233,9 +240,10 @@ function AccuracyTooltip({ active, payload, label }) {
 
   return (
     <div className={styles.chartTooltip}>
-      <strong>{formatDateLabel(label)}</strong>
+      <strong>{formatDateLabel(label, locale)}</strong>
+
       <span>
-        <span className={styles.chartTooltipLabel}>Accuracy</span>
+        <span className={styles.chartTooltipLabel}>{translate("accuracy.label")}</span>
 
         <span className={styles.chartTooltipValue}>{formatAccuracy(accuracy.value)}</span>
       </span>
@@ -244,10 +252,13 @@ function AccuracyTooltip({ active, payload, label }) {
 }
 
 /* --------------------------------------------------
-Accuracy Chart
+   Accuracy Chart
 -------------------------------------------------- */
 
 export default function AccuracyChart({ operation: selectedOperation = "", level: selectedLevel = "", onSelectionChange }) {
+  const t = useTranslations("Graphs");
+  const locale = useLocale();
+
   const [attempts, setAttempts] = useState([]);
 
   const [operation, setOperation] = useState(selectedOperation);
@@ -262,24 +273,24 @@ export default function AccuracyChart({ operation: selectedOperation = "", level
   });
 
   /* ------------------------------------------------
-Load Attempts
------------------------------------------------- */
+     Load Attempts
+  ------------------------------------------------ */
 
   useEffect(() => {
     setAttempts(getQuizAttempts());
   }, []);
 
   /* ------------------------------------------------
-Available Filters
------------------------------------------------- */
+     Available Filters
+  ------------------------------------------------ */
 
   const operations = useMemo(() => getAvailableOperations(attempts), [attempts]);
 
   const levels = useMemo(() => getAvailableLevels(attempts, operation), [attempts, operation]);
 
   /* ------------------------------------------------
-Synchronize Selection From Dashboard
------------------------------------------------- */
+     Synchronize Selection From Dashboard
+  ------------------------------------------------ */
 
   useEffect(() => {
     if (selectedOperation && operations.includes(selectedOperation) && selectedOperation !== operation) {
@@ -294,8 +305,8 @@ Synchronize Selection From Dashboard
   }, [selectedLevel, levels, level]);
 
   /* ------------------------------------------------
-Initialize Selection
------------------------------------------------- */
+     Initialize Selection
+  ------------------------------------------------ */
 
   useEffect(() => {
     if (operations.length === 0) {
@@ -322,8 +333,8 @@ Initialize Selection
   }, [levels, level]);
 
   /* ------------------------------------------------
-Notify Dashboard Of Selection
------------------------------------------------- */
+     Notify Dashboard Of Selection
+  ------------------------------------------------ */
 
   useEffect(() => {
     if (!operation || !level || !onSelectionChange) {
@@ -337,8 +348,8 @@ Notify Dashboard Of Selection
   }, [operation, level, onSelectionChange]);
 
   /* ------------------------------------------------
-Build Accuracy Data
------------------------------------------------- */
+     Build Accuracy Data
+  ------------------------------------------------ */
 
   useEffect(() => {
     if (!operation || !level) {
@@ -353,12 +364,12 @@ Build Accuracy Data
     }
 
     /*
-   The shared performance range is determined from
-   answered questions for this operation + level.
+    The shared performance range is determined from
+    answered questions for this operation + level.
 
-   Only leading and trailing empty calendar days
-   are removed. Empty days inside the range remain.
-*/
+    Only leading and trailing empty calendar days
+    are removed. Empty days inside the range remain.
+    */
 
     const dateRange = getPerformanceDateRange(operation, Number(level));
 
@@ -391,9 +402,9 @@ Build Accuracy Data
     }
 
     /*
-   This is the exact same calendar-day range used
-   by Reaction Time.
-*/
+    This is the exact same calendar-day range used
+    by Reaction Time.
+    */
 
     const visibleDays = days.slice(startIndex, endIndex + 1);
 
@@ -408,8 +419,8 @@ Build Accuracy Data
     );
 
     /* ----------------------------------------------
-   Collect Daily Accuracy
----------------------------------------------- */
+       Collect Daily Accuracy
+    ---------------------------------------------- */
 
     attempts.forEach((attempt) => {
       if (!attempt || attempt.operation !== operation || Number(attempt.level) !== Number(level) || !attempt.startedAt || !Array.isArray(attempt.questions)) {
@@ -438,15 +449,15 @@ Build Accuracy Data
     });
 
     /* ----------------------------------------------
-   Build Chart Data
----------------------------------------------- */
+       Build Chart Data
+    ---------------------------------------------- */
 
     const data = visibleDays.map((date) => {
       const day = dayMap.get(date);
 
       return {
         date,
-        displayDate: formatDateLabel(date),
+        displayDate: formatDateLabel(date, locale),
         accuracy: day.answered > 0 ? (day.correct / day.answered) * 100 : null,
       };
     });
@@ -455,22 +466,24 @@ Build Accuracy Data
 
     setChartData(data);
     setAxisRange(nextAxisRange);
-  }, [attempts, operation, level]);
+  }, [attempts, operation, level, locale]);
 
   /* ------------------------------------------------
-Empty State
------------------------------------------------- */
+     Empty State
+  ------------------------------------------------ */
 
   if (operations.length === 0) {
     return (
       <section className={styles.chartCard}>
         <header className={styles.chartHeader}>
           <div>
-            <h2>Accuracy</h2>
-            <p>Track your accuracy over the last 30 days.</p>
+            <h2>{t("accuracy.title")}</h2>
+
+            <p>{t("accuracy.description")}</p>
           </div>
         </header>
-        <div className={styles.chartEmpty}>No accuracy data available yet.</div>
+
+        <div className={styles.chartEmpty}>{t("accuracy.noData")}</div>
       </section>
     );
   }
@@ -479,13 +492,14 @@ Empty State
     <section className={styles.chartCard}>
       <div className={styles.performanceChartHeader}>
         <div className={styles.performanceChartHeading}>
-          <h2>Accuracy</h2>
-          <p>Track your accuracy over the last 30 days.</p>
+          <h2>{t("accuracy.title")}</h2>
+
+          <p>{t("accuracy.description")}</p>
         </div>
 
         <div className={styles.performanceChartControls}>
           <label className={styles.filter}>
-            <span>Operation</span>
+            <span>{t("accuracy.operation")}</span>
 
             <select
               value={operation}
@@ -508,14 +522,14 @@ Empty State
                   key={item}
                   value={item}
                 >
-                  {OPERATION_NAMES[item] ?? item}
+                  {t(`operations.${item}.title`)}
                 </option>
               ))}
             </select>
           </label>
 
           <label className={styles.filter}>
-            <span>Level</span>
+            <span>{t("accuracy.level")}</span>
 
             <select
               value={level}
@@ -538,7 +552,7 @@ Empty State
                   key={item}
                   value={item}
                 >
-                  Level {item}
+                  {t("levels.level", { level: item })}
                 </option>
               ))}
             </select>
@@ -592,20 +606,27 @@ Empty State
                 width={42}
               />
 
-              <Tooltip content={<AccuracyTooltip />} />
+              <Tooltip
+                content={
+                  <AccuracyTooltip
+                    translate={t}
+                    locale={locale}
+                  />
+                }
+              />
 
               <Bar
                 dataKey='accuracy'
                 fill='var(--accentColor)'
                 radius={[3, 3, 0, 0]}
                 maxBarSize={32}
-                name='Accuracy'
+                name={t("accuracy.label")}
               />
             </BarChart>
           </ResponsiveContainer>
         </div>
       ) : (
-        <div className={styles.chartEmpty}>No accuracy data available for this level.</div>
+        <div className={styles.chartEmpty}>{t("accuracy.noLevelData")}</div>
       )}
     </section>
   );

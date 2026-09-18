@@ -12,7 +12,7 @@
 .inner {
   width: var(--contentWidth);
   max-width: var(--contentWidthMax);
-  padding: var(--genericPadding);
+  /* padding: var(--genericPadding); */
   margin-inline: auto;
   display: flex;
   align-items: center;

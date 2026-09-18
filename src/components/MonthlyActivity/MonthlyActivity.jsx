@@ -3,13 +3,14 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import styles from "./MonthlyActivity.module.css";
 
 /* --------------------------------------------------
 Configuration
 -------------------------------------------------- */
 
-const DAY_LABELS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const DAY_LABELS = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
 
 const ACTIVITY_THRESHOLDS = [40, 80, 120, 160];
 
@@ -71,20 +72,14 @@ function parseDateKey(dateString) {
 Format Date
 -------------------------------------------------- */
 
-/* src/components/MonthlyActivity/MonthlyActivity.jsx */
-
-/* --------------------------------------------------
-Format Date
--------------------------------------------------- */
-
-function formatDate(dateString) {
+function formatDate(dateString, locale) {
   const date = parseDateKey(dateString);
 
   if (!date) {
     return dateString;
   }
 
-  return date.toLocaleDateString(undefined, {
+  return date.toLocaleDateString(locale, {
     weekday: "short",
     day: "numeric",
     month: "short",
@@ -127,7 +122,7 @@ function getDateDifference(dateString) {
 Get Relative Date Label
 -------------------------------------------------- */
 
-function getRelativeDateLabel(dateString) {
+function getRelativeDateLabel(dateString, translate) {
   const difference = getDateDifference(dateString);
 
   if (difference === null) {
@@ -135,42 +130,54 @@ function getRelativeDateLabel(dateString) {
   }
 
   if (difference === 0) {
-    return "Today";
+    return translate("monthlyActivity.relativeDates.today");
   }
 
   if (difference === 1) {
-    return "Yesterday";
+    return translate("monthlyActivity.relativeDates.yesterday");
   }
 
   if (difference === 2) {
-    return "2 days ago";
+    return translate("monthlyActivity.relativeDates.daysAgo", {
+      count: difference,
+    });
   }
 
   if (difference < 7) {
-    return `${difference} days ago`;
+    return translate("monthlyActivity.relativeDates.daysAgo", {
+      count: difference,
+    });
   }
 
   if (difference < 14) {
-    return "Last week";
+    return translate("monthlyActivity.relativeDates.lastWeek");
   }
 
   const weeks = Math.floor(difference / 7);
 
   if (weeks === 2) {
-    return "2 weeks ago";
+    return translate("monthlyActivity.relativeDates.weeksAgo", {
+      count: weeks,
+    });
   }
 
   if (weeks < 5) {
-    return `${weeks} weeks ago`;
+    return translate("monthlyActivity.relativeDates.weeksAgo", {
+      count: weeks,
+    });
   }
 
   const months = Math.floor(difference / 30);
 
   if (months <= 1) {
-    return "1 month ago";
+    return translate("monthlyActivity.relativeDates.monthAgo", {
+      count: 1,
+    });
   }
 
-  return `${months} months ago`;
+  return translate("monthlyActivity.relativeDates.monthsAgo", {
+    count: months,
+  });
 }
 
 /* --------------------------------------------------
@@ -189,8 +196,8 @@ function buildCalendarGrid(data) {
   }
 
   /* ----------------------------------------------
-Monday = 0 ... Sunday = 6
----------------------------------------------- */
+  Monday = 0 ... Sunday = 6
+  ---------------------------------------------- */
 
   const startDay = (firstDate.getDay() + 6) % 7;
 
@@ -211,7 +218,7 @@ Monday = 0 ... Sunday = 6
 Group Selected Day Details
 -------------------------------------------------- */
 
-function groupDetails(details) {
+function groupDetails(details, translate) {
   if (!Array.isArray(details)) {
     return [];
   }
@@ -219,7 +226,7 @@ function groupDetails(details) {
   const groups = new Map();
 
   details.forEach((item) => {
-    const operation = item.operation ?? "Other";
+    const operation = item.operation ?? translate("monthlyActivity.other");
 
     if (!groups.has(operation)) {
       groups.set(operation, []);
@@ -239,6 +246,9 @@ Monthly Activity
 -------------------------------------------------- */
 
 export default function MonthlyActivity({ data = [], details = {} }) {
+  const t = useTranslations("Graphs");
+  const locale = useLocale();
+
   const cells = useMemo(() => buildCalendarGrid(data), [data]);
 
   const today = getTodayDateKey();
@@ -246,29 +256,29 @@ export default function MonthlyActivity({ data = [], details = {} }) {
   const [selectedDate, setSelectedDate] = useState(today);
 
   if (cells.length === 0) {
-    return <div className={styles.empty}>No activity yet </div>;
+    return <div className={styles.empty}>{t("monthlyActivity.noActivity")}</div>;
   }
 
   const selectedDetails = selectedDate && details[selectedDate] ? details[selectedDate] : [];
 
-  const groupedDetails = groupDetails(selectedDetails);
+  const groupedDetails = groupDetails(selectedDetails, t);
 
   const selectedActivity = data.find((item) => item.date === selectedDate) ?? null;
 
-  const selectedDateLabel = selectedDate ? formatDate(selectedDate) : "Select a day";
+  const selectedDateLabel = selectedDate ? formatDate(selectedDate, locale) : t("monthlyActivity.selectDay");
 
-  const relativeDateLabel = selectedDate ? getRelativeDateLabel(selectedDate) : "";
+  const relativeDateLabel = selectedDate ? getRelativeDateLabel(selectedDate, t) : "";
 
   return (
     <div className={styles.activity}>
       {/* ------------------------------------------------
-Calendar
------------------------------------------------- */}
+      Calendar
+      ------------------------------------------------ */}
 
       <div className={styles.calendar}>
         <div className={styles.dayLabels}>
           {DAY_LABELS.map((day) => (
-            <span key={day}>{day}</span>
+            <span key={day}>{t(`monthlyActivity.days.${day}`)}</span>
           ))}
         </div>
 
@@ -295,7 +305,7 @@ Calendar
                 className={`${styles.cell} ${isSelected ? styles.selected : ""}`}
                 data-level={level}
                 onClick={() => setSelectedDate(item.date)}
-                aria-label={`${formatDate(item.date)} — ${item.questions} questions`}
+                aria-label={`${formatDate(item.date, locale)} — ${item.questions} ${t("monthlyActivity.questions")}`}
                 aria-pressed={isSelected}
               >
                 <span className={styles.dayNumber}>{getDayNumber(item.date)}</span>
@@ -306,8 +316,8 @@ Calendar
       </div>
 
       {/* ------------------------------------------------
-     Selected Day Details
-  ------------------------------------------------ */}
+      Selected Day Details
+      ------------------------------------------------ */}
 
       <div className={styles.details}>
         <div className={styles.detailsHeader}>
@@ -317,7 +327,11 @@ Calendar
             {relativeDateLabel && <span className={styles.relativeDate}>{relativeDateLabel}</span>}
           </h3>
 
-          {selectedActivity && <span className={styles.questionCount}>{selectedActivity.questions} Qs</span>}
+          {selectedActivity && (
+            <span className={styles.questionCount}>
+              {selectedActivity.questions} {t("monthlyActivity.questionsShort")}
+            </span>
+          )}
         </div>
 
         {groupedDetails.length > 0 ? (
@@ -332,17 +346,24 @@ Calendar
                 <table className={styles.detailTable}>
                   <thead>
                     <tr>
-                      <th scope='col'>Level</th>
-                      <th scope='col'>Qs</th>
-                      <th scope='col'>Accuracy</th>
-                      <th scope='col'>Avg.</th>
+                      <th scope='col'>{t("monthlyActivity.level")}</th>
+
+                      <th scope='col'>{t("monthlyActivity.questionsShort")}</th>
+
+                      <th scope='col'>{t("monthlyActivity.accuracy")}</th>
+
+                      <th scope='col'>{t("monthlyActivity.average")}</th>
                     </tr>
                   </thead>
 
                   <tbody>
                     {group.levels.map((item, index) => (
                       <tr key={`${item.operation}-${item.level}-${index}`}>
-                        <td>Level {item.level}</td>
+                        <td>
+                          {t("monthlyActivity.levelValue", {
+                            level: item.level,
+                          })}
+                        </td>
 
                         <td>{item.questions}</td>
 
@@ -357,7 +378,7 @@ Calendar
             ))}
           </div>
         ) : (
-          <div className={styles.noActivity}>No practice on this day.</div>
+          <div className={styles.noActivity}>{t("monthlyActivity.noPractice")}</div>
         )}
       </div>
     </div>

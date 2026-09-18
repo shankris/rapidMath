@@ -1,3 +1,230 @@
 {
-  "title": "Dashboard"
+  "title": "Tableau de bord",
+  "subtitle": "Continuez à développer vos compétences en calcul mental.",
+  "roadmap": {
+    "title": "Exercices de calcul rapide",
+    "description": "Découvrez les exercices disponibles dès maintenant et ceux qui arriveront prochainement.",
+    "categoriesLabel": "Catégories d'exercices",
+    "categoryExercises": "Exercices de {category}"
+  },
+  "categories": {
+    "basic": "Bases",
+    "intermediate": "Intermédiaire",
+    "advanced": "Avancé",
+    "challenge": "Défi"
+  },
+  "status": {
+    "available": "Disponible",
+    "comingSoon": "Bientôt disponible",
+    "planned": "Prévu"
+  },
+  "levels": {
+    "level": "Niveau {level}",
+    "practicedToday": "Pratiqué {count, plural, =1 {fois} other {# fois}} aujourd’hui",
+    "playNow": "Jouer maintenant"
+  },
+  "tooltip": {
+    "accuracy": "Précision",
+    "reactionTime": "Temps de réaction",
+    "questions": "Questions"
+  },
+  "practiceTime": {
+    "title": "Temps de pratique",
+    "description": "Répartition de votre temps de pratique.",
+    "others": "Autres"
+  },
+  "quizPractice": {
+    "title": "Entraînement aux quiz",
+    "description": "Votre activité de pratique au cours des 30 derniers jours."
+  },
+  "operations": {
+    "add": {
+      "title": "Addition",
+      "description": "Entraînez-vous à additionner des nombres rapidement et avec précision."
+    },
+    "sub": {
+      "title": "Soustraction",
+      "description": "Entraînez-vous à soustraire des nombres rapidement et avec précision."
+    },
+    "mul": {
+      "title": "Multiplication",
+      "description": "Entraînez-vous à multiplier des nombres rapidement et avec précision."
+    },
+    "div": {
+      "title": "Division",
+      "description": "Entraînez-vous à diviser des nombres rapidement et avec précision."
+    },
+    "mixedOperations": {
+      "title": "Opérations mixtes",
+      "description": "Entraînez-vous à résoudre des problèmes utilisant plusieurs opérations."
+    },
+    "missingNumber": {
+      "title": "Trouver X",
+      "description": "Trouvez le nombre manquant à l’aide du calcul mental."
+    },
+    "comparison": {
+      "title": "Comparaison",
+      "description": "Comparez rapidement des nombres et des expressions."
+    },
+    "estimation": {
+      "title": "Estimation",
+      "description": "Développez votre capacité à estimer des résultats numériques."
+    },
+    "rounding": {
+      "title": "Arrondi",
+      "description": "Entraînez-vous à arrondir les nombres à la précision requise."
+    },
+    "orderOfOperations": {
+      "title": "Priorité des opérations",
+      "description": "Entraînez-vous à résoudre des expressions en respectant l’ordre des opérations."
+    },
+    "numberSense": {
+      "title": "Sens des nombres",
+      "description": "Développez votre intuition des nombres et de leurs relations."
+    },
+    "factorsMultiples": {
+      "title": "Facteurs et multiples",
+      "description": "Entraînez-vous à identifier les facteurs et les multiples."
+    },
+    "divisibility": {
+      "title": "Divisibilité",
+      "description": "Entraînez-vous à reconnaître les règles et les propriétés de divisibilité."
+    },
+    "fractions": {
+      "title": "Fractions",
+      "description": "Entraînez-vous à manipuler les fractions rapidement et avec précision."
+    },
+    "percentages": {
+      "title": "Pourcentages",
+      "description": "Entraînez-vous à calculer et comparer des pourcentages."
+    },
+    "decimals": {
+      "title": "Nombres décimaux",
+      "description": "Entraînez-vous à manipuler les nombres décimaux."
+    },
+    "ratiosProportions": {
+      "title": "Rapports et proportions",
+      "description": "Entraînez-vous à résoudre des problèmes de rapports et de proportions."
+    },
+    "powersRoots": {
+      "title": "Puissances et racines",
+      "description": "Entraînez-vous à calculer mentalement des puissances et des racines."
+    },
+    "averages": {
+      "title": "Moyennes",
+      "description": "Entraînez-vous à calculer rapidement des moyennes."
+    },
+    "negativeNumbers": {
+      "title": "Nombres négatifs",
+      "description": "Entraînez-vous à manipuler les nombres négatifs avec assurance."
+    },
+    "simpleEquations": {
+      "title": "Équations simples",
+      "description": "Entraînez-vous à résoudre mentalement des équations simples."
+    },
+    "simpleInequalities": {
+      "title": "Inégalités simples",
+      "description": "Entraînez-vous à résoudre mentalement des inégalités simples."
+    },
+    "scientificNotation": {
+      "title": "Notation scientifique",
+      "description": "Entraînez-vous à manipuler les nombres en notation scientifique."
+    },
+    "unitConversions": {
+      "title": "Conversions d’unités",
+      "description": "Entraînez-vous à convertir des unités courantes."
+    },
+    "basicGeometry": {
+      "title": "Géométrie de base",
+      "description": "Entraînez-vous aux calculs fondamentaux de géométrie."
+    },
+    "basicStatistics": {
+      "title": "Statistiques de base",
+      "description": "Entraînez-vous aux calculs statistiques fondamentaux."
+    },
+    "algebra": {
+      "title": "Algèbre",
+      "description": "Entraînez-vous à résoudre efficacement des problèmes d’algèbre."
+    },
+    "linearEquations": {
+      "title": "Équations linéaires",
+      "description": "Entraînez-vous à résoudre des équations linéaires."
+    },
+    "quadraticEquations": {
+      "title": "Équations du second degré",
+      "description": "Entraînez-vous à résoudre des équations du second degré."
+    },
+    "polynomials": {
+      "title": "Polynômes",
+      "description": "Entraînez-vous à manipuler des expressions polynomiales."
+    },
+    "sequences": {
+      "title": "Suites et progressions",
+      "description": "Entraînez-vous à identifier et résoudre des suites numériques."
+    },
+    "coordinateGeometry": {
+      "title": "Géométrie analytique",
+      "description": "Entraînez-vous avec des problèmes utilisant des coordonnées et des graphiques."
+    },
+    "geometry": {
+      "title": "Géométrie",
+      "description": "Entraînez-vous aux problèmes et calculs de géométrie."
+    },
+    "trigonometry": {
+      "title": "Trigonométrie",
+      "description": "Entraînez-vous aux calculs et aux relations trigonométriques."
+    },
+    "statistics": {
+      "title": "Statistiques",
+      "description": "Entraînez-vous aux concepts et aux calculs statistiques."
+    },
+    "probability": {
+      "title": "Probabilités",
+      "description": "Entraînez-vous à calculer des probabilités."
+    },
+    "multiStepWordProblems": {
+      "title": "Problèmes à plusieurs étapes",
+      "description": "Entraînez-vous à résoudre des problèmes en plusieurs étapes issus de situations réelles."
+    },
+    "dataInterpretation": {
+      "title": "Interprétation des données",
+      "description": "Entraînez-vous à interpréter des données et des informations numériques."
+    },
+    "multiStepAlgebra": {
+      "title": "Algèbre à plusieurs étapes",
+      "description": "Entraînez-vous à résoudre des problèmes d’algèbre en plusieurs étapes."
+    },
+    "advancedEquations": {
+      "title": "Équations avancées",
+      "description": "Entraînez-vous à résoudre des équations plus complexes."
+    },
+    "advancedGeometry": {
+      "title": "Géométrie avancée",
+      "description": "Entraînez-vous à résoudre des problèmes de géométrie plus complexes."
+    },
+    "advancedTrigonometry": {
+      "title": "Trigonométrie avancée",
+      "description": "Entraînez-vous à résoudre des problèmes de trigonométrie plus complexes."
+    },
+    "complexProbability": {
+      "title": "Probabilités complexes",
+      "description": "Entraînez-vous à résoudre des problèmes de probabilités plus complexes."
+    },
+    "challengingSequences": {
+      "title": "Suites avancées",
+      "description": "Entraînez-vous à résoudre des suites et progressions plus complexes."
+    },
+    "multiTopicProblems": {
+      "title": "Problèmes multi-thématiques",
+      "description": "Entraînez-vous avec des problèmes combinant plusieurs domaines des mathématiques."
+    },
+    "satStyleProblems": {
+      "title": "Problèmes de type SAT",
+      "description": "Entraînez-vous avec des problèmes mathématiques inspirés du format SAT."
+    },
+    "olympiadStyleProblems": {
+      "title": "Problèmes de type olympiade",
+      "description": "Entraînez-vous avec des problèmes difficiles inspirés des olympiades de mathématiques."
+    }
+  }
 }

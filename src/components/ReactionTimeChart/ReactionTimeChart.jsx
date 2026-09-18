@@ -3,9 +3,12 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { CartesianGrid, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+
 import { getQuizAttempts } from "@/lib/storage/quizHistory";
 import { getReactionTimeTrend } from "@/lib/stats/reactionTime";
+
 import styles from "@/components/Dashboard/Dashboard.module.css";
 
 /* --------------------------------------------------
@@ -133,14 +136,14 @@ function getAvailableLevels(attempts, operation) {
    Format Date Label
 -------------------------------------------------- */
 
-function formatDateLabel(dateKey) {
+function formatDateLabel(dateKey, locale) {
   const date = new Date(`${dateKey}T00:00:00`);
 
   if (Number.isNaN(date.getTime())) {
     return dateKey;
   }
 
-  return date.toLocaleDateString(undefined, {
+  return date.toLocaleDateString(locale, {
     day: "numeric",
     month: "short",
   });
@@ -162,7 +165,7 @@ function formatReactionTime(value) {
    Custom Tooltip
 -------------------------------------------------- */
 
-function ReactionTimeTooltip({ active, payload, label }) {
+function ReactionTimeTooltip({ active, payload, label, translate, locale }) {
   if (!active || !payload?.length) {
     return null;
   }
@@ -175,10 +178,10 @@ function ReactionTimeTooltip({ active, payload, label }) {
 
   return (
     <div className={styles.chartTooltip}>
-      <strong>{formatDateLabel(label)}</strong>
+      <strong>{formatDateLabel(label, locale)}</strong>
 
       <span>
-        <span className={styles.chartTooltipLabel}>Average reaction time</span>
+        <span className={styles.chartTooltipLabel}>{translate("reactionTime.average")}</span>
 
         <span className={styles.chartTooltipValue}>{formatReactionTime(reactionTime.value)}</span>
       </span>
@@ -191,6 +194,9 @@ function ReactionTimeTooltip({ active, payload, label }) {
 -------------------------------------------------- */
 
 export default function ReactionTimeChart({ operation: selectedOperation = "", level: selectedLevel = "", onSelectionChange, onActiveDayCountChange }) {
+  const t = useTranslations("Graphs");
+  const locale = useLocale();
+
   const [attempts, setAttempts] = useState([]);
 
   const [operation, setOperation] = useState(selectedOperation);
@@ -379,9 +385,9 @@ export default function ReactionTimeChart({ operation: selectedOperation = "", l
     () =>
       chartData.map((day) => ({
         ...day,
-        displayDate: formatDateLabel(day.date),
+        displayDate: formatDateLabel(day.date, locale),
       })),
-    [chartData],
+    [chartData, locale],
   );
 
   /* ------------------------------------------------
@@ -393,13 +399,13 @@ export default function ReactionTimeChart({ operation: selectedOperation = "", l
       <section className={styles.chartCard}>
         <header className={styles.chartHeader}>
           <div>
-            <h2>Reaction Time</h2>
+            <h2>{t("reactionTime.title")}</h2>
 
-            <p>Your reaction-time progress over the last 30 days.</p>
+            <p>{t("reactionTime.noData")}</p>
           </div>
         </header>
 
-        <div className={styles.chartEmpty}>No reaction-time data available yet.</div>
+        <div className={styles.chartEmpty}>{t("reactionTime.noData")}</div>
       </section>
     );
   }
@@ -412,13 +418,14 @@ export default function ReactionTimeChart({ operation: selectedOperation = "", l
 
       <div className={styles.performanceChartHeader}>
         <div className={styles.performanceChartHeading}>
-          <h2>Reaction Time</h2>
-          <p>Track your reaction time over the last 30 days.</p>
+          <h2>{t("reactionTime.title")}</h2>
+
+          <p>{t("reactionTime.description")}</p>
         </div>
 
         <div className={styles.performanceChartControls}>
           <label className={styles.filter}>
-            <span>Operation</span>
+            <span>{t("reactionTime.operation")}</span>
 
             <select
               value={operation}
@@ -441,14 +448,14 @@ export default function ReactionTimeChart({ operation: selectedOperation = "", l
                   key={item}
                   value={item}
                 >
-                  {OPERATION_NAMES[item] ?? item}
+                  {t(`operations.${item}.title`)}
                 </option>
               ))}
             </select>
           </label>
 
           <label className={styles.filter}>
-            <span>Level</span>
+            <span>{t("reactionTime.level")}</span>
 
             <select
               value={level}
@@ -471,7 +478,7 @@ export default function ReactionTimeChart({ operation: selectedOperation = "", l
                   key={item}
                   value={item}
                 >
-                  Level {item}
+                  {t("levels.level", { level: item })}
                 </option>
               ))}
             </select>
@@ -503,7 +510,9 @@ export default function ReactionTimeChart({ operation: selectedOperation = "", l
                 strokeDasharray='3 3'
                 vertical={false}
               />
-              /* ------------------------------------------------ X Axis ------------------------------------------------ */
+              {/* ------------------------------------------------
+                 X Axis
+              ------------------------------------------------ */}
               <XAxis
                 dataKey='displayDate'
                 padding={{
@@ -530,7 +539,14 @@ export default function ReactionTimeChart({ operation: selectedOperation = "", l
                 tickFormatter={(value) => `${value.toFixed(1)}s`}
                 width={42}
               />
-              <Tooltip content={<ReactionTimeTooltip />} />
+              <Tooltip
+                content={
+                  <ReactionTimeTooltip
+                    translate={t}
+                    locale={locale}
+                  />
+                }
+              />
               {Number.isFinite(overallAverage) && (
                 <ReferenceLine
                   y={overallAverage}
@@ -538,7 +554,9 @@ export default function ReactionTimeChart({ operation: selectedOperation = "", l
                   strokeDasharray='5 5'
                   ifOverflow='extendDomain'
                   label={{
-                    value: `Avg ${formatReactionTime(overallAverage)}`,
+                    value: t("reactionTime.averageLabel", {
+                      value: formatReactionTime(overallAverage),
+                    }),
                     position: "insideTopRight",
                     fill: "var(--mutedColor)",
                     fontSize: 10,
@@ -562,13 +580,13 @@ export default function ReactionTimeChart({ operation: selectedOperation = "", l
                   strokeWidth: 2,
                 }}
                 connectNulls={true}
-                name='Average reaction time'
+                name={t("reactionTime.average")}
               />
             </LineChart>
           </ResponsiveContainer>
         </div>
       ) : (
-        <div className={styles.chartEmpty}>No reaction-time data available for this level.</div>
+        <div className={styles.chartEmpty}>{t("reactionTime.noLevelData")}</div>
       )}
     </section>
   );

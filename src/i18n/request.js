@@ -9,11 +9,11 @@ import { routing } from "./routing";
 -------------------------------------------------- */
 
 async function loadMessages(locale) {
-  const [common, dashboard, header, notifications, practice, quiz] = await Promise.all([import(`./messages/${locale}/common.json`), import(`./messages/${locale}/dashboard.json`), import(`./messages/${locale}/header.json`), import(`./messages/${locale}/notifications.json`), import(`./messages/${locale}/practice.json`), import(`./messages/${locale}/quiz.json`)]);
-
+  const [common, dashboard, graphs, header, notifications, practice, quiz] = await Promise.all([import(`./messages/${locale}/common.json`), import(`./messages/${locale}/dashboard.json`), import(`./messages/${locale}/graphs.json`), import(`./messages/${locale}/header.json`), import(`./messages/${locale}/notifications.json`), import(`./messages/${locale}/practice.json`), import(`./messages/${locale}/quiz.json`)]);
   return {
     Common: common.default,
     Dashboard: dashboard.default,
+    Graphs: graphs.default,
     Header: header.default,
     Notifications: notifications.default,
     Practice: practice.default,

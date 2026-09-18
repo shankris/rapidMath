@@ -1,0 +1,110 @@
+{
+  "reactionTime": {
+    "title": "Reaktionszeit",
+    "description": "Verfolgen Sie Ihre Reaktionszeit der letzten 30 Tage.",
+    "noData": "Noch keine Daten zur Reaktionszeit verfügbar.",
+    "noLevelData": "Keine Reaktionszeitdaten für dieses Level verfügbar.",
+    "operation": "Rechenoperation",
+    "level": "Level",
+    "average": "Durchschnittliche Reaktionszeit",
+    "averageLabel": "Durchschn. {value}"
+  },
+
+  "practiceTime": {
+    "title": "Übungszeit",
+    "description": "So verteilt sich Ihre Übungszeit.",
+    "others": "Andere"
+  },
+
+  "accuracy": {
+    "title": "Genauigkeit",
+    "description": "Verfolgen Sie Ihre Genauigkeit der letzten 30 Tage.",
+    "noData": "Noch keine Genauigkeitsdaten verfügbar.",
+    "noLevelData": "Keine Genauigkeitsdaten für dieses Level verfügbar.",
+    "operation": "Rechenoperation",
+    "level": "Level",
+    "label": "Genauigkeit"
+  },
+
+  "monthlyActivity": {
+    "noActivity": "Noch keine Aktivität",
+    "selectDay": "Wählen Sie einen Tag",
+    "other": "Andere",
+    "questions": "Fragen",
+    "questionsShort": "Fr.",
+    "level": "Level",
+    "levelValue": "Level {level}",
+    "accuracy": "Genauigkeit",
+    "average": "Durchschn.",
+    "noPractice": "An diesem Tag keine Übung.",
+
+    "days": {
+      "monday": "Mo",
+      "tuesday": "Di",
+      "wednesday": "Mi",
+      "thursday": "Do",
+      "friday": "Fr",
+      "saturday": "Sa",
+      "sunday": "So"
+    },
+
+    "relativeDates": {
+      "today": "Heute",
+      "yesterday": "Gestern",
+      "daysAgo": "Vor {count} Tagen",
+      "lastWeek": "Letzte Woche",
+      "weeksAgo": "Vor {count} Wochen",
+      "monthAgo": "Vor {count} Monat",
+      "monthsAgo": "Vor {count} Monaten"
+    }
+  },
+
+  "streakStats": {
+    "days": "Tage",
+    "current": "Aktuelle Serie",
+    "previousLongest": "Bisher längste Serie"
+  },
+
+  "operations": {
+    "add": {
+      "title": "Addition"
+    },
+    "sub": {
+      "title": "Subtraktion"
+    },
+    "mul": {
+      "title": "Multiplikation"
+    },
+    "div": {
+      "title": "Division"
+    },
+    "mixedOperations": {
+      "title": "Gemischte Rechenoperationen"
+    },
+    "missingNumber": {
+      "title": "Fehlende Zahl"
+    },
+    "comparison": {
+      "title": "Vergleich"
+    },
+    "estimation": {
+      "title": "Schätzen"
+    },
+    "sequences": {
+      "title": "Folgen & Zahlenreihen"
+    },
+    "fractions": {
+      "title": "Brüche"
+    },
+    "percentages": {
+      "title": "Prozentrechnung"
+    },
+    "powersRoots": {
+      "title": "Potenzen & Wurzeln"
+    }
+  },
+
+  "levels": {
+    "level": "Level {level}"
+  }
+}

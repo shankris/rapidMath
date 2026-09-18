@@ -1,0 +1,110 @@
+{
+  "reactionTime": {
+    "title": "Reaction Time",
+    "description": "Track your reaction time over the last 30 days.",
+    "noData": "No reaction-time data available yet.",
+    "noLevelData": "No reaction-time data available for this level.",
+    "operation": "Operation",
+    "level": "Level",
+    "average": "Average reaction time",
+    "averageLabel": "Avg {value}"
+  },
+
+  "practiceTime": {
+    "title": "Practice Time",
+    "description": "How your practice time is distributed.",
+    "others": "Others"
+  },
+
+  "accuracy": {
+    "title": "Accuracy",
+    "description": "Track your accuracy over the last 30 days.",
+    "noData": "No accuracy data available yet.",
+    "noLevelData": "No accuracy data available for this level.",
+    "operation": "Operation",
+    "level": "Level",
+    "label": "Accuracy"
+  },
+
+  "monthlyActivity": {
+    "noActivity": "No activity yet",
+    "selectDay": "Select a day",
+    "other": "Other",
+    "questions": "questions",
+    "questionsShort": "Qs",
+    "level": "Level",
+    "levelValue": "Level {level}",
+    "accuracy": "Accuracy",
+    "average": "Avg.",
+    "noPractice": "No practice on this day.",
+
+    "days": {
+      "monday": "Mon",
+      "tuesday": "Tue",
+      "wednesday": "Wed",
+      "thursday": "Thu",
+      "friday": "Fri",
+      "saturday": "Sat",
+      "sunday": "Sun"
+    },
+
+    "relativeDates": {
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "daysAgo": "{count} days ago",
+      "lastWeek": "Last week",
+      "weeksAgo": "{count} weeks ago",
+      "monthAgo": "{count} month ago",
+      "monthsAgo": "{count} months ago"
+    }
+  },
+
+  "streakStats": {
+    "days": "days",
+    "current": "Current streak",
+    "previousLongest": "Previous longest streak"
+  },
+
+  "operations": {
+    "add": {
+      "title": "Addition"
+    },
+    "sub": {
+      "title": "Subtraction"
+    },
+    "mul": {
+      "title": "Multiplication"
+    },
+    "div": {
+      "title": "Division"
+    },
+    "mixedOperations": {
+      "title": "Mixed Operations"
+    },
+    "missingNumber": {
+      "title": "Missing Number"
+    },
+    "comparison": {
+      "title": "Comparison"
+    },
+    "estimation": {
+      "title": "Estimation"
+    },
+    "sequences": {
+      "title": "Sequences & Progressions"
+    },
+    "fractions": {
+      "title": "Fractions"
+    },
+    "percentages": {
+      "title": "Percentages"
+    },
+    "powersRoots": {
+      "title": "Powers & Roots"
+    }
+  },
+
+  "levels": {
+    "level": "Level {level}"
+  }
+}

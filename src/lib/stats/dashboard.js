@@ -37,23 +37,21 @@ function getDaysAgoDateKey(daysAgo) {
 Format Relative Last-Use Time
 -------------------------------------------------- */
 
-export function formatLastUse(timestamp) {
+export function formatLastUse(timestamp, translate) {
+  const t = translate ?? ((key) => key);
+
   if (!timestamp) {
-    return "Play now";
+    return t("levels.playNow");
   }
 
   const date = new Date(timestamp);
 
   if (Number.isNaN(date.getTime())) {
-    return "Play now";
+    return t("levels.playNow");
   }
 
   const now = new Date();
   const differenceMs = now.getTime() - date.getTime();
-
-  if (differenceMs < 0) {
-    return "Used just now";
-  }
 
   const minute = 60 * 1000;
   const hour = 60 * minute;
@@ -61,44 +59,58 @@ export function formatLastUse(timestamp) {
   const month = 30 * day;
   const year = 365 * day;
 
+  if (differenceMs < 0) {
+    return t("lastUse.justNow");
+  }
+
   if (differenceMs < minute) {
-    return "Used just now";
+    return t("lastUse.justNow");
   }
 
   if (differenceMs < hour) {
     const minutes = Math.floor(differenceMs / minute);
 
-    return `Used ${minutes}m ago`;
+    return t("lastUse.minutesAgo", {
+      count: minutes,
+    });
   }
 
   if (differenceMs < day) {
     const hours = Math.floor(differenceMs / hour);
 
-    return `Used ${hours}h ago`;
+    return t("lastUse.hoursAgo", {
+      count: hours,
+    });
   }
 
   const yesterday = getDaysAgoDateKey(1);
   const practiceDate = getLocalDateKey(date);
 
   if (practiceDate === yesterday) {
-    return "Used yesterday";
+    return t("lastUse.yesterday");
   }
 
   if (differenceMs < month) {
     const days = Math.floor(differenceMs / day);
 
-    return `Used ${days}d ago`;
+    return t("lastUse.daysAgo", {
+      count: days,
+    });
   }
 
   if (differenceMs < year) {
     const months = Math.floor(differenceMs / month);
 
-    return `Used ${months}mo ago`;
+    return t("lastUse.monthsAgo", {
+      count: months,
+    });
   }
 
   const years = Math.floor(differenceMs / year);
 
-  return `Used ${years}y ago`;
+  return t("lastUse.yearsAgo", {
+    count: years,
+  });
 }
 
 /* --------------------------------------------------
@@ -123,7 +135,7 @@ function getLastUseTimestamp(attempts, operation, level) {
 }
 
 /* --------------------------------------------------
-   Get Today's Level Usage
+Get Today's Level Usage
 -------------------------------------------------- */
 
 function getTodayLevelUsage(attempts, operation, level) {
@@ -141,12 +153,12 @@ function getTodayLevelUsage(attempts, operation, level) {
     }
 
     /*
-       Count the attempt once it has at least one
-       answered question.
+   Count the attempt once it has at least one
+   answered question.
 
-       An abandoned attempt with zero answers therefore
-       does not count as a level use.
-    */
+   An abandoned attempt with zero answers therefore
+   does not count as a level use.
+*/
 
     return attempt.questions.some((question) => question && question.selectedAnswer !== undefined && question.selectedAnswer !== null);
   }).length;
@@ -156,7 +168,7 @@ function getTodayLevelUsage(attempts, operation, level) {
 Get Level Statistics
 -------------------------------------------------- */
 
-export function getDashboardLevelStats(operation, level) {
+export function getDashboardLevelStats(operation, level, translate) {
   const attempts = getQuizAttempts();
 
   const questions = getAnsweredQuestions(attempts, operation, level);
@@ -175,7 +187,7 @@ export function getDashboardLevelStats(operation, level) {
 
   return {
     lastUseTimestamp,
-    lastUse: formatLastUse(lastUseTimestamp),
+    lastUse: formatLastUse(lastUseTimestamp, translate),
     accuracy,
     reactionTime: averageReactionTime,
     questions: questions.length,
@@ -241,7 +253,6 @@ export function getDashboardActivityDetails() {
   const details = {};
 
   const firstDate = getDaysAgoDateKey(DASHBOARD_DAYS - 1);
-
   const lastDate = getDaysAgoDateKey(0);
 
   attempts.forEach((attempt) => {
@@ -256,7 +267,7 @@ export function getDashboardActivityDetails() {
     }
 
     /* ----------------------------------------------
-   Only include answered questions
+Only include answered questions
 ---------------------------------------------- */
 
     const answeredQuestions = attempt.questions.filter((question) => question && question.selectedAnswer !== undefined && question.selectedAnswer !== null);
@@ -270,7 +281,6 @@ export function getDashboardActivityDetails() {
     }
 
     const levelKey = Number(attempt.level);
-
     const groupKey = `${attempt.operation}-${levelKey}`;
 
     if (!details[attemptDate][groupKey]) {

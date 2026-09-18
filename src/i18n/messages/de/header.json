@@ -1,1 +1,9 @@
-{ "menu": { "dashboard": "Dashboard", "practice": "Üben", "reports": "Berichte", "review": "Überprüfung" } }
+{
+  "logo": "Rapid Math",
+  "menu": {
+    "dashboard": "Dashboard",
+    "practice": "Üben",
+    "reports": "Berichte",
+    "review": "Überprüfung"
+  }
+}
