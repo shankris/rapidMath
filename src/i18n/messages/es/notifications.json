@@ -1,0 +1,17 @@
+{
+  "newBookmarks": {
+    "title": "Nuevos marcadores añadidos",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
+    "time": "hace 2 min"
+  },
+  "bookmarksSummary": {
+    "title": "Resumen de marcadores",
+    "description": "El resumen de tus marcadores está listo",
+    "time": "hace 6 horas"
+  },
+  "weeklySales": {
+    "title": "Informe semanal de ventas",
+    "description": "El informe semanal ya está disponible.",
+    "time": "hace 1 día"
+  }
+}

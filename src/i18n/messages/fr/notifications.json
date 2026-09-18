@@ -1,0 +1,17 @@
+{
+  "newBookmarks": {
+    "title": "Nouveaux favoris ajoutés",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
+    "time": "il y a 2 min"
+  },
+  "bookmarksSummary": {
+    "title": "Résumé des favoris",
+    "description": "Le résumé de vos favoris est prêt",
+    "time": "il y a 6 heures"
+  },
+  "weeklySales": {
+    "title": "Rapport des ventes hebdomadaire",
+    "description": "Le rapport hebdomadaire est maintenant disponible.",
+    "time": "il y a 1 jour"
+  }
+}

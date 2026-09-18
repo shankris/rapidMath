@@ -1,9 +1,12 @@
+// src/app/layout.js
+
 import { Montserrat, Open_Sans } from "next/font/google";
+
 import "./globals.css";
 
-import Header from "@/components/Header/Header";
-import Footer from "@/components/Footer/Footer";
-import Sidebar from "@/components/Sidebar/Sidebar";
+/* --------------------------------------------------
+   Application Fonts
+-------------------------------------------------- */
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -24,17 +27,17 @@ export const metadata = {
   description: "Improve your mental math speed with timed arithmetic drills.",
 };
 
+/* --------------------------------------------------
+   Root Application Layout
+-------------------------------------------------- */
+
 export default function RootLayout({ children }) {
   return (
-    <html lang='en'>
-      <body className={`${montserrat.variable} ${openSans.variable}`}>
-        <Header />
-
-        <div className='app-shell'>
-          <main className='app-main'>{children}</main>
-          <Footer />
-        </div>
-      </body>
+    <html
+      lang='en'
+      className={`${montserrat.variable} ${openSans.variable}`}
+    >
+      <body>{children}</body>
     </html>
   );
 }

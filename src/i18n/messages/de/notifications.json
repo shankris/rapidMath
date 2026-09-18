@@ -1,0 +1,17 @@
+{
+  "newBookmarks": {
+    "title": "Neue Lesezeichen hinzugefügt",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
+    "time": "vor 2 Min."
+  },
+  "bookmarksSummary": {
+    "title": "Lesezeichenübersicht",
+    "description": "Die Zusammenfassung Ihrer Lesezeichen ist bereit",
+    "time": "vor 6 Stunden"
+  },
+  "weeklySales": {
+    "title": "Wöchentlicher Verkaufsbericht",
+    "description": "Der wöchentliche Bericht ist jetzt verfügbar.",
+    "time": "vor 1 Tag"
+  }
+}

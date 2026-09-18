@@ -1,0 +1,17 @@
+{
+  "newBookmarks": {
+    "title": "New Bookmarks Added",
+    "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
+    "time": "2 min ago"
+  },
+  "bookmarksSummary": {
+    "title": "Bookmarks Summary",
+    "description": "Your bookmarks summary is ready",
+    "time": "6 hours ago"
+  },
+  "weeklySales": {
+    "title": "Weekly Sales Report",
+    "description": "The weekly report is now available.",
+    "time": "1 day ago"
+  }
+}
