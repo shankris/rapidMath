@@ -660,7 +660,7 @@
 }
 
 .roadmapTabActive {
-  background: var(--surfaceColor);
+  background: var(--tab1bg);
   color: var(--headingCol);
   box-shadow: var(--shadow-sm);
 }
