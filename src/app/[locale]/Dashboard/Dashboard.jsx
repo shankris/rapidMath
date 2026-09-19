@@ -310,7 +310,13 @@ export default function Dashboard() {
 
                           <span className={styles.levelNumber}>L{level.level}</span>
 
-                          <span className={styles.levelPlaceholder}>{stats?.lastUse ?? t("levels.playNow")}</span>
+                          <span className={styles.levelPlaceholder}>
+                            {stats?.lastUse
+                              ? t(`levels.${stats.lastUse.key}`, {
+                                  count: stats.lastUse.count,
+                                })
+                              : t("levels.playNow")}
+                          </span>
 
                           <span className={styles.tooltip}>
                             <span>

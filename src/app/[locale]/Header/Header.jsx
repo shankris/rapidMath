@@ -9,6 +9,7 @@ import ThemeToggle from "./ThemeToggle";
 import NotificationBell from "@/components/Notification/NotificationBell";
 import Menu from "./Menu/Menu";
 import LanguageSwitcher from "./LanguageSwitcher/LanguageSwitcher";
+import Logo from "@/components/Logo/Logo";
 
 /* --------------------------------------------------
    Header Notifications
@@ -39,7 +40,9 @@ export default function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
-        <div className={styles.logo}>{t("logo")}</div>
+        <div className={styles.logo}>
+          <Logo />
+        </div>
 
         <Menu />
 

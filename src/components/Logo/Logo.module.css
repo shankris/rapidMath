@@ -1,0 +1,28 @@
+.logo {
+  font-size: 18px;
+  text-transform: uppercase;
+
+}
+
+.logo span {
+  background-color: var(--hoverColor);
+  color: var(--tab2Txt);
+  aspect-ratio: 1/1;
+  min-width: 20px;
+  height: 20px;
+  margin: 0 2px 0 0;
+  display: inline-block;
+  text-align: center;
+  line-height: 1.1;
+  border-radius: 3;
+  font-weight: 400;
+}
+
+.math {
+  display: inline-block;
+  line-height: 1.1;
+  font-weight: 600;
+  color: var(--mutedColor);
+  margin: 0 0 0 6px;
+  letter-spacing: 4px;
+}

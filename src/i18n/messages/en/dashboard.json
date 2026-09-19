@@ -21,8 +21,16 @@
   "levels": {
     "level": "Level {level}",
     "practicedToday": "Practiced {count, plural, =1 {time} other {# times}} today",
-    "playNow": "Play now"
+    "playNow": "Play now",
+    "justNow": "Used just now",
+    "minutesAgo": "Used {count}m ago",
+    "hoursAgo": "Used {count}h ago",
+    "yesterday": "Used yesterday",
+    "daysAgo": "Used {count}d ago",
+    "monthsAgo": "Used {count}mo ago",
+    "yearsAgo": "Used {count}y ago"
   },
+
   "tooltip": {
     "accuracy": "Accuracy",
     "reactionTime": "Reaction time",

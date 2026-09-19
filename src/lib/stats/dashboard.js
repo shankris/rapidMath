@@ -37,21 +37,29 @@ function getDaysAgoDateKey(daysAgo) {
 Format Relative Last-Use Time
 -------------------------------------------------- */
 
-export function formatLastUse(timestamp, translate) {
-  const t = translate ?? ((key) => key);
-
+export function formatLastUse(timestamp) {
   if (!timestamp) {
-    return t("levels.playNow");
+    return {
+      key: "playNow",
+    };
   }
 
   const date = new Date(timestamp);
 
   if (Number.isNaN(date.getTime())) {
-    return t("levels.playNow");
+    return {
+      key: "playNow",
+    };
   }
 
   const now = new Date();
   const differenceMs = now.getTime() - date.getTime();
+
+  if (differenceMs < 0) {
+    return {
+      key: "justNow",
+    };
+  }
 
   const minute = 60 * 1000;
   const hour = 60 * minute;
@@ -59,58 +67,63 @@ export function formatLastUse(timestamp, translate) {
   const month = 30 * day;
   const year = 365 * day;
 
-  if (differenceMs < 0) {
-    return t("lastUse.justNow");
-  }
-
   if (differenceMs < minute) {
-    return t("lastUse.justNow");
+    return {
+      key: "justNow",
+    };
   }
 
   if (differenceMs < hour) {
     const minutes = Math.floor(differenceMs / minute);
 
-    return t("lastUse.minutesAgo", {
+    return {
+      key: "minutesAgo",
       count: minutes,
-    });
+    };
   }
 
   if (differenceMs < day) {
     const hours = Math.floor(differenceMs / hour);
 
-    return t("lastUse.hoursAgo", {
+    return {
+      key: "hoursAgo",
       count: hours,
-    });
+    };
   }
 
   const yesterday = getDaysAgoDateKey(1);
   const practiceDate = getLocalDateKey(date);
 
   if (practiceDate === yesterday) {
-    return t("lastUse.yesterday");
+    return {
+      key: "yesterday",
+    };
   }
 
   if (differenceMs < month) {
     const days = Math.floor(differenceMs / day);
 
-    return t("lastUse.daysAgo", {
+    return {
+      key: "daysAgo",
       count: days,
-    });
+    };
   }
 
   if (differenceMs < year) {
     const months = Math.floor(differenceMs / month);
 
-    return t("lastUse.monthsAgo", {
+    return {
+      key: "monthsAgo",
       count: months,
-    });
+    };
   }
 
   const years = Math.floor(differenceMs / year);
 
-  return t("lastUse.yearsAgo", {
+  return {
+    key: "yearsAgo",
     count: years,
-  });
+  };
 }
 
 /* --------------------------------------------------
