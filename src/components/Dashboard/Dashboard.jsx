@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import styles from "./Dashboard.module.css";
 import dashboardData from "./dashboardData.json";
-import DonutChart from "@/components/DonutChart/DonutChart";
+
 import MonthlyActivity from "@/components/MonthlyActivity/MonthlyActivity";
 import StreakStats from "@/components/StreakStats/StreakStats";
 import ReactionTimeChart from "@/components/ReactionTimeChart/ReactionTimeChart";
@@ -68,6 +68,12 @@ const OPERATION_NAMES = {
   satStyleProblems: "SAT-style Problems",
   olympiadStyleProblems: "Olympiad-style Problems",
 };
+
+/* --------------------------------------------------
+Practice Time Chart Colors
+-------------------------------------------------- */
+
+const PRACTICE_TIME_COLORS = ["#4f46e5", "#0891b2", "#16a34a", "#d97706", "#9333ea", "#dc2626"];
 
 /* --------------------------------------------------
 Category Labels
@@ -222,15 +228,6 @@ Format Practice Time
 
     return `${Math.round(seconds / 60)}m`;
   }
-
-  /* --------------------------------------------------
-Get Donut Chart Data
--------------------------------------------------- */
-
-  const chartData = practiceTime.map((item) => ({
-    name: item.name,
-    value: item.value,
-  }));
 
   /* --------------------------------------------------
 Get Smaller Operations
@@ -448,22 +445,40 @@ Get Active Category Operations
             <p>How your practice time is distributed.</p>
           </div>
 
-          <DonutChart
-            data={chartData}
-            colors={["#4f46e5", "#0891b2", "#16a34a", "#d97706", "#9333ea", "#dc2626"]}
-          />
-
-          <div className={styles.practiceBreakdown}>
-            {majorOperations.map((item) => (
+          <div className={styles.practiceBar}>
+            {practiceTime.map((item, index) => (
               <div
                 key={item.operation}
-                className={styles.practiceRow}
+                className={styles.practiceBarSegment}
+                style={{
+                  width: `${item.percentage}%`,
+                  backgroundColor: PRACTICE_TIME_COLORS[index % PRACTICE_TIME_COLORS.length],
+                }}
+                title={`${item.name}: ${item.percentage.toFixed(1)}%`}
+              />
+            ))}
+          </div>
+          <div className={styles.practiceBreakdown}>
+            {majorOperations.map((item) => (
+              // <div
+              //   key={item.operation}
+              //   className={styles.practiceRow}
+              // >
+              //   <span>{item.name}</span>
+
+              //   <span>{formatPracticeTime(item.value)}</span>
+
+              //   <span>{item.percentage.toFixed(1)}%</span>
+              // </div>
+
+              <div
+                className={styles.practiceBar}
+                style={{
+                  height: "50px",
+                  background: "red",
+                }}
               >
-                <span>{item.name}</span>
-
-                <span>{formatPracticeTime(item.value)}</span>
-
-                <span>{item.percentage.toFixed(1)}%</span>
+                BAR TEST
               </div>
             ))}
 

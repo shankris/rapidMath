@@ -899,3 +899,144 @@
     align-self: flex-start;
   }
 }
+
+/* --------------------------------------------------
+Practice Time Bar
+-------------------------------------------------- */
+
+.practiceBar {
+  display: flex;
+  width: 90%;
+  height: 28px;
+  margin: 20px auto;
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--borderColor);
+}
+
+.practiceBarSegment {
+  height: 100%;
+  min-width: 0;
+  transition: width 250ms ease;
+}
+
+.practiceBarSegment:first-child {
+  border-radius: 6px 0 0 6px;
+}
+
+.practiceBarSegment:last-child {
+  border-radius: 0 6px 6px 0;
+}
+
+/* --------------------------------------------------
+Practice Time Bar Tooltip
+-------------------------------------------------- */
+
+.practiceBarSegment {
+  position: relative;
+  height: 100%;
+  min-width: 0;
+  transition: width 250ms ease;
+}
+
+.practiceTooltip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  z-index: 10;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  min-width: 120px;
+  padding: 8px 10px;
+
+  background: var(--surfaceColor);
+  border: 1px solid var(--borderColor);
+  border-radius: 6px;
+
+  color: var(--headingCol);
+  font-size: 12px;
+  line-height: 1.4;
+
+  box-shadow: var(--shadow-sm);
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transform: translate(-50%, 4px);
+  transition:
+    opacity 150ms ease,
+    visibility 150ms ease,
+    transform 150ms ease;
+}
+
+.practiceTooltip strong {
+  font-weight: 500;
+}
+
+.practiceTooltip span {
+  color: var(--mutedColor);
+}
+
+.practiceBarSegment:hover .practiceTooltip,
+.practiceBarSegment:focus-within .practiceTooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+
+
+/* --------------------------------------------------
+Practice Time Table
+-------------------------------------------------- */
+
+.practiceTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.practiceTable th {
+  padding: 8px 10px;
+  text-align: left;
+  font-weight: 500;
+  color: var(--mutedColor);
+  border-bottom: 1px solid var(--borderColor);
+}
+
+.practiceTable td {
+  padding: 8px 10px;
+  color: var(--headingCol);
+  border-bottom: 1px solid var(--borderColor);
+}
+
+.practiceTable th:nth-child(2),
+.practiceTable th:nth-child(3),
+.practiceTable td:nth-child(2),
+.practiceTable td:nth-child(3) {
+  text-align: right;
+}
+
+.practiceTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* --------------------------------------------------
+Practice Time Operation
+-------------------------------------------------- */
+
+.practiceOperation {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.practiceColor {
+  flex: 0 0 8px;
+  width: 2px;
+  height: 14px;
+  border-radius: 2px;
+}

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import styles from "./Dashboard.module.css";
 import dashboardData from "./dashboardData.json";
-import DonutChart from "@/components/DonutChart/DonutChart";
+
 import MonthlyActivity from "@/components/MonthlyActivity/MonthlyActivity";
 import StreakStats from "@/components/StreakStats/StreakStats";
 import ReactionTimeChart from "@/components/ReactionTimeChart/ReactionTimeChart";
@@ -152,25 +152,27 @@ export default function Dashboard() {
   }
 
   /* --------------------------------------------------
-  Get Donut Chart Data
-  -------------------------------------------------- */
+Practice Time Chart Colors
+-------------------------------------------------- */
 
-  const chartData = practiceTime.map((item) => ({
-    name: item.name,
-    value: item.value,
-  }));
+  const PRACTICE_TIME_COLORS = ["#4f46e5", "#0891b2", "#16a34a", "#d97706", "#9333ea", "#dc2626"];
 
   /* --------------------------------------------------
-  Get Smaller Operations
-  -------------------------------------------------- */
+Practice Time Color
+-------------------------------------------------- */
 
-  const majorOperations = practiceTime.filter((item) => item.percentage >= 10);
+  function getPracticeTimeColor(operation) {
+    const colorMap = {
+      add: PRACTICE_TIME_COLORS[0],
+      sub: PRACTICE_TIME_COLORS[1],
+      mul: PRACTICE_TIME_COLORS[2],
+      div: PRACTICE_TIME_COLORS[3],
+      mixedOperations: PRACTICE_TIME_COLORS[4],
+      missingNumber: PRACTICE_TIME_COLORS[5],
+    };
 
-  const smallerOperations = practiceTime.filter((item) => item.percentage < 10);
-
-  const othersTime = smallerOperations.reduce((total, item) => total + item.value, 0);
-
-  const othersPercentage = smallerOperations.reduce((total, item) => total + item.percentage, 0);
+    return colorMap[operation] ?? "#94a3b8";
+  }
 
   /* --------------------------------------------------
   Get Active Category Operations
@@ -386,8 +388,9 @@ export default function Dashboard() {
         </article>
 
         {/* ----------------------------------------------
-        Practice Time
-        ---------------------------------------------- */}
+Practice Time
+---------------------------------------------- */}
+
         <article className={`card ${styles.chartCard}`}>
           <div className={styles.chartHeader}>
             <h2>{t("practiceTime.title")}</h2>
@@ -395,64 +398,61 @@ export default function Dashboard() {
             <p>{t("practiceTime.description")}</p>
           </div>
 
-          <DonutChart
-            data={chartData}
-            colors={["#4f46e5", "#0891b2", "#16a34a", "#d97706", "#9333ea", "#dc2626"]}
-          />
-
-          <div className={styles.practiceBreakdown}>
-            {majorOperations.map((item) => (
+          <div className={styles.practiceBar}>
+            {practiceTime.map((item) => (
               <div
                 key={item.operation}
-                className={styles.practiceRow}
+                className={styles.practiceBarSegment}
+                style={{
+                  width: `${item.percentage}%`,
+                  backgroundColor: getPracticeTimeColor(item.operation),
+                }}
               >
-                <span>{item.name}</span>
+                <span className={styles.practiceTooltip}>
+                  <strong>{item.name}</strong>
 
-                <span>{formatPracticeTime(item.value)}</span>
+                  <span>{formatPracticeTime(item.value)}</span>
 
-                <span>{item.percentage.toFixed(1)}%</span>
+                  <span>{item.percentage.toFixed(1)}%</span>
+                </span>
               </div>
             ))}
+          </div>
 
-            {smallerOperations.length === 1 && (
-              <div
-                key={smallerOperations[0].operation}
-                className={styles.practiceRow}
-              >
-                <span>{smallerOperations[0].name}</span>
+          <div className={styles.practiceBreakdown}>
+            <table className={styles.practiceTable}>
+              <thead>
+                <tr>
+                  <th scope='col'>Operation</th>
+                  <th scope='col'>Time</th>
+                  <th scope='col'>Share</th>
+                </tr>
+              </thead>
 
-                <span>{formatPracticeTime(smallerOperations[0].value)}</span>
+              <tbody>
+                {practiceTime.map((item) => (
+                  <tr key={item.operation}>
+                    <td>
+                      <span className={styles.practiceOperation}>
+                        <span
+                          className={styles.practiceColor}
+                          style={{
+                            backgroundColor: getPracticeTimeColor(item.operation),
+                          }}
+                          aria-hidden='true'
+                        />
 
-                <span>{smallerOperations[0].percentage.toFixed(1)}%</span>
-              </div>
-            )}
+                        <span>{item.name}</span>
+                      </span>
+                    </td>
 
-            {smallerOperations.length > 1 && (
-              <>
-                <div className={`${styles.practiceRow} ${styles.othersHeader}`}>
-                  <span>{t("practiceTime.others")}</span>
+                    <td>{formatPracticeTime(item.value)}</td>
 
-                  <span>{formatPracticeTime(othersTime)}</span>
-
-                  <span>{othersPercentage.toFixed(1)}%</span>
-                </div>
-
-                <div className={styles.othersItems}>
-                  {smallerOperations.map((item) => (
-                    <div
-                      key={item.operation}
-                      className={styles.practiceRow}
-                    >
-                      <span>{item.name}</span>
-
-                      <span>{formatPracticeTime(item.value)}</span>
-
-                      <span>{item.percentage.toFixed(1)}%</span>
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
+                    <td>{item.percentage.toFixed(1)}%</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </article>
 
