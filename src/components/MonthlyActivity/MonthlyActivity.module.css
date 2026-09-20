@@ -8,8 +8,7 @@ Activity Layout
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
-  width: 96%;
-  margin: 12px auto;
+  width: 100%;
 }
 
 /* --------------------------------------------------
@@ -17,9 +16,58 @@ Calendar
 -------------------------------------------------- */
 
 .calendar {
-  min-width: 0;
-  max-width: 360px;
-  margin: 12px 0 0 0;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+/* --------------------------------------------------
+Calendar Header
+-------------------------------------------------- */
+
+.calendarHeader {
+  display: grid;
+  grid-template-columns: 36px 1fr 36px;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.monthTitle {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.3;
+  font-weight: 700;
+  text-align: center;
+  color: var(--headingCol);
+  text-transform: capitalize;
+}
+
+.monthButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--borderColor);
+  border-radius: 6px;
+  background: var(--surfaceAlt);
+  color: var(--headingCol);
+  cursor: pointer;
+  transition:
+    border-color 150ms ease,
+    background 150ms ease,
+    opacity 150ms ease;
+}
+
+.monthButton:hover:not(:disabled) {
+  border-color: var(--headingCol);
+}
+
+.monthButton:disabled {
+  opacity: 0.35;
+  cursor: default;
 }
 
 /* --------------------------------------------------
@@ -29,7 +77,7 @@ Day Labels
 .dayLabels {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 4px;
+  gap: 5px;
   margin-bottom: 6px;
 }
 
@@ -41,17 +89,17 @@ Day Labels
 }
 
 /* --------------------------------------------------
-Activity Grid
+Calendar Grid
 -------------------------------------------------- */
 
 .grid {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 4px;
+  gap: 5px;
 }
 
 /* --------------------------------------------------
-Activity Cell
+Calendar Cell
 -------------------------------------------------- */
 
 .cell,
@@ -60,100 +108,85 @@ Activity Cell
   width: 100%;
   aspect-ratio: 1;
   min-width: 0;
-  border-radius: 3px;
 }
 
 .cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 0;
   border: 1px solid transparent;
+  border-radius: 6px;
   background: var(--surfaceAlt);
+  color: var(--headingCol);
   cursor: pointer;
   transition:
     border-color 150ms ease,
+    background 150ms ease,
     transform 150ms ease;
 }
-
-/* --------------------------------------------------
-Activity Levels
--------------------------------------------------- */
-
-.cell[data-level="0"] {
-  background: var(--surfaceAlt);
-  border-color: var(--borderColor);
-}
-
-.cell[data-level="1"] {
-  background: color-mix(in srgb,
-      var(--accentColor) 20%,
-      var(--surfaceAlt));
-}
-
-.cell[data-level="2"] {
-  background: color-mix(in srgb,
-      var(--accentColor) 35%,
-      var(--surfaceAlt));
-}
-
-.cell[data-level="3"] {
-  background: color-mix(in srgb,
-      var(--accentColor) 50%,
-      var(--surfaceAlt));
-}
-
-.cell[data-level="4"] {
-  background: color-mix(in srgb,
-      var(--accentColor) 70%,
-      var(--surfaceAlt));
-}
-
-.cell[data-level="5"] {
-  background: var(--accentColor);
-}
-
-/* --------------------------------------------------
-Cell Hover
--------------------------------------------------- */
 
 .cell:hover {
   border-color: var(--headingCol);
   transform: translateY(-1px);
 }
 
-/* --------------------------------------------------
-Selected Cell
--------------------------------------------------- */
-
 .cell.selected {
   border-color: var(--headingCol);
   box-shadow: 0 0 0 1px var(--headingCol);
 }
 
+.cell.today .dayNumber {
+  font-weight: 700;
+}
+
 /* --------------------------------------------------
-    Day Number
- -------------------------------------------------- */
+Day Number
+-------------------------------------------------- */
 
 .dayNumber {
   position: absolute;
-  right: 3px;
-  bottom: 2px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -55%);
+  font-size: 14px;
+  line-height: 1;
+  font-weight: 500;
+  color: var(--headingCol);
+  pointer-events: none;
+}
 
+/* --------------------------------------------------
+Activity Dots
+-------------------------------------------------- */
+
+.activityDots {
+  position: absolute;
+  left: 50%;
+  bottom: 6px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 2px;
+  transform: translateX(-50%);
+}
 
-  min-width: 16px;
-  height: 16px;
-  padding: 0 3px;
-
+.dot {
+  width: 4px;
+  height: 4px;
   border-radius: 50%;
-  background: var(--surfaceAlt);
+  background: var(--accentColor);
+}
 
-  font-size: 8px;
-  line-height: 1;
-  font-weight: 400;
+/* --------------------------------------------------
+Availability Note
+-------------------------------------------------- */
+
+.availabilityNote {
+  margin-top: 10px;
+  font-size: 10px;
+  line-height: 1.4;
+  text-align: center;
   color: var(--mutedColor);
-
-  pointer-events: none;
 }
 
 /* --------------------------------------------------
@@ -161,7 +194,8 @@ Selected Day Details
 -------------------------------------------------- */
 
 .details {
-  min-width: 0;
+  /* width: 100%; */
+  margin: 4px 12px 4px 0;
 }
 
 /* --------------------------------------------------
@@ -173,28 +207,17 @@ Details Header
   align-items: baseline;
   justify-content: space-between;
   gap: 12px;
-  display: flex;
-  padding: 6px 6px 6px 0;
-  margin: 0 0 6px;
+  padding: 8px 0;
+  margin-bottom: 6px;
   border-bottom: 1px solid var(--borderColor);
 }
 
 .detailsHeader h3 {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 6px;
   margin: 0;
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 500;
   line-height: 1.3;
   color: var(--headingCol);
-}
-
-.relativeDate {
-  font-size: 10px;
-  font-weight: 400;
-  color: var(--mutedColor);
 }
 
 .questionCount {
@@ -233,7 +256,7 @@ Detail Table
 -------------------------------------------------- */
 
 .detailTable {
-  width: 98%;
+  width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
   font-size: 11px;
@@ -269,7 +292,7 @@ Detail Table Header
 -------------------------------------------------- */
 
 .detailTable th {
-  padding: 3px 3px;
+  padding: 3px;
   font-size: 11px;
   font-weight: 400;
   color: var(--mutedColor);
@@ -281,7 +304,7 @@ Detail Table Body
 -------------------------------------------------- */
 
 .detailTable td {
-  padding: 3px 3px;
+  padding: 3px;
   color: var(--mutedColor);
   text-align: right;
   white-space: nowrap;
@@ -319,42 +342,36 @@ Responsive Layout
 -------------------------------------------------- */
 
 @media (max-width: 768px) {
-  .activity {
-    grid-template-columns: 1fr;
-    gap: 20px;
+  .calendar {
+    max-width: none;
   }
 
-  .calendar {
-    max-width: 360px;
+  .details {
+    margin-top: 20px;
   }
 }
 
 @media (max-width: 480px) {
   .activity {
-    gap: 16px;
+    width: 100%;
   }
 
-  .calendar {
-    max-width: none;
-  }
-
-  .dayLabels {
-    gap: 3px;
-  }
-
+  .dayLabels,
   .grid {
     gap: 3px;
   }
 
-  .cell,
-  .emptyCell {
-    border-radius: 3px;
+  .dayNumber {
+    font-size: 13px;
   }
 
-  .dayNumber {
-    right: 3px;
-    bottom: 2px;
-    font-size: 8px;
+  .activityDots {
+    bottom: 5px;
+  }
+
+  .dot {
+    width: 3px;
+    height: 3px;
   }
 
   .detailsHeader {
@@ -370,4 +387,15 @@ Responsive Layout
   .detailTable th {
     font-size: 8px;
   }
+}
+
+/* --------------------------------------------------
+Activity Count
+-------------------------------------------------- */
+
+.activityCount {
+  font-size: 8px;
+  line-height: 1;
+  font-weight: 600;
+  color: var(--accentColor);
 }

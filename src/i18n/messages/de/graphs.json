@@ -38,6 +38,10 @@
     "average": "Durchschn.",
     "noPractice": "An diesem Tag keine Übung.",
 
+    "previousMonth": "Vorheriger Monat",
+    "nextMonth": "Nächster Monat",
+    "earliestAvailable": "Keine früheren Aufzeichnungen verfügbar. Früheste verfügbare Aufzeichnung: {date}",
+
     "days": {
       "monday": "Mo",
       "tuesday": "Di",

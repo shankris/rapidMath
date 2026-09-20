@@ -38,6 +38,10 @@
     "average": "Moy.",
     "noPractice": "Aucune pratique ce jour-là.",
 
+    "previousMonth": "Mois précédent",
+    "nextMonth": "Mois suivant",
+    "earliestAvailable": "Aucun enregistrement antérieur disponible. Premier enregistrement disponible : {date}",
+
     "days": {
       "monday": "Lun",
       "tuesday": "Mar",

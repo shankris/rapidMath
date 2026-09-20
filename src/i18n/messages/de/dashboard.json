@@ -22,13 +22,18 @@
     "comingSoon": "Demnächst verfügbar",
     "planned": "Geplant"
   },
-
   "levels": {
     "level": "Level {level}",
     "practicedToday": "Heute {count, plural, =1 {Mal} other {# Mal}} geübt",
-    "playNow": "Jetzt spielen"
+    "playNow": "Jetzt spielen",
+    "justNow": "Gerade verwendet",
+    "minutesAgo": "Vor {count} Min. verwendet",
+    "hoursAgo": "Vor {count} Std. verwendet",
+    "yesterday": "Gestern verwendet",
+    "daysAgo": "Vor {count} T. verwendet",
+    "monthsAgo": "Vor {count} Mon. verwendet",
+    "yearsAgo": "Vor {count} J. verwendet"
   },
-
   "tooltip": {
     "accuracy": "Genauigkeit",
     "reactionTime": "Reaktionszeit",

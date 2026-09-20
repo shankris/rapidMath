@@ -21,8 +21,16 @@
   "levels": {
     "level": "Niveau {level}",
     "practicedToday": "Pratiqué {count, plural, =1 {fois} other {# fois}} aujourd’hui",
-    "playNow": "Jouer maintenant"
+    "playNow": "Jouer maintenant",
+    "justNow": "Utilisé à l'instant",
+    "minutesAgo": "Utilisé il y a {count} min",
+    "hoursAgo": "Utilisé il y a {count} h",
+    "yesterday": "Utilisé hier",
+    "daysAgo": "Utilisé il y a {count} j",
+    "monthsAgo": "Utilisé il y a {count} mois",
+    "yearsAgo": "Utilisé il y a {count} ans"
   },
+
   "tooltip": {
     "accuracy": "Précision",
     "reactionTime": "Temps de réaction",

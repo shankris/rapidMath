@@ -38,6 +38,10 @@
     "average": "Avg.",
     "noPractice": "No practice on this day.",
 
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month",
+    "earliestAvailable": "No earlier records available. Earliest available record: {date}",
+
     "days": {
       "monday": "Mon",
       "tuesday": "Tue",

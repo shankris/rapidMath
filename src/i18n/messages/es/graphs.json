@@ -1,0 +1,107 @@
+{
+  "reactionTime": {
+    "title": "Tiempo de reacción",
+    "description": "Sigue tu tiempo de reacción durante los últimos 30 días.",
+    "noData": "Todavía no hay datos de tiempo de reacción disponibles.",
+    "noLevelData": "No hay datos de tiempo de reacción disponibles para este nivel.",
+    "operation": "Operación",
+    "level": "Nivel",
+    "average": "Tiempo medio de reacción",
+    "averageLabel": "Prom. {value}"
+  },
+  "practiceTime": {
+    "title": "Tiempo de práctica",
+    "description": "Distribución de tu tiempo de práctica.",
+    "others": "Otros"
+  },
+  "accuracy": {
+    "title": "Precisión",
+    "description": "Sigue tu precisión durante los últimos 30 días.",
+    "noData": "Todavía no hay datos de precisión disponibles.",
+    "noLevelData": "No hay datos de precisión disponibles para este nivel.",
+    "operation": "Operación",
+    "level": "Nivel",
+    "label": "Precisión"
+  },
+  "monthlyActivity": {
+    "noActivity": "Todavía no hay actividad",
+    "selectDay": "Selecciona un día",
+    "other": "Otro",
+    "questions": "preguntas",
+    "questionsShort": "P",
+    "level": "Nivel",
+    "levelValue": "Nivel {level}",
+    "accuracy": "Precisión",
+    "average": "Prom.",
+    "noPractice": "No hubo práctica ese día.",
+
+    "previousMonth": "Mes anterior",
+    "nextMonth": "Mes siguiente",
+    "earliestAvailable": "Keine früheren Aufzeichnungen verfügbar. Früheste verfügbare Aufzeichnung: {date}",
+
+    "days": {
+      "monday": "Lun",
+      "tuesday": "Mar",
+      "wednesday": "Mié",
+      "thursday": "Jue",
+      "friday": "Vie",
+      "saturday": "Sáb",
+      "sunday": "Dom"
+    },
+    "relativeDates": {
+      "today": "Hoy",
+      "yesterday": "Ayer",
+      "daysAgo": "Hace {count} días",
+      "lastWeek": "La semana pasada",
+      "weeksAgo": "Hace {count} semanas",
+      "monthAgo": "Hace {count} mes",
+      "monthsAgo": "Hace {count} meses"
+    }
+  },
+  "streakStats": {
+    "days": "días",
+    "current": "Racha actual",
+    "previousLongest": "Racha anterior más larga"
+  },
+  "operations": {
+    "add": {
+      "title": "Suma"
+    },
+    "sub": {
+      "title": "Resta"
+    },
+    "mul": {
+      "title": "Multiplicación"
+    },
+    "div": {
+      "title": "División"
+    },
+    "mixedOperations": {
+      "title": "Operaciones mixtas"
+    },
+    "missingNumber": {
+      "title": "Número que falta"
+    },
+    "comparison": {
+      "title": "Comparación"
+    },
+    "estimation": {
+      "title": "Estimación"
+    },
+    "sequences": {
+      "title": "Secuencias y progresiones"
+    },
+    "fractions": {
+      "title": "Fracciones"
+    },
+    "percentages": {
+      "title": "Porcentajes"
+    },
+    "powersRoots": {
+      "title": "Potencias y raíces"
+    }
+  },
+  "levels": {
+    "level": "Nivel {level}"
+  }
+}

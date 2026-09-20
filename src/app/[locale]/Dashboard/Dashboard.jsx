@@ -3,7 +3,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import styles from "./Dashboard.module.css";
 import dashboardData from "./dashboardData.json";
 import DonutChart from "@/components/DonutChart/DonutChart";
@@ -22,7 +22,7 @@ Dashboard Component
 
 export default function Dashboard() {
   const t = useTranslations("Dashboard");
-
+  const locale = useLocale();
   const [levelStats, setLevelStats] = useState({});
   const [practiceTime, setPracticeTime] = useState([]);
   const [activity, setActivity] = useState([]);
@@ -84,7 +84,7 @@ export default function Dashboard() {
     ------------------------------------------------ */
 
     setActivityDetails(getDashboardActivityDetails());
-  }, [t]);
+  }, [locale]);
 
   /* --------------------------------------------------
   Refresh Relative Times
@@ -455,9 +455,10 @@ export default function Dashboard() {
             )}
           </div>
         </article>
+
         {/* ----------------------------------------------
-        Monthly Activity
-        ---------------------------------------------- */}
+Monthly Activity
+---------------------------------------------- */}
         <article className={`card ${styles.insightCard}`}>
           <div className={styles.insightHeader}>
             <h2 className={styles.OperationHeader}>{t("quizPractice.title")}</h2>
@@ -465,15 +466,19 @@ export default function Dashboard() {
             <p>{t("quizPractice.description")}</p>
           </div>
 
-          <div className={styles.streakStats}>
-            <StreakStats />
-          </div>
+          <div className={styles.quizPracticeContent}>
+            <div className={styles.quizPracticeLeft}>
+              <div className={styles.streakStats}>
+                <StreakStats />
+              </div>
 
-          <div className={styles.activityChart}>
-            <MonthlyActivity
-              data={activity}
-              details={activityDetails}
-            />
+              <div className={styles.activityChart}>
+                <MonthlyActivity
+                  data={activity}
+                  details={activityDetails}
+                />
+              </div>
+            </div>
           </div>
         </article>
       </div>

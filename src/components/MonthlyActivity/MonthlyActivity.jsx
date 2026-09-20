@@ -3,6 +3,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import styles from "./MonthlyActivity.module.css";
 
@@ -12,7 +13,12 @@ Configuration
 
 const DAY_LABELS = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
 
-const ACTIVITY_THRESHOLDS = [40, 80, 120, 160];
+const ACTIVITY_DOTS = [
+  { max: 4, dots: 1 },
+  { max: 8, dots: 2 },
+  { max: 12, dots: 3 },
+  { max: 16, dots: 4 },
+];
 
 /* --------------------------------------------------
 Get Today Date Key
@@ -29,40 +35,14 @@ function getTodayDateKey() {
 }
 
 /* --------------------------------------------------
-Get Activity Level
--------------------------------------------------- */
-
-function getActivityLevel(questions) {
-  const count = Number(questions);
-
-  if (!Number.isFinite(count) || count <= 0) {
-    return 0;
-  }
-
-  if (count <= ACTIVITY_THRESHOLDS[0]) {
-    return 1;
-  }
-
-  if (count <= ACTIVITY_THRESHOLDS[1]) {
-    return 2;
-  }
-
-  if (count <= ACTIVITY_THRESHOLDS[2]) {
-    return 3;
-  }
-
-  if (count <= ACTIVITY_THRESHOLDS[3]) {
-    return 4;
-  }
-
-  return 5;
-}
-
-/* --------------------------------------------------
 Parse Date Key
 -------------------------------------------------- */
 
 function parseDateKey(dateString) {
+  if (!dateString) {
+    return null;
+  }
+
   const date = new Date(`${dateString}T00:00:00`);
 
   return Number.isNaN(date.getTime()) ? null : date;
@@ -88,6 +68,49 @@ function formatDate(dateString, locale) {
 }
 
 /* --------------------------------------------------
+Format Month
+-------------------------------------------------- */
+
+function formatMonth(date, locale) {
+  return date.toLocaleDateString(locale, {
+    month: "long",
+    year: "numeric",
+  });
+}
+
+/* --------------------------------------------------
+Get Month Key
+-------------------------------------------------- */
+
+function getMonthKey(date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+}
+
+/* --------------------------------------------------
+Get Month Start
+-------------------------------------------------- */
+
+function getMonthStart(date) {
+  return new Date(date.getFullYear(), date.getMonth(), 1);
+}
+
+/* --------------------------------------------------
+Get Month End
+-------------------------------------------------- */
+
+function getMonthEnd(date) {
+  return new Date(date.getFullYear(), date.getMonth() + 1, 0);
+}
+
+/* --------------------------------------------------
+Move Month
+-------------------------------------------------- */
+
+function moveMonth(date, amount) {
+  return new Date(date.getFullYear(), date.getMonth() + amount, 1);
+}
+
+/* --------------------------------------------------
 Get Day Number
 -------------------------------------------------- */
 
@@ -102,101 +125,31 @@ function getDayNumber(dateString) {
 }
 
 /* --------------------------------------------------
-Get Date Difference
+Get Activity Dots
 -------------------------------------------------- */
 
-function getDateDifference(dateString) {
-  const date = parseDateKey(dateString);
-  const today = parseDateKey(getTodayDateKey());
+function getActivityDots(questions) {
+  const count = Number(questions);
 
-  if (!date || !today) {
-    return null;
+  if (!Number.isFinite(count) || count <= 0) {
+    return 0;
   }
 
-  const difference = today.getTime() - date.getTime();
+  const threshold = ACTIVITY_DOTS.find((item) => count <= item.max);
 
-  return Math.round(difference / (24 * 60 * 60 * 1000));
-}
-
-/* --------------------------------------------------
-Get Relative Date Label
--------------------------------------------------- */
-
-function getRelativeDateLabel(dateString, translate) {
-  const difference = getDateDifference(dateString);
-
-  if (difference === null) {
-    return "";
-  }
-
-  if (difference === 0) {
-    return translate("monthlyActivity.relativeDates.today");
-  }
-
-  if (difference === 1) {
-    return translate("monthlyActivity.relativeDates.yesterday");
-  }
-
-  if (difference === 2) {
-    return translate("monthlyActivity.relativeDates.daysAgo", {
-      count: difference,
-    });
-  }
-
-  if (difference < 7) {
-    return translate("monthlyActivity.relativeDates.daysAgo", {
-      count: difference,
-    });
-  }
-
-  if (difference < 14) {
-    return translate("monthlyActivity.relativeDates.lastWeek");
-  }
-
-  const weeks = Math.floor(difference / 7);
-
-  if (weeks === 2) {
-    return translate("monthlyActivity.relativeDates.weeksAgo", {
-      count: weeks,
-    });
-  }
-
-  if (weeks < 5) {
-    return translate("monthlyActivity.relativeDates.weeksAgo", {
-      count: weeks,
-    });
-  }
-
-  const months = Math.floor(difference / 30);
-
-  if (months <= 1) {
-    return translate("monthlyActivity.relativeDates.monthAgo", {
-      count: 1,
-    });
-  }
-
-  return translate("monthlyActivity.relativeDates.monthsAgo", {
-    count: months,
-  });
+  return threshold?.dots ?? 5;
 }
 
 /* --------------------------------------------------
 Build Calendar Grid
 -------------------------------------------------- */
 
-function buildCalendarGrid(data) {
-  if (!Array.isArray(data) || data.length === 0) {
-    return [];
-  }
-
-  const firstDate = parseDateKey(data[0].date);
-
-  if (!firstDate) {
-    return [];
-  }
+function buildCalendarGrid(monthDate, activityMap) {
+  const firstDate = getMonthStart(monthDate);
+  const lastDate = getMonthEnd(monthDate);
 
   /* ----------------------------------------------
-  Monday = 0 ... Sunday = 6
+     Monday = 0 ... Sunday = 6
   ---------------------------------------------- */
 
   const startDay = (firstDate.getDay() + 6) % 7;
@@ -207,9 +160,23 @@ function buildCalendarGrid(data) {
     cells.push(null);
   }
 
-  data.forEach((item) => {
-    cells.push(item);
-  });
+  for (let day = 1; day <= lastDate.getDate(); day += 1) {
+    const date = new Date(monthDate.getFullYear(), monthDate.getMonth(), day);
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const dayNumber = String(date.getDate()).padStart(2, "0");
+
+    const dateKey = `${year}-${month}-${dayNumber}`;
+
+    cells.push(
+      activityMap.get(dateKey) ?? {
+        date: dateKey,
+        questions: 0,
+        correct: 0,
+      },
+    );
+  }
 
   return cells;
 }
@@ -249,25 +216,83 @@ export default function MonthlyActivity({ data = [], details = {} }) {
   const t = useTranslations("Graphs");
   const locale = useLocale();
 
-  const cells = useMemo(() => buildCalendarGrid(data), [data]);
-
   const today = getTodayDateKey();
+
+  const activityMap = useMemo(() => new Map(data.map((item) => [item.date, item])), [data]);
+
+  const earliestDate = data[0]?.date ?? null;
+  const earliestMonth = earliestDate ? getMonthStart(parseDateKey(earliestDate)) : null;
+
+  const currentMonth = getMonthStart(parseDateKey(today));
+
+  const [visibleMonth, setVisibleMonth] = useState(currentMonth);
 
   const [selectedDate, setSelectedDate] = useState(today);
 
-  if (cells.length === 0) {
-    return <div className={styles.empty}>{t("monthlyActivity.noActivity")}</div>;
-  }
+  const cells = useMemo(() => buildCalendarGrid(visibleMonth, activityMap), [visibleMonth, activityMap]);
+
+  const earliestMonthKey = earliestMonth ? getMonthKey(earliestMonth) : null;
+
+  const visibleMonthKey = getMonthKey(visibleMonth);
+  const currentMonthKey = getMonthKey(currentMonth);
+
+  const isFirstAvailableMonth = earliestMonthKey === visibleMonthKey;
+
+  const isCurrentMonth = currentMonthKey === visibleMonthKey;
+
+  const selectedActivity = activityMap.get(selectedDate) ?? null;
 
   const selectedDetails = selectedDate && details[selectedDate] ? details[selectedDate] : [];
 
   const groupedDetails = groupDetails(selectedDetails, t);
 
-  const selectedActivity = data.find((item) => item.date === selectedDate) ?? null;
-
   const selectedDateLabel = selectedDate ? formatDate(selectedDate, locale) : t("monthlyActivity.selectDay");
 
-  const relativeDateLabel = selectedDate ? getRelativeDateLabel(selectedDate, t) : "";
+  if (!earliestDate) {
+    return <div className={styles.empty}>{t("monthlyActivity.noActivity")}</div>;
+  }
+
+  /* --------------------------------------------------
+  Month Navigation
+  -------------------------------------------------- */
+
+  function handlePreviousMonth() {
+    if (isFirstAvailableMonth) {
+      return;
+    }
+
+    const previousMonth = moveMonth(visibleMonth, -1);
+
+    setVisibleMonth(previousMonth);
+
+    const previousMonthKey = getMonthKey(previousMonth);
+
+    const firstAvailableDate = data.find((item) => item.date.startsWith(previousMonthKey));
+
+    if (firstAvailableDate) {
+      setSelectedDate(firstAvailableDate.date);
+    }
+  }
+
+  function handleNextMonth() {
+    if (isCurrentMonth) {
+      return;
+    }
+
+    const nextMonth = moveMonth(visibleMonth, 1);
+
+    setVisibleMonth(nextMonth);
+
+    const nextMonthKey = getMonthKey(nextMonth);
+
+    const nextMonthData = data.filter((item) => item.date.startsWith(nextMonthKey));
+
+    const selectedNextDate = nextMonthData.find((item) => item.questions > 0) ?? nextMonthData[0];
+
+    if (selectedNextDate) {
+      setSelectedDate(selectedNextDate.date);
+    }
+  }
 
   return (
     <div className={styles.activity}>
@@ -276,6 +301,38 @@ export default function MonthlyActivity({ data = [], details = {} }) {
       ------------------------------------------------ */}
 
       <div className={styles.calendar}>
+        <div className={styles.calendarHeader}>
+          <button
+            type='button'
+            className={styles.monthButton}
+            onClick={handlePreviousMonth}
+            disabled={isFirstAvailableMonth}
+            aria-label={t("monthlyActivity.previousMonth")}
+          >
+            <ChevronLeft
+              size={18}
+              strokeWidth={1.8}
+              aria-hidden='true'
+            />
+          </button>
+
+          <h3 className={styles.monthTitle}>{formatMonth(visibleMonth, locale)}</h3>
+
+          <button
+            type='button'
+            className={styles.monthButton}
+            onClick={handleNextMonth}
+            disabled={isCurrentMonth}
+            aria-label={t("monthlyActivity.nextMonth")}
+          >
+            <ChevronRight
+              size={18}
+              strokeWidth={1.8}
+              aria-hidden='true'
+            />
+          </button>
+        </div>
+
         <div className={styles.dayLabels}>
           {DAY_LABELS.map((day) => (
             <span key={day}>{t(`monthlyActivity.days.${day}`)}</span>
@@ -294,25 +351,60 @@ export default function MonthlyActivity({ data = [], details = {} }) {
               );
             }
 
-            const level = getActivityLevel(item.questions);
+            const dots = getActivityDots(item.questions);
 
             const isSelected = item.date === selectedDate;
+
+            const isToday = item.date === today;
 
             return (
               <button
                 key={item.date}
                 type='button'
-                className={`${styles.cell} ${isSelected ? styles.selected : ""}`}
-                data-level={level}
+                className={`${styles.cell} ${isSelected ? styles.selected : ""} ${isToday ? styles.today : ""}`}
                 onClick={() => setSelectedDate(item.date)}
                 aria-label={`${formatDate(item.date, locale)} — ${item.questions} ${t("monthlyActivity.questions")}`}
                 aria-pressed={isSelected}
               >
                 <span className={styles.dayNumber}>{getDayNumber(item.date)}</span>
+
+                {item.questions > 0 && (
+                  <span
+                    className={styles.activityDots}
+                    aria-hidden='true'
+                  >
+                    {item.questions <= 12 ? (
+                      Array.from(
+                        {
+                          length: Math.ceil(item.questions / 4),
+                        },
+                        (_, dotIndex) => (
+                          <span
+                            key={dotIndex}
+                            className={styles.dot}
+                          />
+                        ),
+                      )
+                    ) : (
+                      <>
+                        <span className={styles.dot} />
+                        <span className={styles.activityCount}>{item.questions}</span>
+                      </>
+                    )}
+                  </span>
+                )}
               </button>
             );
           })}
         </div>
+
+        {isFirstAvailableMonth && (
+          <div className={styles.availabilityNote}>
+            {t("monthlyActivity.earliestAvailable", {
+              date: formatDate(earliestDate, locale),
+            })}
+          </div>
+        )}
       </div>
 
       {/* ------------------------------------------------
@@ -321,13 +413,11 @@ export default function MonthlyActivity({ data = [], details = {} }) {
 
       <div className={styles.details}>
         <div className={styles.detailsHeader}>
-          <h3>
-            {selectedDateLabel}
+          <div>
+            <h3>{selectedDateLabel}</h3>
+          </div>
 
-            {relativeDateLabel && <span className={styles.relativeDate}>{relativeDateLabel}</span>}
-          </h3>
-
-          {selectedActivity && (
+          {selectedActivity && selectedActivity.questions > 0 && (
             <span className={styles.questionCount}>
               {selectedActivity.questions} {t("monthlyActivity.questionsShort")}
             </span>
