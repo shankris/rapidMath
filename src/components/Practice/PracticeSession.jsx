@@ -16,7 +16,7 @@ import AnswerOptions from "./AnswerOptions";
 import QuizSetup from "./QuizSetup";
 import QuizComplete from "./QuizComplete";
 
-import styles from "./Practice.module.css";
+import styles from "./PracticeSession.module.css";
 
 /* --------------------------------------------------
    Generate Attempt ID

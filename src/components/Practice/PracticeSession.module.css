@@ -1,0 +1,343 @@
+/* src/components/Practice/PracticeSession.module.css */
+
+/* --------------------------------------------------
+Practice Session Container
+-------------------------------------------------- */
+
+.container {
+  max-width: 600px;
+  margin: 14px auto;
+  text-align: center;
+}
+
+/* --------------------------------------------------
+Practice Session Header
+-------------------------------------------------- */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+span.level {
+  display: block;
+  text-align: left;
+}
+
+.questionProgress {
+  color: #707070;
+  margin: 20px 0 0;
+}
+
+/* --------------------------------------------------
+Primary Button
+-------------------------------------------------- */
+
+button.btnPrimary {
+  width: 90%;
+  max-width: 500px;
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  background: var(--accentColor);
+  color: white;
+}
+
+/* --------------------------------------------------
+Progress / Result Cards
+-------------------------------------------------- */
+
+.progressCard,
+.resultCard {
+  margin: 4px;
+  padding: 12px;
+}
+
+/* --------------------------------------------------
+Question Card
+-------------------------------------------------- */
+
+.questionCard {
+  margin: 10px 0;
+  padding: 16px;
+  background: var(--surfaceColor);
+  border-radius: var(--borderRadius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.question {
+  font-size: 3rem;
+  font-weight: 600;
+}
+
+/* --------------------------------------------------
+Answer Options
+-------------------------------------------------- */
+
+.options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.option {
+  position: relative;
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-size: 1.5rem;
+  border: 1px solid var(--borderColor);
+  border-radius: var(--borderRadius-md);
+  background: var(--surfaceColor);
+  cursor: pointer;
+}
+
+.option:hover {
+  background: var(--surfaceAlt);
+}
+
+/* --------------------------------------------------
+Answer States
+-------------------------------------------------- */
+
+.correct {
+  background: #dcfce7 !important;
+  border-color: #22c55e;
+}
+
+.wrong {
+  background: #fee2e2 !important;
+  border-color: #ef4444;
+}
+
+/* --------------------------------------------------
+Feedback Icon
+-------------------------------------------------- */
+
+.feedbackIcon {
+  position: absolute;
+  left: -16px;
+  top: -16px;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--borderColor);
+  border-radius: 50%;
+  background: white;
+  box-shadow: var(--shadow-md);
+}
+
+/* --------------------------------------------------
+Answer Value
+-------------------------------------------------- */
+
+.answerValue {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* --------------------------------------------------
+Keyboard Hint
+-------------------------------------------------- */
+
+.keyboardHint {
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
+  font-size: 0.7rem;
+  color: #c4c4c4;
+}
+
+/* --------------------------------------------------
+Next Button
+-------------------------------------------------- */
+
+.nextButton {
+  position: relative;
+  width: 100%;
+  margin-top: 30px;
+  padding: 18px;
+  border: none;
+  border-radius: var(--borderRadius-md);
+  background: var(--accentColor);
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.nextText {
+  font-weight: 600;
+}
+
+.nextKeyHint {
+  position: absolute;
+  right: 12px;
+  bottom: 8px;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* --------------------------------------------------
+Reaction Time
+-------------------------------------------------- */
+
+.reactionTime {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--mutedColor);
+}
+
+/* --------------------------------------------------
+Hint Controls
+-------------------------------------------------- */
+
+.hintContainer {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.hintButton {
+  margin-top: 2px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.hintButton:hover {
+  text-decoration: underline;
+}
+
+.noHints {
+  font-size: 0.8rem;
+  color: var(--mutedColor);
+}
+
+/* --------------------------------------------------
+Hint Box
+-------------------------------------------------- */
+
+.hintBox {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--card-background);
+  overflow: hidden;
+}
+
+.hintTitle {
+  margin-bottom: 8px;
+  color: var(--mutedColor);
+  text-align: left;
+  font-size: 0.8rem;
+}
+
+.hintLine {
+  display: flex;
+  align-items: center;
+  font-family: monospace;
+  line-height: 1.8;
+}
+
+.hintNumber {
+  width: 70px;
+  margin-right: 8px;
+  text-align: right;
+}
+
+.placeValues {
+  display: flex;
+}
+
+.placeValue {
+  margin-right: 4px;
+  text-align: right;
+}
+
+.ones {
+  width: 30px;
+}
+
+.tens {
+  width: 45px;
+}
+
+.hundreds {
+  width: 60px;
+}
+
+.thousands {
+  width: 75px;
+}
+
+/* --------------------------------------------------
+Hint Tabs
+-------------------------------------------------- */
+
+.hintTab {
+  padding: 8px 14px;
+  border: none;
+  background: transparent;
+  color: #666;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.activeHintTab {
+  padding: 8px 14px;
+  border: none;
+  border-bottom: 2px solid #2563eb;
+  color: #2563eb;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* --------------------------------------------------
+Quiz Statistics
+-------------------------------------------------- */
+
+.stats {
+  display: flex;
+  justify-content: space-around;
+  gap: 6px;
+}
+
+.stats span {
+  font-size: 0.8rem;
+  color: var(--mutedColor);
+}
+
+.graphs {
+  width: 100px;
+  height: 120px;
+  background: var(--mutedColor);
+  border-radius: 4px;
+}
+
+/* --------------------------------------------------
+Quiz Settings
+-------------------------------------------------- */
+
+.row {
+  width: 300px;
+  margin: 6px 0 20px;
+}
+
+.settingRow {
+  align-items: left;
+}
+
+.row input {
+  margin-right: 6px;
+}

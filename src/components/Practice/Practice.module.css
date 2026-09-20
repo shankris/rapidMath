@@ -1,369 +1,386 @@
+css
+/* src/components/Practice/Practice.module.css */
+
+/* --------------------------------------------------
+   Practice Layout
+-------------------------------------------------- */
+
 .practice {
   width: 100%;
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
+/* --------------------------------------------------
+   Practice Heading
+-------------------------------------------------- */
+
+.heading {
+  margin-bottom: 20px;
 }
 
+.heading h1 {
+  margin: 0;
+  color: var(--headingCol);
+  font-size: 24px;
+  font-weight: 600;
+}
 
 .heading p {
+  margin: 6px 0 0;
   color: var(--mutedColor);
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 10px;
+  font-size: 14px;
 }
 
 /* --------------------------------------------------
-   Responsive Layout
+   Existing Practice Operations
 -------------------------------------------------- */
 
-@media (max-width: 768px) {
-  .grid {
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+/* --------------------------------------------------
+   Rapid Math Drills
+-------------------------------------------------- */
+
+.rapidMathRoadmap {
+  margin: 24px 0;
+}
+
+/* --------------------------------------------------
+   Rapid Math Category Tabs
+-------------------------------------------------- */
+
+.rapidMathTabs {
+  display: flex;
+  gap: 4px;
+  width: fit-content;
+  max-width: 100%;
+  margin-bottom: 16px;
+  padding: 4px;
+  background: var(--surfaceAlt);
+  border: 1px solid var(--borderColor);
+  border-radius: 8px;
+}
+
+.rapidMathTab {
+  padding: 8px 18px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--mutedColor);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.rapidMathTab:hover {
+  color: var(--headingCol);
+}
+
+.rapidMathTabActive {
+  background: var(--tab1bg);
+  color: var(--headingCol);
+  box-shadow: var(--shadow-sm);
+}
+
+/* --------------------------------------------------
+   Rapid Math Exercise Grid
+-------------------------------------------------- */
+
+.rapidMathGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+/* --------------------------------------------------
+   Rapid Math Operation Card
+-------------------------------------------------- */
+
+.rapidMathOperationCard {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 150px;
+  overflow: visible;
+}
+
+.rapidMathOperationHeader h2 {
+  margin: 0;
+  padding: 12px 12px 0;
+  color: var(--headingCol);
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.rapidMathOperationHeader p {
+  margin: 6px 0 0;
+  padding: 0 12px;
+  color: var(--mutedColor);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------
+   Rapid Math Level Links
+-------------------------------------------------- */
+
+.rapidMathLevels {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: auto;
+  padding-top: 18px;
+}
+
+.rapidMathLevel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  min-height: 60px;
+  padding: 8px;
+  border: 1px solid var(--borderColor);
+  border-radius: 0;
+  background: var(--surfaceAlt);
+  text-decoration: none;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    transform 150ms ease;
+}
+
+.rapidMathLevel,
+.rapidMathLevel:hover,
+.rapidMathLevel:visited,
+.rapidMathLevel:focus,
+.rapidMathLevel:active {
+  text-decoration: none;
+}
+
+.rapidMathLevel:first-child {
+  border-radius: 0 0 0 6px;
+}
+
+.rapidMathLevel:last-child {
+  border-radius: 0 0 4px 0;
+}
+
+.rapidMathLevel+.rapidMathLevel {
+  border-left: 0;
+}
+
+.rapidMathLevel:hover {
+  z-index: 10;
+  transform: translateY(-1px);
+}
+
+/* --------------------------------------------------
+   Rapid Math Level Content
+-------------------------------------------------- */
+
+.rapidMathLevelNumber {
+  color: var(--headingCol);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.rapidMathLevelPlaceholder {
+  margin-top: 4px;
+  overflow: hidden;
+  color: var(--mutedColor);
+  font-size: 11px;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------
+   Rapid Math Level Tooltip
+-------------------------------------------------- */
+
+.rapidMathTooltip {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  z-index: 20;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  min-width: 250px;
+  padding: 10px 12px;
+  border: 1px solid var(--borderColor);
+  border-radius: 8px;
+  background: var(--surfaceColor);
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate(-50%, -4px);
+  transition:
+    opacity 150ms ease,
+    visibility 150ms ease,
+    transform 150ms ease;
+}
+
+.rapidMathLevel:hover .rapidMathTooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+
+/* --------------------------------------------------
+   Rapid Math Tooltip Statistics
+-------------------------------------------------- */
+
+.rapidMathTooltip>span {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 3px;
+  padding: 0 10px;
+}
+
+.rapidMathTooltip>span+span {
+  border-left: 1px solid var(--borderColor);
+}
+
+.rapidMathTooltip strong {
+  color: var(--headingCol);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.rapidMathTooltip small {
+  color: var(--mutedColor);
+  font-size: 10px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------
+   Rapid Math Today's Practice Indicator
+-------------------------------------------------- */
+
+.rapidMathTodayUsage {
+  position: absolute;
+  top: 7px;
+  left: 8px;
+  display: flex;
+  align-items: center;
+  color: var(--successColor, #5f9f78);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.rapidMathTodayCheck+.rapidMathTodayCheck {
+  margin-left: -6px;
+}
+
+/* --------------------------------------------------
+   Rapid Math Roadmap Placeholder Cards
+-------------------------------------------------- */
+
+.rapidMathRoadmapCard {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--borderColor);
+  border-radius: 8px;
+  background: var(--surfaceColor);
+}
+
+.rapidMathRoadmapCardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.rapidMathRoadmapCardHeader h3 {
+  min-width: 0;
+  margin: 0;
+  color: var(--headingCol);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.rapidMathRoadmapCard p {
+  margin: 6px 0 0;
+  color: var(--mutedColor);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------
+   Rapid Math Roadmap Status
+-------------------------------------------------- */
+
+.rapidMathStatus {
+  flex-shrink: 0;
+  padding: 3px 7px;
+  border: 1px solid var(--borderColor);
+  border-radius: 999px;
+  color: var(--mutedColor);
+  background: var(--surfaceAlt);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.rapidMathStatusavailable {
+  color: var(--headingCol);
+}
+
+.rapidMathStatusplanned {
+  background: transparent;
+}
+
+/* --------------------------------------------------
+   Responsive Rapid Math Drills
+-------------------------------------------------- */
+
+@media (max-width: 700px) {
+  .rapidMathTabs {
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .rapidMathTabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .rapidMathTab {
+    flex: 1 0 auto;
+    padding: 8px 14px;
+  }
+
+  .rapidMathGrid {
     grid-template-columns: 1fr;
   }
 }
 
-.container {
-  max-width: 600px;
-  margin: 14px auto;
-  text-align: center;
-}
-
-
-
-span.level {
-  text-align: left;
-  display: block;
-}
-
-.questionProgress {
-  color: #707070;
-  margin: 20px 0 0 0;
-}
-
-button.btnPrimary {
-  width: 90%;
-  display: flex;
-  align-items: center;
-  max-width: 300px;
-}
-
-.progressCard,
-.resultCard {
-  margin: 4px 4px;
-  padding: 12px
-}
-
-
-.questionCard {
-  background: var(--surfaceColor);
-  border-radius: var(--borderRadius-lg);
-  padding: 16px;
-  margin: 10px 0;
-  box-shadow: var(--shadow-md);
-}
-
-
-
-.question {
-
-  font-size: 3rem;
-
-  font-weight: 600;
-
-}
-
-
-
-.options {
-
-  display: grid;
-
-  grid-template-columns: 1fr 1fr;
-
-  gap: 20px;
-
-}
-
-
-
-.option {
-  padding: 20px;
-  font-size: 1.5rem;
-  border-radius: var(--borderRadius-md);
-  border: 1px solid var(--borderColor);
-  background: var(--surfaceColor);
-  cursor: pointer;
-}
-
-
-
-.option:hover {
-  background: var(--surfaceAlt);
-}
-
-.option {
-  position: relative;
-}
-
-
-.correct {
-  background: #dcfce7 !important;
-  border-color: #22c55e;
-}
-
-
-.wrong {
-  background: #fee2e2 !important;
-  border-color: #ef4444;
-
-}
-
-
-.feedbackIcon {
-  position: absolute;
-  left: -16px;
-  top: -16px;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: white;
-  box-shadow: var(--shadow-md);
-  border: 1px solid var(--borderColor);
-}
-
-.option {
-  position: relative;
-  min-height: 90px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-
-.answerValue {
-  font-size: 1.5rem;
-  font-weight: 600;
-
-}
-
-
-.keyboardHint {
-  position: absolute;
-  right: 10px;
-  bottom: 8px;
-  font-size: 0.7rem;
-  color: #c4c4c4;
-}
-
-.nextButton {
-  margin-top: 30px;
-  width: 100%;
-  padding: 16px;
-  font-size: 1.2rem;
-  border-radius: var(--borderRadius-md);
-  background: var(--accentColor);
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-.nextButton {
-  position: relative;
-  margin-top: 30px;
-  width: 100%;
-  padding: 18px;
-  font-size: 1.2rem;
-  border-radius: var(--borderRadius-md);
-  background: var(--accentColor);
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-
-.nextText {
-
-  font-weight: 600;
-
-}
-
-
-.nextKeyHint {
-  position: absolute;
-  right: 12px;
-  bottom: 8px;
-  font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-
-.reactionTime {
-  margin-top: 30px;
-  text-align: center;
-  font-size: 12px;
-  color: var(--mutedColor);
-}
-
-
-.hintButton {
-  margin-top: 2px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 0.9rem;
-  color: var(--mutedColor);
-  padding: 10px 20px;
-}
-
-.noHints {
-  font-size: 0.8rem;
-  color: var(--mutedColor);
-}
-
-.hintBox {
-  margin-top: 12px;
-  padding: 12px;
-  border-radius: 8px;
-  background: var(--card-background);
-  overflow: hidden;
-}
-
-.hintTitle {
-  /* font-weight: 600; */
-  margin-bottom: 8px;
-  color: var(--mutedColor);
-  text-align: left;
-  font-size: 0.8rem;
-}
-
-.hintLine {
-  display: flex;
-  align-items: center;
-  font-family: monospace;
-  line-height: 1.8;
-}
-
-.hintNumber {
-  width: 70px;
-  text-align: right;
-  margin-right: 8px;
-}
-
-.placeValues {
-  display: flex;
-}
-
-.placeValue {
-  text-align: right;
-  margin-right: 4px;
-}
-
-.ones {
-  width: 30px;
-}
-
-.tens {
-  width: 45px;
-}
-
-.hundreds {
-  width: 60px;
-}
-
-.thousands {
-  width: 75px;
-}
-
-.hintContainer {
-  margin-top: 16px;
-  margin-bottom: 16px;
-}
-
-.hintButton {
-  background: none;
-  border: none;
-  color: var(--accent);
-  padding: 0;
-  cursor: pointer;
-  font-size: 0.80rem;
-  /* font-weight: 600; */
-}
-
-.hintButton:hover {
-  text-decoration: underline;
-}
-
-
-.hintTab {
-  padding: 8px 14px;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  font-size: 14px;
-  color: #666;
-}
-
-.activeHintTab {
-  padding: 8px 14px;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 600;
-  color: #2563eb;
-  border-bottom: 2px solid #2563eb;
-}
-
-.stats {
-  display: flex;
-  justify-content: space-around;
-  gap: 6px;
-}
-
-.stats span {
-  font-size: 0.8rem;
-  color: var(--mutedColor);
-}
-
-.graphs {
-  width: 100px;
-  height: 120px;
-  background: var(--mutedColor);
-  border-radius: 4px;
-}
-
-.row {
-  width: 300px;
-  margin: 6px 0 20px 0;
-}
-
-.settingRow {
-  align-items: left;
-}
-
-
-.row input {
-  margin-right: 6px;
-}
-
-button.btnPrimary {
-  width: 90%;
-  display: flex;
-  align-items: center;
-  max-width: 500px;
-  background: var(--accentColor);
-  color: white;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 4px;
-  margin: 20px 0 20px;
-
+/* --------------------------------------------------
+   Small-screen Roadmap Cards
+-------------------------------------------------- */
+
+@media (max-width: 480px) {
+  .rapidMathRoadmapCardHeader {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .rapidMathStatus {
+    align-self: flex-start;
+  }
 }

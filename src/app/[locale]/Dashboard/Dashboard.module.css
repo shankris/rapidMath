@@ -1,7 +1,7 @@
 /* src/components/Dashboard/Dashboard.module.css */
 
 /* --------------------------------------------------
-   Dashboard Layout
+Dashboard Layout
 -------------------------------------------------- */
 
 .dashboard {
@@ -9,7 +9,7 @@
 }
 
 /* --------------------------------------------------
-   Dashboard Header
+Dashboard Header
 -------------------------------------------------- */
 
 .header {
@@ -30,198 +30,7 @@
 }
 
 /* --------------------------------------------------
-   Operations Grid
--------------------------------------------------- */
-
-.operations {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-/* --------------------------------------------------
-   Mobile Layout
--------------------------------------------------- */
-
-@media (max-width: 425px) {
-  .operations {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* --------------------------------------------------
-   Operation Card
--------------------------------------------------- */
-
-.operationCard {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  overflow: visible;
-  min-height: 150px;
-}
-
-.operationHeader h2 {
-  margin: 0;
-  padding: 12px 12px 0;
-  font-size: 20px;
-  font-weight: 400;
-  color: var(--headingCol);
-}
-
-.operationHeader p {
-  margin: 6px 0 0;
-  padding: 0 12px;
-  font-size: 13px;
-  line-height: 1.5;
-  color: var(--mutedColor);
-}
-
-/* --------------------------------------------------
-   Level Links
--------------------------------------------------- */
-
-.levels {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin-top: auto;
-  padding-top: 18px;
-}
-
-.level {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-width: 0;
-  min-height: 60px;
-  padding: 8px;
-  border: 1px solid var(--borderColor);
-  border-radius: 0;
-  text-decoration: none;
-  background: var(--surfaceAlt);
-  transition:
-    background-color 150ms ease,
-    border-color 150ms ease,
-    transform 150ms ease;
-}
-
-.level:first-child {
-  border-radius: 0 0 0 6px;
-}
-
-.level:last-child {
-  border-radius: 0 0 4px 0;
-}
-
-.level+.level {
-  border-left: 0;
-}
-
-.level:hover {
-  transform: translateY(-1px);
-  z-index: 10;
-}
-
-/* --------------------------------------------------
-   Level Link States
--------------------------------------------------- */
-
-.level,
-.level:hover,
-.level:visited,
-.level:focus,
-.level:active {
-  text-decoration: none;
-}
-
-/* --------------------------------------------------
-   Level Content
--------------------------------------------------- */
-
-.levelNumber {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--headingCol);
-  text-align: center;
-}
-
-.levelPlaceholder {
-  margin-top: 4px;
-  font-size: 11px;
-  color: var(--mutedColor);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: center;
-}
-
-/* --------------------------------------------------
-   Level Tooltip
--------------------------------------------------- */
-
-.tooltip {
-  position: absolute;
-  left: 50%;
-  top: calc(100% + 8px);
-  z-index: 20;
-  display: flex;
-  align-items: stretch;
-  gap: 0;
-  min-width: 250px;
-  padding: 10px 12px;
-  border: 1px solid var(--borderColor);
-  border-radius: 8px;
-  background: var(--surfaceColor);
-  box-shadow: var(--shadow-md);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transform: translate(-50%, -4px);
-  transition:
-    opacity 150ms ease,
-    visibility 150ms ease,
-    transform 150ms ease;
-}
-
-.level:hover .tooltip {
-  opacity: 1;
-  visibility: visible;
-  transform: translate(-50%, 0);
-}
-
-/* --------------------------------------------------
-   Tooltip Statistics
--------------------------------------------------- */
-
-.tooltip>span {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 3px;
-  padding: 0 10px;
-}
-
-.tooltip>span+span {
-  border-left: 1px solid var(--borderColor);
-}
-
-.tooltip strong {
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 1.2;
-  color: var(--headingCol);
-}
-
-.tooltip small {
-  font-size: 10px;
-  line-height: 1.2;
-  color: var(--mutedColor);
-  white-space: nowrap;
-}
-
-/* --------------------------------------------------
-   Practice Time Section
+Practice Time Section
 -------------------------------------------------- */
 
 .dashboardChart {
@@ -254,7 +63,7 @@
 }
 
 /* --------------------------------------------------
-   Practice Time Breakdown
+Practice Time Breakdown
 -------------------------------------------------- */
 
 .practiceBreakdown {
@@ -263,7 +72,7 @@
 }
 
 /* --------------------------------------------------
-   Practice Time Row
+Practice Time Row
 -------------------------------------------------- */
 
 .practiceRow {
@@ -277,7 +86,7 @@
 }
 
 /* --------------------------------------------------
-   Dashboard Insights
+Dashboard Insights
 -------------------------------------------------- */
 
 .dashboardInsights {
@@ -286,7 +95,6 @@
   gap: 12px;
   margin-top: 12px;
 }
-
 
 .insightHeader h2 {
   margin: 0;
@@ -304,11 +112,8 @@
   line-height: 1.5;
 }
 
-
 /* --------------------------------------------------
-
-   Quiz Practice Insight Card
-
+Quiz Practice Insight Card
 -------------------------------------------------- */
 
 .insightCard {
@@ -333,9 +138,7 @@
 }
 
 /* --------------------------------------------------
-
-   Quiz Practice Header
-
+Quiz Practice Header
 -------------------------------------------------- */
 
 .insightHeader {
@@ -343,9 +146,7 @@
 }
 
 /* --------------------------------------------------
-
-   Streak Stats
-
+Streak Stats
 -------------------------------------------------- */
 
 .streakStats {
@@ -353,9 +154,7 @@
 }
 
 /* --------------------------------------------------
-
-   Monthly Activity
-
+Monthly Activity
 -------------------------------------------------- */
 
 .activityChart {
@@ -363,9 +162,7 @@
 }
 
 /* --------------------------------------------------
-
-   Quiz Practice Mobile Layout
-
+Quiz Practice Mobile Layout
 -------------------------------------------------- */
 
 @media (max-width: 768px) {
@@ -379,10 +176,8 @@
   }
 }
 
-
-
 /* --------------------------------------------------
-   Mobile Layout
+Mobile Layout
 -------------------------------------------------- */
 
 @media (max-width: 768px) {
@@ -392,42 +187,7 @@
 }
 
 /* --------------------------------------------------
-   Today's Practice Indicator
--------------------------------------------------- */
-
-.todayUsage {
-  position: absolute;
-  top: 7px;
-  left: 8px;
-
-  display: flex;
-  align-items: center;
-  /* gap: 3px; */
-
-  font-size: 10px;
-  font-weight: 600;
-  line-height: 1;
-  color: var(--successColor, #5f9f78);
-  white-space: nowrap;
-}
-
-/* .todayUsage span {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-} */
-
-/* --------------------------------------------------
-   Today's Practice Checks
--------------------------------------------------- */
-
-.todayCheck+.todayCheck {
-  margin-left: -6px;
-}
-
-
-/* --------------------------------------------------
-   Reaction Time Filters
+Reaction Time Filters
 -------------------------------------------------- */
 
 .filters {
@@ -451,19 +211,16 @@
 }
 
 /* --------------------------------------------------
-   Reaction Time Dropdown
+Reaction Time Dropdown
 -------------------------------------------------- */
 
 .filter select {
   width: 140px;
   height: 32px;
   padding: 0 30px 0 10px;
-
   border: 1px solid var(--borderColor);
   border-radius: 6px;
-
   appearance: none;
-
   background-color: var(--surfaceColor);
   background-image:
     linear-gradient(45deg, transparent 50%, var(--mutedColor) 50%),
@@ -475,14 +232,11 @@
     5px 5px,
     5px 5px;
   background-repeat: no-repeat;
-
   color: var(--headingCol);
   font-family: inherit;
   font-size: 11px;
-
   cursor: pointer;
   outline: none;
-
   transition:
     border-color 150ms ease,
     background-color 150ms ease;
@@ -502,7 +256,7 @@
 }
 
 /* --------------------------------------------------
-   Reaction Time Chart Area
+Reaction Time Chart Area
 -------------------------------------------------- */
 
 .chartArea {
@@ -511,23 +265,19 @@
 }
 
 /* --------------------------------------------------
-   Reaction Time Tooltip
+Reaction Time Tooltip
 -------------------------------------------------- */
 
 .chartTooltip {
   display: flex;
   flex-direction: column;
   gap: 8px;
-
   min-width: 165px;
   padding: 9px 11px;
-
   border: 1px solid var(--borderColor);
   border-radius: 6px;
-
   background: var(--surfaceColor);
   box-shadow: var(--shadow-sm);
-
   font-size: 11px;
 }
 
@@ -555,27 +305,24 @@
 }
 
 /* --------------------------------------------------
-   Reaction Time Empty State
+Reaction Time Empty State
 -------------------------------------------------- */
 
 .chartEmpty {
   display: flex;
   align-items: center;
   justify-content: center;
-
   min-height: 280px;
   padding: 30px;
-
   border: 1px dashed var(--borderColor);
   border-radius: 8px;
-
   color: var(--mutedColor);
   font-size: 12px;
   text-align: center;
 }
 
 /* --------------------------------------------------
-   Reaction Time Responsive Filters
+Reaction Time Responsive Filters
 -------------------------------------------------- */
 
 @media (max-width: 700px) {
@@ -593,7 +340,7 @@
 }
 
 /* --------------------------------------------------
-   Full-width Performance Section
+Full-width Performance Section
 -------------------------------------------------- */
 
 .performanceCard {
@@ -602,9 +349,8 @@
   overflow: hidden;
 }
 
-
 /* --------------------------------------------------
-   Performance Chart Header
+Performance Chart Header
 -------------------------------------------------- */
 
 .performanceChartHeader {
@@ -632,7 +378,6 @@
   color: var(--mutedColor);
 }
 
-
 .performanceChartControls {
   display: flex;
   align-items: flex-end;
@@ -656,7 +401,7 @@
 }
 
 /* --------------------------------------------------
-   Performance Chart Header - Mobile
+Performance Chart Header - Mobile
 -------------------------------------------------- */
 
 @media (max-width: 700px) {
@@ -675,228 +420,6 @@
 
   .performanceChartControls select {
     width: 100%;
-  }
-}
-
-/* --------------------------------------------------
-   Practice Roadmap
--------------------------------------------------- */
-
-.exerciseRoadmap {
-  margin-top: 24px;
-}
-
-.roadmapHeader {
-  margin-bottom: 16px;
-}
-
-.roadmapHeader h2 {
-  margin: 0;
-}
-
-.roadmapHeader p {
-  margin: 4px 0 0;
-  color: var(--mutedColor);
-  font-size: 14px;
-}
-
-
-/* --------------------------------------------------
-   Roadmap Tabs
--------------------------------------------------- */
-
-.roadmapTabs {
-  display: flex;
-  gap: 4px;
-  margin-bottom: 16px;
-  padding: 4px;
-  width: fit-content;
-  max-width: 100%;
-  background: var(--surfaceAlt);
-  border: 1px solid var(--borderColor);
-  border-radius: 8px;
-}
-
-.roadmapTab {
-  border: 0;
-  background: transparent;
-  color: var(--mutedColor);
-  padding: 8px 18px;
-  border-radius: 6px;
-  font: inherit;
-  font-size: 13px;
-  cursor: pointer;
-  transition:
-    background-color 150ms ease,
-    color 150ms ease;
-}
-
-.roadmapTab:hover {
-  color: var(--headingCol);
-}
-
-.roadmapTabActive {
-  background: var(--tab1bg);
-  color: var(--headingCol);
-  box-shadow: var(--shadow-sm);
-}
-
-
-/* --------------------------------------------------
-   Roadmap Exercise Grid
--------------------------------------------------- */
-
-.roadmapGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-
-/* --------------------------------------------------
-   Roadmap Exercise Card
--------------------------------------------------- */
-
-.roadmapCard {
-  min-width: 0;
-  padding: 16px;
-  border: 1px solid var(--borderColor);
-  border-radius: 8px;
-  background: var(--surfaceColor);
-}
-
-.roadmapCardAvailable {
-  transition:
-    border-color 150ms ease,
-    box-shadow 150ms ease;
-}
-
-.roadmapCardAvailable:hover {
-  border-color: var(--accentColor);
-  box-shadow: var(--shadow-sm);
-}
-
-.roadmapCardHeader {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.roadmapCardHeader h3 {
-  margin: 0;
-  min-width: 0;
-  color: var(--headingCol);
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.roadmapCard p {
-  margin: 6px 0 14px;
-  color: var(--mutedColor);
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-
-/* --------------------------------------------------
-   Roadmap Status
--------------------------------------------------- */
-
-.status {
-  flex-shrink: 0;
-  padding: 3px 7px;
-  border: 1px solid var(--borderColor);
-  border-radius: 999px;
-  font-size: 10px;
-  font-weight: 600;
-  line-height: 1.3;
-  white-space: nowrap;
-}
-
-.statusavailable {
-  color: var(--headingCol);
-  background: var(--surfaceAlt);
-}
-
-.statuscomingSoon {
-  color: var(--mutedColor);
-  background: var(--surfaceAlt);
-}
-
-.statusplanned {
-  color: var(--mutedColor);
-  background: transparent;
-}
-
-
-/* --------------------------------------------------
-   Roadmap Actions
--------------------------------------------------- */
-
-.roadmapAction {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 32px;
-  padding: 6px 12px;
-  border: 1px solid var(--borderColor);
-  border-radius: 6px;
-  color: var(--headingCol);
-  background: var(--surfaceAlt);
-  font-size: 12px;
-  font-weight: 600;
-  text-decoration: none;
-  transition:
-    background-color 150ms ease,
-    border-color 150ms ease;
-}
-
-.roadmapAction:hover {
-  border-color: var(--accentColor);
-}
-
-.roadmapPlaceholder {
-  display: block;
-  color: var(--mutedColor);
-  font-size: 11px;
-  line-height: 1.4;
-}
-
-
-/* --------------------------------------------------
-   Responsive Roadmap
--------------------------------------------------- */
-
-@media (max-width: 700px) {
-  .roadmapTabs {
-    width: 100%;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-
-  .roadmapTabs::-webkit-scrollbar {
-    display: none;
-  }
-
-  .roadmapTab {
-    flex: 1 0 auto;
-    padding: 8px 14px;
-  }
-
-  .roadmapGrid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 480px) {
-  .roadmapCardHeader {
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .status {
-    align-self: flex-start;
   }
 }
 
@@ -920,14 +443,6 @@ Practice Time Bar
   transition: width 250ms ease;
 }
 
-.practiceBarSegment:first-child {
-  border-radius: 6px 0 0 6px;
-}
-
-.practiceBarSegment:last-child {
-  border-radius: 0 6px 6px 0;
-}
-
 /* --------------------------------------------------
 Practice Time Bar Tooltip
 -------------------------------------------------- */
@@ -944,28 +459,21 @@ Practice Time Bar Tooltip
   left: 50%;
   bottom: calc(100% + 8px);
   z-index: 10;
-
   display: flex;
   flex-direction: column;
   gap: 2px;
-
   min-width: 120px;
   padding: 8px 10px;
-
   background: var(--surfaceColor);
   border: 1px solid var(--borderColor);
   border-radius: 6px;
-
   color: var(--headingCol);
   font-size: 12px;
   line-height: 1.4;
-
   box-shadow: var(--shadow-sm);
-
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-
   transform: translate(-50%, 4px);
   transition:
     opacity 150ms ease,
@@ -987,7 +495,6 @@ Practice Time Bar Tooltip
   visibility: visible;
   transform: translate(-50%, 0);
 }
-
 
 /* --------------------------------------------------
 Practice Time Table
