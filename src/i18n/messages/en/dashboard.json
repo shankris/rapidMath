@@ -15,7 +15,8 @@
   },
   "status": {
     "available": "Available",
-    "comingSoon": "Coming soon",
+    "experimental": "Experimental",
+    "comingSoon": "Coming Soon",
     "planned": "Planned"
   },
   "levels": {

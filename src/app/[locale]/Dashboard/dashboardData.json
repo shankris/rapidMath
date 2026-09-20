@@ -5,7 +5,8 @@
     "status": "available",
     "homeOrder": 1,
     "title": "Addition",
-    "description": "Practice adding numbers quickly and accurately.",
+    "description": "Practice combining numbers and improve your mental calculation speed.",
+    "shortDescription": "Add numbers quickly and accurately.",
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -14,7 +15,8 @@
     "status": "available",
     "homeOrder": 2,
     "title": "Subtraction",
-    "description": "Build speed and accuracy with subtraction.",
+    "description": "Practice finding the difference between numbers and improve calculation skills.",
+    "shortDescription": "Subtract numbers with speed and accuracy.",
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -23,7 +25,8 @@
     "status": "available",
     "homeOrder": 3,
     "title": "Multiplication",
-    "description": "Improve your multiplication speed and recall.",
+    "description": "Build multiplication fluency and improve your ability to calculate larger numbers quickly.",
+    "shortDescription": "Multiply numbers faster through practice.",
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -32,43 +35,48 @@
     "status": "available",
     "homeOrder": 4,
     "title": "Division",
-    "description": "Strengthen division skills and mental calculation.",
+    "description": "Practice dividing numbers and develop stronger number sense.",
+    "shortDescription": "Improve division speed and accuracy.",
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
     "operation": "mixedOperations",
     "category": "basic",
-    "status": "comingSoon",
+    "status": "experimental",
     "homeOrder": null,
     "title": "Mixed Operations",
-    "description": "Practice solving problems using different operations.",
+    "description": "Combine addition, subtraction, multiplication, and division while applying order of operations.",
+    "shortDescription": "Solve mixed expressions with speed and accuracy.",
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
     "operation": "missingNumber",
     "category": "intermediate",
-    "status": "comingSoon",
+    "status": "experimental",
     "homeOrder": null,
-    "title": "Find X",
-    "description": "Find the missing value using mental math.",
+    "title": "Missing Number",
+    "description": "Find the missing number and strengthen your mental calculation and problem-solving skills.",
+    "shortDescription": "Find missing numbers quickly and accurately.",
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
     "operation": "comparison",
     "category": "basic",
-    "status": "comingSoon",
+    "status": "experimental",
     "homeOrder": null,
     "title": "Comparison",
-    "description": "Compare numbers and expressions quickly.",
+    "description": "Compare calculated values and strengthen your mental math and number sense.",
+    "shortDescription": "Compare numbers and expressions quickly.",
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
     "operation": "estimation",
     "category": "basic",
-    "status": "comingSoon",
+    "status": "experimental",
     "homeOrder": null,
     "title": "Estimation",
-    "description": "Develop quick and accurate estimation skills.",
+    "description": "Estimate calculations quickly using rounding and number sense.",
+    "shortDescription": "Estimate calculations quickly.",
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -119,25 +127,27 @@
   {
     "operation": "fractions",
     "category": "intermediate",
-    "status": "comingSoon",
+    "status": "experimental",
     "homeOrder": null,
     "title": "Fractions",
-    "description": "Build confidence working with fractions.",
+    "description": "Practice simplifying, comparing, and calculating with fractions.",
+    "shortDescription": "Build speed and accuracy with fractions.",
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
     "operation": "percentages",
     "category": "intermediate",
-    "status": "comingSoon",
+    "status": "experimental",
     "homeOrder": null,
     "title": "Percentages",
-    "description": "Practice calculating and comparing percentages.",
+    "description": "Practice percentage calculations and improve your ability to work with percentages quickly and accurately.",
+    "shortDescription": "Calculate percentages quickly and accurately.",
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
     "operation": "decimals",
     "category": "intermediate",
-    "status": "comingSoon",
+    "status": "planned",
     "homeOrder": null,
     "title": "Decimals",
     "description": "Build speed and accuracy when working with decimals.",
@@ -155,10 +165,11 @@
   {
     "operation": "powersRoots",
     "category": "intermediate",
-    "status": "planned",
+    "status": "experimental",
     "homeOrder": null,
     "title": "Powers & Roots",
-    "description": "Practice powers, squares, cubes, and roots.",
+    "description": "Practice powers, roots, and increasingly challenging mathematical expressions.",
+    "shortDescription": "Build speed with powers and roots.",
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -272,10 +283,11 @@
   {
     "operation": "sequences",
     "category": "advanced",
-    "status": "planned",
+    "status": "experimental",
     "homeOrder": null,
     "title": "Sequences & Progressions",
-    "description": "Recognize patterns and continue numerical sequences.",
+    "description": "Find patterns and predict the next number in a sequence.",
+    "shortDescription": "Find patterns and predict what comes next.",
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -317,10 +329,21 @@
   {
     "operation": "probability",
     "category": "advanced",
-    "status": "planned",
+    "status": "experimental",
     "homeOrder": null,
     "title": "Probability",
-    "description": "Practice probability calculations and reasoning.",
+    "description": "Practice probability with increasingly challenging questions involving outcomes, events, and chance.",
+    "shortDescription": "Build speed with probability and chance.",
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+  {
+    "operation": "combinations",
+    "category": "advanced",
+    "status": "experimental",
+    "homeOrder": null,
+    "title": "Factorials, Permutations & Combinations",
+    "description": "Practice factorials, permutations, combinations, and increasingly challenging counting problems.",
+    "shortDescription": "Build speed with counting and arrangement problems.",
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
