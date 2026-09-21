@@ -1,24 +1,28 @@
 {
   "title": "Dashboard",
   "subtitle": "Continue building your mental math skills.",
+
   "roadmap": {
     "title": "Rapid Math Drills",
     "description": "Explore the exercises available now and what's coming next.",
     "categoriesLabel": "Exercise categories",
     "categoryExercises": "{category} exercises"
   },
+
   "categories": {
     "basic": "Basics",
     "intermediate": "Intermediate",
     "advanced": "Advanced",
     "challenge": "Challenge"
   },
+
   "status": {
     "available": "Available",
     "experimental": "Experimental",
     "comingSoon": "Coming Soon",
     "planned": "Planned"
   },
+
   "levels": {
     "level": "Level {level}",
     "practicedToday": "Practiced {count, plural, =1 {time} other {# times}} today",
@@ -37,203 +41,15 @@
     "reactionTime": "Reaction time",
     "questions": "Questions"
   },
+
   "practiceTime": {
     "title": "Practice Time",
     "description": "How your practice time is distributed.",
     "others": "Others"
   },
+
   "quizPractice": {
     "title": "Quiz Practice",
     "description": "Your practice activity over the last 30 days."
-  },
-  "operations": {
-    "add": {
-      "title": "Addition",
-      "description": "Practice adding numbers quickly and accurately."
-    },
-    "sub": {
-      "title": "Subtraction",
-      "description": "Practice subtracting numbers quickly and accurately."
-    },
-    "mul": {
-      "title": "Multiplication",
-      "description": "Practice multiplying numbers quickly and accurately."
-    },
-    "div": {
-      "title": "Division",
-      "description": "Practice dividing numbers quickly and accurately."
-    },
-    "mixedOperations": {
-      "title": "Mixed Operations",
-      "description": "Practice solving problems using multiple operations."
-    },
-    "missingNumber": {
-      "title": "Find X",
-      "description": "Find the missing number using mental math."
-    },
-    "comparison": {
-      "title": "Comparison",
-      "description": "Compare numbers and expressions quickly."
-    },
-    "estimation": {
-      "title": "Estimation",
-      "description": "Develop your ability to estimate numerical results."
-    },
-    "rounding": {
-      "title": "Rounding",
-      "description": "Practice rounding numbers to the required precision."
-    },
-    "orderOfOperations": {
-      "title": "Order of Operations",
-      "description": "Practice solving expressions using the correct order of operations."
-    },
-    "numberSense": {
-      "title": "Number Sense",
-      "description": "Build intuition for numbers and their relationships."
-    },
-    "factorsMultiples": {
-      "title": "Factors & Multiples",
-      "description": "Practice identifying factors and multiples."
-    },
-    "divisibility": {
-      "title": "Divisibility",
-      "description": "Practice recognizing divisibility patterns and rules."
-    },
-    "fractions": {
-      "title": "Fractions",
-      "description": "Practice working with fractions quickly and accurately."
-    },
-    "percentages": {
-      "title": "Percentages",
-      "description": "Practice calculating and comparing percentages."
-    },
-    "decimals": {
-      "title": "Decimals",
-      "description": "Practice working with decimal numbers."
-    },
-    "ratiosProportions": {
-      "title": "Ratios & Proportions",
-      "description": "Practice solving ratio and proportion problems."
-    },
-    "powersRoots": {
-      "title": "Powers & Roots",
-      "description": "Practice calculating powers and roots mentally."
-    },
-    "averages": {
-      "title": "Averages",
-      "description": "Practice calculating averages quickly."
-    },
-    "negativeNumbers": {
-      "title": "Negative Numbers",
-      "description": "Practice working confidently with negative numbers."
-    },
-    "simpleEquations": {
-      "title": "Simple Equations",
-      "description": "Practice solving basic equations mentally."
-    },
-    "simpleInequalities": {
-      "title": "Simple Inequalities",
-      "description": "Practice solving basic inequalities mentally."
-    },
-    "scientificNotation": {
-      "title": "Scientific Notation",
-      "description": "Practice working with numbers in scientific notation."
-    },
-    "unitConversions": {
-      "title": "Unit Conversions",
-      "description": "Practice converting between common units."
-    },
-    "basicGeometry": {
-      "title": "Basic Geometry",
-      "description": "Practice fundamental geometry calculations."
-    },
-    "basicStatistics": {
-      "title": "Basic Statistics",
-      "description": "Practice fundamental statistical calculations."
-    },
-    "algebra": {
-      "title": "Algebra",
-      "description": "Practice solving algebraic problems efficiently."
-    },
-    "linearEquations": {
-      "title": "Linear Equations",
-      "description": "Practice solving linear equations."
-    },
-    "quadraticEquations": {
-      "title": "Quadratic Equations",
-      "description": "Practice solving quadratic equations."
-    },
-    "polynomials": {
-      "title": "Polynomials",
-      "description": "Practice working with polynomial expressions."
-    },
-    "sequences": {
-      "title": "Sequences & Progressions",
-      "description": "Practice identifying and solving number sequences."
-    },
-    "coordinateGeometry": {
-      "title": "Coordinate Geometry",
-      "description": "Practice problems involving coordinates and graphs."
-    },
-    "geometry": {
-      "title": "Geometry",
-      "description": "Practice geometry problems and calculations."
-    },
-    "trigonometry": {
-      "title": "Trigonometry",
-      "description": "Practice trigonometric calculations and relationships."
-    },
-    "statistics": {
-      "title": "Statistics",
-      "description": "Practice statistical concepts and calculations."
-    },
-    "probability": {
-      "title": "Probability",
-      "description": "Practice calculating probabilities."
-    },
-    "multiStepWordProblems": {
-      "title": "Multi-step Word Problems",
-      "description": "Practice solving multi-step problems from real-world scenarios."
-    },
-    "dataInterpretation": {
-      "title": "Data Interpretation",
-      "description": "Practice interpreting numerical data and information."
-    },
-    "multiStepAlgebra": {
-      "title": "Multi-step Algebra",
-      "description": "Practice solving multi-step algebra problems."
-    },
-    "advancedEquations": {
-      "title": "Advanced Equations",
-      "description": "Practice solving more challenging equations."
-    },
-    "advancedGeometry": {
-      "title": "Advanced Geometry",
-      "description": "Practice more challenging geometry problems."
-    },
-    "advancedTrigonometry": {
-      "title": "Advanced Trigonometry",
-      "description": "Practice more challenging trigonometry problems."
-    },
-    "complexProbability": {
-      "title": "Complex Probability",
-      "description": "Practice solving more challenging probability problems."
-    },
-    "challengingSequences": {
-      "title": "Challenging Sequences",
-      "description": "Practice solving more challenging sequences and progressions."
-    },
-    "multiTopicProblems": {
-      "title": "Multi-topic Problems",
-      "description": "Practice problems combining multiple mathematical topics."
-    },
-    "satStyleProblems": {
-      "title": "SAT-style Problems",
-      "description": "Practice problems inspired by SAT-style mathematical questions."
-    },
-    "olympiadStyleProblems": {
-      "title": "Olympiad-style Problems",
-      "description": "Practice challenging problems inspired by mathematical olympiad questions."
-    }
   }
 }

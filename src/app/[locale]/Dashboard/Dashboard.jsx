@@ -18,6 +18,7 @@ Dashboard Component
 
 export default function Dashboard() {
   const t = useTranslations("Dashboard");
+  const tExercises = useTranslations("Exercises");
   const locale = useLocale();
 
   const [practiceTime, setPracticeTime] = useState([]);

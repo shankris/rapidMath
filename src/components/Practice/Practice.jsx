@@ -18,6 +18,7 @@ Practice Component
 export default function Practice() {
   const locale = useLocale();
   const t = useTranslations("Dashboard");
+  const tExercises = useTranslations("Exercises");
 
   const [activeCategory, setActiveCategory] = useState("basic");
   const [levelStats, setLevelStats] = useState({});
@@ -118,12 +119,12 @@ Rapid Math Categories
             >
               <div className={styles.rapidMathOperationHeader}>
                 <div className={styles.rapidMathOperationTitle}>
-                  <h2>{t(`operations.${operation.operation}.title`)}</h2>
+                  <h2>{tExercises(`operations.${operation.operation}.title`)}</h2>
 
                   {operation.status === "experimental" && <span className={styles.rapidMathExperimental}>{t("status.experimental")}</span>}
                 </div>
 
-                <p>{t(`operations.${operation.operation}.description`)}</p>
+                <p>{tExercises(`operations.${operation.operation}.description`)}</p>
               </div>
 
               <div className={styles.rapidMathLevels}>
@@ -227,12 +228,10 @@ Rapid Math Categories
               className={styles.rapidMathRoadmapCard}
             >
               <div className={styles.rapidMathRoadmapCardHeader}>
-                <h3>{t(`operations.${operation.operation}.title`)}</h3>
-
+                <h3>{tExercises(`operations.${operation.operation}.title`)}</h3>
                 <span className={`${styles.rapidMathStatus} ${styles[`rapidMathStatus${operation.status}`]}`}>{t(`status.${operation.status}`)}</span>
               </div>
-
-              <p>{t(`operations.${operation.operation}.description`)}</p>
+              <p>{tExercises(`operations.${operation.operation}.description`)}</p>
             </article>
           ))}
         </div>

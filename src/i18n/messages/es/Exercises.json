@@ -1,0 +1,238 @@
+{
+  "operations": {
+    "add": {
+      "title": "Suma",
+      "description": "Practica sumar números de forma rápida y precisa."
+    },
+
+    "sub": {
+      "title": "Resta",
+      "description": "Practica restar números de forma rápida y precisa."
+    },
+
+    "mul": {
+      "title": "Multiplicación",
+      "description": "Practica multiplicar números de forma rápida y precisa."
+    },
+
+    "div": {
+      "title": "División",
+      "description": "Practica dividir números de forma rápida y precisa."
+    },
+
+    "mixedOperations": {
+      "title": "Operaciones combinadas",
+      "description": "Practica resolver problemas usando varias operaciones."
+    },
+
+    "missingNumber": {
+      "title": "Encuentra la X",
+      "description": "Encuentra el número faltante usando cálculo mental."
+    },
+
+    "comparison": {
+      "title": "Comparación",
+      "description": "Compara números y expresiones rápidamente."
+    },
+
+    "estimation": {
+      "title": "Estimación",
+      "description": "Desarrolla tu capacidad para estimar resultados numéricos."
+    },
+
+    "rounding": {
+      "title": "Redondeo",
+      "description": "Practica redondear números a la precisión requerida."
+    },
+
+    "orderOfOperations": {
+      "title": "Orden de operaciones",
+      "description": "Practica resolver expresiones usando el orden correcto de las operaciones."
+    },
+
+    "numberSense": {
+      "title": "Sentido numérico",
+      "description": "Desarrolla la intuición sobre los números y sus relaciones."
+    },
+
+    "factorsMultiples": {
+      "title": "Factores y múltiplos",
+      "description": "Practica identificar factores y múltiplos."
+    },
+
+    "divisibility": {
+      "title": "Divisibilidad",
+      "description": "Practica reconocer patrones y reglas de divisibilidad."
+    },
+
+    "fractions": {
+      "title": "Fracciones",
+      "description": "Practica trabajar con fracciones de forma rápida y precisa."
+    },
+
+    "percentages": {
+      "title": "Porcentajes",
+      "description": "Practica calcular y comparar porcentajes."
+    },
+
+    "decimals": {
+      "title": "Decimales",
+      "description": "Practica trabajar con números decimales."
+    },
+
+    "ratiosProportions": {
+      "title": "Razones y proporciones",
+      "description": "Practica resolver problemas de razones y proporciones."
+    },
+
+    "powersRoots": {
+      "title": "Potencias y raíces",
+      "description": "Practica calcular potencias y raíces mentalmente."
+    },
+
+    "averages": {
+      "title": "Promedios",
+      "description": "Practica calcular promedios rápidamente."
+    },
+
+    "negativeNumbers": {
+      "title": "Números negativos",
+      "description": "Practica trabajar con confianza con números negativos."
+    },
+
+    "simpleEquations": {
+      "title": "Ecuaciones simples",
+      "description": "Practica resolver ecuaciones básicas mentalmente."
+    },
+
+    "simpleInequalities": {
+      "title": "Inecuaciones simples",
+      "description": "Practica resolver inecuaciones básicas mentalmente."
+    },
+
+    "scientificNotation": {
+      "title": "Notación científica",
+      "description": "Practica trabajar con números en notación científica."
+    },
+
+    "unitConversions": {
+      "title": "Conversión de unidades",
+      "description": "Practica convertir entre unidades comunes."
+    },
+
+    "basicGeometry": {
+      "title": "Geometría básica",
+      "description": "Practica cálculos fundamentales de geometría."
+    },
+
+    "basicStatistics": {
+      "title": "Estadística básica",
+      "description": "Practica cálculos fundamentales de estadística."
+    },
+
+    "algebra": {
+      "title": "Álgebra",
+      "description": "Practica resolver problemas algebraicos eficientemente."
+    },
+
+    "linearEquations": {
+      "title": "Ecuaciones lineales",
+      "description": "Practica resolver ecuaciones lineales."
+    },
+
+    "quadraticEquations": {
+      "title": "Ecuaciones cuadráticas",
+      "description": "Practica resolver ecuaciones cuadráticas."
+    },
+
+    "polynomials": {
+      "title": "Polinomios",
+      "description": "Practica trabajar con expresiones polinómicas."
+    },
+
+    "sequences": {
+      "title": "Sucesiones y progresiones",
+      "description": "Practica identificar y resolver sucesiones numéricas."
+    },
+
+    "coordinateGeometry": {
+      "title": "Geometría analítica",
+      "description": "Practica problemas con coordenadas y gráficas."
+    },
+
+    "geometry": {
+      "title": "Geometría",
+      "description": "Practica problemas y cálculos de geometría."
+    },
+
+    "trigonometry": {
+      "title": "Trigonometría",
+      "description": "Practica cálculos y relaciones trigonométricas."
+    },
+
+    "statistics": {
+      "title": "Estadística",
+      "description": "Practica conceptos y cálculos estadísticos."
+    },
+
+    "probability": {
+      "title": "Probabilidad",
+      "description": "Practica calcular probabilidades."
+    },
+
+    "multiStepWordProblems": {
+      "title": "Problemas de varios pasos",
+      "description": "Practica resolver problemas de varios pasos basados en escenarios del mundo real."
+    },
+
+    "dataInterpretation": {
+      "title": "Interpretación de datos",
+      "description": "Practica interpretar datos e información numérica."
+    },
+
+    "multiStepAlgebra": {
+      "title": "Álgebra de varios pasos",
+      "description": "Practica resolver problemas algebraicos de varios pasos."
+    },
+
+    "advancedEquations": {
+      "title": "Ecuaciones avanzadas",
+      "description": "Practica resolver ecuaciones más desafiantes."
+    },
+
+    "advancedGeometry": {
+      "title": "Geometría avanzada",
+      "description": "Practica problemas de geometría más desafiantes."
+    },
+
+    "advancedTrigonometry": {
+      "title": "Trigonometría avanzada",
+      "description": "Practica problemas de trigonometría más desafiantes."
+    },
+
+    "complexProbability": {
+      "title": "Probabilidad compleja",
+      "description": "Practica resolver problemas de probabilidad más desafiantes."
+    },
+
+    "challengingSequences": {
+      "title": "Sucesiones desafiantes",
+      "description": "Practica resolver sucesiones y progresiones más desafiantes."
+    },
+
+    "multiTopicProblems": {
+      "title": "Problemas de múltiples temas",
+      "description": "Practica problemas que combinan varios temas matemáticos."
+    },
+
+    "satStyleProblems": {
+      "title": "Problemas estilo SAT",
+      "description": "Practica problemas inspirados en preguntas matemáticas de tipo SAT."
+    },
+
+    "olympiadStyleProblems": {
+      "title": "Problemas estilo Olimpiada",
+      "description": "Practica problemas desafiantes inspirados en preguntas de olimpiadas matemáticas."
+    }
+  }
+}
