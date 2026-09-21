@@ -90,6 +90,15 @@
       "description": "Practice calculating powers and roots mentally."
     },
 
+    "combinations": {
+      "title": "Factorials, Permutations & Combinations",
+      "description": "Practice factorials, permutations, and combinations mentally."
+    },
+    "probability": {
+      "title": "Probability",
+      "description": "Practice calculating basic probability mentally."
+    },
+
     "averages": {
       "title": "Averages",
       "description": "Practice calculating averages quickly."
@@ -173,11 +182,6 @@
     "statistics": {
       "title": "Statistics",
       "description": "Practice statistical concepts and calculations."
-    },
-
-    "probability": {
-      "title": "Probability",
-      "description": "Practice calculating probabilities."
     },
 
     "multiStepWordProblems": {

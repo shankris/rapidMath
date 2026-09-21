@@ -257,16 +257,13 @@ function AccuracyTooltip({ active, payload, label, translate, locale }) {
 
 export default function AccuracyChart({ operation: selectedOperation = "", level: selectedLevel = "", onSelectionChange }) {
   const t = useTranslations("Graphs");
+  const tExercises = useTranslations("Exercises");
+
   const locale = useLocale();
-
   const [attempts, setAttempts] = useState([]);
-
   const [operation, setOperation] = useState(selectedOperation);
-
   const [level, setLevel] = useState(selectedLevel);
-
   const [chartData, setChartData] = useState([]);
-
   const [axisRange, setAxisRange] = useState({
     min: 0,
     max: 100,
@@ -522,7 +519,7 @@ export default function AccuracyChart({ operation: selectedOperation = "", level
                   key={item}
                   value={item}
                 >
-                  {t(`operations.${item}.title`)}
+                  {tExercises(`operations.${item}.title`)}
                 </option>
               ))}
             </select>

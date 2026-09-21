@@ -27,7 +27,7 @@ const OPERATION_NAMES = {
   sequences: "Sequences & Progressions",
   fractions: "Fractions",
   percentages: "Percentages",
-  powersRoots: "Power & Roots",
+  powersRoots: "Powers & Roots",
 };
 
 /* --------------------------------------------------
@@ -195,6 +195,8 @@ function ReactionTimeTooltip({ active, payload, label, translate, locale }) {
 
 export default function ReactionTimeChart({ operation: selectedOperation = "", level: selectedLevel = "", onSelectionChange, onActiveDayCountChange }) {
   const t = useTranslations("Graphs");
+  const tExercises = useTranslations("Exercises");
+
   const locale = useLocale();
 
   const [attempts, setAttempts] = useState([]);

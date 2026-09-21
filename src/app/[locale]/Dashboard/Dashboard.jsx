@@ -48,7 +48,7 @@ Practice Time Distribution
     const timeData = Object.entries(distribution)
       .map(([operation, value]) => ({
         operation,
-        name: t(`operations.${operation}.title`),
+        name: tExercises(`operations.${operation}.title`),
         value,
         percentage: totalTime > 0 ? (value / totalTime) * 100 : 0,
       }))

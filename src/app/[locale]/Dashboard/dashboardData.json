@@ -7,6 +7,7 @@
     "title": "Addition",
     "description": "Practice combining numbers and improve your mental calculation speed.",
     "shortDescription": "Add numbers quickly and accurately.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -17,6 +18,7 @@
     "title": "Subtraction",
     "description": "Practice finding the difference between numbers and improve calculation skills.",
     "shortDescription": "Subtract numbers with speed and accuracy.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -27,6 +29,7 @@
     "title": "Multiplication",
     "description": "Build multiplication fluency and improve your ability to calculate larger numbers quickly.",
     "shortDescription": "Multiply numbers faster through practice.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -37,6 +40,7 @@
     "title": "Division",
     "description": "Practice dividing numbers and develop stronger number sense.",
     "shortDescription": "Improve division speed and accuracy.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -47,6 +51,7 @@
     "title": "Mixed Operations",
     "description": "Combine addition, subtraction, multiplication, and division while applying order of operations.",
     "shortDescription": "Solve mixed expressions with speed and accuracy.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -57,6 +62,7 @@
     "title": "Missing Number",
     "description": "Find the missing number and strengthen your mental calculation and problem-solving skills.",
     "shortDescription": "Find missing numbers quickly and accurately.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -67,6 +73,7 @@
     "title": "Comparison",
     "description": "Compare calculated values and strengthen your mental math and number sense.",
     "shortDescription": "Compare numbers and expressions quickly.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -77,6 +84,7 @@
     "title": "Estimation",
     "description": "Estimate calculations quickly using rounding and number sense.",
     "shortDescription": "Estimate calculations quickly.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -86,6 +94,7 @@
     "homeOrder": null,
     "title": "Rounding",
     "description": "Practice rounding numbers quickly and accurately.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -95,6 +104,7 @@
     "homeOrder": null,
     "title": "Order of Operations",
     "description": "Build speed and accuracy when solving multi-operation expressions.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -104,6 +114,7 @@
     "homeOrder": null,
     "title": "Number Sense",
     "description": "Develop a stronger feel for numbers and numerical relationships.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -113,6 +124,7 @@
     "homeOrder": null,
     "title": "Factors & Multiples",
     "description": "Practice identifying factors, multiples, and numerical relationships.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -122,6 +134,7 @@
     "homeOrder": null,
     "title": "Divisibility",
     "description": "Recognize divisibility patterns and rules.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -132,6 +145,7 @@
     "title": "Fractions",
     "description": "Practice simplifying, comparing, and calculating with fractions.",
     "shortDescription": "Build speed and accuracy with fractions.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -142,6 +156,7 @@
     "title": "Percentages",
     "description": "Practice percentage calculations and improve your ability to work with percentages quickly and accurately.",
     "shortDescription": "Calculate percentages quickly and accurately.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -151,6 +166,7 @@
     "homeOrder": null,
     "title": "Decimals",
     "description": "Build speed and accuracy when working with decimals.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -160,16 +176,18 @@
     "homeOrder": null,
     "title": "Ratios & Proportions",
     "description": "Practice working with ratios and proportional relationships.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
     "operation": "powersRoots",
     "category": "intermediate",
-    "status": "experimental",
+    "status": "available",
     "homeOrder": null,
     "title": "Powers & Roots",
     "description": "Practice powers, roots, and increasingly challenging mathematical expressions.",
     "shortDescription": "Build speed with powers and roots.",
+    "shortcuts": true,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -179,6 +197,7 @@
     "homeOrder": null,
     "title": "Averages",
     "description": "Practice calculating and interpreting averages.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -188,6 +207,7 @@
     "homeOrder": null,
     "title": "Negative Numbers",
     "description": "Build confidence working with positive and negative numbers.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -197,6 +217,7 @@
     "homeOrder": null,
     "title": "Simple Equations",
     "description": "Solve straightforward equations using mental math.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -206,6 +227,7 @@
     "homeOrder": null,
     "title": "Simple Inequalities",
     "description": "Practice comparing values and solving simple inequalities.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -215,6 +237,7 @@
     "homeOrder": null,
     "title": "Scientific Notation",
     "description": "Practice working with numbers expressed in scientific notation.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -224,6 +247,7 @@
     "homeOrder": null,
     "title": "Unit Conversions",
     "description": "Practice converting between common units quickly and accurately.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -233,6 +257,7 @@
     "homeOrder": null,
     "title": "Basic Geometry",
     "description": "Practice basic geometry calculations and relationships.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -242,6 +267,7 @@
     "homeOrder": null,
     "title": "Basic Statistics",
     "description": "Practice basic statistical calculations and interpretation.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -251,6 +277,7 @@
     "homeOrder": null,
     "title": "Algebra",
     "description": "Develop fluency with algebraic expressions and relationships.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -260,6 +287,7 @@
     "homeOrder": null,
     "title": "Linear Equations",
     "description": "Practice solving and reasoning with linear equations.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -269,6 +297,7 @@
     "homeOrder": null,
     "title": "Quadratic Equations",
     "description": "Practice solving and analyzing quadratic equations.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -278,6 +307,7 @@
     "homeOrder": null,
     "title": "Polynomials",
     "description": "Build fluency with polynomial expressions and operations.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -288,6 +318,7 @@
     "title": "Sequences & Progressions",
     "description": "Find patterns and predict the next number in a sequence.",
     "shortDescription": "Find patterns and predict what comes next.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -297,6 +328,7 @@
     "homeOrder": null,
     "title": "Coordinate Geometry",
     "description": "Practice relationships between algebra and geometry on the coordinate plane.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -306,6 +338,7 @@
     "homeOrder": null,
     "title": "Geometry",
     "description": "Practice more advanced geometric calculations and relationships.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -315,6 +348,7 @@
     "homeOrder": null,
     "title": "Trigonometry",
     "description": "Practice trigonometric relationships and calculations.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -324,6 +358,7 @@
     "homeOrder": null,
     "title": "Statistics",
     "description": "Develop skills in statistical reasoning and calculation.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -334,6 +369,7 @@
     "title": "Probability",
     "description": "Practice probability with increasingly challenging questions involving outcomes, events, and chance.",
     "shortDescription": "Build speed with probability and chance.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -344,6 +380,7 @@
     "title": "Factorials, Permutations & Combinations",
     "description": "Practice factorials, permutations, combinations, and increasingly challenging counting problems.",
     "shortDescription": "Build speed with counting and arrangement problems.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -353,6 +390,7 @@
     "homeOrder": null,
     "title": "Multi-step Word Problems",
     "description": "Solve problems that combine multiple mathematical ideas.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -362,6 +400,7 @@
     "homeOrder": null,
     "title": "Data Interpretation",
     "description": "Practice extracting and reasoning from numerical data.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -371,6 +410,7 @@
     "homeOrder": null,
     "title": "Multi-step Algebra",
     "description": "Tackle more demanding algebraic problems requiring multiple steps.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -380,6 +420,7 @@
     "homeOrder": null,
     "title": "Advanced Equations",
     "description": "Solve challenging equations using multiple techniques.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -389,6 +430,7 @@
     "homeOrder": null,
     "title": "Advanced Geometry",
     "description": "Explore challenging geometric problems and relationships.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -398,6 +440,7 @@
     "homeOrder": null,
     "title": "Advanced Trigonometry",
     "description": "Solve more challenging trigonometric problems.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -407,6 +450,7 @@
     "homeOrder": null,
     "title": "Complex Probability",
     "description": "Tackle more challenging probability problems and reasoning.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -416,6 +460,7 @@
     "homeOrder": null,
     "title": "Challenging Sequences",
     "description": "Solve more demanding sequence and progression problems.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -425,6 +470,7 @@
     "homeOrder": null,
     "title": "Multi-topic Problems",
     "description": "Solve challenging problems combining multiple mathematical topics.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -434,6 +480,7 @@
     "homeOrder": null,
     "title": "SAT-style Problems",
     "description": "Practice challenging problems inspired by standardized test formats.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {
@@ -443,6 +490,7 @@
     "homeOrder": null,
     "title": "Olympiad-style Problems",
     "description": "Tackle challenging problems requiring deeper mathematical reasoning.",
+    "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   }
 ]

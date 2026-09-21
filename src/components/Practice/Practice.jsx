@@ -8,6 +8,8 @@ import { Check } from "lucide-react";
 
 import styles from "./Practice.module.css";
 
+import ShortcutPanel from "@/components/Shortcuts/ShortcutPanel";
+import powerRootsShortcuts from "@/components/Shortcuts/PowerRoots/shortcuts";
 import dashboardData from "@/app/[locale]/Dashboard/dashboardData.json";
 import { getDashboardLevelStats } from "@/lib/stats/dashboard";
 
@@ -19,9 +21,18 @@ export default function Practice() {
   const locale = useLocale();
   const t = useTranslations("Dashboard");
   const tExercises = useTranslations("Exercises");
+  const [shortcutOperation, setShortcutOperation] = useState(null);
 
   const [activeCategory, setActiveCategory] = useState("basic");
   const [levelStats, setLevelStats] = useState({});
+
+  /* --------------------------------------------------
+Shortcut Collections
+-------------------------------------------------- */
+
+  const shortcutCollections = {
+    powersRoots: powerRootsShortcuts,
+  };
 
   /* --------------------------------------------------
 Dashboard Level Statistics
@@ -72,15 +83,15 @@ Rapid Math Categories
 
   return (
     <section className={styles.practice}>
-      {" "}
       <div className={styles.heading}>
-        {" "}
-        <h1>Practice</h1> <p>Select an operation and level.</p>{" "}
+        <h1>Practice</h1>
+        <p>Select an operation and level.</p>
       </div>
+
       <section className={styles.rapidMathRoadmap}>
         {/* --------------------------------------------------
         Rapid Math Category Tabs
-    -------------------------------------------------- */}
+        -------------------------------------------------- */}
 
         <div
           className={styles.rapidMathTabs}
@@ -110,7 +121,7 @@ Rapid Math Categories
         >
           {/* --------------------------------------------------
           Playable Exercises
-      -------------------------------------------------- */}
+          -------------------------------------------------- */}
 
           {playableOperations.map((operation) => (
             <article
@@ -122,6 +133,16 @@ Rapid Math Categories
                   <h2>{tExercises(`operations.${operation.operation}.title`)}</h2>
 
                   {operation.status === "experimental" && <span className={styles.rapidMathExperimental}>{t("status.experimental")}</span>}
+
+                  {operation.shortcuts && (
+                    <button
+                      type='button'
+                      className={styles.rapidMathShortcutsLink}
+                      onClick={() => setShortcutOperation(operation.operation)}
+                    >
+                      Before You Start
+                    </button>
+                  )}
                 </div>
 
                 <p>{tExercises(`operations.${operation.operation}.description`)}</p>
@@ -139,8 +160,8 @@ Rapid Math Categories
                       className={styles.rapidMathLevel}
                     >
                       {/* ------------------------------------------
-                     Today's Practice
-                  ------------------------------------------ */}
+                      Today's Practice
+                      ------------------------------------------ */}
 
                       {stats?.todayUses > 0 && (
                         <span
@@ -171,14 +192,14 @@ Rapid Math Categories
                       )}
 
                       {/* ------------------------------------------
-                     Level
-                  ------------------------------------------ */}
+                      Level
+                      ------------------------------------------ */}
 
                       <span className={styles.rapidMathLevelNumber}>L{level.level}</span>
 
                       {/* ------------------------------------------
-                     Last Use / Play Now
-                  ------------------------------------------ */}
+                      Last Use / Play Now
+                      ------------------------------------------ */}
 
                       <span className={styles.rapidMathLevelPlaceholder}>
                         {stats?.lastUse
@@ -189,8 +210,8 @@ Rapid Math Categories
                       </span>
 
                       {/* ------------------------------------------
-                     Statistics Tooltip
-                  ------------------------------------------ */}
+                      Statistics Tooltip
+                      ------------------------------------------ */}
 
                       <span className={styles.rapidMathTooltip}>
                         <span>
@@ -220,7 +241,7 @@ Rapid Math Categories
 
           {/* --------------------------------------------------
           Roadmap Exercises
-      -------------------------------------------------- */}
+          -------------------------------------------------- */}
 
           {roadmapOperations.map((operation) => (
             <article
@@ -229,13 +250,28 @@ Rapid Math Categories
             >
               <div className={styles.rapidMathRoadmapCardHeader}>
                 <h3>{tExercises(`operations.${operation.operation}.title`)}</h3>
+
                 <span className={`${styles.rapidMathStatus} ${styles[`rapidMathStatus${operation.status}`]}`}>{t(`status.${operation.status}`)}</span>
               </div>
+
               <p>{tExercises(`operations.${operation.operation}.description`)}</p>
             </article>
           ))}
         </div>
       </section>
+
+      <ShortcutPanel
+        isOpen={Boolean(shortcutOperation)}
+        onClose={() => setShortcutOperation(null)}
+        data={
+          shortcutOperation
+            ? {
+                ...shortcutCollections[shortcutOperation],
+                title: "Power Shortcuts — Before You Start",
+              }
+            : null
+        }
+      />
     </section>
   );
 }

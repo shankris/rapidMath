@@ -1,0 +1,309 @@
+/* src/components/Shortcuts/ShortcutPanel.module.css */
+
+/* --------------------------------------------------
+   Panel
+-------------------------------------------------- */
+
+.panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  visibility: hidden;
+  transition: visibility 0s 0.6s;
+  z-index: 200;
+}
+
+.panel::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.3s 0.3s;
+}
+
+.panelIsVisible {
+  visibility: visible;
+  transition: visibility 0s 0s;
+}
+
+.panelIsVisible::after {
+  background: rgba(0, 0, 0, 0.6);
+  transition: background 0.3s 0s;
+}
+
+/* --------------------------------------------------
+   Header
+-------------------------------------------------- */
+
+.panelHeader {
+  position: fixed;
+  right: 0;
+  width: 90%;
+  height: 50px;
+  line-height: 50px;
+  background: rgba(255, 255, 255, 0.96);
+  z-index: 60;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s 0s;
+  transform: translateY(-50px);
+}
+
+.panelHeader h1 {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 20px;
+  color: #89ba2c;
+}
+
+.panelIsVisible .panelHeader {
+  transition: transform 0.3s 0.3s;
+  transform: translateY(0);
+}
+
+/* --------------------------------------------------
+   Close button
+-------------------------------------------------- */
+
+.panelClose {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 60px;
+  display: inline-block;
+  overflow: hidden;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  text-indent: 100%;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.panelClose::before,
+.panelClose::after {
+  content: "";
+  position: absolute;
+  top: 22px;
+  left: 20px;
+  height: 3px;
+  width: 20px;
+  background-color: #424f5c;
+  backface-visibility: hidden;
+}
+
+.panelClose::before {
+  transform: rotate(45deg);
+}
+
+.panelClose::after {
+  transform: rotate(-45deg);
+}
+
+.panelClose:hover {
+  background-color: #424f5c;
+}
+
+.panelClose:hover::before,
+.panelClose:hover::after {
+  background-color: #ffffff;
+  transition: transform 0.3s;
+}
+
+.panelClose:hover::before {
+  transform: rotate(220deg);
+}
+
+.panelClose:hover::after {
+  transform: rotate(135deg);
+}
+
+.panelIsVisible .panelClose::before {
+  animation: close1 0.6s 0.3s;
+}
+
+.panelIsVisible .panelClose::after {
+  animation: close2 0.6s 0.3s;
+}
+
+@keyframes close1 {
+
+  0%,
+  50% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(45deg);
+  }
+}
+
+@keyframes close2 {
+
+  0%,
+  50% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(-45deg);
+  }
+}
+
+/* --------------------------------------------------
+   Panel container
+-------------------------------------------------- */
+
+.panelContainer {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 90%;
+  height: 100%;
+  background: #dbe2e9;
+  z-index: 50;
+  transition: transform 0.3s 0.3s;
+  transform: translate3d(100%, 0, 0);
+}
+
+.panelIsVisible .panelContainer {
+  transform: translate3d(0, 0, 0);
+  transition-delay: 0s;
+}
+
+/* --------------------------------------------------
+   Panel layout
+-------------------------------------------------- */
+
+.panelLayout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  width: 100%;
+  height: 100%;
+  padding-top: 50px;
+}
+
+/* --------------------------------------------------
+   Sidebar
+-------------------------------------------------- */
+
+.sidebar {
+  height: 100%;
+  padding: 20px 12px;
+  overflow: hidden;
+  background: #eef2f5;
+  border-right: 1px solid rgba(66, 79, 92, 0.12);
+}
+
+.sidebarCategory {
+  margin-bottom: 22px;
+}
+
+.sidebarCategory h2 {
+  margin: 0 8px 7px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #64788c;
+}
+
+.sidebarCategory nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sidebarShortcut {
+  width: 100%;
+  border: 0;
+  padding: 5px 8px;
+  margin: 0 0 0 14px;
+  background: transparent;
+  color: #424f5c;
+  font-size: 14px;
+  text-align: left;
+  border-radius: 4px;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.sidebarShortcut:hover {
+  background: rgba(66, 79, 92, 0.08);
+}
+
+.sidebarShortcutActive {
+  background: rgba(137, 186, 44, 0.14);
+  color: #6d941f;
+  font-weight: 600;
+}
+
+/* --------------------------------------------------
+   Content
+-------------------------------------------------- */
+
+.panelContent {
+  height: 100%;
+  padding: 30px;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.panelContent h2 {
+  margin: 0 0 20px;
+  font-size: 22px;
+  color: #424f5c;
+}
+
+.panelContent p {
+  margin: 12px 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #424f5c;
+}
+
+.panelContent .subtitle {
+  margin-bottom: 20px;
+}
+
+/* --------------------------------------------------
+   Responsive
+-------------------------------------------------- */
+
+@media only screen and (min-width: 768px) {
+
+  .panelHeader,
+  .panelContainer {
+    width: 70%;
+  }
+}
+
+@media only screen and (min-width: 1170px) {
+
+  .panelHeader,
+  .panelContainer {
+    width: 70%;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .panelLayout {
+    grid-template-columns: 170px minmax(0, 1fr);
+  }
+
+  .sidebar {
+    padding: 20px 8px;
+  }
+
+  .panelContent {
+    padding: 25px 20px;
+  }
+}
