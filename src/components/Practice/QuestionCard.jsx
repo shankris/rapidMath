@@ -1,9 +1,11 @@
 "use client";
 
+/* src/components/Practice/QuestionCard.jsx */
+
 import { getHints } from "@/lib/math/hints";
 import HintPanel from "./HintPanel";
 
-import styles from "./Practice.module.css";
+import styles from "./PracticeSession.module.css";
 
 export default function QuestionCard({ question }) {
   const hints = getHints(question);

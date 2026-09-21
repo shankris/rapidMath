@@ -1,3 +1,5 @@
+// src/app/[locale]/[operation]/[level]/page.js
+
 import PracticeSession from "@/components/Practice/PracticeSession";
 
 export default async function PracticePage({ params }) {

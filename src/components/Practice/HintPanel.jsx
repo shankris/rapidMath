@@ -9,7 +9,7 @@ import Times10Hint from "./HintRenderers/Times10Hint";
 import DoubleHalfHint from "./HintRenderers/DoubleHalfHint";
 import NearMultipleHint from "./HintRenderers/NearMultipleHint";
 
-import styles from "./Practice.module.css";
+import styles from "./PracticeSession.module.css";
 
 const renderers = {
   "place-values": PlaceValueHint,
