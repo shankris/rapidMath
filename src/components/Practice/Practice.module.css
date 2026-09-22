@@ -449,6 +449,10 @@ Small-screen Roadmap Cards
   white-space: nowrap;
   cursor: pointer;
   transition: color 150ms ease;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .rapidMathShortcutsLink:hover {

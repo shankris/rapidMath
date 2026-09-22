@@ -131,7 +131,7 @@
 
 .numberCell {
   padding: 14px 12px;
-  font-size: 28px;
+  font-size: 36px;
   line-height: 1;
   font-weight: 800;
   text-align: center;
@@ -333,18 +333,18 @@
   }
 
   .calculationCell span {
-    font-size: 9px;
+    font-size: 10px;
   }
 
   .resultCell span {
-    font-size: 9px;
+    font-size: 10px;
   }
 }
 
 
 /* -------------------------------------------------- Number input -------------------------------------------------- */
 .changeControls input {
-  width: 70px;
+  width: 40px;
   height: 34px;
   padding: 0 9px;
   border: 1px solid var(--mutedColor, #cfd5da);

@@ -1,13 +1,17 @@
 // src/components/Shortcuts/ShortcutPanel.jsx
 
+"use client";
+
 import { useEffect, useRef, useState } from "react";
 import styles from "./ShortcutPanel.module.css";
 import TwoDigitSquares from "./PowerRoots/TwoDigitSquares";
 import Essentials from "./PowerRoots/Essentials";
+import { PanelsTopLeft } from "lucide-react";
 
 export default function ShortcutPanel({ isOpen, onClose, data }) {
   const panelRef = useRef(null);
   const [selectedShortcut, setSelectedShortcut] = useState(null);
+  const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
 
   // --------------------------------------------------
   // Select the first shortcut when the panel opens
@@ -23,12 +27,25 @@ export default function ShortcutPanel({ isOpen, onClose, data }) {
   }, [isOpen, data]);
 
   // --------------------------------------------------
+  // Close mobile drawer when panel closes
+  // --------------------------------------------------
+  useEffect(() => {
+    if (!isOpen) {
+      setIsMobileDrawerOpen(false);
+    }
+  }, [isOpen]);
+
+  // --------------------------------------------------
   // Close on Escape key
   // --------------------------------------------------
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
-        onClose();
+        if (isMobileDrawerOpen) {
+          setIsMobileDrawerOpen(false);
+        } else {
+          onClose();
+        }
       }
     };
 
@@ -39,7 +56,7 @@ export default function ShortcutPanel({ isOpen, onClose, data }) {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, isMobileDrawerOpen, onClose]);
 
   // --------------------------------------------------
   // Close on outside click
@@ -70,6 +87,14 @@ export default function ShortcutPanel({ isOpen, onClose, data }) {
 
   const ShortcutContent = selectedShortcut?.component && shortcutComponents[selectedShortcut.component];
 
+  // --------------------------------------------------
+  // Select shortcut
+  // --------------------------------------------------
+  const handleShortcutSelect = (shortcut) => {
+    setSelectedShortcut(shortcut);
+    setIsMobileDrawerOpen(false);
+  };
+
   return (
     <div className={`${styles.panel} ${styles.panelFromRight} ${isOpen ? styles.panelIsVisible : ""}`}>
       <div ref={panelRef}>
@@ -95,7 +120,7 @@ export default function ShortcutPanel({ isOpen, onClose, data }) {
         <div className={styles.panelContainer}>
           <div className={styles.panelLayout}>
             {/* --------------------------------------------------
-                Sidebar
+                Desktop sidebar
             -------------------------------------------------- */}
             <aside className={styles.sidebar}>
               {data?.categories?.map((category) => (
@@ -111,7 +136,7 @@ export default function ShortcutPanel({ isOpen, onClose, data }) {
                         key={shortcut.id}
                         type='button'
                         className={`${styles.sidebarShortcut} ${selectedShortcut?.id === shortcut.id ? styles.sidebarShortcutActive : ""}`}
-                        onClick={() => setSelectedShortcut(shortcut)}
+                        onClick={() => handleShortcutSelect(shortcut)}
                       >
                         {shortcut.title}
                       </button>
@@ -125,6 +150,23 @@ export default function ShortcutPanel({ isOpen, onClose, data }) {
                 Shortcut content
             -------------------------------------------------- */}
             <main className={styles.panelContent}>
+              {/* --------------------------------------------------
+                  Mobile drawer trigger
+              -------------------------------------------------- */}
+              <button
+                type='button'
+                className={styles.mobileShortcutTrigger}
+                onClick={() => setIsMobileDrawerOpen(true)}
+                aria-label='Open shortcuts'
+              >
+                <PanelsTopLeft
+                  size={18}
+                  strokeWidth={1.8}
+                  aria-hidden='true'
+                />{" "}
+                Notes Menu
+              </button>
+
               {selectedShortcut ? (
                 <>
                   <h2>{selectedShortcut.title}</h2>
@@ -141,6 +183,56 @@ export default function ShortcutPanel({ isOpen, onClose, data }) {
                 <p>No shortcut selected.</p>
               )}
             </main>
+          </div>
+
+          {/* --------------------------------------------------
+              Mobile shortcut drawer
+          -------------------------------------------------- */}
+          <div
+            className={`${styles.mobileDrawerOverlay} ${isMobileDrawerOpen ? styles.mobileDrawerOverlayVisible : ""}`}
+            onClick={() => setIsMobileDrawerOpen(false)}
+          >
+            <aside
+              className={`${styles.mobileDrawer} ${isMobileDrawerOpen ? styles.mobileDrawerVisible : ""}`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className={styles.mobileDrawerHeader}>
+                <h2>Shortcuts</h2>
+
+                <button
+                  type='button'
+                  className={styles.mobileDrawerClose}
+                  onClick={() => setIsMobileDrawerOpen(false)}
+                  aria-label='Close shortcut menu'
+                >
+                  ×
+                </button>
+              </div>
+
+              <div className={styles.mobileDrawerContent}>
+                {data?.categories?.map((category) => (
+                  <section
+                    key={category.id}
+                    className={styles.sidebarCategory}
+                  >
+                    <h2>{category.title}</h2>
+
+                    <nav>
+                      {category.shortcuts?.map((shortcut) => (
+                        <button
+                          key={shortcut.id}
+                          type='button'
+                          className={`${styles.sidebarShortcut} ${selectedShortcut?.id === shortcut.id ? styles.sidebarShortcutActive : ""}`}
+                          onClick={() => handleShortcutSelect(shortcut)}
+                        >
+                          {shortcut.title}
+                        </button>
+                      ))}
+                    </nav>
+                  </section>
+                ))}
+              </div>
+            </aside>
           </div>
         </div>
       </div>

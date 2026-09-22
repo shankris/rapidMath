@@ -13,6 +13,7 @@
   visibility: hidden;
   transition: visibility 0s 0.6s;
   z-index: 200;
+  margin: 50px 0 0 0;
 }
 
 .panel::after {
@@ -47,18 +48,20 @@
   width: 90%;
   height: 50px;
   line-height: 50px;
-  background: rgba(255, 255, 255, 0.96);
+  background: var(--surfaceColor);
   z-index: 60;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-sm);
   transition: transform 0.3s 0s;
   transform: translateY(-50px);
+  display: flex;
+  align-items: center;
 }
 
 .panelHeader h1 {
   margin: 0;
   padding-left: 20px;
   font-size: 20px;
-  color: #89ba2c;
+  color: var(--accentColor);
 }
 
 .panelIsVisible .panelHeader {
@@ -94,7 +97,7 @@
   left: 20px;
   height: 3px;
   width: 20px;
-  background-color: #424f5c;
+  background-color: var(--txtColor);
   backface-visibility: hidden;
 }
 
@@ -107,12 +110,12 @@
 }
 
 .panelClose:hover {
-  background-color: #424f5c;
+  background-color: var(--hoverColor);
 }
 
 .panelClose:hover::before,
 .panelClose:hover::after {
-  background-color: #ffffff;
+  background-color: var(--surfaceColor);
   transition: transform 0.3s;
 }
 
@@ -166,10 +169,11 @@
   top: 0;
   width: 90%;
   height: 100%;
-  background: #dbe2e9;
+  background: var(--bgColor);
   z-index: 50;
   transition: transform 0.3s 0.3s;
   transform: translate3d(100%, 0, 0);
+  padding-top: 50px;
 }
 
 .panelIsVisible .panelContainer {
@@ -197,8 +201,8 @@
   height: 100%;
   padding: 20px 12px;
   overflow: hidden;
-  background: #eef2f5;
-  border-right: 1px solid rgba(66, 79, 92, 0.12);
+  background: var(--surfaceAlt);
+  border-right: 1px solid var(--borderColor);
 }
 
 .sidebarCategory {
@@ -211,7 +215,7 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #64788c;
+  color: var(--mutedColor);
 }
 
 .sidebarCategory nav {
@@ -223,26 +227,26 @@
 .sidebarShortcut {
   width: 100%;
   border: 0;
-  padding: 5px 8px;
-  margin: 0 0 0 14px;
+  padding: 4px 8px;
+  margin: 0 0 0 12px;
   background: transparent;
-  color: #424f5c;
-  font-size: 14px;
+  color: var(--txtColor);
+  font-size: 12px;
   text-align: left;
-  border-radius: 4px;
+  border-radius: var(--borderRadius-sm);
   cursor: pointer;
   transition:
-    background-color 150ms ease,
-    color 150ms ease;
+    background-color var(--transition-fast),
+    color var(--transition-fast);
 }
 
 .sidebarShortcut:hover {
-  background: rgba(66, 79, 92, 0.08);
+  background: var(--tableHoverBg);
 }
 
 .sidebarShortcutActive {
-  background: rgba(137, 186, 44, 0.14);
-  color: #6d941f;
+  background: rgba(96, 165, 250, 0.14);
+  color: var(--accentColor);
   font-weight: 600;
 }
 
@@ -251,23 +255,26 @@
 -------------------------------------------------- */
 
 .panelContent {
-  height: 100%;
-  padding: 30px;
-  overflow: auto;
+  width: 100%;
+  height: calc(100% - 50px);
+  padding: 20px 16px 30px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
   -webkit-overflow-scrolling: touch;
 }
 
 .panelContent h2 {
   margin: 0 0 20px;
   font-size: 22px;
-  color: #424f5c;
+  color: var(--headingCol);
 }
 
 .panelContent p {
   margin: 12px 0;
   font-size: 14px;
   line-height: 1.6;
-  color: #424f5c;
+  color: var(--txtColor);
 }
 
 .panelContent .subtitle {
@@ -275,14 +282,34 @@
 }
 
 /* --------------------------------------------------
+   Mobile shortcut trigger
+-------------------------------------------------- */
+
+.mobileShortcutTrigger {
+  display: none;
+}
+
+/* --------------------------------------------------
+   Mobile drawer
+-------------------------------------------------- */
+
+.mobileDrawerOverlay {
+  display: none;
+}
+
+.mobileDrawer {
+  display: none;
+}
+
+/* --------------------------------------------------
    Responsive
 -------------------------------------------------- */
 
-@media only screen and (min-width: 768px) {
+@media only screen and (max-width: 767px) {
 
   .panelHeader,
   .panelContainer {
-    width: 70%;
+    width: 100%;
   }
 }
 
@@ -294,6 +321,10 @@
   }
 }
 
+/* --------------------------------------------------
+   Mobile
+-------------------------------------------------- */
+
 @media only screen and (max-width: 767px) {
 
   .panelHeader,
@@ -301,15 +332,174 @@
     width: 100%;
   }
 
-  .panelLayout {
-    grid-template-columns: 200px minmax(0, 1fr);
-  }
+  /* -----------------------------------------------
+     Full-width content
+  ----------------------------------------------- */
 
-  .sidebar {
-    padding: 20px 8px;
+  .panelLayout {
+    display: block;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
   }
 
   .panelContent {
-    padding: 25px 20px;
+    width: 100%;
+    height: calc(100% - 50px);
+    padding: 20px 16px 30px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* -----------------------------------------------
+     Hide desktop sidebar
+  ----------------------------------------------- */
+
+  .sidebar {
+    display: none;
+  }
+
+  /* -----------------------------------------------
+     Mobile shortcut button
+  ----------------------------------------------- */
+
+  .mobileShortcutTrigger {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 9px;
+    /* width: 100%; */
+    min-height: 42px;
+    margin: 0 0 20px;
+    padding: 0 12px;
+    border: 1px solid var(--borderColor);
+    border-radius: var(--borderRadius-sm);
+    background: var(--surfaceColor);
+    color: var(--mutedColor);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    transition:
+      background-color var(--transition-fast),
+      border-color var(--transition-fast);
+  }
+
+  .mobileShortcutTrigger:hover {
+    background: var(--surfaceAlt);
+  }
+
+  .mobileShortcutCurrent {
+    color: var(--headingCol);
+    font-weight: 600;
+  }
+
+  /* -----------------------------------------------
+     Mobile drawer
+  ----------------------------------------------- */
+
+  .mobileDrawerOverlay {
+    position: absolute;
+    inset: 0;
+    z-index: 70;
+    display: block;
+    visibility: hidden;
+    background: rgba(0, 0, 0, 0.45);
+    opacity: 0;
+    transition:
+      opacity 200ms ease,
+      visibility 0s linear 200ms;
+  }
+
+  .mobileDrawerOverlayVisible {
+    visibility: visible;
+    opacity: 1;
+    transition:
+      opacity 200ms ease,
+      visibility 0s linear 0s;
+  }
+
+  .mobileDrawer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 71;
+    display: flex;
+    flex-direction: column;
+    width: min(82%, 320px);
+    height: 100%;
+    background: var(--surfaceAlt);
+    box-shadow: var(--shadow-md);
+    transform: translateX(-100%);
+    transition: transform var(--transition-base);
+  }
+
+  .mobileDrawerVisible {
+    transform: translateX(0);
+  }
+
+  /* -----------------------------------------------
+     Drawer header
+  ----------------------------------------------- */
+
+  .mobileDrawerHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: 0 0 50px;
+    padding: 0 12px 0 18px;
+    background: var(--surfaceColor);
+    border-bottom: 1px solid var(--borderColor);
+  }
+
+  .mobileDrawerHeader h2 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--headingCol);
+  }
+
+  .mobileDrawerClose {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--mutedColor);
+    font-family: inherit;
+    font-size: 26px;
+    font-weight: 300;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .mobileDrawerClose:hover {
+    color: var(--txtColor);
+  }
+
+  /* -----------------------------------------------
+     Drawer content
+  ----------------------------------------------- */
+
+  .mobileDrawerContent {
+    flex: 1;
+    padding: 20px 12px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-top: 60px;
+  }
+
+  .mobileDrawerContent .sidebarCategory {
+    margin-bottom: 22px;
+  }
+
+  .mobileDrawerContent .sidebarShortcut {
+    margin-left: 14px;
   }
 }

@@ -185,7 +185,7 @@ export default function TwoDigitSquares() {
         <p>
           <ul>
             <li>Split number into two digits - a, b</li>
-            <li>Work out the three small calculations - a² + 2ab + b²</li>
+            <li>Work out the three calculations - a² | 2ab | b² &nbsp; (similar but not that formula)</li>
             <li>Then carry from right to left</li>
           </ul>
         </p>

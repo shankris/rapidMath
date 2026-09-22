@@ -4,7 +4,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Check } from "lucide-react";
+import { Check, Sparkles } from "lucide-react";
 
 import styles from "./Practice.module.css";
 
@@ -140,7 +140,12 @@ Rapid Math Categories
                       className={styles.rapidMathShortcutsLink}
                       onClick={() => setShortcutOperation(operation.operation)}
                     >
-                      Before You Start
+                      <Sparkles
+                        size={14}
+                        strokeWidth={1.8}
+                        aria-hidden='true'
+                      />
+                      Notes
                     </button>
                   )}
                 </div>
@@ -267,7 +272,7 @@ Rapid Math Categories
           shortcutOperation
             ? {
                 ...shortcutCollections[shortcutOperation],
-                title: "Power Shortcuts — Before You Start",
+                title: "Notes - Before You Start",
               }
             : null
         }
