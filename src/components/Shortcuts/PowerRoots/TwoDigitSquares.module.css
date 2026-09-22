@@ -1,0 +1,371 @@
+/* src/components/Shortcuts/PowerRoots/TwoDigitSquares.module.css */
+
+/* --------------------------------------------------
+   Main container
+-------------------------------------------------- */
+
+.shortcut {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  color: var(--text-primary, #263238);
+}
+
+
+/* --------------------------------------------------
+   Example heading / number controls
+-------------------------------------------------- */
+
+.exampleSection {
+  margin-bottom: 10px;
+}
+
+.numberHeading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 22px;
+}
+
+.number {
+  font-size: 42px;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.numberLabel {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--mutedColor, #74808a);
+}
+
+.changeNumber {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.changeNumber label {
+  margin-bottom: 7px;
+  font-size: 12px;
+  color: var(--mutedColor, #74808a);
+}
+
+.primaryButton,
+.secondaryButton {
+  height: 34px;
+  padding: 0 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 0 10px 0 0;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease;
+}
+
+.primaryButton {
+  border: 1px solid var(--primary, #64788c);
+  background: var(--primary, #64788c);
+  color: #ffffff;
+}
+
+.primaryButton:hover {
+  filter: brightness(0.95);
+}
+
+.secondaryButton {
+  border: 1px solid var(--borderColor, #d9dee3);
+  background: var(--surfaceColor, #ffffff);
+  color: var(--headingCol, #263238);
+}
+
+.secondaryButton:hover {
+  background: var(--surfaceAlt, #f5f7f8);
+}
+
+
+/* --------------------------------------------------
+   Error
+-------------------------------------------------- */
+
+.error {
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: #c0392b;
+  text-align: center;
+}
+
+
+/* --------------------------------------------------
+   Calculation section
+-------------------------------------------------- */
+
+.calculationSection {
+  width: 100%;
+}
+
+
+/* --------------------------------------------------
+   Calculation table
+-------------------------------------------------- */
+
+.calculationTable {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--borderColor, #d9dee3);
+  border-radius: 8px;
+  background: var(--surfaceColor, #ffffff);
+}
+
+
+/* --------------------------------------------------
+   Row 1 - Main number
+-------------------------------------------------- */
+
+.numberRow {
+  border-bottom: 1px solid var(--borderColor, #d9dee3);
+}
+
+.numberCell {
+  padding: 14px 12px;
+  font-size: 28px;
+  line-height: 1;
+  font-weight: 800;
+  text-align: center;
+}
+
+
+/* --------------------------------------------------
+   Row 2 - Split digits
+-------------------------------------------------- */
+
+.splitRow {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  border-bottom: 1px solid var(--borderColor, #d9dee3);
+}
+
+.splitCell {
+  padding: 12px;
+  font-size: 24px;
+  line-height: 1;
+  font-weight: 700;
+  text-align: center;
+}
+
+.splitCell+.splitCell {
+  border-left: 1px solid var(--borderColor, #d9dee3);
+}
+
+
+/* --------------------------------------------------
+   Row 3 - Three calculations
+-------------------------------------------------- */
+
+.calculationRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-bottom: 1px solid var(--borderColor, #d9dee3);
+}
+
+.calculationCell {
+  min-width: 0;
+  padding: 14px 10px 12px;
+  text-align: center;
+}
+
+.calculationCell+.calculationCell {
+  border-left: 1px solid var(--borderColor, #d9dee3);
+}
+
+.calculationCell strong {
+  display: block;
+  font-size: 15px;
+  line-height: 1.35;
+  font-weight: 700;
+}
+
+.calculationCell span {
+  display: block;
+  margin-top: 6px;
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--mutedColor, #74808a);
+}
+
+
+/* --------------------------------------------------
+   Row 4 - Result digits
+-------------------------------------------------- */
+
+.resultRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.resultCell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  padding: 13px 10px;
+}
+
+.resultCell+.resultCell {
+  border-left: 1px solid var(--borderColor, #d9dee3);
+}
+
+.resultCell strong {
+  font-size: 25px;
+  line-height: 1;
+  font-weight: 800;
+}
+
+.resultCell span {
+  min-height: 15px;
+  margin-top: 6px;
+  font-size: 10px;
+  line-height: 1.3;
+  color: var(--mutedColor, #74808a);
+}
+
+
+/* --------------------------------------------------
+   Final answer
+-------------------------------------------------- */
+
+.finalAnswer {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 20px;
+}
+
+.finalAnswer span {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.finalAnswer strong {
+  font-size: 30px;
+  font-weight: 800;
+}
+
+
+/* --------------------------------------------------
+   Remember
+-------------------------------------------------- */
+
+.remember {
+  margin-top: 28px;
+  padding: 14px 16px;
+  border: 1px solid var(--borderColor, #d9dee3);
+  border-radius: 8px;
+  background: var(--surfaceAlt, #f7f8f9);
+}
+
+.remember h3 {
+  margin: 0 0 5px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.remember p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--mutedColor, #74808a);
+}
+
+.remember p ul {
+  margin: 0 0 0 20px;
+}
+
+
+
+/* --------------------------------------------------
+   Mobile
+-------------------------------------------------- */
+
+@media (max-width: 640px) {
+  .number {
+    font-size: 36px;
+  }
+
+  .changeControls {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .calculationCell {
+    padding: 12px 6px 10px;
+  }
+
+  .calculationCell strong {
+    font-size: 13px;
+  }
+
+  .calculationCell span {
+    font-size: 10px;
+  }
+
+  .resultCell strong {
+    font-size: 22px;
+  }
+
+  .finalAnswer span {
+    font-size: 16px;
+  }
+
+  .finalAnswer strong {
+    font-size: 27px;
+  }
+}
+
+@media (max-width: 440px) {
+  .calculationCell strong {
+    font-size: 12px;
+  }
+
+  .calculationCell span {
+    font-size: 9px;
+  }
+
+  .resultCell span {
+    font-size: 9px;
+  }
+}
+
+
+/* -------------------------------------------------- Number input -------------------------------------------------- */
+.changeControls input {
+  width: 70px;
+  height: 34px;
+  padding: 0 9px;
+  border: 1px solid var(--mutedColor, #cfd5da);
+  border-radius: 3px;
+  /* background: var(--surfaceColor, #ffffff); */
+  color: var(--headingCol, #263238);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: left;
+  outline: none;
+  box-shadow: inset 0 1px 2px rgb(0 0 0 / 5%);
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+  margin: 0 10px;
+}
+
+.changeControls input:hover {
+  border-color: var(--mutedColor, #aeb7bf);
+}
+
+.changeControls input:focus {
+  border-color: var(--primary, #64788c);
+  box-shadow: 0 0 0 2px rgb(100 120 140 / 10%);
+}

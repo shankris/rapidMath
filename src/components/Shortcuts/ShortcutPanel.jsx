@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import styles from "./ShortcutPanel.module.css";
+import TwoDigitSquares from "./PowerRoots/TwoDigitSquares";
+import Essentials from "./PowerRoots/Essentials";
 
 export default function ShortcutPanel({ isOpen, onClose, data }) {
   const panelRef = useRef(null);
@@ -57,6 +59,16 @@ export default function ShortcutPanel({ isOpen, onClose, data }) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen, onClose]);
+
+  // --------------------------------------------------
+  // Shortcut components
+  // --------------------------------------------------
+  const shortcutComponents = {
+    Essentials,
+    TwoDigitSquares,
+  };
+
+  const ShortcutContent = selectedShortcut?.component && shortcutComponents[selectedShortcut.component];
 
   return (
     <div className={`${styles.panel} ${styles.panelFromRight} ${isOpen ? styles.panelIsVisible : ""}`}>
@@ -123,7 +135,7 @@ export default function ShortcutPanel({ isOpen, onClose, data }) {
                     </p>
                   )}
 
-                  {selectedShortcut.content && <p>{selectedShortcut.content}</p>}
+                  {ShortcutContent ? <ShortcutContent /> : <p>No shortcut content available.</p>}
                 </>
               ) : (
                 <p>No shortcut selected.</p>

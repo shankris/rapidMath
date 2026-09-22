@@ -295,8 +295,14 @@
 }
 
 @media only screen and (max-width: 767px) {
+
+  .panelHeader,
+  .panelContainer {
+    width: 100%;
+  }
+
   .panelLayout {
-    grid-template-columns: 170px minmax(0, 1fr);
+    grid-template-columns: 200px minmax(0, 1fr);
   }
 
   .sidebar {
