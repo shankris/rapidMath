@@ -10,6 +10,8 @@ import TwoDigitSquares from "./PowerRoots/TwoDigitSquares";
 import ThreeDigitSquares from "./PowerRoots/ThreeDigitSquares";
 import SquaresEndingIn0 from "./PowerRoots/SquaresEndingIn0";
 
+import TwoDigitMultiplication from "./Multiplication/TwoDigitMultiplication";
+
 import { PanelsTopLeft } from "lucide-react";
 
 export default function ShortcutPanel({ isOpen, onClose, data }) {
@@ -89,6 +91,7 @@ export default function ShortcutPanel({ isOpen, onClose, data }) {
     TwoDigitSquares,
     ThreeDigitSquares,
     SquaresEndingIn0,
+    TwoDigitMultiplication,
   };
 
   const ShortcutContent = selectedShortcut?.component && shortcutComponents[selectedShortcut.component];

@@ -8,7 +8,6 @@
   width: 100%;
 }
 
-
 /* --------------------------------------------------
    Example Section
 -------------------------------------------------- */
@@ -16,7 +15,6 @@
 .exampleSection {
   width: 100%;
 }
-
 
 /* --------------------------------------------------
    Change Number
@@ -73,7 +71,6 @@
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--accentColor) 12%, transparent);
 }
 
-
 /* --------------------------------------------------
    Buttons
 -------------------------------------------------- */
@@ -99,7 +96,6 @@
   border-color: var(--accentColor);
 }
 
-
 /* --------------------------------------------------
    Error
 -------------------------------------------------- */
@@ -109,7 +105,6 @@
   font-size: 11px;
   color: #c2410c;
 }
-
 
 /* --------------------------------------------------
    Tabs
@@ -153,7 +148,6 @@
   outline-offset: -2px;
 }
 
-
 /* --------------------------------------------------
    Calculation Section
 -------------------------------------------------- */
@@ -161,7 +155,6 @@
 .calculationSection {
   width: 100%;
 }
-
 
 /* --------------------------------------------------
    Calculation Table
@@ -171,9 +164,8 @@
   width: 100%;
 }
 
-
 /* --------------------------------------------------
-   Main Number
+   Right-to-Left Method
 -------------------------------------------------- */
 
 .numberRow {
@@ -191,11 +183,6 @@
   font-weight: 600;
   text-align: center;
 }
-
-
-/* --------------------------------------------------
-   Right-to-Left Step
--------------------------------------------------- */
 
 .stepRow {
   display: grid;
@@ -242,110 +229,60 @@
   line-height: 1.4;
 }
 
-
 /* --------------------------------------------------
-   Three Block Calculation
+   Three-Block Method
 -------------------------------------------------- */
 
-.blockRow {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+.blocksTable {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.blockCell {
-  min-width: 0;
-  min-height: 70px;
-  padding: 10px 8px;
-  border-right: 1px solid var(--borderColor);
-  border-bottom: 1px solid var(--borderColor);
-  background: var(--surfaceColor);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 4px;
+.blocksTable th,
+.blocksTable td {
+  border: 1px solid var(--borderColor);
   text-align: center;
 }
 
-.blockCell:first-child {
-  border-left: 1px solid var(--borderColor);
+.blocksTable th {
+  padding: 10px 12px;
+  background: var(--surfaceAlt);
+  color: var(--headingCol);
+  font-size: 20px;
+  font-weight: 600;
 }
 
-.blockCell strong {
+.blocksTable td {
+  min-width: 0;
+  padding: 10px 8px;
+  background: var(--surfaceColor);
+}
+
+.blocksTable td strong,
+.blocksTable td span,
+.blocksTable td small {
+  display: block;
+}
+
+.blocksTable td strong {
   color: var(--headingCol);
   font-size: 17px;
   font-weight: 600;
 }
 
-.blockCell span {
+.blocksTable td span {
+  margin-top: 3px;
   color: var(--mutedColor);
-  font-size: 10px;
-  line-height: 1.4;
-  overflow-wrap: anywhere;
-}
-
-
-/* --------------------------------------------------
-   Block Result
--------------------------------------------------- */
-
-.blockResult {
-  padding: 10px 12px;
-  border-right: 1px solid var(--borderColor);
-  border-bottom: 1px solid var(--borderColor);
-  border-left: 1px solid var(--borderColor);
-  background: var(--surfaceAlt);
-  color: var(--headingCol);
-  text-align: center;
-  font-size: 13px;
-  letter-spacing: 0.04em;
-}
-
-.blockResult strong {
-  font-size: 16px;
-}
-
-
-/* --------------------------------------------------
-   Normalization
--------------------------------------------------- */
-
-.normalization {
-  width: 100%;
-}
-
-.normalizationRow {
-  display: grid;
-  grid-template-columns: minmax(120px, 0.8fr) minmax(0, 1.2fr);
-}
-
-.normalizationRow strong {
-  min-height: 56px;
-  padding: 10px 12px;
-  border-right: 1px solid var(--borderColor);
-  border-bottom: 1px solid var(--borderColor);
-  border-left: 1px solid var(--borderColor);
-  background: var(--surfaceColor);
-  color: var(--headingCol);
-  display: flex;
-  align-items: center;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.normalizationRow span {
-  min-height: 56px;
-  padding: 10px 12px;
-  border-right: 1px solid var(--borderColor);
-  border-bottom: 1px solid var(--borderColor);
-  background: var(--surfaceColor);
-  color: var(--mutedColor);
-  display: flex;
-  align-items: center;
   font-size: 11px;
   line-height: 1.4;
 }
 
+.blocksTable td small {
+  margin-top: 2px;
+  color: var(--mutedColor);
+  font-size: 10px;
+  line-height: 1.4;
+}
 
 /* --------------------------------------------------
    Final Answer
@@ -366,7 +303,6 @@
   margin-left: 4px;
   font-size: 18px;
 }
-
 
 /* --------------------------------------------------
    Steps to Remember
@@ -401,7 +337,6 @@
   margin-bottom: 0;
 }
 
-
 /* --------------------------------------------------
    Responsive
 -------------------------------------------------- */
@@ -415,7 +350,7 @@
     width: 100%;
   }
 
-  .blockRow {
+  .blocksTable {
     min-width: 520px;
   }
 
@@ -423,11 +358,8 @@
     overflow-x: auto;
   }
 
-  .blockCell {
-    padding: 10px 8px;
-  }
-
-  .normalizationRow {
-    grid-template-columns: 1fr 1.2fr;
+  .blocksTable th,
+  .blocksTable td {
+    padding: 8px;
   }
 }

@@ -169,16 +169,65 @@ span.level {
   margin: 14px 0 0;
   color: var(--mutedColor);
   font-size: 14px;
+  margin: 6px auto 10px;
 }
 
 /* --------------------------------------------------
    Last Attempt Result
 -------------------------------------------------- */
 
+.lastAttempt {
+  max-width: 500px;
+  margin: 40px auto 20px;
+  text-align: center;
+}
+
+.lastAttempt span {
+  font-size: 18px;
+  color: var(--headingCol);
+}
+
 .lastAttemptResult {
   margin: 4px 0 0;
   color: var(--mutedColor);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1.5;
+}
+
+
+/* --------------------------------------------------
+   Heading with line through the middle
+-------------------------------------------------- */
+
+.headingWithLine {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--mutedColor);
+  font-size: 12px;
+  font-weight: 400;
+  text-align: center;
+  width: 500px;
+  max-width: 90%;
+  margin: 10px auto;
+}
+
+.headingWithLine::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  z-index: 0;
+  height: 1px;
+  background: var(--borderColor);
+}
+
+.headingWithLine span {
+  position: relative;
+  z-index: 1;
+  padding: 0 12px;
+  background: var(--surfaceColor);
 }

@@ -29,7 +29,7 @@
     "title": "Multiplication",
     "description": "Build multiplication fluency and improve your ability to calculate larger numbers quickly.",
     "shortDescription": "Multiply numbers faster through practice.",
-    "shortcuts": false,
+    "shortcuts": true,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
   {

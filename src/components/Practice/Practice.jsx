@@ -10,6 +10,7 @@ import styles from "./Practice.module.css";
 
 import ShortcutPanel from "@/components/Shortcuts/ShortcutPanel";
 import powerRootsShortcuts from "@/components/Shortcuts/PowerRoots/shortcuts";
+import multiplicationShortcuts from "@/components/Shortcuts/Multiplication/shortcuts";
 import dashboardData from "@/app/[locale]/Dashboard/dashboardData.json";
 import { getDashboardLevelStats } from "@/lib/stats/dashboard";
 
@@ -27,16 +28,17 @@ export default function Practice() {
   const [levelStats, setLevelStats] = useState({});
 
   /* --------------------------------------------------
-Shortcut Collections
--------------------------------------------------- */
+  Shortcut Collections
+  -------------------------------------------------- */
 
   const shortcutCollections = {
     powersRoots: powerRootsShortcuts,
+    mul: multiplicationShortcuts,
   };
 
   /* --------------------------------------------------
-Dashboard Level Statistics
--------------------------------------------------- */
+  Dashboard Level Statistics
+  -------------------------------------------------- */
 
   useEffect(() => {
     const stats = {};
@@ -53,26 +55,26 @@ Dashboard Level Statistics
   }, [locale]);
 
   /* --------------------------------------------------
-Active Rapid Math Category
--------------------------------------------------- */
+  Active Rapid Math Category
+  -------------------------------------------------- */
 
   const categoryOperations = dashboardData.filter((operation) => operation.category === activeCategory);
 
   /* --------------------------------------------------
-Playable Rapid Math Exercises
--------------------------------------------------- */
+  Playable Rapid Math Exercises
+  -------------------------------------------------- */
 
   const playableOperations = categoryOperations.filter((operation) => operation.status === "available" || operation.status === "experimental");
 
   /* --------------------------------------------------
-Roadmap Exercises
--------------------------------------------------- */
+  Roadmap Exercises
+  -------------------------------------------------- */
 
   const roadmapOperations = categoryOperations.filter((operation) => operation.status === "comingSoon" || operation.status === "planned");
 
   /* --------------------------------------------------
-Rapid Math Categories
--------------------------------------------------- */
+  Rapid Math Categories
+  -------------------------------------------------- */
 
   const categories = {
     basic: t("categories.basic"),
@@ -90,8 +92,8 @@ Rapid Math Categories
 
       <section className={styles.rapidMathRoadmap}>
         {/* --------------------------------------------------
-      Category Tabs
-      -------------------------------------------------- */}
+        Category Tabs
+        -------------------------------------------------- */}
 
         <div
           className={styles.rapidMathTabs}
@@ -113,8 +115,8 @@ Rapid Math Categories
         </div>
 
         {/* --------------------------------------------------
-      Exercise Grid
-      -------------------------------------------------- */}
+        Exercise Grid
+        -------------------------------------------------- */}
 
         <div
           className={styles.rapidMathGrid}
@@ -124,8 +126,8 @@ Rapid Math Categories
           })}
         >
           {/* --------------------------------------------------
-        Playable Exercises
-        -------------------------------------------------- */}
+          Playable Exercises
+          -------------------------------------------------- */}
 
           {playableOperations.map((operation) => (
             <article
@@ -158,8 +160,8 @@ Rapid Math Categories
               </div>
 
               {/* --------------------------------------------------
-            Levels
-            -------------------------------------------------- */}
+              Levels
+              -------------------------------------------------- */}
 
               <div className={styles.rapidMathLevels}>
                 {operation.levels.map((level) => {
@@ -223,8 +225,8 @@ Rapid Math Categories
           ))}
 
           {/* --------------------------------------------------
-        Roadmap Exercises
-        -------------------------------------------------- */}
+          Roadmap Exercises
+          -------------------------------------------------- */}
 
           {roadmapOperations.map((operation) => (
             <article
@@ -244,8 +246,8 @@ Rapid Math Categories
       </section>
 
       {/* --------------------------------------------------
-    Shortcut Panel
-    -------------------------------------------------- */}
+      Shortcut Panel
+      -------------------------------------------------- */}
 
       <ShortcutPanel
         isOpen={Boolean(shortcutOperation)}

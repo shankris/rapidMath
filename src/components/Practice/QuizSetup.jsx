@@ -165,7 +165,9 @@ export default function QuizSetup({ operation, level, onStart, targeted = false 
       -------------------------------------------------- */}
 
       <section className={styles.progress}>
-        <h2>{targeted ? `Targeted practice for ${OPERATIONS[operation].name} Level ${level}` : `Your progress at - ${OPERATIONS[operation].name} Level ${level}`}</h2>
+        <div className={styles.headingWithLine}>
+          <span>{targeted ? `Targeted practice for ${OPERATIONS[operation].name} Level ${level}` : `Trailing 30 day average`}</span>
+        </div>
 
         {!progress.hasHistory ? (
           <div className={styles.noHistory}>
@@ -185,10 +187,10 @@ export default function QuizSetup({ operation, level, onStart, targeted = false 
               <div>
                 <div className={styles.statValue}>
                   {progress.averageTime}
-                  <span className={styles.statUnit}>s</span>
+                  <div className={styles.statUnit}>s</div>
                 </div>
 
-                <span>Avg Reaction Time</span>
+                <span>Avg. Reaction Time</span>
               </div>
 
               <div>
@@ -204,13 +206,17 @@ export default function QuizSetup({ operation, level, onStart, targeted = false 
 
             {progress.lastAttempt && (
               <div className={styles.lastAttempt}>
-                <p className={styles.lastTaken}>Last time you took this test: {formatLastAttempt(progress.lastAttempt.startedAt)}</p>
+                <p className={styles.lastTaken}>
+                  Last time you took this Quiz:
+                  <br />
+                  <span> {formatLastAttempt(progress.lastAttempt.startedAt)}</span>
+                </p>
 
                 {progress.lastAttemptResult.totalAnswered > 0 && (
                   <p className={styles.lastAttemptResult}>
                     {progress.lastAttemptResult.completed ? (
                       <>
-                        {progress.lastAttemptResult.correct} / {progress.lastAttemptResult.totalAnswered} correct · {progress.lastAttemptResult.accuracy}% Accuracy · {progress.lastAttemptResult.averageTime}s average reaction time
+                        {progress.lastAttemptResult.correct} / {progress.lastAttemptResult.totalAnswered} correct · {progress.lastAttemptResult.accuracy}% Accuracy · {progress.lastAttemptResult.averageTime}s Avg.
                       </>
                     ) : (
                       <>
