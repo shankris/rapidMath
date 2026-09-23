@@ -6,6 +6,7 @@ Practice Layout
 
 .practice {
   width: 100%;
+  /* outline: 2px solid red; */
 }
 
 /* --------------------------------------------------
@@ -332,6 +333,7 @@ Rapid Math Roadmap Placeholder Cards
   border: 1px solid var(--borderColor);
   border-radius: 8px;
   background: var(--surfaceColor);
+  display: none;
 }
 
 .rapidMathRoadmapCardHeader {
@@ -390,7 +392,7 @@ Rapid Math Roadmap Status
 Responsive Rapid Math Drills
 -------------------------------------------------- */
 
-@media (max-width: 700px) {
+@media (max-width: 900px) {
   .rapidMathTabs {
     width: 100%;
     overflow-x: auto;
@@ -409,6 +411,7 @@ Responsive Rapid Math Drills
   .rapidMathGrid {
     grid-template-columns: 1fr;
   }
+
 }
 
 /* --------------------------------------------------

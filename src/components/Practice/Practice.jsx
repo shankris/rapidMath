@@ -90,8 +90,8 @@ Rapid Math Categories
 
       <section className={styles.rapidMathRoadmap}>
         {/* --------------------------------------------------
-        Rapid Math Category Tabs
-        -------------------------------------------------- */}
+      Category Tabs
+      -------------------------------------------------- */}
 
         <div
           className={styles.rapidMathTabs}
@@ -112,6 +112,10 @@ Rapid Math Categories
           ))}
         </div>
 
+        {/* --------------------------------------------------
+      Exercise Grid
+      -------------------------------------------------- */}
+
         <div
           className={styles.rapidMathGrid}
           role='tabpanel'
@@ -120,8 +124,8 @@ Rapid Math Categories
           })}
         >
           {/* --------------------------------------------------
-          Playable Exercises
-          -------------------------------------------------- */}
+        Playable Exercises
+        -------------------------------------------------- */}
 
           {playableOperations.map((operation) => (
             <article
@@ -153,6 +157,10 @@ Rapid Math Categories
                 <p>{tExercises(`operations.${operation.operation}.description`)}</p>
               </div>
 
+              {/* --------------------------------------------------
+            Levels
+            -------------------------------------------------- */}
+
               <div className={styles.rapidMathLevels}>
                 {operation.levels.map((level) => {
                   const key = `${operation.operation}-${level.level}`;
@@ -164,9 +172,7 @@ Rapid Math Categories
                       href={`/practice/${operation.operation}/${level.level}`}
                       className={styles.rapidMathLevel}
                     >
-                      {/* ------------------------------------------
-                      Today's Practice
-                      ------------------------------------------ */}
+                      {/* Today's Practice */}
 
                       {stats?.todayUses > 0 && (
                         <span
@@ -196,15 +202,11 @@ Rapid Math Categories
                         </span>
                       )}
 
-                      {/* ------------------------------------------
-                      Level
-                      ------------------------------------------ */}
+                      {/* Level */}
 
                       <span className={styles.rapidMathLevelNumber}>L{level.level}</span>
 
-                      {/* ------------------------------------------
-                      Last Use / Play Now
-                      ------------------------------------------ */}
+                      {/* Last Use / Play Now */}
 
                       <span className={styles.rapidMathLevelPlaceholder}>
                         {stats?.lastUse
@@ -212,30 +214,6 @@ Rapid Math Categories
                               count: stats.lastUse.count,
                             })
                           : t("levels.playNow")}
-                      </span>
-
-                      {/* ------------------------------------------
-                      Statistics Tooltip
-                      ------------------------------------------ */}
-
-                      <span className={styles.rapidMathTooltip}>
-                        <span>
-                          <strong>{stats?.accuracy !== null && stats?.accuracy !== undefined ? `${stats.accuracy}%` : "—"}</strong>
-
-                          <small>{t("tooltip.accuracy")}</small>
-                        </span>
-
-                        <span>
-                          <strong>{stats?.reactionTime !== null && stats?.reactionTime !== undefined ? `${stats.reactionTime.toFixed(2)}s` : "—"}</strong>
-
-                          <small>{t("tooltip.reactionTime")}</small>
-                        </span>
-
-                        <span>
-                          <strong>{stats?.questions ?? 0}</strong>
-
-                          <small>{t("tooltip.questions")}</small>
-                        </span>
                       </span>
                     </Link>
                   );
@@ -245,8 +223,8 @@ Rapid Math Categories
           ))}
 
           {/* --------------------------------------------------
-          Roadmap Exercises
-          -------------------------------------------------- */}
+        Roadmap Exercises
+        -------------------------------------------------- */}
 
           {roadmapOperations.map((operation) => (
             <article
@@ -264,6 +242,10 @@ Rapid Math Categories
           ))}
         </div>
       </section>
+
+      {/* --------------------------------------------------
+    Shortcut Panel
+    -------------------------------------------------- */}
 
       <ShortcutPanel
         isOpen={Boolean(shortcutOperation)}

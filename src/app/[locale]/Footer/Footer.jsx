@@ -9,7 +9,7 @@ export default function Footer() {
         <Logo />
         <p className={styles.copy}>© {new Date().getFullYear()} RAPID Math</p>
 
-        <nav aria-label='Footer navigation'>
+        {/* <nav aria-label='Footer navigation'>
           <ul className={styles.links}>
             <li>
               <a href='/about'>About</a>
@@ -21,7 +21,7 @@ export default function Footer() {
               <a href='/terms'>Terms</a>
             </li>
           </ul>
-        </nav>
+        </nav> */}
       </div>
     </footer>
   );
