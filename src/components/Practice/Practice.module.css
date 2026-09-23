@@ -1,16 +1,15 @@
 /* src/components/Practice/Practice.module.css */
 
 /* --------------------------------------------------
-Practice Layout
+   Practice Layout
 -------------------------------------------------- */
 
 .practice {
   width: 100%;
-  /* outline: 2px solid red; */
 }
 
 /* --------------------------------------------------
-Practice Heading
+   Practice Heading
 -------------------------------------------------- */
 
 .heading {
@@ -31,7 +30,7 @@ Practice Heading
 }
 
 /* --------------------------------------------------
-Existing Practice Operations
+   Existing Practice Operations
 -------------------------------------------------- */
 
 .grid {
@@ -41,7 +40,7 @@ Existing Practice Operations
 }
 
 /* --------------------------------------------------
-Rapid Math Drills
+   Rapid Math Drills
 -------------------------------------------------- */
 
 .rapidMathRoadmap {
@@ -49,7 +48,7 @@ Rapid Math Drills
 }
 
 /* --------------------------------------------------
-Rapid Math Category Tabs
+   Rapid Math Category Tabs
 -------------------------------------------------- */
 
 .rapidMathTabs {
@@ -89,7 +88,7 @@ Rapid Math Category Tabs
 }
 
 /* --------------------------------------------------
-Rapid Math Exercise Grid
+   Rapid Math Exercise Grid
 -------------------------------------------------- */
 
 .rapidMathGrid {
@@ -99,7 +98,7 @@ Rapid Math Exercise Grid
 }
 
 /* --------------------------------------------------
-Rapid Math Operation Card
+   Rapid Math Operation Card
 -------------------------------------------------- */
 
 .rapidMathOperationCard {
@@ -111,7 +110,7 @@ Rapid Math Operation Card
 }
 
 /* --------------------------------------------------
-Rapid Math Operation Header
+   Rapid Math Operation Header
 -------------------------------------------------- */
 
 .rapidMathOperationHeader h2 {
@@ -130,7 +129,7 @@ Rapid Math Operation Header
 }
 
 /* --------------------------------------------------
-Rapid Math Operation Title
+   Rapid Math Operation Title
 -------------------------------------------------- */
 
 .rapidMathOperationTitle {
@@ -145,7 +144,7 @@ Rapid Math Operation Title
 }
 
 /* --------------------------------------------------
-Experimental Badge
+   Experimental Badge
 -------------------------------------------------- */
 
 .rapidMathExperimental {
@@ -164,7 +163,7 @@ Experimental Badge
 }
 
 /* --------------------------------------------------
-Rapid Math Level Links
+   Rapid Math Level Links
 -------------------------------------------------- */
 
 .rapidMathLevels {
@@ -218,7 +217,7 @@ Rapid Math Level Links
 }
 
 /* --------------------------------------------------
-Rapid Math Level Content
+   Rapid Math Level Content
 -------------------------------------------------- */
 
 .rapidMathLevelNumber {
@@ -239,71 +238,7 @@ Rapid Math Level Content
 }
 
 /* --------------------------------------------------
-Rapid Math Level Tooltip
--------------------------------------------------- */
-
-.rapidMathTooltip {
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 50%;
-  z-index: 20;
-  display: flex;
-  align-items: stretch;
-  gap: 0;
-  min-width: 250px;
-  padding: 10px 12px;
-  border: 1px solid var(--borderColor);
-  border-radius: 8px;
-  background: var(--surfaceColor);
-  box-shadow: var(--shadow-md);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transform: translate(-50%, -4px);
-  transition:
-    opacity 150ms ease,
-    visibility 150ms ease,
-    transform 150ms ease;
-}
-
-.rapidMathLevel:hover .rapidMathTooltip {
-  opacity: 1;
-  visibility: visible;
-  transform: translate(-50%, 0);
-}
-
-/* --------------------------------------------------
-Rapid Math Tooltip Statistics
--------------------------------------------------- */
-
-.rapidMathTooltip>span {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 3px;
-  padding: 0 10px;
-}
-
-.rapidMathTooltip>span+span {
-  border-left: 1px solid var(--borderColor);
-}
-
-.rapidMathTooltip strong {
-  color: var(--headingCol);
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 1.2;
-}
-
-.rapidMathTooltip small {
-  color: var(--mutedColor);
-  font-size: 10px;
-  line-height: 1.2;
-  white-space: nowrap;
-}
-
-/* --------------------------------------------------
-Rapid Math Today's Practice Indicator
+   Rapid Math Today's Practice Indicator
 -------------------------------------------------- */
 
 .rapidMathTodayUsage {
@@ -324,7 +259,7 @@ Rapid Math Today's Practice Indicator
 }
 
 /* --------------------------------------------------
-Rapid Math Roadmap Placeholder Cards
+   Rapid Math Roadmap Placeholder Cards
 -------------------------------------------------- */
 
 .rapidMathRoadmapCard {
@@ -333,7 +268,6 @@ Rapid Math Roadmap Placeholder Cards
   border: 1px solid var(--borderColor);
   border-radius: 8px;
   background: var(--surfaceColor);
-  display: none;
 }
 
 .rapidMathRoadmapCardHeader {
@@ -359,7 +293,7 @@ Rapid Math Roadmap Placeholder Cards
 }
 
 /* --------------------------------------------------
-Rapid Math Roadmap Status
+   Rapid Math Roadmap Status
 -------------------------------------------------- */
 
 .rapidMathStatus {
@@ -367,21 +301,12 @@ Rapid Math Roadmap Status
   padding: 3px 7px;
   border: 1px solid var(--borderColor);
   border-radius: 999px;
-  color: var(--mutedColor);
   background: var(--surfaceAlt);
+  color: var(--mutedColor);
   font-size: 10px;
   font-weight: 600;
   line-height: 1.3;
   white-space: nowrap;
-}
-
-.rapidMathStatusavailable {
-  color: var(--headingCol);
-}
-
-.rapidMathStatusexperimental {
-  color: var(--mutedColor);
-  background: var(--surfaceAlt);
 }
 
 .rapidMathStatusplanned {
@@ -389,7 +314,7 @@ Rapid Math Roadmap Status
 }
 
 /* --------------------------------------------------
-Responsive Rapid Math Drills
+   Responsive Rapid Math Drills
 -------------------------------------------------- */
 
 @media (max-width: 900px) {
@@ -411,11 +336,10 @@ Responsive Rapid Math Drills
   .rapidMathGrid {
     grid-template-columns: 1fr;
   }
-
 }
 
 /* --------------------------------------------------
-Small-screen Roadmap Cards
+   Small-screen Roadmap Cards
 -------------------------------------------------- */
 
 @media (max-width: 480px) {
@@ -434,12 +358,14 @@ Small-screen Roadmap Cards
   }
 }
 
-
 /* --------------------------------------------------
    Before You Start
 -------------------------------------------------- */
 
 .rapidMathShortcutsLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   margin-left: auto;
   padding: 0;
   border: 0;
@@ -452,10 +378,6 @@ Small-screen Roadmap Cards
   white-space: nowrap;
   cursor: pointer;
   transition: color 150ms ease;
-
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
 }
 
 .rapidMathShortcutsLink:hover {
