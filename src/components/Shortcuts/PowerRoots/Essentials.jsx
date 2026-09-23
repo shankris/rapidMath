@@ -2,31 +2,11 @@
 
 "use client";
 
-import { useState } from "react";
 import styles from "./Essentials.module.css";
 
 /* --------------------------------------------------
    Essentials data
 -------------------------------------------------- */
-
-const tabs = [
-  {
-    id: "squares",
-    label: "Squares",
-  },
-  {
-    id: "cubes",
-    label: "Cubes",
-  },
-  {
-    id: "squareRoots",
-    label: "Square Roots",
-  },
-  {
-    id: "cubeRoots",
-    label: "Cube Roots",
-  },
-];
 
 const squares = [
   [1, 1],
@@ -62,81 +42,17 @@ const cubes = [
   [8, 512],
   [9, 729],
   [10, 1000],
+  [11, 1331],
+  [12, 1728],
+  [13, 2197],
+  [14, 2744],
+  [15, 3375],
+  [16, 4096],
+  [17, 4913],
+  [18, 5832],
+  [19, 6859],
+  [20, 8000],
 ];
-
-const squareRoots = [
-  [1, 1],
-  [4, 2],
-  [9, 3],
-  [16, 4],
-  [25, 5],
-  [36, 6],
-  [49, 7],
-  [64, 8],
-  [81, 9],
-  [100, 10],
-  [121, 11],
-  [144, 12],
-  [169, 13],
-  [196, 14],
-  [225, 15],
-  [256, 16],
-  [289, 17],
-  [324, 18],
-  [361, 19],
-  [400, 20],
-];
-
-const cubeRoots = [
-  [1, 1],
-  [8, 2],
-  [27, 3],
-  [64, 4],
-  [125, 5],
-  [216, 6],
-  [343, 7],
-  [512, 8],
-  [729, 9],
-  [1000, 10],
-];
-
-/* --------------------------------------------------
-   Tab content
--------------------------------------------------- */
-
-const tabContent = {
-  squares: {
-    heading: "Squares",
-    description: "Know these squares instantly.",
-    rows: squares,
-    leftLabel: "Number",
-    rightLabel: "Square",
-  },
-
-  cubes: {
-    heading: "Cubes",
-    description: "Know these cubes instantly.",
-    rows: cubes,
-    leftLabel: "Number",
-    rightLabel: "Cube",
-  },
-
-  squareRoots: {
-    heading: "Square Roots",
-    description: "Recognize these perfect squares instantly.",
-    rows: squareRoots,
-    leftLabel: "Square",
-    rightLabel: "Root",
-  },
-
-  cubeRoots: {
-    heading: "Cube Roots",
-    description: "Recognize these perfect cubes instantly.",
-    rows: cubeRoots,
-    leftLabel: "Cube",
-    rightLabel: "Root",
-  },
-};
 
 /* --------------------------------------------------
    Split rows into sequential columns
@@ -166,77 +82,70 @@ const getColumnGroups = (rows, columnCount = 2) => {
 -------------------------------------------------- */
 
 export default function Essentials() {
-  const [activeTab, setActiveTab] = useState("squares");
-
-  const content = tabContent[activeTab];
-  const columnGroups = getColumnGroups(content.rows, 2);
+  const squareColumns = getColumnGroups(squares, 2);
+  const cubeColumns = getColumnGroups(cubes, 2);
 
   return (
     <section className={styles.essentials}>
       {/* --------------------------------------------------
-          Header
+          Introduction
       -------------------------------------------------- */}
-      <header className={styles.header}>
-        <p>These are the basic values you should know without calculating. They form the foundation for many of the shortcuts in this section.</p>
-      </header>
+      <p className={styles.description}>These are the basic values you should know without calculating. They form the foundation for many of the shortcuts in this section.</p>
 
       {/* --------------------------------------------------
-          Tabs
+          Essentials tables
       -------------------------------------------------- */}
-      <div
-        className={styles.tabs}
-        role='tablist'
-        aria-label='Powers and roots essentials'
-      >
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            type='button'
-            role='tab'
-            aria-selected={activeTab === tab.id}
-            className={`${styles.tab} ${activeTab === tab.id ? styles.activeTab : ""}`}
-            onClick={() => setActiveTab(tab.id)}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
+      <div className={styles.tables}>
+        {/* --------------------------------------------------
+            Squares
+        -------------------------------------------------- */}
+        <div className={styles.tableSection}>
+          <h3>Squares</h3>
 
-      {/* --------------------------------------------------
-          Active tab content
-      -------------------------------------------------- */}
-      <div
-        className={styles.content}
-        role='tabpanel'
-        aria-label={content.heading}
-      >
-        <div className={styles.contentHeader}>
-          <h3>{content.heading}</h3>
-          <p>{content.description}</p>
+          <div className={styles.tableGrid}>
+            {squareColumns.map((group, groupIndex) => (
+              <div
+                className={styles.tableColumn}
+                key={`square-column-${groupIndex}`}
+              >
+                {group.map(([number, square]) => (
+                  <div
+                    className={styles.tableRow}
+                    key={`square-${number}`}
+                  >
+                    <span>{number}</span>
+                    <strong>{square}</strong>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div className={styles.tableGrid}>
-          {columnGroups.map((group, groupIndex) => (
-            <div
-              className={styles.tableColumn}
-              key={`column-${groupIndex}`}
-            >
-              <div className={styles.tableColumnHeader}>
-                <span>{content.leftLabel}</span>
-                <span>{content.rightLabel}</span>
-              </div>
+        {/* --------------------------------------------------
+            Cubes
+        -------------------------------------------------- */}
+        <div className={styles.tableSection}>
+          <h3>Cubes</h3>
 
-              {group.map(([left, right]) => (
-                <div
-                  className={styles.tableRow}
-                  key={`${left}-${right}`}
-                >
-                  <span>{left}</span>
-                  <strong>{right}</strong>
-                </div>
-              ))}
-            </div>
-          ))}
+          <div className={styles.tableGrid}>
+            {cubeColumns.map((group, groupIndex) => (
+              <div
+                className={styles.tableColumn}
+                key={`cube-column-${groupIndex}`}
+              >
+                {group.map(([number, cube]) => (
+                  <div
+                    className={styles.tableRow}
+                    key={`cube-${number}`}
+                  >
+                    <span>{number}</span>
+                    <strong>{cube}</strong>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

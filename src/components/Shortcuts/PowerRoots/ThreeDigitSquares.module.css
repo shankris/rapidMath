@@ -1,0 +1,329 @@
+/* src/components/Shortcuts/PowerRoots/ThreeDigitSquares.module.css */
+
+/* --------------------------------------------------
+   Shortcut
+-------------------------------------------------- */
+
+.shortcut {
+  width: 100%;
+}
+
+
+/* --------------------------------------------------
+   Example Section
+-------------------------------------------------- */
+
+.exampleSection {
+  width: 100%;
+}
+
+
+/* --------------------------------------------------
+   Change Number
+-------------------------------------------------- */
+
+.changeNumber {
+  margin-bottom: 24px;
+}
+
+.changeControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.changeControls label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--mutedColor);
+}
+
+.changeControls input {
+  width: 72px;
+  height: 32px;
+  padding: 0 8px;
+  border: 1px solid var(--borderColor);
+  border-radius: 6px;
+  background: var(--surfaceColor);
+  color: var(--headingCol);
+  font: inherit;
+  font-size: 13px;
+  text-align: center;
+  outline: none;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.changeControls input:focus {
+  border-color: var(--accentColor);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accentColor) 12%, transparent);
+}
+
+
+/* --------------------------------------------------
+   Buttons
+-------------------------------------------------- */
+
+.secondaryButton {
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--borderColor);
+  border-radius: 6px;
+  background: var(--surfaceColor);
+  color: var(--headingCol);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background 150ms ease,
+    border-color 150ms ease;
+}
+
+.secondaryButton:hover {
+  background: var(--surfaceAlt);
+  border-color: var(--accentColor);
+}
+
+
+/* --------------------------------------------------
+   Error
+-------------------------------------------------- */
+
+.error {
+  margin: 6px 0 0;
+  font-size: 11px;
+  color: #c2410c;
+}
+
+
+/* --------------------------------------------------
+   Calculation Section
+-------------------------------------------------- */
+
+.calculationSection {
+  width: 100%;
+}
+
+
+/* --------------------------------------------------
+   Calculation Table
+-------------------------------------------------- */
+
+.calculationTable {
+  width: 100%;
+  overflow-x: auto;
+}
+
+
+/* --------------------------------------------------
+   Main Number
+-------------------------------------------------- */
+
+.numberRow {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.numberCell {
+  padding: 10px 12px;
+  border: 1px solid var(--borderColor);
+  border-radius: 6px 6px 0 0;
+  background: var(--surfaceAlt);
+  color: var(--headingCol);
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+}
+
+
+/* --------------------------------------------------
+   Split Number
+-------------------------------------------------- */
+
+.splitRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.splitCell {
+  padding: 8px 12px;
+  border-right: 1px solid var(--borderColor);
+  border-bottom: 1px solid var(--borderColor);
+  background: var(--surfaceColor);
+  color: var(--mutedColor);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.splitCell:first-child {
+  border-left: 1px solid var(--borderColor);
+}
+
+
+/* --------------------------------------------------
+   Calculation Row
+-------------------------------------------------- */
+
+.calculationRow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.calculationCell {
+  min-width: 0;
+  min-height: 86px;
+  padding: 12px;
+  border-right: 1px solid var(--borderColor);
+  border-bottom: 1px solid var(--borderColor);
+  background: var(--surfaceColor);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  text-align: center;
+}
+
+.calculationCell:first-child {
+  border-left: 1px solid var(--borderColor);
+}
+
+.calculationCell strong {
+  color: var(--headingCol);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.calculationCell span {
+  color: var(--mutedColor);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+
+/* --------------------------------------------------
+   Result Row
+-------------------------------------------------- */
+
+.resultRow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.resultCell {
+  min-width: 0;
+  min-height: 82px;
+  padding: 10px 12px;
+  border-right: 1px solid var(--borderColor);
+  border-bottom: 1px solid var(--borderColor);
+  background: var(--surfaceAlt);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+
+.resultCell:first-child {
+  border-left: 1px solid var(--borderColor);
+}
+
+.resultCell strong {
+  color: var(--headingCol);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.resultCell span {
+  color: var(--mutedColor);
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+
+/* --------------------------------------------------
+   Final Answer
+-------------------------------------------------- */
+
+.finalAnswer {
+  margin-top: 16px;
+  padding: 12px;
+  border: 1px solid var(--borderColor);
+  border-radius: 6px;
+  background: var(--surfaceAlt);
+  color: var(--headingCol);
+  text-align: center;
+  font-size: 14px;
+}
+
+.finalAnswer strong {
+  margin-left: 4px;
+  font-size: 18px;
+}
+
+
+/* --------------------------------------------------
+   Steps to Remember
+-------------------------------------------------- */
+
+.remember {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid var(--borderColor);
+}
+
+.remember h3 {
+  margin: 0 0 10px;
+  color: var(--headingCol);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.remember ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--mutedColor);
+}
+
+.remember li {
+  margin-bottom: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.remember li:last-child {
+  margin-bottom: 0;
+}
+
+
+/* --------------------------------------------------
+   Responsive
+-------------------------------------------------- */
+
+@media (max-width: 600px) {
+  .changeControls {
+    align-items: stretch;
+  }
+
+  .changeControls label {
+    width: 100%;
+  }
+
+  .calculationTable {
+    overflow-x: auto;
+  }
+
+  .calculationRow,
+  .resultRow {
+    min-width: 540px;
+  }
+
+  .calculationCell,
+  .resultCell {
+    padding: 10px 8px;
+  }
+}

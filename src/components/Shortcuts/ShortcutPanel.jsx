@@ -4,8 +4,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import styles from "./ShortcutPanel.module.css";
-import TwoDigitSquares from "./PowerRoots/TwoDigitSquares";
+
 import Essentials from "./PowerRoots/Essentials";
+import TwoDigitSquares from "./PowerRoots/TwoDigitSquares";
+import ThreeDigitSquares from "./PowerRoots/ThreeDigitSquares";
+import SquaresEndingIn0 from "./PowerRoots/SquaresEndingIn0";
+
 import { PanelsTopLeft } from "lucide-react";
 
 export default function ShortcutPanel({ isOpen, onClose, data }) {
@@ -83,6 +87,8 @@ export default function ShortcutPanel({ isOpen, onClose, data }) {
   const shortcutComponents = {
     Essentials,
     TwoDigitSquares,
+    ThreeDigitSquares,
+    SquaresEndingIn0,
   };
 
   const ShortcutContent = selectedShortcut?.component && shortcutComponents[selectedShortcut.component];

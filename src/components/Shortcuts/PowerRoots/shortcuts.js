@@ -26,12 +26,14 @@ const powerRootsShortcuts = {
           title: "Three-Digit Squares",
           subtitle: "Split the number into two blocks and work from right to left.",
           content: "Split a three-digit number as A | B, where A is the first digit and B is the last two digits. Calculate A² | 2AB | B², then normalize the blocks from right to left, carrying when necessary.",
+          component: "ThreeDigitSquares",
         },
         {
           id: "squares-ending-in-0",
           title: "Squares Ending in 0",
           subtitle: "Remove the zero, square the remaining number, then add two zeros.",
           content: "A number ending in 0 is 10 times another number. Squaring it gives 100 times the square of that number. For example, 70² becomes 7² × 100 = 4900.",
+          component: "SquaresEndingIn0",
         },
         {
           id: "squares-ending-in-5",
