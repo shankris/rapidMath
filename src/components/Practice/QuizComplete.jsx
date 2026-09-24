@@ -5,7 +5,7 @@
 import Link from "next/link";
 import styles from "./QuizComplete.module.css";
 
-export default function QuizComplete({ results, operation, level, hasNextLevel, onRetake, onContinue }) {
+export default function QuizComplete({ results, performanceMessage, operation, level, hasNextLevel, onRetake, onContinue }) {
   const hasPreviousLevel = level > 1;
 
   return (
@@ -19,23 +19,28 @@ export default function QuizComplete({ results, operation, level, hasNextLevel, 
       -------------------------------------------------- */}
 
       <section className={styles.progress}>
-        <h2>
-          Great work - You have improved your average score
-          <br />
-          <br />
-          Your Quiz Results
-        </h2>
+        {performanceMessage && (
+          <div className={styles.performanceMessage}>
+            <div className={styles.performanceHeading}>{performanceMessage.heading}</div>
+
+            <div className={styles.performanceText}>{performanceMessage.text}</div>
+          </div>
+        )}
+
+        <h2>Your Quiz Results</h2>
 
         <div className={styles.stats}>
           <div>
             <div className={styles.statValue}>
               {results.correct} / {results.total}
             </div>
+
             <span>Correct Answers</span>
           </div>
 
           <div>
             <div className={styles.statValue}>{results.accuracy}%</div>
+
             <span>Accuracy</span>
           </div>
         </div>
@@ -44,34 +49,33 @@ export default function QuizComplete({ results, operation, level, hasNextLevel, 
           <div>
             <div className={styles.statValue}>
               {results.fastestTime}
+
               <div className={styles.statUnit}>s</div>
             </div>
+
             <span>Fastest Time</span>
           </div>
 
           <div>
             <div className={styles.statValue}>
               {results.averageTime}
+
               <div className={styles.statUnit}>s</div>
             </div>
+
             <span>Avg. Time</span>
           </div>
 
           <div>
             <div className={styles.statValue}>
               {results.slowestTime}
+
               <div className={styles.statUnit}>s</div>
             </div>
+
             <span>Slowest Time</span>
           </div>
         </div>
-
-        <button
-          className={styles.btnSecondary}
-          onClick={onContinue}
-        >
-          Review Quiz Performance
-        </button>
       </section>
 
       {/* --------------------------------------------------
@@ -79,12 +83,19 @@ export default function QuizComplete({ results, operation, level, hasNextLevel, 
       -------------------------------------------------- */}
 
       <div className={styles.actions}>
+        <button
+          className={styles.btnGhost}
+          onClick={onContinue}
+        >
+          Review Quiz Performance
+        </button>
+
         {hasPreviousLevel && (
           <Link
             href={`/practice/${operation}/${level - 1}`}
             className={styles.btnSecondary}
           >
-            Try Previous Level Quiz
+            Try Previous Level
           </Link>
         )}
 
@@ -100,7 +111,7 @@ export default function QuizComplete({ results, operation, level, hasNextLevel, 
             href={`/practice/${operation}/${level + 1}`}
             className={styles.btnSecondary}
           >
-            Try Next Level Quiz
+            Try Next Level
           </Link>
         )}
 

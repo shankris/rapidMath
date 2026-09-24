@@ -3,18 +3,19 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 
 import { generateTest } from "@/lib/math/generateTest";
 import { OPERATIONS } from "@/lib/math/operations";
 import { QUIZ_CONFIG } from "@/lib/config";
-import { saveQuizAttempt, updateQuizAttempt } from "@/lib/storage/quizHistory";
+import { saveQuizAttempt, updateQuizAttempt, getQuizAttempts } from "@/lib/storage/quizHistory";
 import { updateStreak } from "@/lib/storage/streak";
+import { getDashboardLevelStats } from "@/lib/stats/dashboardStats";
 import { generateTargetedAdditionTest } from "@/lib/math/generators/targetedTest";
 import QuestionCard from "./QuestionCard";
 import AnswerOptions from "./AnswerOptions";
 import QuizSetup from "./QuizSetup";
 import QuizComplete from "./QuizComplete";
+import dashboardData from "@/app/[locale]/Dashboard/dashboardData.json";
 
 import styles from "./PracticeSession.module.css";
 
@@ -34,6 +35,115 @@ function generateAttemptId(timestamp) {
   const randomPart = Math.random().toString(36).substring(2, 5);
 
   return `${datePart}-${timePart}-${randomPart}`;
+}
+
+/* --------------------------------------------------
+   Baseline Storage Key
+-------------------------------------------------- */
+
+function getBaselineKey(operation, level) {
+  return `quiz-baseline-${operation}-${level}`;
+}
+
+/* --------------------------------------------------
+   Get Previous Completed Attempt
+-------------------------------------------------- */
+
+function getPreviousAttempt(operation, level, currentAttemptId) {
+  const attempts = getQuizAttempts();
+
+  const matchingAttempts = attempts
+    .filter((attempt) => {
+      return attempt.operation === operation && Number(attempt.level) === Number(level) && attempt.status === "completed" && attempt.id !== currentAttemptId;
+    })
+    .sort((a, b) => {
+      return new Date(b.completedAt || b.startedAt).getTime() - new Date(a.completedAt || a.startedAt).getTime();
+    });
+
+  return matchingAttempts[0] || null;
+}
+
+/* --------------------------------------------------
+   Compare Performance
+-------------------------------------------------- */
+
+function getPerformanceMessage(currentStats, baseline, previousAttempt) {
+  /* ------------------------------------------------
+     No baseline and no previous attempt
+  ------------------------------------------------ */
+
+  if (!baseline && !previousAttempt) {
+    return null;
+  }
+
+  /* ------------------------------------------------
+     Compare Against 30-Day Baseline
+  ------------------------------------------------ */
+
+  if (baseline && baseline.testsCompleted > 0) {
+    const improvedTime = currentStats.averageCorrectTime > 0 && baseline.averageTime > 0 && currentStats.averageCorrectTime < baseline.averageTime;
+
+    const improvedAccuracy = currentStats.accuracy > baseline.accuracy;
+
+    if (improvedTime && improvedAccuracy) {
+      return {
+        heading: "Great Work",
+        text: "You have improved your average time and accuracy",
+      };
+    }
+
+    if (improvedTime) {
+      return {
+        heading: "Great Work",
+        text: "You have improved your average time",
+      };
+    }
+
+    if (improvedAccuracy) {
+      return {
+        heading: "Great Work",
+        text: "You have improved your average accuracy",
+      };
+    }
+  }
+
+  /* ------------------------------------------------
+     If Neither 30-Day Metric Improved,
+     Compare Against Previous Attempt
+  ------------------------------------------------ */
+
+  if (!previousAttempt?.stats) {
+    return null;
+  }
+
+  const previousStats = previousAttempt.stats;
+
+  const improvedTime = currentStats.averageCorrectTime > 0 && previousStats.averageCorrectTime > 0 && currentStats.averageCorrectTime < previousStats.averageCorrectTime;
+
+  const improvedAccuracy = currentStats.accuracy > previousStats.accuracy;
+
+  if (improvedTime && improvedAccuracy) {
+    return {
+      heading: "Good Job",
+      text: "You improved your timing and accuracy from the last time you took this quiz",
+    };
+  }
+
+  if (improvedTime) {
+    return {
+      heading: "Good Job",
+      text: "You improved your timing from the last time you took this quiz",
+    };
+  }
+
+  if (improvedAccuracy) {
+    return {
+      heading: "Good Job",
+      text: "You improved your accuracy from the last time you took this quiz",
+    };
+  }
+
+  return null;
 }
 
 /* --------------------------------------------------
@@ -82,12 +192,6 @@ export default function PracticeSession({ operation, level, targeted = false }) 
 
   /* --------------------------------------------------
      Quiz Attempt
-
-     React state is used for rendering.
-
-     The ref is used whenever we need the latest
-     attempt synchronously, especially when completing
-     the final question.
   -------------------------------------------------- */
 
   const [attempt, setAttempt] = useState(null);
@@ -95,24 +199,16 @@ export default function PracticeSession({ operation, level, targeted = false }) 
   const attemptRef = useRef(null);
 
   /* --------------------------------------------------
+     Performance Message
+  -------------------------------------------------- */
+
+  const [performanceMessage, setPerformanceMessage] = useState("");
+
+  /* --------------------------------------------------
      Current Question
   -------------------------------------------------- */
 
   const question = questions[currentQuestion];
-
-  /* --------------------------------------------------
-     Router
-  -------------------------------------------------- */
-
-  const router = useRouter();
-
-  /* --------------------------------------------------
-     Take Another Test
-  -------------------------------------------------- */
-
-  function takeAnotherTest() {
-    router.push("/practice");
-  }
 
   /* --------------------------------------------------
      Restart Current Test
@@ -142,6 +238,8 @@ export default function PracticeSession({ operation, level, targeted = false }) 
 
     setReactionTime(null);
     setStartTime(null);
+
+    setPerformanceMessage("");
   }
 
   /* --------------------------------------------------
@@ -234,8 +332,23 @@ export default function PracticeSession({ operation, level, targeted = false }) 
 
     setReactionTime(reaction);
 
-    const answerRecord = { id: question.id, question: question.question, correctAnswer: question.answer, selectedAnswer: answer, correct: answer === question.answer, time: reaction, questionData: question };
-    /* * Keep the original generated question data. * * Targeted Practice uses this to identify patterns * such as carries, borrowing, multiplication tables, * divisors, remainders, etc. */
+    const answerRecord = {
+      id: question.id,
+      question: question.question,
+      correctAnswer: question.answer,
+      selectedAnswer: answer,
+      correct: answer === question.answer,
+      time: reaction,
+      questionData: question,
+    };
+
+    /* ----------------------------------------------
+       Keep the original generated question data.
+
+       Targeted Practice uses this to identify patterns
+       such as carries, borrowing, multiplication tables,
+       divisors, remainders, etc.
+    ---------------------------------------------- */
 
     const updatedQuestions = [...currentAttempt.questions, answerRecord];
 
@@ -320,7 +433,9 @@ export default function PracticeSession({ operation, level, targeted = false }) 
 
     const correctTimes = correctRecords.map((record) => Number(record.time) || 0).filter((time) => time > 0);
 
-    const totalTime = records.reduce((sum, record) => sum + (Number(record.time) || 0), 0);
+    const totalTime = records.reduce((sum, record) => {
+      return sum + (Number(record.time) || 0);
+    }, 0);
 
     const accuracy = total === 0 ? 0 : Math.round((correct / total) * 100);
 
@@ -344,6 +459,49 @@ export default function PracticeSession({ operation, level, targeted = false }) 
       slowestCorrectTime,
       totalTime: Number(totalTime.toFixed(2)),
     };
+
+    /* ----------------------------------------------
+       Get Performance Baseline
+
+       The baseline was captured before this attempt
+       was saved, so the current quiz cannot affect it.
+    ---------------------------------------------- */
+
+    const baselineKey = getBaselineKey(operation, level);
+
+    let baseline = null;
+
+    try {
+      const storedBaseline = localStorage.getItem(baselineKey);
+
+      if (storedBaseline) {
+        baseline = JSON.parse(storedBaseline);
+      }
+    } catch (error) {
+      console.error("Unable to read quiz performance baseline:", error);
+    }
+
+    /* ----------------------------------------------
+       Get Previous Attempt
+
+       This is only used if neither 30-day metric
+       improves.
+    ---------------------------------------------- */
+
+    const previousAttempt = getPreviousAttempt(operation, level, currentAttempt.id);
+
+    /* ----------------------------------------------
+       Performance Message
+    ---------------------------------------------- */
+
+    const message = getPerformanceMessage(
+      {
+        accuracy,
+        averageCorrectTime,
+      },
+      baseline,
+      previousAttempt,
+    );
 
     /* ----------------------------------------------
        Completed Attempt
@@ -373,12 +531,27 @@ export default function PracticeSession({ operation, level, targeted = false }) 
     updateStreak();
 
     /* ----------------------------------------------
+       Remove Baseline
+
+       The baseline only belongs to this quiz session.
+    ---------------------------------------------- */
+
+    try {
+      localStorage.removeItem(baselineKey);
+    } catch (error) {
+      console.error("Unable to remove quiz performance baseline:", error);
+    }
+
+    /* ----------------------------------------------
        Keep Ref and React State In Sync
     ---------------------------------------------- */
 
     attemptRef.current = completedAttempt;
 
     setAttempt(completedAttempt);
+
+    setPerformanceMessage(message);
+
     setQuizCompleted(true);
   }
 
@@ -388,6 +561,31 @@ export default function PracticeSession({ operation, level, targeted = false }) 
 
   function handleStartQuiz() {
     const startedAt = new Date().toISOString();
+
+    /* ----------------------------------------------
+       Capture 30-Day Baseline
+
+       This MUST happen before saveQuizAttempt().
+       Otherwise the new attempt could be included
+       in its own baseline.
+    ---------------------------------------------- */
+
+    const baselineStats = getDashboardLevelStats(operation, level);
+
+    const baseline = {
+      averageTime: baselineStats.averageTime,
+      accuracy: baselineStats.accuracy,
+      testsCompleted: baselineStats.testsCompleted,
+      capturedAt: startedAt,
+    };
+
+    const baselineKey = getBaselineKey(operation, level);
+
+    try {
+      localStorage.setItem(baselineKey, JSON.stringify(baseline));
+    } catch (error) {
+      console.error("Unable to save quiz performance baseline:", error);
+    }
 
     /* ----------------------------------------------
        Create New Quiz Attempt
@@ -410,17 +608,13 @@ export default function PracticeSession({ operation, level, targeted = false }) 
     /* ----------------------------------------------
        Save Attempt
 
-       The attempt is created before the first
-       question is answered.
+       The baseline has already been captured.
     ---------------------------------------------- */
 
     saveQuizAttempt(newAttempt);
 
     /* ----------------------------------------------
        Keep Ref and React State In Sync
-
-       The ref gives us immediate access to the new
-       attempt without waiting for React's state update.
     ---------------------------------------------- */
 
     attemptRef.current = newAttempt;
@@ -448,10 +642,16 @@ export default function PracticeSession({ operation, level, targeted = false }) 
      Quiz Results
 
      Results are read from the persisted test summary.
-  -------------------------------------------------- */
+    -------------------------------------------------- */
 
   if (quizCompleted && attempt) {
     const { correct, questions: total, accuracy, averageCorrectTime, fastestCorrectTime, slowestCorrectTime } = attempt.stats;
+
+    const operationData = dashboardData.find((item) => item.operation === operation);
+
+    const hasPreviousLevel = level > 1;
+
+    const hasNextLevel = operationData?.levels.some((item) => item.level === level + 1);
 
     return (
       <QuizComplete
@@ -463,8 +663,12 @@ export default function PracticeSession({ operation, level, targeted = false }) 
           fastestTime: fastestCorrectTime,
           slowestTime: slowestCorrectTime,
         }}
+        performanceMessage={performanceMessage}
+        operation={operation}
+        level={level}
+        hasPreviousLevel={hasPreviousLevel}
+        hasNextLevel={hasNextLevel}
         onRetake={restartTest}
-        onAnotherTest={takeAnotherTest}
         onContinue={() => {
           console.log("View progress");
         }}

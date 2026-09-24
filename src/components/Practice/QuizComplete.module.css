@@ -14,6 +14,7 @@
 
 .progress {
   margin-top: var(--space-lg);
+  text-align: center;
 }
 
 .progress h2 {
@@ -24,6 +25,12 @@
   text-align: center;
 }
 
+
+.performanceHeading {
+  font-size: 24px;
+  color: var(--accentColor);
+  font-weight: 400;
+}
 
 /* --------------------------------------------------
    Progress Statistics
@@ -84,7 +91,7 @@
   align-items: center;
   justify-content: center;
 
-  margin: 20px auto;
+  /* margin: 20px auto; */
   padding: 12px;
 
   background: var(--accentColor);
@@ -116,9 +123,9 @@
   width: 90%;
   max-width: 500px;
   min-height: 52px;
-  margin: 20px auto;
+  /* margin: 20px auto; */
   padding: 12px;
-
+  background-color: var(--tab1bg);
 }
 
 
@@ -193,7 +200,7 @@
 
   padding: 10px 16px;
 
-  background: transparent;
+  /* background: transparent; */
   color: var(--headingCol);
 
   /* border: 1px solid var(--borderColor); */
@@ -214,4 +221,29 @@
   background: var(--highLight1);
   border-color: var(--accentColor);
   transform: translateY(-1px);
+}
+
+.btnGhost {
+  width: 100%;
+  max-width: 500px;
+  background: transparent;
+  border: 1px solid var(--borderColor);
+  color: var(--mutedColor);
+  padding: 6px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+  text-align: center;
+  margin: 20px auto 12px;
+
+}
+
+.btnGhost:hover {
+  background: var(--surfaceAlt);
+  border-color: var(--headingCol);
+  color: var(--headingCol);
 }

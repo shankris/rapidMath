@@ -131,12 +131,17 @@ function getAttemptsForPeriod(attempts, period) {
 
 /* --------------------------------------------------
    Calculate Statistics From Attempts
+
+   Average time is based only on correctly answered
+   questions.
+
+   Accuracy still uses all questions answered.
 -------------------------------------------------- */
 
 function calculateAttemptStats(attempts) {
   let questionsAnswered = 0;
   let correctAnswers = 0;
-  let totalTime = 0;
+  let correctAnswerTime = 0;
 
   attempts.forEach((attempt) => {
     attempt.questions.forEach((question) => {
@@ -144,15 +149,15 @@ function calculateAttemptStats(attempts) {
 
       if (question.correct) {
         correctAnswers += 1;
-      }
 
-      totalTime += question.time;
+        correctAnswerTime += Number(question.time) || 0;
+      }
     });
   });
 
   const accuracy = questionsAnswered > 0 ? (correctAnswers / questionsAnswered) * 100 : 0;
 
-  const averageTime = questionsAnswered > 0 ? totalTime / questionsAnswered : 0;
+  const averageTime = correctAnswers > 0 ? correctAnswerTime / correctAnswers : 0;
 
   return {
     accuracy: Number(accuracy.toFixed(1)),
@@ -165,7 +170,40 @@ function calculateAttemptStats(attempts) {
 
     correctAnswers,
 
-    totalTime,
+    totalTime: correctAnswerTime,
+  };
+}
+
+/* --------------------------------------------------
+   Get 30-Day Statistics For Operation + Level
+
+   Used by Practice to compare a new quiz against
+   the user's existing performance for this specific
+   operation and level.
+
+   Average time is based only on correctly answered
+   questions.
+-------------------------------------------------- */
+
+export function getDashboardLevelStats(operation, level) {
+  const attempts = getQuizAttempts();
+
+  const filteredAttempts = getAttemptsForPeriod(attempts, "1m").filter((attempt) => {
+    return attempt.operation === operation && Number(attempt.level) === Number(level) && attempt.status === "completed";
+  });
+
+  const stats = calculateAttemptStats(filteredAttempts);
+
+  return {
+    accuracy: stats.accuracy,
+
+    averageTime: stats.averageTime,
+
+    testsCompleted: stats.testsCompleted,
+
+    questionsAnswered: stats.questionsAnswered,
+
+    correctAnswers: stats.correctAnswers,
   };
 }
 
@@ -223,7 +261,7 @@ function combineStats(recentStats, olderStats) {
   return {
     accuracy: questionsAnswered > 0 ? Number(((correctAnswers / questionsAnswered) * 100).toFixed(1)) : 0,
 
-    averageTime: questionsAnswered > 0 ? Number((totalTime / questionsAnswered).toFixed(2)) : 0,
+    averageTime: correctAnswers > 0 ? Number((totalTime / correctAnswers).toFixed(2)) : 0,
 
     testsCompleted: recentStats.testsCompleted + olderStats.testsCompleted,
 
@@ -295,7 +333,7 @@ function calculateAllTimeStats() {
 
   const accuracy = questionsAnswered > 0 ? (correctAnswers / questionsAnswered) * 100 : 0;
 
-  const averageTime = questionsAnswered > 0 ? totalTime / questionsAnswered : 0;
+  const averageTime = correctAnswers > 0 ? totalTime / correctAnswers : 0;
 
   return {
     accuracy: Number(accuracy.toFixed(1)),
