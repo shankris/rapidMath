@@ -247,3 +247,35 @@
   border-color: var(--headingCol);
   color: var(--headingCol);
 }
+
+.headingWithLine {
+  color: var(--mutedColor);
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  width: 500px;
+  max-width: 90%;
+  margin: 10px auto;
+  font-size: 12px;
+  font-weight: 400;
+  display: flex;
+  position: relative;
+}
+
+.headingWithLine span {
+  z-index: 1;
+  background: var(--surfaceColor);
+  padding: 0 12px;
+  position: relative;
+}
+
+.headingWithLine::before {
+  content: "";
+  z-index: 0;
+  background: var(--borderColor);
+  height: 1px;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+}

@@ -27,7 +27,9 @@ export default function QuizComplete({ results, performanceMessage, operation, l
           </div>
         )}
 
-        <h2>Your Quiz Results</h2>
+        <div className={styles.headingWithLine}>
+          <span>Your Quiz Results</span>
+        </div>
 
         <div className={styles.stats}>
           <div>
