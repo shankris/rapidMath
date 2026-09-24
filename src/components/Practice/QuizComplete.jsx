@@ -1,8 +1,13 @@
+/* src/components/Quiz/QuizComplete.jsx */
+
 "use client";
 
+import Link from "next/link";
 import styles from "./QuizComplete.module.css";
 
-export default function QuizComplete({ results, onRetake, onAnotherTest, onContinue }) {
+export default function QuizComplete({ results, operation, level, hasNextLevel, onRetake, onContinue }) {
+  const hasPreviousLevel = level > 1;
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -10,8 +15,8 @@ export default function QuizComplete({ results, onRetake, onAnotherTest, onConti
       </div>
 
       {/* --------------------------------------------------
-   Performance Summary
--------------------------------------------------- */}
+          Performance Summary
+      -------------------------------------------------- */}
 
       <section className={styles.progress}>
         <h2>
@@ -70,10 +75,19 @@ export default function QuizComplete({ results, onRetake, onAnotherTest, onConti
       </section>
 
       {/* --------------------------------------------------
-   Quiz Actions
--------------------------------------------------- */}
+          Quiz Actions
+      -------------------------------------------------- */}
 
       <div className={styles.actions}>
+        {hasPreviousLevel && (
+          <Link
+            href={`/practice/${operation}/${level - 1}`}
+            className={styles.btnSecondary}
+          >
+            Try Previous Level Quiz
+          </Link>
+        )}
+
         <button
           className={styles.btnPrimary}
           onClick={onRetake}
@@ -81,12 +95,21 @@ export default function QuizComplete({ results, onRetake, onAnotherTest, onConti
           Retake This Quiz
         </button>
 
-        <button
+        {hasNextLevel && (
+          <Link
+            href={`/practice/${operation}/${level + 1}`}
+            className={styles.btnSecondary}
+          >
+            Try Next Level Quiz
+          </Link>
+        )}
+
+        <Link
+          href='/practice'
           className={styles.btnSecondary}
-          onClick={onAnotherTest}
         >
           Take Another Quiz
-        </button>
+        </Link>
       </div>
     </div>
   );

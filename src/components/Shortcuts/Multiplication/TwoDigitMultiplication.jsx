@@ -6,8 +6,6 @@ import { useState } from "react";
 import styles from "./TwoDigitMultiplication.module.css";
 
 export default function TwoDigitMultiplication() {
-  const [activeTab, setActiveTab] = useState("rightToLeft");
-
   const [firstInput, setFirstInput] = useState("83");
   const [secondInput, setSecondInput] = useState("27");
 
@@ -60,45 +58,32 @@ export default function TwoDigitMultiplication() {
   const secondUnits = secondNumber % 10;
 
   // --------------------------------------------------
-  // Right-to-left method
-  // --------------------------------------------------
-
-  // Units
-  const unitsProduct = firstUnits * secondUnits;
-  const unitsDigit = unitsProduct % 10;
-  const unitsCarry = Math.floor(unitsProduct / 10);
-
-  // Cross multiplication
-  const crossProduct = firstTens * secondUnits + firstUnits * secondTens;
-
-  const middleValue = crossProduct + unitsCarry;
-  const middleDigit = middleValue % 10;
-  const middleCarry = Math.floor(middleValue / 10);
-
-  // Tens
-  const tensProduct = firstTens * secondTens;
-  const leftValue = tensProduct + middleCarry;
-
-  // --------------------------------------------------
   // Three-block method
   // --------------------------------------------------
+
+  // Tens × Tens
   const firstBlock = firstTens * secondTens;
 
+  // Cross multiplication
   const middleBlock = firstTens * secondUnits + firstUnits * secondTens;
 
+  // Units × Units
   const lastBlock = firstUnits * secondUnits;
 
   // --------------------------------------------------
   // Normalize blocks from right to left
   // --------------------------------------------------
+
+  // Units block
   const blockLastDigit = lastBlock % 10;
   const blockLastCarry = Math.floor(lastBlock / 10);
 
+  // Middle block
   const blockMiddleValue = middleBlock + blockLastCarry;
-
   const blockMiddleDigit = blockMiddleValue % 10;
   const blockMiddleCarry = Math.floor(blockMiddleValue / 10);
 
+  // Tens block
   const blockFirstValue = firstBlock + blockMiddleCarry;
 
   // --------------------------------------------------
@@ -186,35 +171,6 @@ export default function TwoDigitMultiplication() {
       </section>
 
       {/* --------------------------------------------------
-          Tabs
-      -------------------------------------------------- */}
-      <div
-        className={styles.tabs}
-        role='tablist'
-        aria-label='Multiplication methods'
-      >
-        <button
-          type='button'
-          role='tab'
-          aria-selected={activeTab === "rightToLeft"}
-          className={`${styles.tab} ${activeTab === "rightToLeft" ? styles.activeTab : ""}`}
-          onClick={() => setActiveTab("rightToLeft")}
-        >
-          Right to Left
-        </button>
-
-        <button
-          type='button'
-          role='tab'
-          aria-selected={activeTab === "threeBlocks"}
-          className={`${styles.tab} ${activeTab === "threeBlocks" ? styles.activeTab : ""}`}
-          onClick={() => setActiveTab("threeBlocks")}
-        >
-          Three Blocks
-        </button>
-      </div>
-
-      {/* --------------------------------------------------
           Calculation
       -------------------------------------------------- */}
       <div className={styles.calculationTable}>
@@ -292,21 +248,12 @@ export default function TwoDigitMultiplication() {
       <section className={styles.remember}>
         <h3>Steps to remember</h3>
 
-        {activeTab === "rightToLeft" ? (
-          <ul>
-            <li>Multiply the units digits first.</li>
-            <li>Cross multiply and add the two products.</li>
-            <li>Multiply the tens digits and add the carry.</li>
-            <li>Work from right to left.</li>
-          </ul>
-        ) : (
-          <ul>
-            <li>Multiply tens × tens.</li>
-            <li>Add the two cross-products.</li>
-            <li>Multiply units × units.</li>
-            <li>Place the three blocks together and carry from right to left.</li>
-          </ul>
-        )}
+        <ul>
+          <li>Multiply tens × tens.</li>
+          <li>Add the two cross-products.</li>
+          <li>Multiply units × units.</li>
+          <li>Place the three blocks together and carry from right to left.</li>
+        </ul>
       </section>
     </div>
   );
