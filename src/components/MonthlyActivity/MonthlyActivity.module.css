@@ -263,28 +263,33 @@ Detail Table
 }
 
 /* --------------------------------------------------
-Detail Table Columns
+   Detail Table Columns
 -------------------------------------------------- */
 
 .detailTable th:first-child,
 .detailTable td:first-child {
-  width: 32%;
+  width: 28%;
   text-align: left;
 }
 
 .detailTable th:nth-child(2),
 .detailTable td:nth-child(2) {
-  width: 25%;
+  width: 17%;
 }
 
 .detailTable th:nth-child(3),
 .detailTable td:nth-child(3) {
-  width: 23%;
+  width: 18%;
 }
 
 .detailTable th:nth-child(4),
 .detailTable td:nth-child(4) {
-  width: 20%;
+  width: 18%;
+}
+
+.detailTable th:nth-child(5),
+.detailTable td:nth-child(5) {
+  width: 19%;
 }
 
 /* --------------------------------------------------
@@ -338,16 +343,21 @@ Empty State
 }
 
 /* --------------------------------------------------
-Responsive Layout
+   Responsive Layout
 -------------------------------------------------- */
 
-@media (max-width: 768px) {
+@media (max-width: 786px) {
+  .activity {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
   .calendar {
     max-width: none;
   }
 
   .details {
-    margin-top: 20px;
+    margin: 4px 0;
   }
 }
 
@@ -398,4 +408,16 @@ Activity Count
   line-height: 1;
   font-weight: 600;
   color: var(--accentColor);
+}
+
+
+/* --------------------------------------------------
+   30 Day Average Note
+-------------------------------------------------- */
+
+.averageNote {
+  margin: 8px 4px 12px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--mutedColor);
 }

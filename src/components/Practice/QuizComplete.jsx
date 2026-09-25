@@ -55,7 +55,7 @@ export default function QuizComplete({ results, performanceMessage, operation, l
               <div className={styles.statUnit}>s</div>
             </div>
 
-            <span>Fastest Time</span>
+            <span>Fastest </span>
           </div>
 
           <div>
@@ -75,7 +75,7 @@ export default function QuizComplete({ results, performanceMessage, operation, l
               <div className={styles.statUnit}>s</div>
             </div>
 
-            <span>Slowest Time</span>
+            <span>Slowest</span>
           </div>
         </div>
       </section>

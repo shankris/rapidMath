@@ -209,6 +209,71 @@ function groupDetails(details, translate) {
 }
 
 /* --------------------------------------------------
+   Get 30-Day Average Reaction Time
+
+   Excludes the current date.
+
+   The average is weighted by the number of
+   questions answered on each day.
+-------------------------------------------------- */
+
+function get30DayAverage(details, operation, level, today) {
+  if (!details || typeof details !== "object") {
+    return null;
+  }
+
+  const todayDate = parseDateKey(today);
+
+  if (!todayDate) {
+    return null;
+  }
+
+  const startDate = new Date(todayDate);
+  startDate.setDate(startDate.getDate() - 30);
+
+  let totalTime = 0;
+  let totalQuestions = 0;
+
+  Object.entries(details).forEach(([date, dayDetails]) => {
+    const dateValue = parseDateKey(date);
+
+    if (!dateValue || date === today) {
+      return;
+    }
+
+    if (dateValue < startDate || dateValue >= todayDate) {
+      return;
+    }
+
+    if (!Array.isArray(dayDetails)) {
+      return;
+    }
+
+    dayDetails.forEach((item) => {
+      if (item.operation !== operation || Number(item.level) !== Number(level)) {
+        return;
+      }
+
+      const reactionTime = Number(item.reactionTime);
+      const questions = Number(item.questions);
+
+      if (!Number.isFinite(reactionTime) || reactionTime <= 0 || !Number.isFinite(questions) || questions <= 0) {
+        return;
+      }
+
+      totalTime += reactionTime * questions;
+      totalQuestions += questions;
+    });
+  });
+
+  if (totalQuestions === 0) {
+    return null;
+  }
+
+  return Number((totalTime / totalQuestions).toFixed(1));
+}
+
+/* --------------------------------------------------
 Monthly Activity
 -------------------------------------------------- */
 
@@ -425,48 +490,56 @@ export default function MonthlyActivity({ data = [], details = {} }) {
         </div>
 
         {groupedDetails.length > 0 ? (
-          <div className={styles.detailList}>
-            {groupedDetails.map((group) => (
-              <section
-                key={group.operation}
-                className={styles.operationGroup}
-              >
-                <h4 className={styles.operationName}>{group.operation}</h4>
+          <>
+            <div className={styles.detailList}>
+              {groupedDetails.map((group) => (
+                <section
+                  key={group.operation}
+                  className={styles.operationGroup}
+                >
+                  <h4 className={styles.operationName}>{group.operation}</h4>
 
-                <table className={styles.detailTable}>
-                  <thead>
-                    <tr>
-                      <th scope='col'>{t("monthlyActivity.level")}</th>
-
-                      <th scope='col'>{t("monthlyActivity.questionsShort")}</th>
-
-                      <th scope='col'>{t("monthlyActivity.accuracy")}</th>
-
-                      <th scope='col'>{t("monthlyActivity.average")}</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {group.levels.map((item, index) => (
-                      <tr key={`${item.operation}-${item.level}-${index}`}>
-                        <td>
-                          {t("monthlyActivity.levelValue", {
-                            level: item.level,
-                          })}
-                        </td>
-
-                        <td>{item.questions}</td>
-
-                        <td>{item.accuracy !== undefined && item.accuracy !== null ? `${item.accuracy}%` : "—"}</td>
-
-                        <td>{item.reactionTime !== undefined && item.reactionTime !== null ? `${Number(item.reactionTime).toFixed(1)}s` : "—"}</td>
+                  <table className={styles.detailTable}>
+                    <thead>
+                      <tr>
+                        <th scope='col'>{t("monthlyActivity.level")}</th>
+                        <th scope='col'>{t("monthlyActivity.questionsShort")}</th>
+                        <th scope='col'>{t("monthlyActivity.accuracy")}</th>
+                        <th scope='col'>Day Avg.</th>
+                        <th scope='col'>30 Day Avg.</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </section>
-            ))}
-          </div>
+                    </thead>
+
+                    <tbody>
+                      {group.levels.map((item, index) => {
+                        const thirtyDayAverage = get30DayAverage(details, item.operation, item.level, today);
+
+                        return (
+                          <tr key={`${item.operation}-${item.level}-${index}`}>
+                            <td>
+                              {t("monthlyActivity.levelValue", {
+                                level: item.level,
+                              })}
+                            </td>
+
+                            <td>{item.questions}</td>
+
+                            <td>{item.accuracy !== undefined && item.accuracy !== null ? `${item.accuracy}%` : "—"}</td>
+
+                            <td>{item.reactionTime !== undefined && item.reactionTime !== null ? `${Number(item.reactionTime).toFixed(1)}s` : "—"}</td>
+
+                            <td>{thirtyDayAverage !== null ? `${Number(thirtyDayAverage).toFixed(1)}s` : "—"}</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </section>
+              ))}
+            </div>
+
+            <div className={styles.averageNote}>30 Day Avg. shows the trailing 30 day Avg., including today.</div>
+          </>
         ) : (
           <div className={styles.noActivity}>{t("monthlyActivity.noPractice")}</div>
         )}
