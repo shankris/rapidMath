@@ -2,6 +2,15 @@
 
 /* --------------------------------------------------
    Mixed Operations Level Configuration
+
+   Progression:
+   Level 1 — 3 numbers, basic precedence
+   Level 2 — 3 numbers, simple brackets
+   Level 3 — 4 numbers, basic mixed operations
+   Level 4 — 4 numbers, varied brackets and precedence
+   Level 5 — Two bracket groups
+   Level 6 — Multiple operations and brackets
+   Level 7 — Nested brackets and advanced combinations
 -------------------------------------------------- */
 
 export const MIXED_OPERATIONS_LEVELS = {
@@ -14,7 +23,7 @@ export const MIXED_OPERATIONS_LEVELS = {
       { min: 1, max: 9 },
     ],
 
-    operators: ["+", "×"],
+    operators: ["+", "−", "×", "÷"],
 
     minResult: 1,
     maxResult: 50,
@@ -23,28 +32,7 @@ export const MIXED_OPERATIONS_LEVELS = {
   },
 
   2: {
-    template: "precedence-extended",
-
-    division: {
-      divisor: { min: 2, max: 6 },
-      quotient: { min: 2, max: 10 },
-    },
-
-    multiplication: {
-      multiplier: { min: 2, max: 6 },
-      multiplicand: { min: 1, max: 9 },
-    },
-
-    addend: { min: 1, max: 9 },
-
-    minResult: 1,
-    maxResult: 100,
-    allowNegative: false,
-    exactDivision: true,
-  },
-
-  3: {
-    template: "brackets-simple-subtraction",
+    template: "brackets-simple",
 
     operands: [
       { min: 1, max: 9 },
@@ -52,7 +40,7 @@ export const MIXED_OPERATIONS_LEVELS = {
       { min: 1, max: 9 },
     ],
 
-    operators: ["+", "−"],
+    operators: ["+", "−", "×", "÷"],
 
     minResult: 1,
     maxResult: 50,
@@ -60,32 +48,17 @@ export const MIXED_OPERATIONS_LEVELS = {
     exactDivision: true,
   },
 
-  4: {
-    template: "brackets-multiplication",
+  3: {
+    template: "brackets-four-number",
 
-    addends: [
+    operands: [
+      { min: 1, max: 9 },
+      { min: 1, max: 9 },
       { min: 1, max: 9 },
       { min: 1, max: 9 },
     ],
 
-    multiplier: { min: 2, max: 9 },
-
-    minResult: 1,
-    maxResult: 200,
-    allowNegative: false,
-    exactDivision: true,
-  },
-
-  5: {
-    template: "brackets-division",
-
-    divisor: { min: 2, max: 9 },
-    quotient: { min: 2, max: 12 },
-
-    addends: [
-      { min: 1, max: 9 },
-      { min: 1, max: 9 },
-    ],
+    operators: ["+", "−", "×", "÷"],
 
     minResult: 1,
     maxResult: 100,
@@ -93,28 +66,61 @@ export const MIXED_OPERATIONS_LEVELS = {
     exactDivision: true,
   },
 
-  6: {
+  4: {
+    template: "brackets-varied",
+
+    operands: [
+      { min: 1, max: 9 },
+      { min: 1, max: 9 },
+      { min: 1, max: 9 },
+      { min: 1, max: 9 },
+    ],
+
+    operators: ["+", "−", "×", "÷"],
+
+    minResult: 1,
+    maxResult: 150,
+    allowNegative: false,
+    exactDivision: true,
+  },
+
+  5: {
     template: "multiple-brackets",
 
     firstBracket: {
       operands: [
-        { min: 1, max: 20 },
-        { min: 1, max: 20 },
+        { min: 1, max: 9 },
+        { min: 1, max: 9 },
       ],
-      operator: "+",
     },
-
-    multiplier: { min: 2, max: 9 },
 
     secondBracket: {
       operands: [
-        { min: 1, max: 20 },
+        { min: 1, max: 9 },
         { min: 1, max: 9 },
       ],
-      operator: "−",
     },
 
-    finalOperator: "−",
+    operators: ["+", "−", "×", "÷"],
+
+    minResult: 1,
+    maxResult: 250,
+    allowNegative: false,
+    exactDivision: true,
+  },
+
+  6: {
+    template: "advanced-brackets",
+
+    operands: [
+      { min: 1, max: 12 },
+      { min: 1, max: 12 },
+      { min: 1, max: 9 },
+      { min: 1, max: 9 },
+      { min: 1, max: 9 },
+    ],
+
+    operators: ["+", "−", "×", "÷"],
 
     minResult: 1,
     maxResult: 500,
@@ -125,49 +131,18 @@ export const MIXED_OPERATIONS_LEVELS = {
   7: {
     template: "nested-brackets",
 
-    multiplier: { min: 2, max: 9 },
+    operands: [
+      { min: 1, max: 20 },
+      { min: 1, max: 20 },
+      { min: 1, max: 12 },
+      { min: 1, max: 12 },
+      { min: 1, max: 9 },
+    ],
 
-    outerDifference: {
-      min: 5,
-      max: 30,
-    },
-
-    innerAddition: {
-      operands: [
-        { min: 1, max: 9 },
-        { min: 1, max: 9 },
-      ],
-    },
-
-    middleValue: { min: 5, max: 30 },
+    operators: ["+", "−", "×", "÷"],
 
     minResult: -100,
-    maxResult: 500,
-    allowNegative: true,
-    exactDivision: true,
-  },
-
-  8: {
-    template: "advanced-mixed",
-
-    numerator: {
-      addends: [
-        { min: 10, max: 90 },
-        { min: 10, max: 90 },
-      ],
-    },
-
-    denominator: {
-      factors: [
-        { min: 2, max: 6 },
-        { min: 2, max: 6 },
-      ],
-    },
-
-    finalAddend: { min: 1, max: 20 },
-
-    minResult: -500,
-    maxResult: 2000,
+    maxResult: 1000,
     allowNegative: true,
     exactDivision: true,
   },

@@ -35,8 +35,36 @@ function isValidResult(result, config) {
 }
 
 /* --------------------------------------------------
+   Calculate Binary Operation
+-------------------------------------------------- */
+
+function calculateOperation(left, operator, right) {
+  switch (operator) {
+    case "+":
+      return left + right;
+
+    case "−":
+      return left - right;
+
+    case "×":
+      return left * right;
+
+    case "÷":
+      return left / right;
+
+    default:
+      throw new Error(`Unknown Mixed Operations operator: ${operator}`);
+  }
+}
+
+/* --------------------------------------------------
    Level 1
-   A + B × C
+   Basic precedence — 3 numbers
+
+   One ×/÷ operation and one +/− operation.
+
+   The ×/÷ operation is randomly placed either
+   before or after the +/− operation.
 -------------------------------------------------- */
 
 function generatePrecedenceBasic(config) {
@@ -45,14 +73,54 @@ function generatePrecedenceBasic(config) {
     const b = generateFromRange(config.operands[1]);
     const c = generateFromRange(config.operands[2]);
 
-    const answer = a + b * c;
+    const precedenceOperator = Math.random() < 0.5 ? "×" : "÷";
+
+    const additiveOperator = Math.random() < 0.5 ? "+" : "−";
+
+    const precedenceFirst = Math.random() < 0.5;
+
+    let answer;
+    let question;
+    let operators;
+
+    if (precedenceFirst) {
+      /*
+       * A ×/÷ B +/− C
+       */
+      if (precedenceOperator === "÷" && a % b !== 0) {
+        continue;
+      }
+
+      const firstResult = calculateOperation(a, precedenceOperator, b);
+
+      answer = calculateOperation(firstResult, additiveOperator, c);
+
+      operators = [precedenceOperator, additiveOperator];
+
+      question = `${a} ${precedenceOperator} ${b} ${additiveOperator} ${c}`;
+    } else {
+      /*
+       * A +/− B ×/÷ C
+       */
+      if (precedenceOperator === "÷" && b % c !== 0) {
+        continue;
+      }
+
+      const secondResult = calculateOperation(b, precedenceOperator, c);
+
+      answer = calculateOperation(a, additiveOperator, secondResult);
+
+      operators = [additiveOperator, precedenceOperator];
+
+      question = `${a} ${additiveOperator} ${b} ${precedenceOperator} ${c}`;
+    }
 
     if (isValidResult(answer, config)) {
       return {
         numbers: [a, b, c],
-        operators: ["+", "×"],
+        operators,
         answer,
-        question: `${a} + ${b} × ${c}`,
+        question,
       };
     }
   }
@@ -62,33 +130,119 @@ function generatePrecedenceBasic(config) {
 
 /* --------------------------------------------------
    Level 2
-   A ÷ B + C × D
+   Simple brackets — 3 numbers
+
+   One pair of brackets.
+
+   Examples:
+   (A + B) × C
+   A + (B − C)
+   (A − B) + C
+   A ÷ (B + C)
 -------------------------------------------------- */
 
-function generatePrecedenceExtended(config) {
+function generateBracketsSimple(config) {
   for (let attempt = 0; attempt < 100; attempt++) {
-    const divisor = generateFromRange(config.division.divisor);
+    const a = generateFromRange(config.operands[0]);
+    const b = generateFromRange(config.operands[1]);
+    const c = generateFromRange(config.operands[2]);
 
-    const quotient = generateFromRange(config.division.quotient);
+    const pattern = randomNumber(1, 4);
 
-    const dividend = divisor * quotient;
+    let answer;
+    let question;
+    let operators;
 
-    const multiplier = generateFromRange(config.multiplication.multiplier);
+    switch (pattern) {
+      case 1: {
+        const operator = Math.random() < 0.5 ? "+" : "−";
+        const outerOperator = Math.random() < 0.5 ? "×" : "÷";
 
-    const multiplicand = generateFromRange(config.multiplication.multiplicand);
+        const bracketValue = calculateOperation(a, operator, b);
 
-    const addend = generateFromRange(config.addend);
+        if (outerOperator === "÷" && bracketValue === 0) {
+          continue;
+        }
 
-    const answer = quotient + addend * 1 + multiplier * multiplicand;
+        if (outerOperator === "÷" && c !== 0 && bracketValue % c !== 0) {
+          /*
+           * Use C as the dividend instead.
+           * This pattern will be retried if exact division
+           * is not possible.
+           */
+          continue;
+        }
 
-    if (isValidResult(answer, config)) {
-      return {
-        numbers: [dividend, divisor, addend, multiplier, multiplicand],
-        operators: ["÷", "+", "×"],
-        answer,
-        question: `${dividend} ÷ ${divisor} + ${addend} × ${multiplicand}`,
-      };
+        answer = calculateOperation(bracketValue, outerOperator, c);
+
+        operators = [operator, outerOperator];
+
+        question = `(${a} ${operator} ${b}) ${outerOperator} ${c}`;
+
+        break;
+      }
+
+      case 2: {
+        const operator = Math.random() < 0.5 ? "+" : "−";
+        const outerOperator = Math.random() < 0.5 ? "+" : "−";
+
+        const bracketValue = calculateOperation(b, operator, c);
+
+        answer = calculateOperation(a, outerOperator, bracketValue);
+
+        operators = [outerOperator, operator];
+
+        question = `${a} ${outerOperator} (${b} ${operator} ${c})`;
+
+        break;
+      }
+
+      case 3: {
+        const operator = Math.random() < 0.5 ? "+" : "−";
+        const outerOperator = "×";
+
+        const bracketValue = calculateOperation(a, operator, b);
+
+        answer = bracketValue * c;
+
+        operators = [operator, outerOperator];
+
+        question = `(${a} ${operator} ${b}) × ${c}`;
+
+        break;
+      }
+
+      default: {
+        const operator = Math.random() < 0.5 ? "+" : "−";
+        const outerOperator = "×";
+
+        const bracketValue = calculateOperation(b, operator, c);
+
+        answer = a + outerOperator === "×" ? a + bracketValue * 1 : a;
+
+        /*
+         * Keep this pattern simple and explicit.
+         */
+        answer = a + bracketValue;
+
+        operators = ["+", operator];
+
+        question = `${a} + (${b} ${operator} ${c})`;
+
+        break;
+      }
     }
+
+    if (!Number.isInteger(answer) || !isValidResult(answer, config)) {
+      continue;
+    }
+
+    return {
+      numbers: [a, b, c],
+      operators,
+      answer,
+      question,
+    };
   }
 
   throw new Error("Unable to generate Mixed Operations Level 2 question.");
@@ -96,25 +250,139 @@ function generatePrecedenceExtended(config) {
 
 /* --------------------------------------------------
    Level 3
-   (A + B) − C
+   Four numbers + brackets
+
+   The player now handles one additional operation
+   while retaining the Level 2 bracket concept.
 -------------------------------------------------- */
 
-function generateBracketsSimpleSubtraction(config) {
+function generateBracketsFourNumber(config) {
   for (let attempt = 0; attempt < 100; attempt++) {
     const a = generateFromRange(config.operands[0]);
     const b = generateFromRange(config.operands[1]);
     const c = generateFromRange(config.operands[2]);
+    const d = generateFromRange(config.operands[3]);
 
-    const answer = a + b - c;
+    const pattern = randomNumber(1, 4);
 
-    if (isValidResult(answer, config)) {
-      return {
-        numbers: [a, b, c],
-        operators: ["+", "−"],
-        answer,
-        question: `(${a} + ${b}) − ${c}`,
-      };
+    let answer;
+    let question;
+    let operators;
+
+    switch (pattern) {
+      case 1: {
+        const bracketOperator = Math.random() < 0.5 ? "+" : "−";
+
+        const secondOperator = Math.random() < 0.5 ? "×" : "÷";
+
+        const finalOperator = Math.random() < 0.5 ? "+" : "−";
+
+        const bracketValue = calculateOperation(a, bracketOperator, b);
+
+        if (secondOperator === "÷" && c === 0) {
+          continue;
+        }
+
+        const middleValue = calculateOperation(bracketValue, secondOperator, c);
+
+        if (secondOperator === "÷" && !Number.isInteger(middleValue)) {
+          continue;
+        }
+
+        answer = calculateOperation(middleValue, finalOperator, d);
+
+        operators = [bracketOperator, secondOperator, finalOperator];
+
+        question = `(${a} ${bracketOperator} ${b}) ${secondOperator} ${c} ${finalOperator} ${d}`;
+
+        break;
+      }
+
+      case 2: {
+        const firstOperator = Math.random() < 0.5 ? "+" : "−";
+
+        const precedenceOperator = Math.random() < 0.5 ? "×" : "÷";
+
+        const finalOperator = Math.random() < 0.5 ? "+" : "−";
+
+        if (precedenceOperator === "÷" && c % d !== 0) {
+          continue;
+        }
+
+        const precedenceValue = calculateOperation(c, precedenceOperator, d);
+
+        const bracketValue = calculateOperation(a, firstOperator, b);
+
+        answer = calculateOperation(bracketValue, finalOperator, precedenceValue);
+
+        operators = [firstOperator, precedenceOperator, finalOperator];
+
+        question = `(${a} ${firstOperator} ${b}) ${finalOperator} ${c} ${precedenceOperator} ${d}`;
+
+        break;
+      }
+
+      case 3: {
+        const precedenceOperator = Math.random() < 0.5 ? "×" : "÷";
+
+        const firstOperator = Math.random() < 0.5 ? "+" : "−";
+
+        const bracketOperator = Math.random() < 0.5 ? "+" : "−";
+
+        if (precedenceOperator === "÷" && b % c !== 0) {
+          continue;
+        }
+
+        const precedenceValue = calculateOperation(b, precedenceOperator, c);
+
+        const bracketValue = calculateOperation(a, firstOperator, precedenceValue);
+
+        answer = calculateOperation(bracketValue, bracketOperator, d);
+
+        operators = [firstOperator, precedenceOperator, bracketOperator];
+
+        question = `${a} ${firstOperator} ${b} ${precedenceOperator} ${c} ${bracketOperator} ${d}`;
+
+        break;
+      }
+
+      default: {
+        const bracketOperator = Math.random() < 0.5 ? "+" : "−";
+
+        const finalOperator = Math.random() < 0.5 ? "×" : "÷";
+
+        const bracketValue = calculateOperation(c, bracketOperator, d);
+
+        if (finalOperator === "÷" && bracketValue === 0) {
+          continue;
+        }
+
+        if (finalOperator === "÷" && a % bracketValue !== 0) {
+          continue;
+        }
+
+        const leftValue = a + b;
+
+        answer = calculateOperation(leftValue, finalOperator, bracketValue);
+
+        operators = ["+", finalOperator, bracketOperator];
+
+        question = `${a} + ${b} ${finalOperator} (${c} ${bracketOperator} ${d})`;
+
+        break;
+      }
     }
+
+    if (!Number.isInteger(answer) || !isValidResult(answer, config)) {
+      continue;
+    }
+
+    return {
+      numbers: [a, b, c, d],
+      operators,
+      answer,
+      question,
+    };
   }
 
   throw new Error("Unable to generate Mixed Operations Level 3 question.");
@@ -122,25 +390,49 @@ function generateBracketsSimpleSubtraction(config) {
 
 /* --------------------------------------------------
    Level 4
-   (A + B) × C
+   Four numbers + varied brackets
+
+   Same concepts as Level 3, but with more varied
+   placement of the bracketed expression.
 -------------------------------------------------- */
 
-function generateBracketsMultiplication(config) {
+function generateBracketsVaried(config) {
   for (let attempt = 0; attempt < 100; attempt++) {
-    const a = generateFromRange(config.addends[0]);
-    const b = generateFromRange(config.addends[1]);
-    const multiplier = generateFromRange(config.multiplier);
+    const a = generateFromRange(config.operands[0]);
+    const b = generateFromRange(config.operands[1]);
+    const c = generateFromRange(config.operands[2]);
+    const d = generateFromRange(config.operands[3]);
 
-    const answer = (a + b) * multiplier;
+    const bracketOperator = Math.random() < 0.5 ? "+" : "−";
 
-    if (isValidResult(answer, config)) {
-      return {
-        numbers: [a, b, multiplier],
-        operators: ["+", "×"],
-        answer,
-        question: `(${a} + ${b}) × ${multiplier}`,
-      };
+    const precedenceOperator = Math.random() < 0.5 ? "×" : "÷";
+
+    const finalOperator = Math.random() < 0.5 ? "+" : "−";
+
+    const bracketValue = calculateOperation(b, bracketOperator, c);
+
+    if (precedenceOperator === "÷" && bracketValue === 0) {
+      continue;
     }
+
+    if (precedenceOperator === "÷" && a % bracketValue !== 0) {
+      continue;
+    }
+
+    const firstValue = calculateOperation(a, precedenceOperator, bracketValue);
+
+    const answer = calculateOperation(firstValue, finalOperator, d);
+
+    if (!Number.isInteger(answer) || !isValidResult(answer, config)) {
+      continue;
+    }
+
+    return {
+      numbers: [a, b, c, d],
+      operators: [precedenceOperator, bracketOperator, finalOperator],
+      answer,
+      question: `${a} ${precedenceOperator} (${b} ${bracketOperator} ${c}) ${finalOperator} ${d}`,
+    };
   }
 
   throw new Error("Unable to generate Mixed Operations Level 4 question.");
@@ -148,47 +440,43 @@ function generateBracketsMultiplication(config) {
 
 /* --------------------------------------------------
    Level 5
-   A ÷ (B + C)
+   Two independent bracket groups
+
+   Examples:
+   (A + B) × (C − D)
+   (A − B) + (C × D)
 -------------------------------------------------- */
 
-function generateBracketsDivision(config) {
+function generateMultipleBrackets(config) {
   for (let attempt = 0; attempt < 100; attempt++) {
-    const divisor = generateFromRange(config.divisor);
+    const a = generateFromRange(config.firstBracket.operands[0]);
+    const b = generateFromRange(config.firstBracket.operands[1]);
 
-    const quotient = generateFromRange(config.quotient);
+    const c = generateFromRange(config.secondBracket.operands[0]);
+    const d = generateFromRange(config.secondBracket.operands[1]);
 
-    const dividend = divisor * quotient;
+    const firstOperator = Math.random() < 0.5 ? "+" : "−";
 
-    const a = generateFromRange(config.addends[0]);
+    const secondOperator = Math.random() < 0.5 ? "+" : "−";
 
-    const b = generateFromRange(config.addends[1]);
+    const outerOperator = Math.random() < 0.5 ? "×" : "+";
 
-    const bracketValue = a + b;
+    const firstValue = calculateOperation(a, firstOperator, b);
 
-    /*
-     * The bracket must be the divisor so that
-     * the division remains exact.
-     */
-    if (bracketValue < config.divisor.min) {
+    const secondValue = calculateOperation(c, secondOperator, d);
+
+    const answer = calculateOperation(firstValue, outerOperator, secondValue);
+
+    if (!isValidResult(answer, config)) {
       continue;
     }
 
-    if (bracketValue > config.divisor.max) {
-      continue;
-    }
-
-    const finalDividend = bracketValue * quotient;
-
-    const answer = finalDividend / bracketValue;
-
-    if (isValidResult(answer, config)) {
-      return {
-        numbers: [finalDividend, a, b],
-        operators: ["÷", "+"],
-        answer,
-        question: `${finalDividend} ÷ (${a} + ${b})`,
-      };
-    }
+    return {
+      numbers: [a, b, c, d],
+      operators: [firstOperator, outerOperator, secondOperator],
+      answer,
+      question: `(${a} ${firstOperator} ${b}) ${outerOperator} (${c} ${secondOperator} ${d})`,
+    };
   }
 
   throw new Error("Unable to generate Mixed Operations Level 5 question.");
@@ -196,31 +484,51 @@ function generateBracketsDivision(config) {
 
 /* --------------------------------------------------
    Level 6
-   (A + B) × C − (D − E)
+   Multiple operations + brackets
+
+   Five numbers with one bracketed expression.
 -------------------------------------------------- */
 
-function generateMultipleBrackets(config) {
+function generateAdvancedBrackets(config) {
   for (let attempt = 0; attempt < 100; attempt++) {
-    const a = generateFromRange(config.firstBracket.operands[0]);
+    const a = generateFromRange(config.operands[0]);
+    const b = generateFromRange(config.operands[1]);
+    const c = generateFromRange(config.operands[2]);
+    const d = generateFromRange(config.operands[3]);
+    const e = generateFromRange(config.operands[4]);
 
-    const b = generateFromRange(config.firstBracket.operands[1]);
+    const bracketOperator = Math.random() < 0.5 ? "+" : "−";
 
-    const multiplier = generateFromRange(config.multiplier);
+    const precedenceOperator = Math.random() < 0.5 ? "×" : "÷";
 
-    const d = generateFromRange(config.secondBracket.operands[0]);
+    const finalOperator = Math.random() < 0.5 ? "+" : "−";
 
-    const e = generateFromRange(config.secondBracket.operands[1]);
+    const bracketValue = calculateOperation(b, bracketOperator, c);
 
-    const answer = (a + b) * multiplier - (d - e);
-
-    if (isValidResult(answer, config)) {
-      return {
-        numbers: [a, b, multiplier, d, e],
-        operators: ["+", "×", "−", "−"],
-        answer,
-        question: `(${a} + ${b}) × ${multiplier} − (${d} − ${e})`,
-      };
+    if (precedenceOperator === "÷" && bracketValue === 0) {
+      continue;
     }
+
+    if (precedenceOperator === "÷" && a % bracketValue !== 0) {
+      continue;
+    }
+
+    const firstValue = calculateOperation(a, precedenceOperator, bracketValue);
+
+    const secondValue = calculateOperation(d, "×", e);
+
+    const answer = calculateOperation(firstValue, finalOperator, secondValue);
+
+    if (!Number.isInteger(answer) || !isValidResult(answer, config)) {
+      continue;
+    }
+
+    return {
+      numbers: [a, b, c, d, e],
+      operators: [precedenceOperator, bracketOperator, "×", finalOperator],
+      answer,
+      question: `${a} ${precedenceOperator} (${b} ${bracketOperator} ${c}) ${finalOperator} ${d} × ${e}`,
+    };
   }
 
   throw new Error("Unable to generate Mixed Operations Level 6 question.");
@@ -228,74 +536,56 @@ function generateMultipleBrackets(config) {
 
 /* --------------------------------------------------
    Level 7
-   A × (B − (C + D))
+   Nested brackets
+
+   Examples:
+   (A + (B × C)) − D
+   (A − (B + C)) × D
 -------------------------------------------------- */
 
 function generateNestedBrackets(config) {
   for (let attempt = 0; attempt < 100; attempt++) {
-    const multiplier = generateFromRange(config.multiplier);
+    const a = generateFromRange(config.operands[0]);
+    const b = generateFromRange(config.operands[1]);
+    const c = generateFromRange(config.operands[2]);
+    const d = generateFromRange(config.operands[3]);
+    const e = generateFromRange(config.operands[4]);
 
-    const middleValue = generateFromRange(config.middleValue);
+    const innerOperator = Math.random() < 0.5 ? "+" : "−";
 
-    const c = generateFromRange(config.innerAddition.operands[0]);
+    const middleOperator = Math.random() < 0.5 ? "×" : "÷";
 
-    const d = generateFromRange(config.innerAddition.operands[1]);
+    const outerOperator = Math.random() < 0.5 ? "+" : "−";
 
-    const answer = multiplier * (middleValue - (c + d));
+    const innerValue = calculateOperation(c, innerOperator, d);
 
-    if (isValidResult(answer, config)) {
-      return {
-        numbers: [multiplier, middleValue, c, d],
-        operators: ["×", "−", "+"],
-        answer,
-        question: `${multiplier} × (${middleValue} − (${c} + ${d}))`,
-      };
-    }
-  }
-
-  throw new Error("Unable to generate Mixed Operations Level 7 question.");
-}
-
-/* --------------------------------------------------
-   Level 8
-   (A + B) ÷ (C × D) + E
--------------------------------------------------- */
-
-function generateAdvancedMixed(config) {
-  for (let attempt = 0; attempt < 100; attempt++) {
-    const a = generateFromRange(config.numerator.addends[0]);
-
-    const b = generateFromRange(config.numerator.addends[1]);
-
-    const c = generateFromRange(config.denominator.factors[0]);
-
-    const d = generateFromRange(config.denominator.factors[1]);
-
-    const e = generateFromRange(config.finalAddend);
-
-    const numerator = a + b;
-    const denominator = c * d;
-
-    /*
-     * Division must be exact.
-     */
-    if (numerator % denominator !== 0) {
+    if (middleOperator === "÷" && innerValue === 0) {
       continue;
     }
 
-    const answer = numerator / denominator + e;
-
-    if (isValidResult(answer, config)) {
-      return {
-        numbers: [a, b, c, d, e],
-        operators: ["+", "÷", "×", "+"],
-        answer,
-        question: `(${a} + ${b}) ÷ (${c} × ${d}) + ${e}`,
-      };
+    if (middleOperator === "÷" && b % innerValue !== 0) {
+      continue;
     }
+
+    const middleValue = calculateOperation(b, middleOperator, innerValue);
+
+    const outerValue = calculateOperation(a, "+", middleValue);
+
+    const answer = calculateOperation(outerValue, outerOperator, e);
+
+    if (!Number.isInteger(answer) || !isValidResult(answer, config)) {
+      continue;
+    }
+
+    return {
+      numbers: [a, b, c, d, e],
+      operators: ["+", middleOperator, innerOperator, outerOperator],
+      answer,
+      question: `${a} + (${b} ${middleOperator} (${c} ${innerOperator} ${d})) ${outerOperator} ${e}`,
+    };
   }
 
-  throw new Error("Unable to generate Mixed Operations Level 8 question.");
+  throw new Error("Unable to generate Mixed Operations Level 7 question.");
 }
 
 /* --------------------------------------------------
@@ -314,32 +604,28 @@ export function generateMixedOperationsQuestion({ level, config }) {
       generated = generatePrecedenceBasic(config);
       break;
 
-    case "precedence-extended":
-      generated = generatePrecedenceExtended(config);
+    case "brackets-simple":
+      generated = generateBracketsSimple(config);
       break;
 
-    case "brackets-simple-subtraction":
-      generated = generateBracketsSimpleSubtraction(config);
+    case "brackets-four-number":
+      generated = generateBracketsFourNumber(config);
       break;
 
-    case "brackets-multiplication":
-      generated = generateBracketsMultiplication(config);
-      break;
-
-    case "brackets-division":
-      generated = generateBracketsDivision(config);
+    case "brackets-varied":
+      generated = generateBracketsVaried(config);
       break;
 
     case "multiple-brackets":
       generated = generateMultipleBrackets(config);
       break;
 
-    case "nested-brackets":
-      generated = generateNestedBrackets(config);
+    case "advanced-brackets":
+      generated = generateAdvancedBrackets(config);
       break;
 
-    case "advanced-mixed":
-      generated = generateAdvancedMixed(config);
+    case "nested-brackets":
+      generated = generateNestedBrackets(config);
       break;
 
     default:
