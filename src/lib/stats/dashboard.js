@@ -148,6 +148,43 @@ function getLastUseTimestamp(attempts, operation, level) {
 }
 
 /* --------------------------------------------------
+Get Recently Used Practice
+-------------------------------------------------- */
+
+export function getRecentlyUsedPractice() {
+  const attempts = getQuizAttempts();
+
+  const sortedAttempts = attempts.filter((attempt) => attempt.operation && attempt.level !== undefined && attempt.startedAt && Array.isArray(attempt.questions) && attempt.questions.some((question) => question && question.selectedAnswer !== undefined && question.selectedAnswer !== null)).sort((a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime());
+
+  const seen = new Set();
+  const recentPractice = [];
+
+  for (const attempt of sortedAttempts) {
+    const level = Number(attempt.level);
+    const key = `${attempt.operation}-${level}`;
+
+    if (seen.has(key)) {
+      continue;
+    }
+
+    seen.add(key);
+
+    recentPractice.push({
+      operation: attempt.operation,
+      level,
+      practiceUrl: attempt.practiceUrl ?? null,
+      lastUsed: attempt.startedAt,
+    });
+
+    if (recentPractice.length === 10) {
+      break;
+    }
+  }
+
+  return recentPractice;
+}
+
+/* --------------------------------------------------
 Get Today's Level Usage
 -------------------------------------------------- */
 

@@ -1,0 +1,176 @@
+/* src/components/QuickPractice/QuickPractice.module.css */
+
+/* --------------------------------------------------
+Quick Practice
+-------------------------------------------------- */
+
+.quickPractice {
+  width: 100%;
+}
+
+/* --------------------------------------------------
+Heading
+-------------------------------------------------- */
+
+.heading {
+  margin-bottom: 20px;
+}
+
+.heading h2 {
+  margin: 0;
+  color: var(--headingCol);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* --------------------------------------------------
+Recently Used
+-------------------------------------------------- */
+
+.recentSection h3 {
+  margin: 0 0 18px;
+  color: var(--headingCol);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* --------------------------------------------------
+Date Groups
+-------------------------------------------------- */
+
+.dateGroups {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.dateGroup {
+  width: 100%;
+}
+
+/* --------------------------------------------------
+Date Heading
+-------------------------------------------------- */
+
+.dateHeading {
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--borderColor);
+  color: var(--mutedColor);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* --------------------------------------------------
+Operation List
+-------------------------------------------------- */
+
+.operationList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* --------------------------------------------------
+Operation Row
+-------------------------------------------------- */
+
+.operationRow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-height: 44px;
+}
+
+.operationName {
+  flex: 0 0 190px;
+  color: var(--headingCol);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* --------------------------------------------------
+Level List
+-------------------------------------------------- */
+
+.levelList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* --------------------------------------------------
+Level Link
+-------------------------------------------------- */
+
+.levelLink,
+.levelDisabled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 6px 12px;
+  border: 1px solid var(--borderColor);
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.levelLink {
+  color: var(--headingCol);
+  background: var(--surfaceAlt);
+}
+
+.levelLink:hover {
+  background: var(--surfaceColor);
+  border-color: var(--accentColor);
+}
+
+.levelDisabled {
+  color: var(--mutedColor);
+  background: var(--surfaceAlt);
+  cursor: default;
+}
+
+/* --------------------------------------------------
+Level
+-------------------------------------------------- */
+
+.level {
+  line-height: 1;
+}
+
+/* --------------------------------------------------
+Empty State
+-------------------------------------------------- */
+
+.emptyState {
+  margin: 0;
+  color: var(--mutedColor);
+  font-size: 14px;
+}
+
+/* --------------------------------------------------
+Tablet
+-------------------------------------------------- */
+
+@media (max-width: 768px) {
+  .operationRow {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .operationName {
+    flex: none;
+  }
+
+  .levelList {
+    width: 100%;
+  }
+}

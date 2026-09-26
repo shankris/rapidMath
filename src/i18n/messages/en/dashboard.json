@@ -48,6 +48,12 @@
     "others": "Others"
   },
 
+  "quickPractice": {
+    "title": "Quick Practice",
+    "recentlyUsed": "Recently Used",
+    "noRecentPractice": "No recent practice yet."
+  },
+
   "quizPractice": {
     "title": "Quiz Practice",
     "description": "Your practice activity over the last 30 days."

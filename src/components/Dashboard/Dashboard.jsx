@@ -10,8 +10,9 @@ import MonthlyActivity from "@/components/MonthlyActivity/MonthlyActivity";
 import StreakStats from "@/components/StreakStats/StreakStats";
 import ReactionTimeChart from "@/components/ReactionTimeChart/ReactionTimeChart";
 import AccuracyChart from "@/components/AccuracyChart/AccuracyChart";
+import QuickPractice from "@/components/QuickPractice/QuickPractice";
 
-import { formatLastUse, getDashboardActivity, getDashboardActivityDetails, getDashboardLevelStats, getPracticeTimeDistribution } from "@/lib/stats/dashboard";
+import { formatLastUse, getDashboardActivity, getDashboardActivityDetails, getDashboardLevelStats, getPracticeTimeDistribution, getRecentlyUsedPractice } from "@/lib/stats/dashboard";
 
 import { Check } from "lucide-react";
 
@@ -106,6 +107,8 @@ export default function Dashboard() {
   const [activity, setActivity] = useState([]);
   const [activityDetails, setActivityDetails] = useState({});
 
+  const [recentPractice, setRecentPractice] = useState([]);
+
   const [activeCategory, setActiveCategory] = useState("basic");
 
   const [performanceSelection, setPerformanceSelection] = useState({
@@ -163,6 +166,12 @@ Monthly Activity Details
 
     setActivityDetails(getDashboardActivityDetails());
   }, []);
+
+  /* ------------------------------------------------
+Quick Practice
+------------------------------------------------ */
+
+  setRecentPractice(getRecentlyUsedPractice());
 
   /* --------------------------------------------------
 Refresh Relative Times
@@ -429,15 +438,12 @@ Get Active Category Operations
         {/* ----------------------------------------------
         Reaction Time
         ---------------------------------------------- */}
-
         <article className={`card ${styles.chartCard}`}>
           <ReactionTimeChart />
         </article>
-
         {/* ----------------------------------------------
         Practice Time
         ---------------------------------------------- */}
-
         <article className={`card ${styles.chartCard}`}>
           <div className={styles.chartHeader}>
             <h2>Practice Time</h2>
@@ -524,10 +530,12 @@ Get Active Category Operations
           </div>
         </article>
 
+        {/* Quick Practice */}
+        <QuickPractice recentPractice={recentPractice} />
+
         {/* ----------------------------------------------
         Monthly Activity
         ---------------------------------------------- */}
-
         <article className={`card ${styles.insightCard}`}>
           <div className={styles.insightHeader}>
             <h2 className={styles.OperationHeader}>Quiz Practice</h2>
