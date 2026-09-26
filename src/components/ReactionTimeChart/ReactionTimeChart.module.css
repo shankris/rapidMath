@@ -188,3 +188,32 @@ Responsive Layout
     min-width: 0;
   }
 }
+
+
+/* --------------------------------------------------
+   Reaction Time Tooltip
+-------------------------------------------------- */
+
+.chartTooltipOperation {
+  margin-top: 4px;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.chartTooltipLevels {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.chartTooltipLevel {
+  display: grid;
+  grid-template-columns: 70px auto;
+  align-items: center;
+  gap: 12px;
+}
+
+.chartTooltipValue {
+  text-align: right;
+  font-weight: 600;
+}

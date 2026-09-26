@@ -1,6 +1,6 @@
-// src/components/ReactionTimeChart/ReactionTimeChart.jsx
-
 "use client";
+
+/* src/components/ReactionTimeChart/ReactionTimeChart.jsx */
 
 import { useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
@@ -162,17 +162,27 @@ function formatReactionTime(value) {
 }
 
 /* --------------------------------------------------
+   Get Level Line Color
+-------------------------------------------------- */
+
+function getLevelColor(level) {
+  const colors = ["var(--accentColor)", "#0891b2", "#16a34a", "#d97706", "#9333ea", "#dc2626", "#0f766e", "#7c3aed", "#be123c", "#475569"];
+
+  return colors[(Number(level) - 1) % colors.length];
+}
+
+/* --------------------------------------------------
    Custom Tooltip
 -------------------------------------------------- */
 
-function ReactionTimeTooltip({ active, payload, label, translate, locale }) {
+function ReactionTimeTooltip({ active, payload, label, translate, locale, levels, operation }) {
   if (!active || !payload?.length) {
     return null;
   }
 
-  const reactionTime = payload.find((item) => item.dataKey === "average");
+  const visiblePayload = payload.filter((item) => levels.includes(Number(item.dataKey.replace("level", ""))) && Number.isFinite(item.value)).sort((a, b) => Number(a.dataKey.replace("level", "")) - Number(b.dataKey.replace("level", "")));
 
-  if (!reactionTime || !Number.isFinite(reactionTime.value)) {
+  if (visiblePayload.length === 0) {
     return null;
   }
 
@@ -180,33 +190,69 @@ function ReactionTimeTooltip({ active, payload, label, translate, locale }) {
     <div className={styles.chartTooltip}>
       <strong>{formatDateLabel(label, locale)}</strong>
 
-      <span>
-        <span className={styles.chartTooltipLabel}>{translate("reactionTime.average")}</span>
+      <div className={styles.chartTooltipOperation}>{OPERATION_NAMES[operation] ?? operation}</div>
 
-        <span className={styles.chartTooltipValue}>{formatReactionTime(reactionTime.value)}</span>
-      </span>
+      <div className={styles.chartTooltipLevels}>
+        {visiblePayload.map((item) => {
+          const level = Number(item.dataKey.replace("level", ""));
+
+          return (
+            <div
+              key={item.dataKey}
+              className={styles.chartTooltipLevel}
+            >
+              <span className={styles.chartTooltipLabel}>{translate("levels.level", { level })}</span>
+
+              <span className={styles.chartTooltipValue}>{formatReactionTime(item.value)}</span>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
+}
+
+/* --------------------------------------------------
+   Get Y Axis Domain
+-------------------------------------------------- */
+
+function getReactionTimeDomain(data) {
+  const values = [];
+
+  data.forEach((day) => {
+    Object.keys(day).forEach((key) => {
+      if (key.startsWith("level") && Number.isFinite(day[key])) {
+        values.push(day[key]);
+      }
+    });
+  });
+
+  if (values.length === 0) {
+    return ["auto", "auto"];
+  }
+
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const range = max - min;
+
+  /* Keep a small amount of breathing room around the data. */
+  const padding = Math.max(range * 0.1, 0.25);
+
+  return [Math.max(0, min - padding), max + padding];
 }
 
 /* --------------------------------------------------
    Reaction Time Chart
 -------------------------------------------------- */
 
-export default function ReactionTimeChart({ operation: selectedOperation = "", level: selectedLevel = "", onSelectionChange, onActiveDayCountChange }) {
+export default function ReactionTimeChart({ operation: selectedOperation = "", onSelectionChange, onActiveDayCountChange }) {
   const t = useTranslations("Graphs");
-  const tExercises = useTranslations("Exercises");
-
   const locale = useLocale();
 
   const [attempts, setAttempts] = useState([]);
-
   const [operation, setOperation] = useState(selectedOperation);
-
-  const [level, setLevel] = useState(selectedLevel);
-
+  const [levels, setLevels] = useState([]);
   const [chartData, setChartData] = useState([]);
-
   const [overallAverage, setOverallAverage] = useState(null);
 
   /* ------------------------------------------------
@@ -252,93 +298,30 @@ export default function ReactionTimeChart({ operation: selectedOperation = "", l
      Available Levels
   ------------------------------------------------ */
 
-  const levels = useMemo(() => getAvailableLevels(attempts, operation), [attempts, operation]);
+  useEffect(() => {
+    setLevels(getAvailableLevels(attempts, operation));
+  }, [attempts, operation]);
 
   /* ------------------------------------------------
-     Sync Selected Level From Dashboard
+     Report Operation Selection
   ------------------------------------------------ */
 
   useEffect(() => {
-    if (selectedLevel && levels.includes(Number(selectedLevel))) {
-      setLevel(String(selectedLevel));
-    }
-  }, [selectedLevel, levels]);
-
-  /* ------------------------------------------------
-     Set Initial Level
-  ------------------------------------------------ */
-
-  useEffect(() => {
-    if (levels.length === 0) {
-      setLevel("");
-      return;
-    }
-
-    const numericLevel = Number(level);
-
-    if (!levels.includes(numericLevel)) {
-      setLevel(String(levels[0]));
-    }
-  }, [levels, level]);
-
-  /* ------------------------------------------------
-     Report Selection To Dashboard
-  ------------------------------------------------ */
-
-  useEffect(() => {
-    if (!operation || !level || !onSelectionChange) {
+    if (!operation || !onSelectionChange) {
       return;
     }
 
     onSelectionChange({
       operation,
-      level,
     });
-  }, [operation, level, onSelectionChange]);
+  }, [operation, onSelectionChange]);
 
   /* ------------------------------------------------
      Build Chart Data
   ------------------------------------------------ */
 
   useEffect(() => {
-    if (!operation || !level) {
-      setChartData([]);
-      setOverallAverage(null);
-
-      if (onActiveDayCountChange) {
-        onActiveDayCountChange(0);
-      }
-
-      return;
-    }
-
-    const result = getReactionTimeTrend(operation, Number(level));
-
-    if (!result) {
-      setChartData([]);
-      setOverallAverage(null);
-
-      if (onActiveDayCountChange) {
-        onActiveDayCountChange(0);
-      }
-
-      return;
-    }
-
-    /* ----------------------------------------------
-       Use Shared Performance Date Range
-
-       The shared range is determined by answered
-       questions, not by reaction-time values.
-
-       This means:
-       - leading empty days are removed
-       - trailing empty days are removed
-       - internal empty days remain
-       - the calendar-day count includes internal gaps
-    ---------------------------------------------- */
-
-    if (!result.startDate || !result.endDate) {
+    if (!operation || levels.length === 0) {
       setChartData([]);
       setOverallAverage(null);
 
@@ -351,10 +334,14 @@ export default function ReactionTimeChart({ operation: selectedOperation = "", l
 
     const days = getLast30Days();
 
-    const startIndex = days.indexOf(result.startDate);
-    const endIndex = days.indexOf(result.endDate);
+    const levelResults = levels
+      .map((level) => ({
+        level,
+        result: getReactionTimeTrend(operation, level),
+      }))
+      .filter(({ result }) => result && result.startDate && result.endDate && Array.isArray(result.days));
 
-    if (startIndex === -1 || endIndex === -1) {
+    if (levelResults.length === 0) {
       setChartData([]);
       setOverallAverage(null);
 
@@ -365,19 +352,96 @@ export default function ReactionTimeChart({ operation: selectedOperation = "", l
       return;
     }
 
-    const visibleDays = result.days.slice(startIndex, endIndex + 1);
+    /* ----------------------------------------------
+       Build Combined Daily Data
 
-    setChartData(visibleDays);
-    setOverallAverage(result.overallAverage);
+       Every date in the last 30 days gets one row.
+       Each available level contributes its own value.
+    ---------------------------------------------- */
+
+    const combinedDays = days.map((date) => {
+      const day = {
+        date,
+      };
+
+      levelResults.forEach(({ level, result }) => {
+        const resultDay = result.days.find((item) => item.date === date);
+
+        day[`level${level}`] = resultDay?.average ?? null;
+      });
+
+      return day;
+    });
 
     /* ----------------------------------------------
-       Report Calendar-Day Range To Dashboard
+       Remove Leading Empty Days
+
+       Find the first day containing any reaction-time
+       value across all levels.
+    ---------------------------------------------- */
+
+    const firstActiveIndex = combinedDays.findIndex((day) => levels.some((level) => Number.isFinite(day[`level${level}`])));
+
+    /* ----------------------------------------------
+       Remove Trailing Empty Days
+    ---------------------------------------------- */
+
+    let lastActiveIndex = -1;
+
+    for (let index = combinedDays.length - 1; index >= 0; index -= 1) {
+      const hasActivity = levels.some((level) => Number.isFinite(combinedDays[index][`level${level}`]));
+
+      if (hasActivity) {
+        lastActiveIndex = index;
+        break;
+      }
+    }
+
+    if (firstActiveIndex === -1 || lastActiveIndex === -1) {
+      setChartData([]);
+      setOverallAverage(null);
+
+      if (onActiveDayCountChange) {
+        onActiveDayCountChange(0);
+      }
+
+      return;
+    }
+
+    const visibleDays = combinedDays.slice(firstActiveIndex, lastActiveIndex + 1);
+
+    setChartData(visibleDays);
+
+    /* ----------------------------------------------
+       Overall Operation Average
+
+       Calculate from all available level data points.
+    ---------------------------------------------- */
+
+    const allValues = [];
+
+    visibleDays.forEach((day) => {
+      levels.forEach((level) => {
+        const value = day[`level${level}`];
+
+        if (Number.isFinite(value)) {
+          allValues.push(value);
+        }
+      });
+    });
+
+    const average = allValues.length > 0 ? allValues.reduce((sum, value) => sum + value, 0) / allValues.length : null;
+
+    setOverallAverage(average);
+
+    /* ----------------------------------------------
+       Report Calendar-Day Range
     ---------------------------------------------- */
 
     if (onActiveDayCountChange) {
-      onActiveDayCountChange(result.activeDayCount ?? visibleDays.length);
+      onActiveDayCountChange(visibleDays.length);
     }
-  }, [operation, level, onActiveDayCountChange]);
+  }, [operation, levels, onActiveDayCountChange]);
 
   /* ------------------------------------------------
      Chart Data With Display Date
@@ -391,6 +455,8 @@ export default function ReactionTimeChart({ operation: selectedOperation = "", l
       })),
     [chartData, locale],
   );
+
+  const reactionTimeDomain = useMemo(() => getReactionTimeDomain(formattedChartData), [formattedChartData]);
 
   /* ------------------------------------------------
      Empty State
@@ -435,12 +501,10 @@ export default function ReactionTimeChart({ operation: selectedOperation = "", l
                 const nextOperation = event.target.value;
 
                 setOperation(nextOperation);
-                setLevel("");
 
                 if (onSelectionChange) {
                   onSelectionChange({
                     operation: nextOperation,
-                    level: "",
                   });
                 }
               }}
@@ -451,36 +515,6 @@ export default function ReactionTimeChart({ operation: selectedOperation = "", l
                   value={item}
                 >
                   {t(`operations.${item}.title`)}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label className={styles.filter}>
-            <span>{t("reactionTime.level")}</span>
-
-            <select
-              value={level}
-              onChange={(event) => {
-                const nextLevel = event.target.value;
-
-                setLevel(nextLevel);
-
-                if (onSelectionChange && operation) {
-                  onSelectionChange({
-                    operation,
-                    level: nextLevel,
-                  });
-                }
-              }}
-              disabled={levels.length === 0}
-            >
-              {levels.map((item) => (
-                <option
-                  key={item}
-                  value={item}
-                >
-                  {t("levels.level", { level: item })}
                 </option>
               ))}
             </select>
@@ -512,14 +546,16 @@ export default function ReactionTimeChart({ operation: selectedOperation = "", l
                 strokeDasharray='3 3'
                 vertical={false}
               />
+
               {/* ------------------------------------------------
                  X Axis
               ------------------------------------------------ */}
+
               <XAxis
                 dataKey='displayDate'
                 padding={{
-                  left: 88,
-                  right: 88,
+                  left: 24,
+                  right: 24,
                 }}
                 tick={{
                   fill: "var(--mutedColor)",
@@ -531,7 +567,13 @@ export default function ReactionTimeChart({ operation: selectedOperation = "", l
                 }}
                 minTickGap={20}
               />
+
+              {/* ------------------------------------------------
+                 Y Axis
+              ------------------------------------------------ */}
+
               <YAxis
+                domain={reactionTimeDomain}
                 tick={{
                   fill: "var(--mutedColor)",
                   fontSize: 10,
@@ -541,14 +583,25 @@ export default function ReactionTimeChart({ operation: selectedOperation = "", l
                 tickFormatter={(value) => `${value.toFixed(1)}s`}
                 width={42}
               />
+
+              {/* ------------------------------------------------
+                 Tooltip
+              ------------------------------------------------ */}
+
               <Tooltip
                 content={
                   <ReactionTimeTooltip
                     translate={t}
                     locale={locale}
+                    levels={levels}
                   />
                 }
               />
+
+              {/* ------------------------------------------------
+                 Overall Average
+              ------------------------------------------------ */}
+
               {Number.isFinite(overallAverage) && (
                 <ReferenceLine
                   y={overallAverage}
@@ -565,25 +618,40 @@ export default function ReactionTimeChart({ operation: selectedOperation = "", l
                   }}
                 />
               )}
-              <Line
-                type='monotone'
-                dataKey='average'
-                stroke='var(--accentColor)'
-                strokeWidth={2}
-                dot={{
-                  r: 3,
-                  fill: "var(--accentColor)",
-                  strokeWidth: 0,
-                }}
-                activeDot={{
-                  r: 5,
-                  fill: "var(--accentColor)",
-                  stroke: "var(--surfaceColor)",
-                  strokeWidth: 2,
-                }}
-                connectNulls={true}
-                name={t("reactionTime.average")}
-              />
+
+              {/* ------------------------------------------------
+                 Level Lines
+              ------------------------------------------------ */}
+
+              {levels.map((level) => {
+                const lineKey = `level${level}`;
+                const lineColor = getLevelColor(level);
+
+                return (
+                  <Line
+                    key={lineKey}
+                    type='monotone'
+                    dataKey={lineKey}
+                    stroke={lineColor}
+                    strokeWidth={2}
+                    dot={{
+                      r: 3,
+                      fill: lineColor,
+                      strokeWidth: 0,
+                    }}
+                    activeDot={{
+                      r: 5,
+                      fill: lineColor,
+                      stroke: "var(--surfaceColor)",
+                      strokeWidth: 2,
+                    }}
+                    connectNulls={true}
+                    name={t("levels.level", {
+                      level,
+                    })}
+                  />
+                );
+              })}
             </LineChart>
           </ResponsiveContainer>
         </div>
