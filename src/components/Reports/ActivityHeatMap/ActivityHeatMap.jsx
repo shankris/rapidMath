@@ -57,15 +57,15 @@ function getActivityLevel(questions) {
     return 0;
   }
 
-  if (questions <= 20) {
+  if (questions <= 100) {
     return 1;
   }
 
-  if (questions <= 40) {
+  if (questions <= 200) {
     return 2;
   }
 
-  if (questions <= 60) {
+  if (questions <= 300) {
     return 3;
   }
 
