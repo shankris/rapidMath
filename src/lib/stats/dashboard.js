@@ -297,13 +297,7 @@ Only include answered questions
     const groupKey = `${attempt.operation}-${levelKey}`;
 
     if (!details[attemptDate][groupKey]) {
-      details[attemptDate][groupKey] = {
-        operation: attempt.operation,
-        level: levelKey,
-        questions: 0,
-        correct: 0,
-        reactionTimes: [],
-      };
+      details[attemptDate][groupKey] = { operation: attempt.operation, level: levelKey, practiceUrl: attempt.practiceUrl, questions: 0, correct: 0, reactionTimes: [] };
     }
 
     const group = details[attemptDate][groupKey];
@@ -331,13 +325,7 @@ Only include answered questions
 
       const averageReactionTime = reactionTimes.length > 0 ? reactionTimes.reduce((total, time) => total + time, 0) / reactionTimes.length : null;
 
-      return {
-        operation: getDashboardOperationName(group.operation),
-        level: group.level,
-        questions: group.questions,
-        accuracy: group.questions > 0 ? Math.round((group.correct / group.questions) * 100) : null,
-        reactionTime: averageReactionTime,
-      };
+      return { operation: getDashboardOperationName(group.operation), level: group.level, practiceUrl: group.practiceUrl, questions: group.questions, accuracy: group.questions > 0 ? Math.round((group.correct / group.questions) * 100) : null, reactionTime: averageReactionTime };
     });
   });
 

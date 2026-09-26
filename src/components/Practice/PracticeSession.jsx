@@ -596,7 +596,7 @@ export default function PracticeSession({ operation, level, targeted = false }) 
 
       operation,
       level,
-
+      practiceUrl: `practice/${operation}/${level}`,
       startedAt,
       completedAt: null,
 

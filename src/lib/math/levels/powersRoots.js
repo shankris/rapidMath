@@ -1,46 +1,44 @@
-// src/lib/math/levels/powersRoots.js
+/* src/lib/math/levels/powersRoots.js */
 
 /* --------------------------------------------------
    Powers & Roots Level Configuration
 
-   Each level defines the types of questions that can
-   be generated and the ranges used by those types.
+   The progression is cumulative.
 
-   Root interval questions progress from simple,
-   familiar perfect-square boundaries to one-decimal
-   estimation in Level 4.
+   Level 1 — Familiar facts
+   Level 2 — Simple shortcuts
+   Level 3 — Two-digit mental calculation
+   Level 4 — Larger mental calculation
+   Level 5 — Square-root intervals
+   Level 6 — Decimal square-root estimation
+
+   Quiz generation can combine questions from the
+   current level with questions from previous levels
+   to provide gradual progression and review.
 -------------------------------------------------- */
 
 export const POWERS_ROOTS_LEVELS = {
   /* --------------------------------------------------
-     Level 1 — Fundamentals & Easy Patterns
+     Level 1 — Familiar Facts
 
-     Can I recognize it?
+     Can I recognize and recall it?
 
      Focus:
      - Single-digit squares
-     - Squares of multiples of 10
-     - Numbers ending in 5
+     - Two-digit numbers ending in 5
+     - Squares of multiples of 10 up to 100
      - Small cubes
-     - Perfect square roots
-     - Perfect cube roots
-     - Simple root intervals
+     - Simple perfect square roots
   -------------------------------------------------- */
 
   1: {
     difficulty: "easy",
 
-    questionTypes: ["single-digit-square", "multiple-of-10-square", "ending-in-5-square", "cube", "square-root", "cube-root", "square-root-interval"],
+    questionTypes: ["single-digit-square", "ending-in-5-square", "multiple-of-10-square", "cube", "square-root"],
 
     singleDigitSquare: {
       min: 1,
       max: 9,
-    },
-
-    multipleOf10Square: {
-      min: 10,
-      max: 200,
-      step: 10,
     },
 
     endingIn5Square: {
@@ -49,107 +47,94 @@ export const POWERS_ROOTS_LEVELS = {
       step: 10,
     },
 
+    /*
+      There are exactly 10 possible values:
+      10, 20, 30, ... 100.
+    */
+    multipleOf10Square: {
+      min: 10,
+      max: 100,
+      step: 10,
+    },
+
     cube: {
       min: 1,
-      max: 10,
+      max: 5,
     },
 
     squareRoot: {
       min: 1,
       max: 10,
     },
-
-    cubeRoot: {
-      min: 1,
-      max: 10,
-    },
-
-    /*
-      Simple intervals between familiar perfect squares.
-
-      Example:
-      √64 and √81 → 8 and 9
-    */
-    squareRootInterval: {
-      min: 1,
-      max: 9,
-    },
   },
 
   /* --------------------------------------------------
-     Level 2 — Shortcuts & Larger Numbers
+     Level 2 — Simple Shortcuts
 
-     Do I know the shortcut?
+     Can I use the patterns I have learned?
 
      Focus:
-     - Three-digit squares ending in 5
-     - Larger multiples of 10
-     - Cubes 11–20
-     - Larger perfect square roots
-     - Larger perfect cube roots
-     - Root intervals with closer boundaries
+     - Two-digit numbers ending in 5
+     - Squares of multiples of 10
+     - Small cubes
+     - Perfect square roots
+     - Perfect cube roots
+
+     Previous Level 1 questions can also appear
+     during quiz generation as review questions.
   -------------------------------------------------- */
 
   2: {
-    difficulty: "moderate",
+    difficulty: "easy",
 
-    questionTypes: ["three-digit-ending-in-5-square", "multiple-of-10-square", "cube", "square-root", "cube-root", "square-root-interval"],
+    questionTypes: ["ending-in-5-square", "multiple-of-10-square", "cube", "square-root", "cube-root"],
 
-    threeDigitEndingIn5Square: {
-      min: 105,
-      max: 995,
+    endingIn5Square: {
+      min: 15,
+      max: 95,
       step: 10,
     },
 
     multipleOf10Square: {
-      min: 210,
-      max: 1000,
+      min: 10,
+      max: 100,
       step: 10,
     },
 
     cube: {
-      min: 11,
-      max: 20,
+      min: 1,
+      max: 10,
     },
 
     squareRoot: {
-      min: 11,
-      max: 31,
+      min: 1,
+      max: 15,
     },
 
     cubeRoot: {
-      min: 11,
-      max: 20,
-    },
-
-    /*
-      Boundaries are still perfect squares, but the
-      numbers are larger and the interval is narrower.
-    */
-    squareRootInterval: {
-      min: 10,
-      max: 20,
+      min: 1,
+      max: 10,
     },
   },
 
   /* --------------------------------------------------
-     Level 3 — Mental Calculation
+     Level 3 — Two-Digit Mental Calculation
 
-     Can I calculate it mentally?
+     Can I calculate two-digit squares mentally?
 
      Focus:
-     - General two-digit squares
-     - Cubes
+     - General two-digit squares up to 40
+     - Cubes up to 15
      - Perfect square roots
      - Perfect cube roots
-     - Finding the two integers around a root
-     - Root interval reasoning
+
+     Previous levels remain available as review.
   -------------------------------------------------- */
 
   3: {
-    difficulty: "challenging",
+    difficulty: "moderate",
 
-    questionTypes: ["square", "cube", "square-root", "cube-root", "square-root-interval", "square-root-between-integers"],
+    questionTypes: ["square", "cube", "square-root", "cube-root"],
 
     square: {
       min: 11,
@@ -158,7 +143,7 @@ export const POWERS_ROOTS_LEVELS = {
 
     cube: {
       min: 11,
-      max: 25,
+      max: 15,
     },
 
     squareRoot: {
@@ -168,41 +153,29 @@ export const POWERS_ROOTS_LEVELS = {
 
     cubeRoot: {
       min: 11,
-      max: 25,
-    },
-
-    /*
-      Non-perfect-square roots become the focus here.
-    */
-    squareRootInterval: {
-      min: 32,
-      max: 100,
-    },
-
-    squareRootBetweenIntegers: {
-      min: 21,
-      max: 40,
+      max: 15,
     },
   },
 
   /* --------------------------------------------------
-     Level 4 — Advanced Mental Calculation
+     Level 4 — Larger Mental Calculation
 
-     Can I calculate it mentally under time pressure?
+     Can I extend the same techniques to larger
+     two-digit numbers?
 
      Focus:
-     - Larger two-digit squares
-     - Larger cubes
+     - Two-digit squares from 41–99
+     - Cubes from 16–20
      - Larger perfect square roots
      - Larger perfect cube roots
-     - One-decimal square-root estimation
-     - Mixed powers and roots
+
+     Previous levels remain available as review.
   -------------------------------------------------- */
 
   4: {
-    difficulty: "advanced",
+    difficulty: "challenging",
 
-    questionTypes: ["square", "cube", "square-root", "cube-root", "square-root-interval", "square-root-between-integers", "mixed-powers-roots"],
+    questionTypes: ["square", "cube", "square-root", "cube-root"],
 
     square: {
       min: 41,
@@ -210,8 +183,8 @@ export const POWERS_ROOTS_LEVELS = {
     },
 
     cube: {
-      min: 21,
-      max: 25,
+      min: 16,
+      max: 20,
     },
 
     squareRoot: {
@@ -220,36 +193,63 @@ export const POWERS_ROOTS_LEVELS = {
     },
 
     cubeRoot: {
-      min: 21,
-      max: 25,
+      min: 16,
+      max: 20,
     },
+  },
 
-    /*
-      The generator will only select a pair of
-      consecutive radicands when a one-decimal value
-      exists strictly between their square roots.
+  /* --------------------------------------------------
+     Level 5 — Square-Root Intervals
 
-      Example:
-      √80 < 8.9 < √81
+     Can I estimate where a square root lies?
 
-      But:
-      √97 < 9.9 is false because 9.9 > √98,
-      so √97 / √98 will not be generated.
-    */
-    squareRootInterval: {
-      min: 41,
-      max: 99,
-      decimalPlaces: 1,
-    },
+     Focus:
+     - Non-perfect square roots
+     - Identifying the two consecutive integers
+       surrounding a square root
+
+     Examples:
+     √50 → between 7 and 8
+     √70 → between 8 and 9
+     √120 → between 10 and 11
+
+     Decimal estimation is deliberately saved
+     for Level 6.
+  -------------------------------------------------- */
+
+  5: {
+    difficulty: "advanced",
+
+    questionTypes: ["square-root-between-integers"],
 
     squareRootBetweenIntegers: {
-      min: 50,
-      max: 500,
+      min: 10,
+      max: 200,
     },
+  },
 
-    mixedPowersRoots: {
-      min: 1,
-      max: 25,
+  /* --------------------------------------------------
+     Level 6 — Decimal Square-Root Estimation
+
+     Can I estimate a square root to one decimal place?
+
+     Focus:
+     - One-decimal square-root estimation
+     - Non-perfect square roots
+     - Gradually more difficult radicands
+
+     Previous levels remain available as review.
+  -------------------------------------------------- */
+
+  6: {
+    difficulty: "advanced",
+
+    questionTypes: ["square-root-estimate"],
+
+    squareRootEstimate: {
+      min: 10,
+      max: 200,
+      decimalPlaces: 1,
     },
   },
 };

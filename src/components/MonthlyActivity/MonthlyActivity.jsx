@@ -5,6 +5,7 @@
 import { useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
+import Link from "next/link";
 import styles from "./MonthlyActivity.module.css";
 
 /* --------------------------------------------------
@@ -517,9 +518,20 @@ export default function MonthlyActivity({ data = [], details = {} }) {
                         return (
                           <tr key={`${item.operation}-${item.level}-${index}`}>
                             <td>
-                              {t("monthlyActivity.levelValue", {
-                                level: item.level,
-                              })}
+                              {item.practiceUrl ? (
+                                <Link
+                                  href={`/${locale}/${item.practiceUrl}`}
+                                  className={styles.levelLink}
+                                >
+                                  {t("monthlyActivity.levelValue", {
+                                    level: item.level,
+                                  })}
+                                </Link>
+                              ) : (
+                                t("monthlyActivity.levelValue", {
+                                  level: item.level,
+                                })
+                              )}
                             </td>
 
                             <td>{item.questions}</td>

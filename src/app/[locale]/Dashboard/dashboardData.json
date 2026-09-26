@@ -46,7 +46,7 @@
   {
     "operation": "mixedOperations",
     "category": "basic",
-    "status": "experimental",
+    "status": "available",
     "homeOrder": null,
     "title": "Mixed Operations",
     "description": "Combine addition, subtraction, multiplication, and division while applying order of operations.",

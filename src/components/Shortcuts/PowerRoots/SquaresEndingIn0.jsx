@@ -1,4 +1,4 @@
-// src/components/Shortcuts/PowerRoots/SquaresEndingIn0.jsx
+/* src/components/Shortcuts/PowerRoots/SquaresEndingIn0.jsx */
 
 "use client";
 
@@ -10,9 +10,10 @@ export default function SquaresEndingIn0() {
   const [number, setNumber] = useState(660);
   const [error, setError] = useState("");
 
-  // --------------------------------------------------
-  // Generate a random number ending in 0
-  // --------------------------------------------------
+  /* --------------------------------------------------
+     Generate a random number ending in 0
+  -------------------------------------------------- */
+
   const generateRandomNumber = () => {
     const randomNumber = (Math.floor(Math.random() * 99) + 1) * 10;
 
@@ -21,9 +22,10 @@ export default function SquaresEndingIn0() {
     setError("");
   };
 
-  // --------------------------------------------------
-  // Use the entered number
-  // --------------------------------------------------
+  /* --------------------------------------------------
+     Apply the entered number
+  -------------------------------------------------- */
+
   const handleChangeNumber = () => {
     const value = Number(input);
 
@@ -36,16 +38,28 @@ export default function SquaresEndingIn0() {
     setError("");
   };
 
-  // --------------------------------------------------
-  // Remove the final zero
-  // --------------------------------------------------
+  /* --------------------------------------------------
+     Calculate the shortcut
+  -------------------------------------------------- */
+
   const remainingNumber = number / 10;
+  const squaredNumber = remainingNumber ** 2;
+  const result = number ** 2;
 
-  const isSingleDigit = remainingNumber < 10;
+  /* --------------------------------------------------
+     Two-digit square calculation
 
-  // --------------------------------------------------
-  // Two-digit square calculations
-  // --------------------------------------------------
+     For example:
+
+     66²
+
+     6² = 36
+     2 × (6 × 6) = 72
+     6² = 36
+  -------------------------------------------------- */
+
+  const isTwoDigit = remainingNumber >= 10;
+
   const tens = Math.floor(remainingNumber / 10);
   const units = remainingNumber % 10;
 
@@ -53,247 +67,190 @@ export default function SquaresEndingIn0() {
   const middleBlock = 2 * tens * units;
   const lastBlock = units ** 2;
 
-  // --------------------------------------------------
-  // Carry from right to left
-  // --------------------------------------------------
-  const lastDigit = lastBlock % 10;
   const carryFromLast = Math.floor(lastBlock / 10);
-
   const middleValue = middleBlock + carryFromLast;
+
   const middleDigit = middleValue % 10;
   const carryFromMiddle = Math.floor(middleValue / 10);
 
   const firstValue = firstBlock + carryFromMiddle;
 
-  // --------------------------------------------------
-  // Square the remaining number
-  // --------------------------------------------------
-  const squaredNumber = remainingNumber ** 2;
-
-  // --------------------------------------------------
-  // Append two zeros
-  // --------------------------------------------------
-  const result = number ** 2;
-
   return (
-    <div className={styles.shortcut}>
+    <div className={styles.container}>
       {/* --------------------------------------------------
-          Example Section
+         Number input
       -------------------------------------------------- */}
-      <section className={styles.exampleSection}>
-        {/* --------------------------------------------------
-            Change Number
-        -------------------------------------------------- */}
-        <div className={styles.changeNumber}>
-          <div className={styles.changeControls}>
-            <label htmlFor='squares-ending-in-0-input'>Change number</label>
 
-            <input
-              id='squares-ending-in-0-input'
-              type='text'
-              inputMode='numeric'
-              pattern='[0-9]*'
-              maxLength={3}
-              value={input}
-              onChange={(event) => {
-                const value = event.target.value.replace(/\D/g, "").slice(0, 3);
+      <div className={styles.inputSection}>
+        <label htmlFor='square-number'>Number</label>
 
-                setInput(value);
-                setError("");
-              }}
-              onKeyDown={(event) => {
-                if (event.key === "Enter") {
-                  handleChangeNumber();
-                }
-              }}
-              aria-describedby={error ? "squares-ending-in-0-error" : undefined}
-              aria-label='Number ending in zero'
-            />
+        <div className={styles.inputRow}>
+          <input
+            id='square-number'
+            type='text'
+            inputMode='numeric'
+            value={input}
+            onChange={(event) => setInput(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                handleChangeNumber();
+              }
+            }}
+          />
 
-            <button
-              type='button'
-              className={styles.secondaryButton}
-              onClick={handleChangeNumber}
-            >
-              Update
-            </button>
+          <button
+            type='button'
+            onClick={handleChangeNumber}
+          >
+            Change number
+          </button>
 
-            <button
-              type='button'
-              className={styles.secondaryButton}
-              onClick={generateRandomNumber}
-            >
-              Random
-            </button>
-          </div>
-
-          {error && (
-            <p
-              id='squares-ending-in-0-error'
-              className={styles.error}
-              role='alert'
-            >
-              {error}
-            </p>
-          )}
+          <button
+            type='button'
+            onClick={generateRandomNumber}
+          >
+            Random
+          </button>
         </div>
-      </section>
+
+        {error && <p className={styles.error}>{error}</p>}
+      </div>
 
       {/* --------------------------------------------------
-          Calculation
+         Shortcut
       -------------------------------------------------- */}
-      <section className={styles.calculationSection}>
-        <div className={styles.calculationTable}>
-          {/* --------------------------------------------------
-              Row 1 - Main Number
-          -------------------------------------------------- */}
-          <div className={styles.numberRow}>
-            <div className={styles.numberCell}>{number}²</div>
-          </div>
 
-          {/* --------------------------------------------------
-              Row 2 - Remove Final Zero
-          -------------------------------------------------- */}
-          <div className={styles.calculationRow}>
-            <div className={styles.calculationCell}>
-              <strong>
-                {number} → {remainingNumber}
-              </strong>
+      <div className={styles.shortcut}>
+        {/* 660² */}
 
-              <span>Remove the final zero</span>
-            </div>
-          </div>
+        <div className={styles.mainStep}>
+          <div className={styles.mainValue}>{number.toLocaleString()}²</div>
+        </div>
 
-          {/* --------------------------------------------------
-              Single-Digit Calculation
-          -------------------------------------------------- */}
-          {isSingleDigit ? (
-            <>
-              <div className={styles.calculationRow}>
-                <div className={styles.calculationCell}>
-                  <strong>
-                    {remainingNumber}² = {squaredNumber}
-                  </strong>
+        {/* 66² */}
 
-                  <span>Square the remaining number</span>
-                </div>
-              </div>
-            </>
-          ) : (
-            <>
-              {/* --------------------------------------------------
-                  Split Remaining Number
-              -------------------------------------------------- */}
-              <div className={styles.splitRow}>
-                <div className={styles.splitCell}>{tens}</div>
+        <div className={styles.mainStep}>
+          <div className={styles.mainValue}>{remainingNumber.toLocaleString()}²</div>
 
-                <div className={styles.splitCell}>{units}</div>
-              </div>
+          <div className={styles.stepNote}>Remove 0</div>
+        </div>
 
-              {/* --------------------------------------------------
-                  Two-Digit Square Calculations
-              -------------------------------------------------- */}
-              <div className={styles.calculationRow}>
-                <div className={styles.calculationCell}>
-                  <strong>
-                    {tens}² = {firstBlock}
-                  </strong>
+        {/* 4,356 */}
 
-                  <span>Square the tens digit</span>
-                </div>
+        <div className={styles.mainStep}>
+          <div className={styles.mainValue}>{squaredNumber.toLocaleString()}</div>
 
-                <div className={styles.calculationCell}>
-                  <strong>
-                    2 × ({tens} × {units}) = {middleBlock}
-                  </strong>
+          <div className={styles.stepNote}>Square of {remainingNumber}</div>
+        </div>
 
-                  <span>Double the product</span>
-                </div>
+        {/* --------------------------------------------------
+           Two-digit squaring procedure
+        -------------------------------------------------- */}
 
-                <div className={styles.calculationCell}>
-                  <strong>
-                    {units}² = {lastBlock}
-                  </strong>
+        {isTwoDigit && (
+          <div className={styles.squaringProcedure}>
+            <div className={styles.procedureTitle}>Help squaring a two-digit number</div>
 
-                  <span>Square the units digit</span>
-                </div>
-              </div>
+            <table className={styles.squaringTable}>
+              <tbody>
+                {/* First calculation row */}
 
-              {/* --------------------------------------------------
-                  Carry and Combine
-              -------------------------------------------------- */}
-              <div className={styles.resultRow}>
-                <div className={styles.resultCell}>
-                  <strong>{firstValue}</strong>
+                <tr>
+                  <td>
+                    <strong>{firstBlock}</strong>
+                  </td>
 
-                  <span>
+                  <td>
+                    <strong>{middleBlock}</strong>
+                  </td>
+
+                  <td>
+                    <strong>{lastBlock}</strong>
+                  </td>
+                </tr>
+
+                {/* Formula row */}
+
+                <tr className={styles.formulaRow}>
+                  <td>{tens}²</td>
+
+                  <td>
+                    2 × ({tens} × {units})
+                  </td>
+
+                  <td>{units}²</td>
+                </tr>
+
+                {/* Result blocks */}
+
+                <tr>
+                  <td>
+                    <strong>{firstValue}</strong>
+                  </td>
+
+                  <td>
+                    <strong>{middleDigit}</strong>
+                  </td>
+
+                  <td>
+                    <strong>{lastBlock % 10}</strong>
+                  </td>
+                </tr>
+
+                {/* Carry calculation */}
+
+                <tr className={styles.explanationRow}>
+                  <td>
                     {firstBlock} + {carryFromMiddle}
-                  </span>
-                </div>
+                  </td>
 
-                <div className={styles.resultCell}>
-                  <strong>{middleDigit}</strong>
+                  <td>
+                    {middleBlock} + {carryFromLast}
+                  </td>
 
-                  <span>
-                    {middleBlock} + {carryFromLast} = {middleValue}
-                  </span>
+                  <td>Last digit</td>
+                </tr>
 
-                  {carryFromMiddle > 0 && <span>{carryFromMiddle} carries over</span>}
-                </div>
+                {/* Carry labels */}
 
-                <div className={styles.resultCell}>
-                  <strong>{lastDigit}</strong>
+                <tr className={styles.carryRow}>
+                  <td>{carryFromMiddle > 0 && `carry ${carryFromMiddle}`}</td>
 
-                  <span>{carryFromLast > 0 ? `${carryFromLast} carries over` : "Last digit"}</span>
-                </div>
-              </div>
+                  <td>{carryFromLast > 0 && `carry ${carryFromLast}`}</td>
 
-              {/* --------------------------------------------------
-                  Two-Digit Square Result
-              -------------------------------------------------- */}
-              <div className={styles.intermediateAnswer}>
-                <span>{remainingNumber}² =</span>
+                  <td></td>
+                </tr>
 
-                <strong>{squaredNumber}</strong>
-              </div>
-            </>
-          )}
+                {/* Final blocks */}
 
-          {/* --------------------------------------------------
-              Append Two Zeros
-          -------------------------------------------------- */}
-          <div className={styles.calculationRow}>
-            <div className={styles.calculationCell}>
-              <strong>
-                {squaredNumber} → {result}
-              </strong>
+                <tr>
+                  <td>
+                    <strong>{firstValue}</strong>
+                  </td>
 
-              <span>Append two zeros</span>
-            </div>
+                  <td>
+                    <strong>{middleDigit}</strong>
+                  </td>
+
+                  <td>
+                    <strong>{lastBlock % 10}</strong>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-        </div>
+        )}
 
         {/* --------------------------------------------------
-            Final Answer
+           Final result
         -------------------------------------------------- */}
-        <div className={styles.finalAnswer}>
-          <span>{number}² =</span>
-          <strong>{result}</strong>
+
+        <div className={styles.mainStep}>
+          <div className={styles.mainValue}>{result.toLocaleString()}</div>
+
+          <div className={styles.stepNote}>Add two 00</div>
         </div>
-      </section>
-
-      {/* --------------------------------------------------
-          Steps to Remember
-      -------------------------------------------------- */}
-      <section className={styles.remember}>
-        <h3>Steps to remember</h3>
-
-        <ul>
-          <li>Remove the final zero.</li>
-          <li>Square the remaining number.</li>
-          <li>Append two zeros to the result.</li>
-        </ul>
-      </section>
+      </div>
     </div>
   );
 }
