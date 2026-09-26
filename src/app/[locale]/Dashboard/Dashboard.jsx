@@ -9,8 +9,9 @@ import MonthlyActivity from "@/components/MonthlyActivity/MonthlyActivity";
 import StreakStats from "@/components/StreakStats/StreakStats";
 import ReactionTimeChart from "@/components/ReactionTimeChart/ReactionTimeChart";
 import AccuracyChart from "@/components/AccuracyChart/AccuracyChart";
+import QuickPractice from "@/components/QuickPractice/QuickPractice";
 
-import { getDashboardActivity, getDashboardActivityDetails, getPracticeTimeDistribution } from "@/lib/stats/dashboard";
+import { getDashboardActivity, getDashboardActivityDetails, getPracticeTimeDistribution, getRecentlyUsedPractice } from "@/lib/stats/dashboard";
 
 /* --------------------------------------------------
 Dashboard Component
@@ -24,6 +25,7 @@ export default function Dashboard() {
   const [practiceTime, setPracticeTime] = useState([]);
   const [activity, setActivity] = useState([]);
   const [activityDetails, setActivityDetails] = useState({});
+  const [recentPractice, setRecentPractice] = useState([]);
 
   const [performanceSelection, setPerformanceSelection] = useState({
     operation: "",
@@ -67,6 +69,7 @@ Practice Time Distribution
 ------------------------------------------------ */
 
     setActivityDetails(getDashboardActivityDetails());
+    setRecentPractice(getRecentlyUsedPractice());
   }, [locale]);
 
   /* --------------------------------------------------
@@ -209,6 +212,12 @@ Dashboard Header
             </table>
           </div>
         </article>
+
+        {/* ----------------------------------------------
+Quick Practice
+---------------------------------------------- */}
+
+        <QuickPractice recentPractice={recentPractice} />
 
         {/* ----------------------------------------------
        Monthly Activity

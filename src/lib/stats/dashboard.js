@@ -176,7 +176,7 @@ export function getRecentlyUsedPractice() {
       lastUsed: attempt.startedAt,
     });
 
-    if (recentPractice.length === 10) {
+    if (recentPractice.length === 20) {
       break;
     }
   }

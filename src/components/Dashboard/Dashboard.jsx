@@ -523,7 +523,7 @@ Get Active Category Operations
         </article>
 
         {/* Quick Practice */}
-        <QuickPractice recentPractice={recentPractice} />
+        <QuickPractice />
 
         {/* ----------------------------------------------
         Monthly Activity
