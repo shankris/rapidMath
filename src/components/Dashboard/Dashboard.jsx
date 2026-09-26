@@ -154,24 +154,16 @@ Practice Time Distribution
 
     setPracticeTime(timeData);
 
-    /* ------------------------------------------------
-Monthly Activity
------------------------------------------------- */
-
     setActivity(getDashboardActivity());
 
-    /* ------------------------------------------------
-Monthly Activity Details
------------------------------------------------- */
-
     setActivityDetails(getDashboardActivityDetails());
+
+    /* ------------------------------------------------
+  Quick Practice
+  ------------------------------------------------ */
+
+    setRecentPractice(getRecentlyUsedPractice());
   }, []);
-
-  /* ------------------------------------------------
-Quick Practice
------------------------------------------------- */
-
-  setRecentPractice(getRecentlyUsedPractice());
 
   /* --------------------------------------------------
 Refresh Relative Times

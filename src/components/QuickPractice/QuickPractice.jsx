@@ -185,11 +185,11 @@ export default function QuickPractice({ recentPractice = [] }) {
   return (
     <section className={`card ${styles.quickPractice}`}>
       <div className={styles.heading}>
-        <h2>{t("title")}</h2>
+        <h2>{t("quickPractice.title")}</h2>
       </div>
 
       <div className={styles.recentSection}>
-        <h3>{t("recentlyUsed")}</h3>
+        <h3>{t("quickPractice.recentlyUsed")}</h3>
 
         {groupedPractice.length > 0 ? (
           <div className={styles.dateGroups}>
@@ -241,7 +241,7 @@ export default function QuickPractice({ recentPractice = [] }) {
             ))}
           </div>
         ) : (
-          <p className={styles.emptyState}>{t("noRecentPractice")}</p>
+          <p className={styles.emptyState}>{t("quickPractice.noRecentPractice")}</p>
         )}
       </div>
     </section>
