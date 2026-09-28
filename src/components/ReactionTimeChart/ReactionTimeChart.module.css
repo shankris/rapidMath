@@ -1,4 +1,5 @@
 /* src/components/ReactionTimeChart/ReactionTimeChart.module.css */
+
 /* --------------------------------------------------
    Chart Container
 -------------------------------------------------- */
@@ -18,6 +19,10 @@
   margin-bottom: 16px;
 }
 
+.headerTitle {
+  min-width: 0;
+}
+
 .header h2 {
   margin: 0;
   font-size: 16px;
@@ -31,6 +36,13 @@
   font-size: 12px;
   line-height: 1.5;
   color: var(--mutedColor);
+}
+
+/* --------------------------------------------------
+   Mobile Operation Selector
+-------------------------------------------------- */
+.mobileOperationSelector {
+  display: none;
 }
 
 /* --------------------------------------------------
@@ -52,7 +64,6 @@
   padding-right: 12px;
 
   height: 380px;
-  padding-right: 12px;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -288,15 +299,47 @@
 /* --------------------------------------------------
    Responsive Layout
 -------------------------------------------------- */
-@media (max-width: 700px) {
+@media (max-width: 768px) {
   .header {
     flex-direction: column;
     gap: 12px;
   }
 
+  .headerTitle {
+    width: 100%;
+  }
+
+  /* Hide the desktop operation navigation. */
+  .navigation {
+    display: none;
+  }
+
+  /* The chart no longer needs a two-column layout. */
   .chartContent {
-    grid-template-columns: 100px minmax(0, 1fr);
-    gap: 12px;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  /* Show operation selector beside the heading. */
+  .headerTitle h2 {
+    display: inline;
+  }
+
+  .mobileOperationSelector {
+    display: inline-block;
+    width: auto;
+    max-width: 180px;
+    margin-left: 10px;
+    padding: 2px 22px 2px 6px;
+    border: 1px solid var(--borderColor);
+    border-radius: 4px;
+    background: var(--surfaceColor);
+    color: var(--headingCol);
+    font: inherit;
+    font-size: 12px;
+    line-height: 1.5;
+    vertical-align: 2px;
+    cursor: pointer;
   }
 
   .periodSelector {
@@ -311,6 +354,10 @@
   .periodButton {
     flex-shrink: 0;
   }
+
+  .chartPanel {
+    padding: 0 0 20px;
+  }
 }
 
 /* --------------------------------------------------
@@ -319,30 +366,15 @@
 @media (max-width: 480px) {
   .chartContent {
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 0;
   }
 
-  .navigation {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    border-right: 0;
-    border-bottom: 1px solid var(--borderColor);
-    padding: 0 0 8px;
-    scrollbar-width: none;
+  .header {
+    margin-bottom: 12px;
   }
 
-  .navigation::-webkit-scrollbar {
-    display: none;
-  }
-
-  .operation {
-    flex: 0 0 auto;
-  }
-
-  .levels {
-    margin-left: 0;
-    overflow: hidden;
+  .mobileOperationSelector {
+    max-width: 160px;
   }
 
   .chartHeader {
@@ -356,6 +388,9 @@
   }
 }
 
+/* --------------------------------------------------
+   Level Color Indicators
+-------------------------------------------------- */
 .levelColor {
   width: 2px;
   height: 12px;

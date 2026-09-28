@@ -8,6 +8,7 @@ import { Minus, Plus } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useLocale } from "next-intl";
 
+import { getMostUsedOperationLast7Days } from "@/lib/stats/dashboard";
 import { getQuizAttempts } from "@/lib/storage/quizHistory";
 import styles from "./ReactionTimeChart.module.css";
 
@@ -70,10 +71,6 @@ function formatReactionTime(value) {
 
   return `${Number(value).toFixed(1)}s`;
 }
-
-/* --------------------------------------------------
-   Period Helpers
--------------------------------------------------- */
 
 /* --------------------------------------------------
    Period Helpers
@@ -472,6 +469,20 @@ export default function ReactionTimeChart({ onSelectionChange, onActiveDayCountC
   const practicedOperations = useMemo(() => getPracticedOperations(records), [records]);
 
   /* --------------------------------------------------
+     Default Operation
+  -------------------------------------------------- */
+
+  const defaultOperation = useMemo(() => {
+    const mostUsedOperation = getMostUsedOperationLast7Days();
+
+    if (mostUsedOperation && practicedOperations.some((item) => item.operation === mostUsedOperation)) {
+      return mostUsedOperation;
+    }
+
+    return practicedOperations[0]?.operation ?? null;
+  }, [practicedOperations]);
+
+  /* --------------------------------------------------
      Initial Selection
   -------------------------------------------------- */
 
@@ -487,13 +498,13 @@ export default function ReactionTimeChart({ onSelectionChange, onActiveDayCountC
     const currentOperationExists = practicedOperations.some((item) => item.operation === expandedOperation);
 
     if (!currentOperationExists) {
-      const firstOperation = practicedOperations[0].operation;
+      const initialOperation = defaultOperation ?? practicedOperations[0].operation;
 
-      setExpandedOperation(firstOperation);
-      setExpandedOperations([firstOperation]);
+      setExpandedOperation(initialOperation);
+      setExpandedOperations([initialOperation]);
       setSelectedLevel(null);
     }
-  }, [practicedOperations, expandedOperation]);
+  }, [practicedOperations, expandedOperation, defaultOperation]);
 
   /* --------------------------------------------------
      Available Periods
@@ -525,7 +536,7 @@ export default function ReactionTimeChart({ onSelectionChange, onActiveDayCountC
      Current Period
   -------------------------------------------------- */
 
-  const periodDays = PERIOD_OPTIONS.find((period) => period.key === selectedPeriod)?.days ?? 30;
+  const periodDays = selectedPeriod === "all" ? null : (PERIOD_OPTIONS.find((period) => period.key === selectedPeriod)?.days ?? 30);
 
   /* --------------------------------------------------
      Chart Data
@@ -545,13 +556,13 @@ export default function ReactionTimeChart({ onSelectionChange, onActiveDayCountC
 
   /* --------------------------------------------------
      Chart Domain
--------------------------------------------------- */
+  -------------------------------------------------- */
 
   const reactionTimeDomain = useMemo(() => getReactionTimeDomain(chartData), [chartData]);
 
   /* --------------------------------------------------
      Active Day Count
--------------------------------------------------- */
+  -------------------------------------------------- */
 
   useEffect(() => {
     onActiveDayCountChange?.(chartData.length);
@@ -559,7 +570,7 @@ export default function ReactionTimeChart({ onSelectionChange, onActiveDayCountC
 
   /* --------------------------------------------------
      Selection Callback
--------------------------------------------------- */
+  -------------------------------------------------- */
 
   useEffect(() => {
     onSelectionChange?.({
@@ -570,7 +581,7 @@ export default function ReactionTimeChart({ onSelectionChange, onActiveDayCountC
 
   /* --------------------------------------------------
      Empty State
--------------------------------------------------- */
+  -------------------------------------------------- */
 
   if (practicedOperations.length === 0) {
     return (
@@ -582,7 +593,7 @@ export default function ReactionTimeChart({ onSelectionChange, onActiveDayCountC
 
   /* --------------------------------------------------
      Operation Selection
--------------------------------------------------- */
+  -------------------------------------------------- */
 
   function handleOperationClick(operation) {
     const isExpanded = expandedOperations.includes(operation);
@@ -600,8 +611,21 @@ export default function ReactionTimeChart({ onSelectionChange, onActiveDayCountC
   }
 
   /* --------------------------------------------------
+     Mobile Operation Selection
+  -------------------------------------------------- */
+
+  function handleMobileOperationChange(event) {
+    const operation = event.target.value;
+
+    setExpandedOperation(operation);
+    setSelectedLevel(null);
+
+    setExpandedOperations((current) => (current.includes(operation) ? current : [...current, operation]));
+  }
+
+  /* --------------------------------------------------
      Level Selection
--------------------------------------------------- */
+  -------------------------------------------------- */
 
   function handleLevelClick(level) {
     setSelectedLevel(level);
@@ -610,8 +634,25 @@ export default function ReactionTimeChart({ onSelectionChange, onActiveDayCountC
   return (
     <div className={styles.chart}>
       <div className={styles.header}>
-        <div>
+        <div className={styles.headerTitle}>
           <h2>Reaction Time</h2>
+
+          <select
+            className={styles.mobileOperationSelector}
+            value={expandedOperation ?? ""}
+            onChange={handleMobileOperationChange}
+            aria-label='Select operation'
+          >
+            {practicedOperations.map(({ operation }) => (
+              <option
+                key={operation}
+                value={operation}
+              >
+                {OPERATION_NAMES[operation] || operation}
+              </option>
+            ))}
+          </select>
+
           <p>Average time taken to answer each question correctly.</p>
         </div>
       </div>

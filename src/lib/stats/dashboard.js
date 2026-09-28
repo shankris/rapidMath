@@ -449,3 +449,65 @@ export function getPracticeTimeDistribution() {
 
   return distribution;
 }
+
+/* --------------------------------------------------
+Get Most Used Operation - Last Seven Days
+-------------------------------------------------- */
+
+export function getMostUsedOperationLast7Days() {
+  const attempts = getQuizAttempts();
+
+  const today = getDaysAgoDateKey(0);
+  const firstDate = getDaysAgoDateKey(6);
+
+  const operationStats = {};
+
+  attempts.forEach((attempt) => {
+    if (!attempt.operation || !attempt.startedAt || !Array.isArray(attempt.questions)) {
+      return;
+    }
+
+    const attemptDate = new Date(attempt.startedAt);
+
+    if (Number.isNaN(attemptDate.getTime())) {
+      return;
+    }
+
+    const attemptDateKey = getLocalDateKey(attemptDate);
+    const today = getDaysAgoDateKey(0);
+    const firstDate = getDaysAgoDateKey(6);
+
+    if (attemptDateKey < firstDate || attemptDateKey > today) {
+      return;
+    }
+
+    const answeredQuestions = attempt.questions.filter((question) => question && question.selectedAnswer !== undefined && question.selectedAnswer !== null);
+
+    if (answeredQuestions.length === 0) {
+      return;
+    }
+
+    if (!operationStats[attempt.operation]) {
+      operationStats[attempt.operation] = {
+        count: 0,
+        lastUsed: attemptDate.getTime(),
+      };
+    }
+
+    operationStats[attempt.operation].count += 1;
+
+    if (attemptDate.getTime() > operationStats[attempt.operation].lastUsed) {
+      operationStats[attempt.operation].lastUsed = attemptDate.getTime();
+    }
+  });
+
+  const sortedOperations = Object.entries(operationStats).sort(([, a], [, b]) => {
+    if (b.count !== a.count) {
+      return b.count - a.count;
+    }
+
+    return b.lastUsed - a.lastUsed;
+  });
+
+  return sortedOperations[0]?.[0] ?? null;
+}
