@@ -8,8 +8,8 @@ import styles from "./Dashboard.module.css";
 import MonthlyActivity from "@/components/MonthlyActivity/MonthlyActivity";
 import StreakStats from "@/components/StreakStats/StreakStats";
 import ReactionTimeChart from "@/components/ReactionTimeChart/ReactionTimeChart";
-import AccuracyChart from "@/components/AccuracyChart/AccuracyChart";
 import QuickPractice from "@/components/QuickPractice/QuickPractice";
+import UnlockHigherLevels from "@/components/Dashboard/UnlockHigherLevels";
 
 import { getDashboardActivity, getDashboardActivityDetails, getPracticeTimeDistribution, getRecentlyUsedPractice } from "@/lib/stats/dashboard";
 
@@ -59,13 +59,13 @@ Practice Time Distribution
     setPracticeTime(timeData);
 
     /* ------------------------------------------------
-   Monthly Activity
+Monthly Activity
 ------------------------------------------------ */
 
     setActivity(getDashboardActivity());
 
     /* ------------------------------------------------
-   Monthly Activity Details
+Monthly Activity Details
 ------------------------------------------------ */
 
     setActivityDetails(getDashboardActivityDetails());
@@ -124,30 +124,19 @@ Dashboard Header
       </header>
 
       {/* ------------------------------------------------
-     Dashboard Insights
-  ------------------------------------------------ */}
+Dashboard Insights
+------------------------------------------------ */}
 
       <div className={styles.dashboardInsights}>
         {/* ----------------------------------------------
-       Reaction Time
-    ---------------------------------------------- */}
-
-        <article className={`card ${styles.chartCard}`}>
+Reaction Time
+---------------------------------------------- */}
+        <article className={`card ${styles.chartCard} ${styles.reactionTimeCard}`}>
           <ReactionTimeChart />
         </article>
-
         {/* ----------------------------------------------
-       Accuracy
-    ---------------------------------------------- */}
-
-        <article className={`card ${styles.chartCard}`}>
-          <AccuracyChart />
-        </article>
-
-        {/* ----------------------------------------------
-       Practice Time
-    ---------------------------------------------- */}
-
+Practice Time
+---------------------------------------------- */}
         <article className={`card ${styles.chartCard}`}>
           <div className={styles.chartHeader}>
             <h2>{t("practiceTime.title")}</h2>
@@ -212,17 +201,14 @@ Dashboard Header
             </table>
           </div>
         </article>
-
         {/* ----------------------------------------------
 Quick Practice
 ---------------------------------------------- */}
-
         <QuickPractice recentPractice={recentPractice} />
-
+        <UnlockHigherLevels />
         {/* ----------------------------------------------
-       Monthly Activity
-    ---------------------------------------------- */}
-
+Monthly Activity
+---------------------------------------------- */}
         <article className={`card ${styles.insightCard}`}>
           <div className={styles.insightHeader}>
             <h2 className={styles.OperationHeader}>{t("quizPractice.title")}</h2>

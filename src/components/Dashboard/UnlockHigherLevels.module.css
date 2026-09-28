@@ -1,0 +1,103 @@
+/* src/components/Dashboard/UnlockHigherLevels.module.css */
+
+/* --------------------------------------------------
+   Unlock Card
+-------------------------------------------------- */
+
+.unlockCard {
+  width: 100%;
+  padding: 20px;
+  background: var(--surfaceColor);
+  border: 1px solid var(--borderColor);
+  border-radius: 10px;
+}
+
+/* --------------------------------------------------
+   Heading
+-------------------------------------------------- */
+
+.heading {
+  margin-bottom: 8px;
+}
+
+.heading h2 {
+  margin: 0;
+  color: var(--headingCol);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* --------------------------------------------------
+   Introduction
+-------------------------------------------------- */
+
+.intro {
+  margin: 0 0 16px;
+  color: var(--textColor);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------
+   Requirements
+-------------------------------------------------- */
+
+.requirements {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.requirements li {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  color: var(--textColor);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.icon {
+  flex: 0 0 18px;
+  width: 18px;
+  color: var(--accentColor);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.requirements strong {
+  color: var(--headingCol);
+  font-weight: 600;
+}
+
+.progress {
+  color: var(--mutedTextColor);
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------
+   Completed Requirement
+-------------------------------------------------- */
+
+.requirements li.complete {
+  color: var(--mutedTextColor);
+}
+
+.requirements li.complete strong {
+  color: var(--mutedTextColor);
+}
+
+/* --------------------------------------------------
+   Responsive
+-------------------------------------------------- */
+
+@media (max-width: 767px) {
+  .unlockCard {
+    padding: 16px;
+  }
+}

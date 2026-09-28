@@ -1,17 +1,14 @@
 /* src/components/Dashboard/Dashboard.module.css */
-
 /* --------------------------------------------------
-Dashboard Layout
+   Dashboard Layout
 -------------------------------------------------- */
-
 .dashboard {
   width: 100%;
 }
 
 /* --------------------------------------------------
-Dashboard Header
+   Dashboard Header
 -------------------------------------------------- */
-
 .header {
   margin-bottom: 20px;
 }
@@ -30,51 +27,48 @@ Dashboard Header
 }
 
 /* --------------------------------------------------
-Practice Time Section
+   Practice Time Section
 -------------------------------------------------- */
-
 .dashboardChart {
   margin-top: 12px;
 }
 
-.chartCard {
-  overflow: hidden;
-}
-
-.chartHeader {
-  /* padding: 14px 16px 0; */
-}
-
-.chartHeader h2 {
-  margin: 0;
-  font-size: 20px;
-  font-weight: 400;
-  color: var(--headingCol);
-  padding: 12px 12px 0;
-}
-
-.chartHeader p {
-  margin: 6px 0 0;
-  font-size: 13px;
-  line-height: 1.5;
-  color: var(--mutedColor);
-  margin: 6px 0px 0px;
-  padding: 0px 12px;
+/* --------------------------------------------------
+   Dashboard Insights Grid
+-------------------------------------------------- */
+.dashboardInsights {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 12px;
 }
 
 /* --------------------------------------------------
-Practice Time Breakdown
+   Dashboard Chart Cards
 -------------------------------------------------- */
+.chartCard {
+  min-width: 0;
+  overflow: hidden;
+}
 
+/* --------------------------------------------------
+   Reaction Time Chart
+-------------------------------------------------- */
+.reactionTimeCard {
+  grid-column: 1 / -1;
+}
+
+/* --------------------------------------------------
+   Practice Time Breakdown
+-------------------------------------------------- */
 .practiceBreakdown {
   width: 100%;
   padding: 0 16px 16px;
 }
 
 /* --------------------------------------------------
-Practice Time Row
+   Practice Time Row
 -------------------------------------------------- */
-
 .practiceRow {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 70px 70px;
@@ -86,36 +80,8 @@ Practice Time Row
 }
 
 /* --------------------------------------------------
-Dashboard Insights
+   Quiz Practice Insight Card
 -------------------------------------------------- */
-
-.dashboardInsights {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  margin-top: 12px;
-}
-
-.insightHeader h2 {
-  margin: 0;
-  padding: 12px 12px 0;
-  font-size: 20px;
-  font-weight: 400;
-  color: var(--headingCol);
-}
-
-.insightHeader p {
-  color: var(--mutedColor);
-  margin: 6px 0 0;
-  padding: 0 12px;
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-/* --------------------------------------------------
-Quiz Practice Insight Card
--------------------------------------------------- */
-
 .insightCard {
   grid-column: 1 / -1;
   min-width: 0;
@@ -131,44 +97,55 @@ Quiz Practice Insight Card
 
 .streakStats {
   width: 100%;
+  min-width: 0;
 }
 
 .activityChart {
   width: 100%;
-}
-
-/* --------------------------------------------------
-Quiz Practice Header
--------------------------------------------------- */
-
-.insightHeader {
-  grid-column: 1 / -1;
-}
-
-/* --------------------------------------------------
-Streak Stats
--------------------------------------------------- */
-
-.streakStats {
   min-width: 0;
 }
 
 /* --------------------------------------------------
-Monthly Activity
+   Quiz Practice Header
 -------------------------------------------------- */
+.insightHeader {
+  grid-column: 1 / -1;
+}
 
+.insightHeader h2 {
+  margin: 0;
+  padding: 12px 12px 0;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--headingCol);
+}
+
+.insightHeader p {
+  margin: 6px 0 0;
+  padding: 0 12px;
+  color: var(--mutedColor);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------
+   Monthly Activity
+-------------------------------------------------- */
 .activityChart {
   min-width: 0;
 }
 
 /* --------------------------------------------------
-Quiz Practice Mobile Layout
+   Quiz Practice Mobile Layout
 -------------------------------------------------- */
-
 @media (max-width: 768px) {
-  .insightCard {
+  .dashboardInsights {
     grid-template-columns: 1fr;
-    row-gap: 20px;
+  }
+
+  .reactionTimeCard,
+  .insightCard {
+    grid-column: auto;
   }
 
   .insightHeader {
@@ -177,256 +154,8 @@ Quiz Practice Mobile Layout
 }
 
 /* --------------------------------------------------
-Mobile Layout
+   Practice Time Bar
 -------------------------------------------------- */
-
-@media (max-width: 768px) {
-  .dashboardInsights {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* --------------------------------------------------
-Reaction Time Filters
--------------------------------------------------- */
-
-.filters {
-  display: flex;
-  align-items: flex-end;
-  gap: 10px;
-  flex-shrink: 0;
-  margin: 12px;
-}
-
-.filter {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.filter>span {
-  font-size: 10px;
-  line-height: 1.2;
-  color: var(--mutedColor);
-}
-
-/* --------------------------------------------------
-Reaction Time Dropdown
--------------------------------------------------- */
-
-.filter select {
-  width: 140px;
-  height: 32px;
-  padding: 0 30px 0 10px;
-  border: 1px solid var(--borderColor);
-  border-radius: 6px;
-  appearance: none;
-  background-color: var(--surfaceColor);
-  background-image:
-    linear-gradient(45deg, transparent 50%, var(--mutedColor) 50%),
-    linear-gradient(135deg, var(--mutedColor) 50%, transparent 50%);
-  background-position:
-    calc(100% - 13px) 13px,
-    calc(100% - 8px) 13px;
-  background-size:
-    5px 5px,
-    5px 5px;
-  background-repeat: no-repeat;
-  color: var(--headingCol);
-  font-family: inherit;
-  font-size: 11px;
-  cursor: pointer;
-  outline: none;
-  transition:
-    border-color 150ms ease,
-    background-color 150ms ease;
-}
-
-.filter select:hover {
-  border-color: var(--headingCol);
-}
-
-.filter select:focus {
-  border-color: var(--accentColor);
-}
-
-.filter select:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-/* --------------------------------------------------
-Reaction Time Chart Area
--------------------------------------------------- */
-
-.chartArea {
-  width: 100%;
-  min-height: 280px;
-}
-
-/* --------------------------------------------------
-Reaction Time Tooltip
--------------------------------------------------- */
-
-.chartTooltip {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  min-width: 165px;
-  padding: 9px 11px;
-  border: 1px solid var(--borderColor);
-  border-radius: 6px;
-  background: var(--surfaceColor);
-  box-shadow: var(--shadow-sm);
-  font-size: 11px;
-}
-
-.chartTooltip>strong {
-  font-size: 11px;
-  font-weight: 600;
-  line-height: 1.2;
-  color: var(--headingCol);
-}
-
-.chartTooltip>span {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-}
-
-.chartTooltipLabel {
-  color: var(--mutedColor);
-}
-
-.chartTooltipValue {
-  font-weight: 600;
-  color: var(--headingCol);
-}
-
-/* --------------------------------------------------
-Reaction Time Empty State
--------------------------------------------------- */
-
-.chartEmpty {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 280px;
-  padding: 30px;
-  border: 1px dashed var(--borderColor);
-  border-radius: 8px;
-  color: var(--mutedColor);
-  font-size: 12px;
-  text-align: center;
-}
-
-/* --------------------------------------------------
-Reaction Time Responsive Filters
--------------------------------------------------- */
-
-@media (max-width: 700px) {
-  .filters {
-    width: 100%;
-  }
-
-  .filter {
-    flex: 1;
-  }
-
-  .filter select {
-    width: 100%;
-  }
-}
-
-/* --------------------------------------------------
-Full-width Performance Section
--------------------------------------------------- */
-
-.performanceCard {
-  width: 100%;
-  margin-top: 12px;
-  overflow: hidden;
-}
-
-/* --------------------------------------------------
-Performance Chart Header
--------------------------------------------------- */
-
-.performanceChartHeader {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 24px;
-  margin: 20px 0 16px;
-}
-
-.performanceChartHeading {
-  min-width: 0;
-}
-
-.performanceChartHeading h2 {
-  margin: 0;
-}
-
-.performanceChartHeading p {
-  margin: 4px 0 0;
-  margin: 6px 0 0;
-  /* padding: 0 12px; */
-  font-size: 13px;
-  line-height: 1.5;
-  color: var(--mutedColor);
-}
-
-.performanceChartControls {
-  display: flex;
-  align-items: flex-end;
-  gap: 12px;
-  flex-shrink: 0;
-}
-
-.performanceChartControls label {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.performanceChartControls label span {
-  font-size: 12px;
-  color: var(--mutedColor);
-}
-
-.performanceChartControls select {
-  min-width: 110px;
-}
-
-/* --------------------------------------------------
-Performance Chart Header - Mobile
--------------------------------------------------- */
-
-@media (max-width: 700px) {
-  .performanceChartHeader {
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .performanceChartControls {
-    width: 100%;
-  }
-
-  .performanceChartControls label {
-    flex: 1;
-  }
-
-  .performanceChartControls select {
-    width: 100%;
-  }
-}
-
-/* --------------------------------------------------
-Practice Time Bar
--------------------------------------------------- */
-
 .practiceBar {
   display: flex;
   width: 90%;
@@ -438,22 +167,15 @@ Practice Time Bar
 }
 
 .practiceBarSegment {
-  height: 100%;
-  min-width: 0;
-  transition: width 250ms ease;
-}
-
-/* --------------------------------------------------
-Practice Time Bar Tooltip
--------------------------------------------------- */
-
-.practiceBarSegment {
   position: relative;
   height: 100%;
   min-width: 0;
   transition: width 250ms ease;
 }
 
+/* --------------------------------------------------
+   Practice Time Bar Tooltip
+-------------------------------------------------- */
 .practiceTooltip {
   position: absolute;
   left: 50%;
@@ -497,9 +219,8 @@ Practice Time Bar Tooltip
 }
 
 /* --------------------------------------------------
-Practice Time Table
+   Practice Time Table
 -------------------------------------------------- */
-
 .practiceTable {
   width: 100%;
   border-collapse: collapse;
@@ -532,9 +253,8 @@ Practice Time Table
 }
 
 /* --------------------------------------------------
-Practice Time Operation
+   Practice Time Operation
 -------------------------------------------------- */
-
 .practiceOperation {
   display: flex;
   align-items: center;

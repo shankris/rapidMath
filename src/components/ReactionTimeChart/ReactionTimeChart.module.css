@@ -1,23 +1,21 @@
 /* src/components/ReactionTimeChart/ReactionTimeChart.module.css */
-
 /* --------------------------------------------------
-Chart Container
+   Chart Container
 -------------------------------------------------- */
-
 .chart {
   width: 100%;
+  min-width: 0;
 }
 
 /* --------------------------------------------------
-Header
+   Header
 -------------------------------------------------- */
-
 .header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 20px;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 
 .header h2 {
@@ -36,103 +34,228 @@ Header
 }
 
 /* --------------------------------------------------
-Filters
+   Chart Layout
 -------------------------------------------------- */
-
-.filters {
-  display: flex;
-  align-items: flex-end;
+.chartContent {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
   gap: 10px;
-  flex-shrink: 0;
+  min-width: 0;
 }
 
-.filter {
+/* --------------------------------------------------
+   Navigation
+-------------------------------------------------- */
+.navigation {
+  min-width: 0;
+  border-right: 1px solid var(--borderColor);
+  padding-right: 12px;
+
+  height: 380px;
+  padding-right: 12px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* --------------------------------------------------
+   Operation
+-------------------------------------------------- */
+.operation {
+  min-width: 0;
+}
+
+.operationHeader {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  width: 100%;
+  min-height: 22px;
+  padding: 0 4px;
+  border: 0;
+  background: transparent;
+  color: var(--headingCol);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 400;
+  text-align: left;
+  cursor: pointer;
 }
 
-.filter span {
-  font-size: 10px;
-  line-height: 1.2;
+.operationHeader:hover {
+  color: var(--accentColor);
+}
+
+.operationIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  margin-right: 4px;
   color: var(--mutedColor);
 }
 
-.filter select {
-  min-width: 130px;
-  height: 32px;
-  padding: 0 28px 0 9px;
-
-  border: 1px solid var(--borderColor);
-  border-radius: 6px;
-
-  background: var(--surfaceColor);
-  color: var(--headingCol);
-
-  font-family: inherit;
-  font-size: 11px;
-
-  cursor: pointer;
-  outline: none;
-
-  transition:
-    border-color 150ms ease,
-    background-color 150ms ease;
-}
-
-.filter select:hover {
-  border-color: var(--headingCol);
-}
-
-.filter select:focus {
-  border-color: var(--accentColor);
-}
-
-.filter select:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
+.operationName {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* --------------------------------------------------
-Chart Area
+   Level List
+-------------------------------------------------- */
+.levels {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 2px 0 6px 22px;
+}
+
+.level {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  min-height: 20px;
+  padding: 0 4px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--mutedColor);
+  font: inherit;
+  font-size: 11px;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.level:hover {
+  background: var(--surfaceAlt);
+  color: var(--headingCol);
+}
+
+.levelActive {
+  background: var(--surfaceAlt);
+  color: var(--headingCol);
+  font-weight: 600;
+}
+
+/* --------------------------------------------------
+   Chart Panel
+-------------------------------------------------- */
+.chartPanel {
+  min-width: 0;
+  padding: 6px 20px 20px 6px;
+}
+
+/* --------------------------------------------------
+   Chart Header
+-------------------------------------------------- */
+.chartHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 32px;
+  margin-bottom: 8px;
+}
+
+.chartTitle {
+  min-width: 0;
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--headingCol);
+}
+
+.chartSubtitle {
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--mutedColor);
+}
+
+/* --------------------------------------------------
+   Period Selector
 -------------------------------------------------- */
 
+.periodSelector {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.periodButton {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--mutedColor);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.periodButton:hover {
+  color: var(--textColor);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.periodButtonActive {
+  color: var(--textColor);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* --------------------------------------------------
+   Chart Area
+-------------------------------------------------- */
 .chartArea {
   width: 100%;
-  min-height: 280px;
+  height: 320px;
+  min-width: 0;
 }
 
 /* --------------------------------------------------
-Tooltip
+   Tooltip
 -------------------------------------------------- */
-
 .tooltip {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-
+  gap: 7px;
   min-width: 150px;
   padding: 9px 11px;
-
   border: 1px solid var(--borderColor);
   border-radius: 6px;
-
   background: var(--surfaceColor);
   box-shadow: var(--shadow-sm);
-
   font-size: 11px;
 }
 
 .tooltip>strong {
   font-size: 11px;
   font-weight: 600;
+  line-height: 1.2;
   color: var(--headingCol);
 }
 
-.tooltip>span {
+.tooltipOperation {
+  margin-top: 1px;
+  font-weight: 600;
+  color: var(--headingCol);
+}
+
+.tooltipLevels {
   display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.tooltipLevel {
+  display: grid;
+  grid-template-columns: 70px auto;
   align-items: center;
-  justify-content: space-between;
   gap: 12px;
 }
 
@@ -141,79 +264,118 @@ Tooltip
 }
 
 .tooltipValue {
+  text-align: right;
   font-weight: 600;
   color: var(--headingCol);
 }
 
 /* --------------------------------------------------
-Empty State
+   Empty State
 -------------------------------------------------- */
-
 .empty {
   display: flex;
   align-items: center;
   justify-content: center;
-
-  min-height: 280px;
+  min-height: 320px;
   padding: 30px;
-
   border: 1px dashed var(--borderColor);
   border-radius: 8px;
-
   color: var(--mutedColor);
   font-size: 12px;
   text-align: center;
 }
 
 /* --------------------------------------------------
-Responsive Layout
+   Responsive Layout
 -------------------------------------------------- */
-
 @media (max-width: 700px) {
   .header {
     flex-direction: column;
     gap: 12px;
   }
 
-  .filters {
-    width: 100%;
+  .chartContent {
+    grid-template-columns: 100px minmax(0, 1fr);
+    gap: 12px;
   }
 
-  .filter {
-    flex: 1;
+  .periodSelector {
+    overflow-x: auto;
+    scrollbar-width: none;
   }
 
-  .filter select {
-    width: 100%;
-    min-width: 0;
+  .periodSelector::-webkit-scrollbar {
+    display: none;
+  }
+
+  .periodButton {
+    flex-shrink: 0;
   }
 }
-
 
 /* --------------------------------------------------
-   Reaction Time Tooltip
+   Small Screen Layout
 -------------------------------------------------- */
+@media (max-width: 480px) {
+  .chartContent {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
 
-.chartTooltipOperation {
-  margin-top: 4px;
-  margin-bottom: 6px;
-  font-weight: 600;
+  .navigation {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--borderColor);
+    padding: 0 0 8px;
+    scrollbar-width: none;
+  }
+
+  .navigation::-webkit-scrollbar {
+    display: none;
+  }
+
+  .operation {
+    flex: 0 0 auto;
+  }
+
+  .levels {
+    margin-left: 0;
+    overflow: hidden;
+  }
+
+  .chartHeader {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .chartArea {
+    height: 280px;
+  }
 }
 
-.chartTooltipLevels {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
+.levelColor {
+  width: 2px;
+  height: 12px;
+  flex: 0 0 8px;
+  border-radius: 1px;
+  background: var(--accentColor);
 }
 
-.chartTooltipLevel {
-  display: grid;
-  grid-template-columns: 70px auto;
-  align-items: center;
-  gap: 12px;
+.level[data-level="1"] .levelColor {
+  background: var(--chartLevel1);
 }
 
-.chartTooltipValue {
-  text-align: right;
-  font-weight: 600;
+.level[data-level="2"] .levelColor {
+  background: var(--chartLevel2);
+}
+
+.level[data-level="3"] .levelColor {
+  background: var(--chartLevel3);
+}
+
+.level[data-level="4"] .levelColor {
+  background: var(--chartLevel4);
 }

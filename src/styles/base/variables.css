@@ -35,7 +35,13 @@
   /* 48px */
 
 
+
+
+
   /* ---------------- Colors: Light Mode ---------------- */
+
+
+
 
   /* ----- Backgrounds ----- */
 
@@ -86,6 +92,20 @@
   --notificationTxt: #4f5866;
   --NotificationHeaderBg: #e7e7e799;
   --NotificationFooterBg: #e7e7e799;
+
+
+
+
+  /* Reaction Time — Level Colors */
+  --chartLevel1: #2563eb;
+  /* Blue */
+  --chartLevel2: #16a34a;
+  /* Green */
+  --chartLevel3: #d97706;
+  /* Amber */
+  --chartLevel4: #9333ea;
+  /* Purple */
+
 
 }
 
@@ -145,4 +165,17 @@ html[data-theme="dark"] {
   --notificationTxt: #818fa3;
   --NotificationHeaderBg: #1e2538;
   --NotificationFooterBg: #1e2538;
+
+
+  /* Reaction Time — Level Colors */
+  --chartLevel1: #60a5fa;
+  /* Blue */
+  --chartLevel2: #4ade80;
+  /* Green */
+  --chartLevel3: #fbbf24;
+  /* Amber */
+  --chartLevel4: #c084fc;
+  /* Purple */
+
+
 }
