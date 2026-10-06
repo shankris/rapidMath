@@ -223,29 +223,37 @@
   transform: translateY(-1px);
 }
 
+
+
+
 .btnGhost {
   width: 100%;
-  max-width: 500px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
   background: transparent;
   border: 1px solid var(--borderColor);
   color: var(--mutedColor);
-  padding: 6px 16px;
-  border-radius: 6px;
-  cursor: pointer;
+  border-radius: var(--borderRadius-md);
   font-size: 14px;
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease;
+  font-weight: 400;
   text-align: center;
-  margin: 20px auto 12px;
-
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast),
+    transform var(--transition-fast);
 }
 
 .btnGhost:hover {
   background: var(--surfaceAlt);
   border-color: var(--headingCol);
   color: var(--headingCol);
+  transform: translateY(-1px);
 }
 
 .headingWithLine {

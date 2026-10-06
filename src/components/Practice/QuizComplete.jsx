@@ -3,9 +3,13 @@
 "use client";
 
 import Link from "next/link";
+import { useLocale } from "next-intl";
+
 import styles from "./QuizComplete.module.css";
 
-export default function QuizComplete({ results, performanceMessage, operation, level, hasNextLevel, onRetake, onContinue }) {
+export default function QuizComplete({ results, performanceMessage, operation, level, attemptId, hasNextLevel, onRetake, onContinue }) {
+  const locale = useLocale();
+
   const hasPreviousLevel = level > 1;
 
   return (
@@ -55,7 +59,7 @@ export default function QuizComplete({ results, performanceMessage, operation, l
               <div className={styles.statUnit}>s</div>
             </div>
 
-            <span>Fastest </span>
+            <span>Fastest</span>
           </div>
 
           <div>
@@ -85,16 +89,16 @@ export default function QuizComplete({ results, performanceMessage, operation, l
       -------------------------------------------------- */}
 
       <div className={styles.actions}>
-        <button
+        <Link
+          href={`/en/practice/review/${attemptId}`}
           className={styles.btnGhost}
-          onClick={onContinue}
         >
           Review Quiz Performance
-        </button>
+        </Link>
 
         {hasPreviousLevel && (
           <Link
-            href={`/practice/${operation}/${level - 1}`}
+            href={`/${locale}/practice/${operation}/${level - 1}`}
             className={styles.btnSecondary}
           >
             Try Previous Level
@@ -110,7 +114,7 @@ export default function QuizComplete({ results, performanceMessage, operation, l
 
         {hasNextLevel && (
           <Link
-            href={`/practice/${operation}/${level + 1}`}
+            href={`/${locale}/practice/${operation}/${level + 1}`}
             className={styles.btnSecondary}
           >
             Try Next Level
@@ -118,7 +122,7 @@ export default function QuizComplete({ results, performanceMessage, operation, l
         )}
 
         <Link
-          href='/practice'
+          href={`/${locale}/practice`}
           className={styles.btnSecondary}
         >
           Take Another Quiz

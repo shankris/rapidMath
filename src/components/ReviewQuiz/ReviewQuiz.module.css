@@ -1,0 +1,376 @@
+/* src/components/ReviewQuiz/ReviewQuiz.module.css */
+
+/* --------------------------------------------------
+   Review Container
+-------------------------------------------------- */
+
+.container {
+  width: 100%;
+}
+
+/* --------------------------------------------------
+   Review Header
+-------------------------------------------------- */
+
+.header {
+  margin-bottom: var(--space-lg);
+}
+
+.header h1 {
+  margin: 0;
+  color: var(--headingCol);
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.header p {
+  margin: 6px 0 0;
+  color: var(--mutedColor);
+  font-size: 14px;
+}
+
+/* --------------------------------------------------
+   Review Statistics
+-------------------------------------------------- */
+
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.stats>div {
+  flex: 1;
+  padding: 12px 6px;
+  text-align: center;
+  background: var(--highLight1);
+  border-radius: var(--borderRadius-md);
+}
+
+.stats span {
+  display: block;
+  margin-top: 4px;
+  color: var(--mutedColor);
+  font-size: 0.8rem;
+}
+
+.stats strong {
+  display: block;
+  color: var(--headingCol);
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------
+   Statistics Note
+-------------------------------------------------- */
+
+.statsNote {
+  max-width: 500px;
+  margin: 6px auto var(--space-lg);
+  color: var(--mutedColor);
+  font-size: 11px;
+  text-align: center;
+}
+
+/* --------------------------------------------------
+   Table Wrapper
+-------------------------------------------------- */
+
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* --------------------------------------------------
+   Review Table
+-------------------------------------------------- */
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--borderColor);
+  text-align: left;
+}
+
+.table th {
+  color: var(--headingCol);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.table td {
+  color: var(--textColor);
+  font-size: 14px;
+}
+
+.table th button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+/* --------------------------------------------------
+   Incorrect Answers
+-------------------------------------------------- */
+
+.incorrectRow {
+  background: var(--incorrectBg);
+}
+
+.incorrectAnswer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--incorrectText);
+  white-space: nowrap;
+}
+
+.incorrectAnswer svg {
+  flex-shrink: 0;
+  color: var(--incorrectText) !important;
+}
+
+/* --------------------------------------------------
+   Reaction Time
+-------------------------------------------------- */
+
+.reactionTimeCell {
+  min-width: 150px;
+}
+
+.reactionTime {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+/* --------------------------------------------------
+   Reaction Time Value
+-------------------------------------------------- */
+
+.reactionTimeValue {
+  flex: 0 0 48px;
+  color: var(--textColor);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------
+   Reaction Time Bar
+-------------------------------------------------- */
+
+.reactionBar {
+  flex: 1;
+  height: 10px;
+  overflow: hidden;
+  border-radius: 5px;
+  background: var(--highLight1);
+}
+
+.reactionBarFill {
+  width: var(--reactionBarWidth);
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.2s ease;
+}
+
+/* --------------------------------------------------
+   Green — Faster Than Average
+-------------------------------------------------- */
+
+.reactionBarGreen1 {
+  background: #86c98b;
+}
+
+.reactionBarGreen2 {
+  background: #6fbd76;
+}
+
+.reactionBarGreen3 {
+  background: #57ae62;
+}
+
+.reactionBarGreen4 {
+  background: #3d9d4a;
+}
+
+.reactionBarGreen5 {
+  background: #2d8839;
+}
+
+/* --------------------------------------------------
+   Red — Slower Than Average
+-------------------------------------------------- */
+
+.reactionBarRed1 {
+  background: #e88989;
+}
+
+.reactionBarRed2 {
+  background: #df6d6d;
+}
+
+.reactionBarRed3 {
+  background: #d55252;
+}
+
+.reactionBarRed4 {
+  background: #c63c3c;
+}
+
+.reactionBarRed5 {
+  background: #ae2929;
+}
+
+/* --------------------------------------------------
+   Gray — Incorrect
+-------------------------------------------------- */
+
+.reactionBarIncorrect {
+  background: var(--mutedColor);
+}
+
+/* --------------------------------------------------
+   Mobile Review Table
+-------------------------------------------------- */
+
+@media (max-width: 767px) {
+  /* --------------------------------------------------
+     Statistics
+  -------------------------------------------------- */
+
+  .stats {
+    max-width: 100%;
+  }
+
+  .stats>div {
+    padding: 10px 4px;
+  }
+
+  .stats strong {
+    font-size: 1.2rem;
+  }
+
+  /* --------------------------------------------------
+     Table
+  -------------------------------------------------- */
+
+  .tableWrapper {
+    overflow-x: visible;
+  }
+
+  .table {
+    width: 100%;
+    border: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  .table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .table tbody {
+    display: block;
+    width: 100%;
+  }
+
+  .table tr {
+    display: block;
+    width: 100%;
+    margin-bottom: 12px;
+    padding: 8px 12px;
+    border: 1px solid var(--borderColor);
+    border-radius: var(--borderRadius-md);
+    background: var(--surfaceColor);
+  }
+
+  .table td {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 30px;
+    padding: 5px 0;
+    border: 0;
+    font-size: 14px;
+    text-align: left;
+  }
+
+  /* --------------------------------------------------
+     Mobile Labels
+  -------------------------------------------------- */
+
+  .table td::before {
+    content: attr(data-label);
+    flex: 0 0 110px;
+    color: var(--mutedColor);
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  /* --------------------------------------------------
+     Hide Question Number
+  -------------------------------------------------- */
+
+  .table td:nth-child(1) {
+    display: none;
+  }
+
+  /* --------------------------------------------------
+     Hide Result
+  -------------------------------------------------- */
+
+  .table td:nth-child(5) {
+    display: none;
+  }
+
+  /* --------------------------------------------------
+     Reaction Time
+  -------------------------------------------------- */
+
+  .table td.reactionTimeCell {
+    align-items: center;
+  }
+
+  .table .reactionTime {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .table .reactionBar {
+    min-width: 0;
+  }
+
+  /* --------------------------------------------------
+     Incorrect Answers
+  -------------------------------------------------- */
+
+  .table .incorrectRow {
+    background: var(--incorrectBg);
+  }
+}

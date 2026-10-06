@@ -60,6 +60,9 @@
   --card1bg: #ededed;
   --accordionHead1: #9ba8cd;
 
+  --incorrectBg: #fce8e8;
+  --incorrectText: #b42318;
+
 
   /* Text */
   --txtColor: #1f2933;
@@ -136,6 +139,9 @@ html[data-theme="dark"] {
   --card1bg: #2d2d2d;
   --accordionHead1: #3d496b;
 
+
+  --incorrectBg: #3a2020;
+  --incorrectText: #f28b82;
 
   /* Text */
   --txtColor: #e5e7eb;

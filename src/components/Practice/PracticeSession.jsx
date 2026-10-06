@@ -666,12 +666,10 @@ export default function PracticeSession({ operation, level, targeted = false }) 
         performanceMessage={performanceMessage}
         operation={operation}
         level={level}
+        attemptId={attempt.id}
         hasPreviousLevel={hasPreviousLevel}
         hasNextLevel={hasNextLevel}
         onRetake={restartTest}
-        onContinue={() => {
-          console.log("View progress");
-        }}
       />
     );
   }
