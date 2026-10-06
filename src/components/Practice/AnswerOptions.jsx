@@ -28,9 +28,8 @@ export default function AnswerOptions({ options, correctAnswer, selectedAnswer, 
   return (
     <div className={styles.options}>
       {options.map((option, index) => (
-        <Ripple>
+        <Ripple key={option}>
           <button
-            key={option}
             className={`${getClassName(option)} ripple button`}
             onClick={() => onSelect(option)}
             disabled={selectedAnswer !== null}

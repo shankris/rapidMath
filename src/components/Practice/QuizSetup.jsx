@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import styles from "./QuizSetup.module.css";
 import { OPERATIONS } from "@/lib/math/operations";
@@ -102,7 +102,11 @@ export default function QuizSetup({ operation, level, onStart, targeted = false 
      Local Quiz History
   -------------------------------------------------- */
 
-  const attempts = useMemo(() => getQuizAttemptsByLevel(operation, level), [operation, level]);
+  const [attempts, setAttempts] = useState([]);
+
+  useEffect(() => {
+    setAttempts(getQuizAttemptsByLevel(operation, level));
+  }, [operation, level]);
 
   /* --------------------------------------------------
      Progress Statistics

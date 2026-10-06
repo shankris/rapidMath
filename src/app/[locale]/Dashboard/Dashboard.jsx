@@ -15,7 +15,7 @@ import { getDashboardActivity, getDashboardActivityDetails, getPracticeTimeDistr
 
 /* --------------------------------------------------
 Dashboard Component
--------------------------------------------------- */
+-------------------------------------------------- */ a;
 
 export default function Dashboard() {
   const t = useTranslations("Dashboard");

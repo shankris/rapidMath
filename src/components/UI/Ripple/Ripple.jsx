@@ -18,45 +18,23 @@ export default function Ripple({ children }) {
 
   function createRipple(event) {
     const element = elementRef.current;
+    if (!element) return;
 
-    if (!element) {
-      return;
-    }
+    const existingRipple = element.querySelector(`.${styles.rippleContainer}`);
 
-    /* --------------------------------------------------
-       Remove Existing Ripple
-    -------------------------------------------------- */
-
-    const existingRipple = element.querySelector(`.${styles.ripple}`);
-
-    if (existingRipple) {
-      existingRipple.remove();
-    }
-
-    /* --------------------------------------------------
-       Calculate Ripple Size
-    -------------------------------------------------- */
+    if (existingRipple) existingRipple.remove();
 
     const diameter = Math.max(element.clientWidth, element.clientHeight);
-
     const radius = diameter / 2;
 
-    /* --------------------------------------------------
-       Calculate Click Position
-    -------------------------------------------------- */
-
     const rect = element.getBoundingClientRect();
-
     const left = event.clientX - rect.left - radius;
-
     const top = event.clientY - rect.top - radius;
 
-    /* --------------------------------------------------
-       Create Ripple Element
-    -------------------------------------------------- */
+    const rippleContainer = document.createElement("span");
+    rippleContainer.className = styles.rippleContainer;
 
     const circle = document.createElement("span");
-
     circle.className = styles.ripple;
 
     circle.style.width = `${diameter}px`;
@@ -64,7 +42,8 @@ export default function Ripple({ children }) {
     circle.style.left = `${left}px`;
     circle.style.top = `${top}px`;
 
-    element.appendChild(circle);
+    rippleContainer.appendChild(circle);
+    element.appendChild(rippleContainer);
   }
 
   /* --------------------------------------------------

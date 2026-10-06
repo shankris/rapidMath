@@ -1,6 +1,7 @@
 "use client";
 /* src/components/QuickPractice/QuickPractice.jsx */
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { getRecentlyUsedPractice } from "@/lib/stats/dashboard";
@@ -61,7 +62,11 @@ export default function QuickPractice() {
   const locale = useLocale();
   const t = useTranslations("Dashboard");
 
-  const recentPractice = getRecentlyUsedPractice();
+  const [recentPractice, setRecentPractice] = useState([]);
+
+  useEffect(() => {
+    setRecentPractice(getRecentlyUsedPractice());
+  }, []);
 
   const groupedPractice = getTopRecentlyUsedPractice(recentPractice);
 
