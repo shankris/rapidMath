@@ -1,3 +1,20 @@
 {
-  "title": "Dashboard"
+  "title": "Dashboard",
+
+  "review": "Quiz Review",
+  "level": "Level",
+
+  "operations": {
+    "add": "Addition",
+    "sub": "Subtraction",
+    "mul": "Multiplication",
+    "div": "Division",
+    "powersRoots": "Powers & Roots",
+    "mixedOperations": "Mixed Operations",
+    "missingNumber": "Missing Number",
+    "estimation": "Estimation",
+    "probability": "Probability",
+    "combinations": "Combinations",
+    "comparison": "Comparison"
+  }
 }

@@ -6,7 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import { CircleX } from "lucide-react";
 
 import { getQuizAttemptsByLevel } from "@/lib/storage/quizHistory";
-
+import { useTranslations } from "next-intl";
 import styles from "./ReviewQuiz.module.css";
 
 /* --------------------------------------------------
@@ -117,6 +117,7 @@ function getRelativeTime(timestamp, now = Date.now()) {
 -------------------------------------------------- */
 
 export default function ReviewQuiz({ operation, level, date }) {
+  const t = useTranslations("Practice");
   const [attempts, setAttempts] = useState([]);
   const [attempt, setAttempt] = useState(undefined);
   const [currentTime, setCurrentTime] = useState(Date.now());
@@ -428,9 +429,12 @@ export default function ReviewQuiz({ operation, level, date }) {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h1>Quiz Review</h1>
-
-        <p>Review your answers and reaction times.</p>
+        <h1>
+          {t("review")}
+          <span>
+            - {t(`operations.${operation}`)} - {t("level")} {level}
+          </span>
+        </h1>
       </div>
       {/* --------------------------------------------------
           Attempt Tabs
@@ -456,26 +460,30 @@ export default function ReviewQuiz({ operation, level, date }) {
       {/* --------------------------------------------------
           Review Statistics
       -------------------------------------------------- */}
-      <div className={styles.stats}>
-        <div>
-          <span>Avg. Time</span>
-          <strong>{averageTime.toFixed(2)}s</strong>
-        </div>
 
-        <div>
-          <span>Accuracy</span>
-          <strong>{accuracy}%</strong>
-        </div>
+      <div className={styles.statsMain}>
+        <div className={styles.stats}>
+          <div>
+            <span>Avg. Time</span>
+            <strong>{averageTime.toFixed(2)}s</strong>
+          </div>
 
-        <div>
-          <span>Incorrect</span>
-          <strong>{incorrectAnswers}</strong>
+          <div>
+            <span>Accuracy</span>
+            <strong>{accuracy}%</strong>
+          </div>
+
+          <div>
+            <span>Incorrect</span>
+            <strong>{incorrectAnswers}</strong>
+          </div>
         </div>
-      </div>
-      <div className={styles.statsNote}>
-        {formatDateTime(attempt.startedAt)} - {getRelativeTime(attempt.startedAt, currentTime)}
-        <br />
-        Avg. time is based on correct responses only
+        <div>
+          <div className={styles.stastDate}>
+            {formatDateTime(attempt.startedAt)} - {getRelativeTime(attempt.startedAt, currentTime)}
+          </div>
+          <div className={styles.statsNote}>Avg. time is based on correct responses only</div>
+        </div>
       </div>
 
       {/* --------------------------------------------------
@@ -550,7 +558,7 @@ export default function ReviewQuiz({ operation, level, date }) {
           <tbody>
             {sortedQuestions.map((question) => (
               <tr
-                key={question.id}
+                key={`${question.id}-${question.questionNumber}`}
                 className={!question.correct ? styles.incorrectRow : ""}
               >
                 <td>{question.questionNumber}</td>
