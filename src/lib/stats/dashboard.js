@@ -362,7 +362,15 @@ Only include answered questions
 
       const averageReactionTime = reactionTimes.length > 0 ? reactionTimes.reduce((total, time) => total + time, 0) / reactionTimes.length : null;
 
-      return { operation: getDashboardOperationName(group.operation), level: group.level, practiceUrl: group.practiceUrl, questions: group.questions, accuracy: group.questions > 0 ? Math.round((group.correct / group.questions) * 100) : null, reactionTime: averageReactionTime };
+      return {
+        operation: group.operation,
+        operationName: getDashboardOperationName(group.operation),
+        level: group.level,
+        practiceUrl: group.practiceUrl,
+        questions: group.questions,
+        accuracy: group.questions > 0 ? Math.round((group.correct / group.questions) * 100) : null,
+        reactionTime: averageReactionTime,
+      };
     });
   });
 

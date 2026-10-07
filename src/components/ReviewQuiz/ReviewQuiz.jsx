@@ -5,16 +5,121 @@
 import { useEffect, useMemo, useState } from "react";
 import { CircleX } from "lucide-react";
 
-import { getQuizAttempt } from "@/lib/storage/quizHistory";
+import { getQuizAttemptsByLevel } from "@/lib/storage/quizHistory";
 
 import styles from "./ReviewQuiz.module.css";
+
+/* --------------------------------------------------
+   Get Local Date Key
+-------------------------------------------------- */
+
+function getLocalDateKey(timestamp) {
+  const date = new Date(timestamp);
+
+  if (Number.isNaN(date.getTime())) {
+    return null;
+  }
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
+/* --------------------------------------------------
+   Format Date and Time
+-------------------------------------------------- */
+
+function formatDateTime(timestamp) {
+  const date = new Date(timestamp);
+
+  if (Number.isNaN(date.getTime())) {
+    return "—";
+  }
+
+  return date.toLocaleString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  });
+}
+
+/* --------------------------------------------------
+   Format Time
+-------------------------------------------------- */
+
+function formatTime(timestamp) {
+  const date = new Date(timestamp);
+
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  return date.toLocaleTimeString(undefined, {
+    hour: "numeric",
+    minute: "2-digit",
+  });
+}
+
+/* --------------------------------------------------
+   Get Relative Time
+-------------------------------------------------- */
+
+function getRelativeTime(timestamp, now = Date.now()) {
+  const date = new Date(timestamp);
+
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  const difference = Math.max(0, now - date.getTime());
+
+  const seconds = Math.floor(difference / 1000);
+
+  if (seconds < 60) {
+    return "Just now";
+  }
+
+  const minutes = Math.floor(seconds / 60);
+
+  if (minutes < 60) {
+    return `${minutes}m ago`;
+  }
+
+  const hours = Math.floor(minutes / 60);
+
+  if (hours < 24) {
+    return `${hours}h ago`;
+  }
+
+  const days = Math.floor(hours / 24);
+
+  if (days < 30) {
+    return `${days}d ago`;
+  }
+
+  const months = Math.floor(days / 30);
+
+  if (months < 12) {
+    return `${months}mo ago`;
+  }
+
+  const years = Math.floor(months / 12);
+
+  return `${years}y ago`;
+}
 
 /* --------------------------------------------------
    Review Quiz
 -------------------------------------------------- */
 
-export default function ReviewQuiz({ attemptId }) {
+export default function ReviewQuiz({ operation, level, date }) {
+  const [attempts, setAttempts] = useState([]);
   const [attempt, setAttempt] = useState(undefined);
+  const [currentTime, setCurrentTime] = useState(Date.now());
 
   const [sortConfig, setSortConfig] = useState({
     key: "time",
@@ -22,14 +127,88 @@ export default function ReviewQuiz({ attemptId }) {
   });
 
   /* --------------------------------------------------
-     Load Quiz Attempt
+     Refresh Relative Time
   -------------------------------------------------- */
 
   useEffect(() => {
-    const storedAttempt = getQuizAttempt(attemptId);
+    const interval = setInterval(() => {
+      setCurrentTime(Date.now());
+    }, 30000);
 
-    setAttempt(storedAttempt);
-  }, [attemptId]);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  /* --------------------------------------------------
+     Load Quiz Attempts
+  -------------------------------------------------- */
+
+  useEffect(() => {
+    if (!operation || !level || !date) {
+      setAttempts([]);
+      setAttempt(null);
+      return;
+    }
+
+    const storedAttempts = getQuizAttemptsByLevel(operation, Number(level));
+
+    const targetDate = `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}`;
+
+    const matchingAttempts = storedAttempts
+      .filter((storedAttempt) => {
+        if (!storedAttempt?.startedAt) {
+          return false;
+        }
+
+        return getLocalDateKey(storedAttempt.startedAt) === targetDate;
+      })
+      .sort((a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime());
+
+    setAttempts(matchingAttempts);
+
+    /* ----------------------------------------------
+       Select the latest attempt by default
+    ---------------------------------------------- */
+
+    setAttempt(matchingAttempts[0] ?? null);
+  }, [operation, level, date]);
+
+  /* --------------------------------------------------
+     Attempt Tab Labels
+  -------------------------------------------------- */
+
+  const attemptTabLabels = useMemo(() => {
+    const labels = attempts.map((item) => getRelativeTime(item.startedAt, currentTime));
+
+    const counts = labels.reduce((result, label) => {
+      result[label] = (result[label] ?? 0) + 1;
+      return result;
+    }, {});
+
+    return attempts.map((item, index) => {
+      const relativeTime = labels[index];
+
+      if (counts[relativeTime] > 1) {
+        return `${relativeTime} · ${formatTime(item.startedAt)}`;
+      }
+
+      return relativeTime;
+    });
+  }, [attempts, currentTime]);
+
+  /* --------------------------------------------------
+     Handle Attempt Selection
+  -------------------------------------------------- */
+
+  function handleAttemptSelect(selectedAttempt) {
+    setAttempt(selectedAttempt);
+
+    setSortConfig({
+      key: "time",
+      direction: "asc",
+    });
+  }
 
   /* --------------------------------------------------
      Sort Configuration
@@ -114,8 +293,8 @@ export default function ReviewQuiz({ attemptId }) {
   }
 
   /* --------------------------------------------------
-   Reaction Time Bar
--------------------------------------------------- */
+     Reaction Time Bar
+  -------------------------------------------------- */
 
   function ReactionTimeBar({ time, correct, averageTime, fastestTime, slowestCorrectTime, slowestOverallTime }) {
     const numericTime = Number(time);
@@ -253,11 +432,30 @@ export default function ReviewQuiz({ attemptId }) {
 
         <p>Review your answers and reaction times.</p>
       </div>
+      {/* --------------------------------------------------
+          Attempt Tabs
+      -------------------------------------------------- */}
+      {attempts.length > 1 && (
+        <div className={styles.attemptTabs}>
+          {attempts.map((item, index) => {
+            const isSelected = item.id === attempt.id;
 
+            return (
+              <button
+                key={item.id}
+                type='button'
+                className={`${styles.attemptTab} ${isSelected ? styles.attemptTabActive : ""}`}
+                onClick={() => handleAttemptSelect(item)}
+              >
+                {attemptTabLabels[index]}
+              </button>
+            );
+          })}
+        </div>
+      )}
       {/* --------------------------------------------------
           Review Statistics
       -------------------------------------------------- */}
-
       <div className={styles.stats}>
         <div>
           <span>Avg. Time</span>
@@ -274,13 +472,15 @@ export default function ReviewQuiz({ attemptId }) {
           <strong>{incorrectAnswers}</strong>
         </div>
       </div>
-
-      <div className={styles.statsNote}>Average reaction time is based on correct answers only.</div>
+      <div className={styles.statsNote}>
+        {formatDateTime(attempt.startedAt)} - {getRelativeTime(attempt.startedAt, currentTime)}
+        <br />
+        Avg. time is based on correct responses only
+      </div>
 
       {/* --------------------------------------------------
           Questions
       -------------------------------------------------- */}
-
       <div className={styles.tableWrapper}>
         <table className={styles.table}>
           <thead>

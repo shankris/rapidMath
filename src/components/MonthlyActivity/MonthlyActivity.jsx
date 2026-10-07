@@ -194,19 +194,21 @@ function groupDetails(details, translate) {
   const groups = new Map();
 
   details.forEach((item) => {
-    const operation = item.operation ?? translate("monthlyActivity.other");
+    const operationKey = item.operation;
+    const operation = item.operationName ?? translate("monthlyActivity.other");
 
-    if (!groups.has(operation)) {
-      groups.set(operation, []);
+    if (!groups.has(operationKey)) {
+      groups.set(operationKey, {
+        operation: operationKey,
+        operationName: operation,
+        levels: [],
+      });
     }
 
-    groups.get(operation).push(item);
+    groups.get(operationKey).levels.push(item);
   });
 
-  return Array.from(groups.entries()).map(([operation, levels]) => ({
-    operation,
-    levels,
-  }));
+  return Array.from(groups.values());
 }
 
 /* --------------------------------------------------
@@ -498,7 +500,7 @@ export default function MonthlyActivity({ data = [], details = {} }) {
                   key={group.operation}
                   className={styles.operationGroup}
                 >
-                  <h4 className={styles.operationName}>{group.operation}</h4>
+                  <h4 className={styles.operationName}>{group.operationName}</h4>
 
                   <table className={styles.detailTable}>
                     <thead>
@@ -520,7 +522,7 @@ export default function MonthlyActivity({ data = [], details = {} }) {
                             <td>
                               {item.practiceUrl ? (
                                 <Link
-                                  href={`/${locale}/${item.practiceUrl}`}
+                                  href={`/${locale}/practice/review?opp=${group.operation}&level=${item.level}&date=${selectedDate.replaceAll("-", "")}`}
                                   className={styles.levelLink}
                                 >
                                   {t("monthlyActivity.levelValue", {

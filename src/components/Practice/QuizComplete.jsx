@@ -90,7 +90,7 @@ export default function QuizComplete({ results, performanceMessage, operation, l
 
       <div className={styles.actions}>
         <Link
-          href={`/en/practice/review/${attemptId}`}
+          href={`/${locale}/practice/review?opp=${operation}&level=${level}&date=${attemptId.slice(0, 8)}`}
           className={styles.btnGhost}
         >
           Review Quiz Performance

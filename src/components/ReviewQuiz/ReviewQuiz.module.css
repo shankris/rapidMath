@@ -1,9 +1,7 @@
 /* src/components/ReviewQuiz/ReviewQuiz.module.css */
-
 /* --------------------------------------------------
    Review Container
 -------------------------------------------------- */
-
 .container {
   width: 100%;
 }
@@ -11,7 +9,6 @@
 /* --------------------------------------------------
    Review Header
 -------------------------------------------------- */
-
 .header {
   margin-bottom: var(--space-lg);
 }
@@ -30,9 +27,49 @@
 }
 
 /* --------------------------------------------------
+   Attempt Tabs
+-------------------------------------------------- */
+.attemptTabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.attemptTab {
+  border: 0;
+  background: transparent;
+  color: var(--mutedColor);
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.4;
+  cursor: pointer;
+  padding: 0px 2px;
+  text-decoration: underline;
+  text-underline-offset: 10px;
+  text-decoration-thickness: 2px;
+  text-decoration-color: var(--mutedColor);
+}
+
+.attemptTab:hover {
+  /* border-bottom-color: currentColor; */
+}
+
+.attemptTabActive {
+  /* border-bottom-color: blue; */
+
+  text-decoration: underline;
+  text-underline-offset: 10px;
+  text-decoration-thickness: 2px;
+  text-decoration-color: #2563eb;
+
+  font-weight: 600;
+}
+
+/* --------------------------------------------------
    Review Statistics
 -------------------------------------------------- */
-
 .stats {
   display: flex;
   justify-content: center;
@@ -65,10 +102,10 @@
   white-space: nowrap;
 }
 
+
 /* --------------------------------------------------
    Statistics Note
 -------------------------------------------------- */
-
 .statsNote {
   max-width: 500px;
   margin: 6px auto var(--space-lg);
@@ -80,7 +117,6 @@
 /* --------------------------------------------------
    Table Wrapper
 -------------------------------------------------- */
-
 .tableWrapper {
   width: 100%;
   overflow-x: auto;
@@ -89,15 +125,15 @@
 /* --------------------------------------------------
    Review Table
 -------------------------------------------------- */
-
 .table {
   width: 100%;
   border-collapse: collapse;
+  margin-bottom: 20px;
 }
 
 .table th,
 .table td {
-  padding: 10px 12px;
+  padding: 4px 12px;
   border-bottom: 1px solid var(--borderColor);
   text-align: left;
 }
@@ -126,7 +162,6 @@
 /* --------------------------------------------------
    Incorrect Answers
 -------------------------------------------------- */
-
 .incorrectRow {
   background: var(--incorrectBg);
 }
@@ -147,7 +182,6 @@
 /* --------------------------------------------------
    Reaction Time
 -------------------------------------------------- */
-
 .reactionTimeCell {
   min-width: 150px;
 }
@@ -162,7 +196,6 @@
 /* --------------------------------------------------
    Reaction Time Value
 -------------------------------------------------- */
-
 .reactionTimeValue {
   flex: 0 0 48px;
   color: var(--textColor);
@@ -175,7 +208,6 @@
 /* --------------------------------------------------
    Reaction Time Bar
 -------------------------------------------------- */
-
 .reactionBar {
   flex: 1;
   height: 10px;
@@ -194,7 +226,6 @@
 /* --------------------------------------------------
    Green — Faster Than Average
 -------------------------------------------------- */
-
 .reactionBarGreen1 {
   background: #86c98b;
 }
@@ -218,7 +249,6 @@
 /* --------------------------------------------------
    Red — Slower Than Average
 -------------------------------------------------- */
-
 .reactionBarRed1 {
   background: #e88989;
 }
@@ -242,7 +272,6 @@
 /* --------------------------------------------------
    Gray — Incorrect
 -------------------------------------------------- */
-
 .reactionBarIncorrect {
   background: var(--mutedColor);
 }
@@ -250,12 +279,19 @@
 /* --------------------------------------------------
    Mobile Review Table
 -------------------------------------------------- */
-
 @media (max-width: 767px) {
+
+  /* --------------------------------------------------
+     Attempt Tabs
+  -------------------------------------------------- */
+  .attemptTabs {
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
   /* --------------------------------------------------
      Statistics
   -------------------------------------------------- */
-
   .stats {
     max-width: 100%;
   }
@@ -268,10 +304,17 @@
     font-size: 1.2rem;
   }
 
+  .attemptDateTime strong {
+    font-size: 0.8rem;
+  }
+
+  .attemptDateTime small {
+    font-size: 0.68rem;
+  }
+
   /* --------------------------------------------------
      Table
   -------------------------------------------------- */
-
   .tableWrapper {
     overflow-x: visible;
   }
@@ -324,7 +367,6 @@
   /* --------------------------------------------------
      Mobile Labels
   -------------------------------------------------- */
-
   .table td::before {
     content: attr(data-label);
     flex: 0 0 110px;
@@ -336,7 +378,6 @@
   /* --------------------------------------------------
      Hide Question Number
   -------------------------------------------------- */
-
   .table td:nth-child(1) {
     display: none;
   }
@@ -344,7 +385,6 @@
   /* --------------------------------------------------
      Hide Result
   -------------------------------------------------- */
-
   .table td:nth-child(5) {
     display: none;
   }
@@ -352,7 +392,6 @@
   /* --------------------------------------------------
      Reaction Time
   -------------------------------------------------- */
-
   .table td.reactionTimeCell {
     align-items: center;
   }
@@ -369,7 +408,6 @@
   /* --------------------------------------------------
      Incorrect Answers
   -------------------------------------------------- */
-
   .table .incorrectRow {
     background: var(--incorrectBg);
   }
