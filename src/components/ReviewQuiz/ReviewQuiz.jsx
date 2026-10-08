@@ -178,42 +178,25 @@ export default function ReviewQuiz({ operation, level, date }) {
     });
   }, [operation, level, date]);
 
-  /* --------------------------------------------------
-     Handle Previous / Next Navigation
-  -------------------------------------------------- */
-
-  function handlePrevious() {
+  /* -------------------------------------------------- Handle Previous / Next Navigation -------------------------------------------------- */ function handlePrevious() {
+    if (currentIndex >= attempts.length - 1) {
+      return;
+    }
+    const nextIndex = currentIndex + 1;
+    const nextAttempt = attempts[nextIndex];
+    setCurrentIndex(nextIndex);
+    setAttempt(nextAttempt);
+    setSortConfig({ key: "time", direction: "asc" });
+  }
+  function handleNext() {
     if (currentIndex <= 0) {
       return;
     }
-
     const nextIndex = currentIndex - 1;
     const nextAttempt = attempts[nextIndex];
-
     setCurrentIndex(nextIndex);
     setAttempt(nextAttempt);
-
-    setSortConfig({
-      key: "time",
-      direction: "asc",
-    });
-  }
-
-  function handleNext() {
-    if (currentIndex < 0 || currentIndex >= attempts.length - 1) {
-      return;
-    }
-
-    const nextIndex = currentIndex + 1;
-    const nextAttempt = attempts[nextIndex];
-
-    setCurrentIndex(nextIndex);
-    setAttempt(nextAttempt);
-
-    setSortConfig({
-      key: "time",
-      direction: "asc",
-    });
+    setSortConfig({ key: "time", direction: "asc" });
   }
 
   /* --------------------------------------------------
