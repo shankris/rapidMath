@@ -15,10 +15,6 @@ export default function UnlockHigherLevels() {
         <h2>Unlock Higher Levels</h2>
       </div>
 
-      <p className={styles.intro}>
-        Score <strong>100% accuracy</strong> to unlock the next level.
-      </p>
-
       <ul className={styles.requirements}>
         <li>
           <span
@@ -42,7 +38,7 @@ export default function UnlockHigherLevels() {
           </span>
 
           <span>
-            At the end of the quiz, an <strong>Unlock Next Level</strong> button will appear.
+            At the end of the quiz, a <strong>Try Next Level</strong> button will appear.
           </span>
         </li>
 

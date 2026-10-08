@@ -5,12 +5,20 @@
 import Link from "next/link";
 import { useLocale } from "next-intl";
 
+import { OPERATIONS } from "@/lib/config";
+
 import styles from "./QuizComplete.module.css";
 
-export default function QuizComplete({ results, performanceMessage, operation, level, attemptId, hasNextLevel, onRetake, onContinue }) {
+export default function QuizComplete({ results, performanceMessage, operation, level, attemptId, onRetake, onContinue }) {
   const locale = useLocale();
 
   const hasPreviousLevel = level > 1;
+
+  const nextLevel = level + 1;
+
+  const nextLevelExists = OPERATIONS[operation]?.maxLevel >= nextLevel;
+
+  const canShowNextLevel = nextLevelExists && (level < 4 || results.accuracy === 100);
 
   return (
     <div className={styles.container}>
@@ -112,9 +120,9 @@ export default function QuizComplete({ results, performanceMessage, operation, l
           Retake This Quiz
         </button>
 
-        {hasNextLevel && (
+        {canShowNextLevel && (
           <Link
-            href={`/${locale}/practice/${operation}/${level + 1}`}
+            href={`/${locale}/practice/${operation}/${nextLevel}`}
             className={styles.btnSecondary}
           >
             Try Next Level

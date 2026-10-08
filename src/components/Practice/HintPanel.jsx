@@ -1,6 +1,8 @@
+/* src/components/Practice/HintPanel.jsx */
+
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 import PlaceValueHint from "./HintRenderers/PlaceValueHint";
@@ -23,11 +25,25 @@ export default function HintPanel({ hints }) {
   const [showHint, setShowHint] = useState(false);
   const [activeHintIndex, setActiveHintIndex] = useState(0);
 
+  /* --------------------------------------------------
+     Reset Active Hint When Hints Change
+  -------------------------------------------------- */
+
+  useEffect(() => {
+    setActiveHintIndex(0);
+    setShowHint(false);
+  }, [hints]);
+
   if (!hints || hints.length === 0) {
     return <div className={styles.noHints}>No hints available for this question</div>;
   }
 
   const activeHint = hints[activeHintIndex];
+
+  if (!activeHint) {
+    return null;
+  }
+
   const HintRenderer = renderers[activeHint.id];
 
   return (
@@ -55,6 +71,7 @@ export default function HintPanel({ hints }) {
               {hints.map((hint, index) => (
                 <button
                   key={hint.id}
+                  type='button'
                   className={index === activeHintIndex ? styles.activeHintTab : styles.hintTab}
                   onClick={() => setActiveHintIndex(index)}
                 >
