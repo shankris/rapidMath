@@ -33,6 +33,24 @@ export function getQuizAttempts() {
 }
 
 /* --------------------------------------------------
+   Get Attempts In Chronological Order
+-------------------------------------------------- */
+
+/*
+   Returns all quiz attempts ordered from newest to oldest.
+
+   This is intentionally separate from getQuizAttemptsByLevel()
+   because chronological navigation is global and should not
+   be restricted by operation or level.
+*/
+
+export function getQuizAttemptsChronological() {
+  const attempts = getQuizAttempts();
+
+  return [...attempts].sort((a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime());
+}
+
+/* --------------------------------------------------
    Get Attempts For Operation + Level
 -------------------------------------------------- */
 

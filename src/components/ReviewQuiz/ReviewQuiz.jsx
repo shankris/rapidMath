@@ -3,9 +3,9 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { CircleX } from "lucide-react";
+import { ChevronLeft, ChevronRight, CircleX } from "lucide-react";
 
-import { getQuizAttemptsByLevel } from "@/lib/storage/quizHistory";
+import { getQuizAttemptsChronological } from "@/lib/storage/quizHistory";
 import { useTranslations } from "next-intl";
 import styles from "./ReviewQuiz.module.css";
 
@@ -42,23 +42,6 @@ function formatDateTime(timestamp) {
     year: "numeric",
     month: "short",
     day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-  });
-}
-
-/* --------------------------------------------------
-   Format Time
--------------------------------------------------- */
-
-function formatTime(timestamp) {
-  const date = new Date(timestamp);
-
-  if (Number.isNaN(date.getTime())) {
-    return "";
-  }
-
-  return date.toLocaleTimeString(undefined, {
     hour: "numeric",
     minute: "2-digit",
   });
@@ -118,7 +101,9 @@ function getRelativeTime(timestamp, now = Date.now()) {
 
 export default function ReviewQuiz({ operation, level, date }) {
   const t = useTranslations("Practice");
+
   const [attempts, setAttempts] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(-1);
   const [attempt, setAttempt] = useState(undefined);
   const [currentTime, setCurrentTime] = useState(Date.now());
 
@@ -126,6 +111,9 @@ export default function ReviewQuiz({ operation, level, date }) {
     key: "time",
     direction: "asc",
   });
+
+  const hasPrevious = currentIndex < attempts.length - 1;
+  const hasNext = currentIndex > 0;
 
   /* --------------------------------------------------
      Refresh Relative Time
@@ -142,74 +130,113 @@ export default function ReviewQuiz({ operation, level, date }) {
   }, []);
 
   /* --------------------------------------------------
-     Load Quiz Attempts
+     Load Chronological Quiz Attempts
   -------------------------------------------------- */
 
   useEffect(() => {
     if (!operation || !level || !date) {
       setAttempts([]);
+      setCurrentIndex(-1);
       setAttempt(null);
       return;
     }
 
-    const storedAttempts = getQuizAttemptsByLevel(operation, Number(level));
+    const storedAttempts = getQuizAttemptsChronological();
 
     const targetDate = `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}`;
 
-    const matchingAttempts = storedAttempts
-      .filter((storedAttempt) => {
-        if (!storedAttempt?.startedAt) {
-          return false;
-        }
-
-        return getLocalDateKey(storedAttempt.startedAt) === targetDate;
-      })
-      .sort((a, b) => new Date(b.startedAt).getTime() - new Date(a.startedAt).getTime());
-
-    setAttempts(matchingAttempts);
-
     /* ----------------------------------------------
-       Select the latest attempt by default
+       Find the originally selected quiz
+
+       The page parameters identify the quiz that
+       should be opened initially. Navigation after
+       this point is global and chronological.
     ---------------------------------------------- */
 
-    setAttempt(matchingAttempts[0] ?? null);
+    const matchingAttemptIndex = storedAttempts.findIndex((storedAttempt) => {
+      if (!storedAttempt?.startedAt) {
+        return false;
+      }
+
+      return storedAttempt.operation === operation && Number(storedAttempt.level) === Number(level) && getLocalDateKey(storedAttempt.startedAt) === targetDate;
+    });
+
+    if (matchingAttemptIndex === -1) {
+      setAttempts(storedAttempts);
+      setCurrentIndex(-1);
+      setAttempt(null);
+      return;
+    }
+
+    setAttempts(storedAttempts);
+    setCurrentIndex(matchingAttemptIndex);
+    setAttempt(storedAttempts[matchingAttemptIndex]);
+
+    setSortConfig({
+      key: "time",
+      direction: "asc",
+    });
   }, [operation, level, date]);
 
   /* --------------------------------------------------
-     Attempt Tab Labels
+     Handle Previous / Next Navigation
   -------------------------------------------------- */
 
-  const attemptTabLabels = useMemo(() => {
-    const labels = attempts.map((item) => getRelativeTime(item.startedAt, currentTime));
+  function handlePrevious() {
+    if (currentIndex <= 0) {
+      return;
+    }
 
-    const counts = labels.reduce((result, label) => {
-      result[label] = (result[label] ?? 0) + 1;
-      return result;
-    }, {});
+    const nextIndex = currentIndex - 1;
+    const nextAttempt = attempts[nextIndex];
 
-    return attempts.map((item, index) => {
-      const relativeTime = labels[index];
-
-      if (counts[relativeTime] > 1) {
-        return `${relativeTime} · ${formatTime(item.startedAt)}`;
-      }
-
-      return relativeTime;
-    });
-  }, [attempts, currentTime]);
-
-  /* --------------------------------------------------
-     Handle Attempt Selection
-  -------------------------------------------------- */
-
-  function handleAttemptSelect(selectedAttempt) {
-    setAttempt(selectedAttempt);
+    setCurrentIndex(nextIndex);
+    setAttempt(nextAttempt);
 
     setSortConfig({
       key: "time",
       direction: "asc",
     });
   }
+
+  function handleNext() {
+    if (currentIndex < 0 || currentIndex >= attempts.length - 1) {
+      return;
+    }
+
+    const nextIndex = currentIndex + 1;
+    const nextAttempt = attempts[nextIndex];
+
+    setCurrentIndex(nextIndex);
+    setAttempt(nextAttempt);
+
+    setSortConfig({
+      key: "time",
+      direction: "asc",
+    });
+  }
+
+  /* --------------------------------------------------
+     Keyboard Navigation
+  -------------------------------------------------- */
+
+  useEffect(() => {
+    function handleKeyDown(event) {
+      if (event.key === "ArrowLeft") {
+        handlePrevious();
+      }
+
+      if (event.key === "ArrowRight") {
+        handleNext();
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [currentIndex, attempts]);
 
   /* --------------------------------------------------
      Sort Configuration
@@ -428,35 +455,35 @@ export default function ReviewQuiz({ operation, level, date }) {
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
+      <div className={styles.headingRow}>
         <h1>
           {t("review")}
           <span>
-            - {t(`operations.${operation}`)} - {t("level")} {level}
+            - {t(`operations.${attempt.operation}`)} - {t("level")} {attempt.level}
           </span>
         </h1>
-      </div>
-      {/* --------------------------------------------------
-          Attempt Tabs
-      -------------------------------------------------- */}
-      {attempts.length > 1 && (
-        <div className={styles.attemptTabs}>
-          {attempts.map((item, index) => {
-            const isSelected = item.id === attempt.id;
 
-            return (
-              <button
-                key={item.id}
-                type='button'
-                className={`${styles.attemptTab} ${isSelected ? styles.attemptTabActive : ""}`}
-                onClick={() => handleAttemptSelect(item)}
-              >
-                {attemptTabLabels[index]}
-              </button>
-            );
-          })}
+        <div className={styles.navigation}>
+          <button
+            type='button'
+            onClick={handlePrevious}
+            disabled={!hasPrevious}
+            aria-label='Previous quiz'
+          >
+            <ChevronLeft size={20} />
+          </button>
+
+          <button
+            type='button'
+            onClick={handleNext}
+            disabled={!hasNext}
+            aria-label='Next quiz'
+          >
+            <ChevronRight size={20} />
+          </button>
         </div>
-      )}
+      </div>
+
       {/* --------------------------------------------------
           Review Statistics
       -------------------------------------------------- */}
@@ -478,10 +505,12 @@ export default function ReviewQuiz({ operation, level, date }) {
             <strong>{incorrectAnswers}</strong>
           </div>
         </div>
+
         <div>
           <div className={styles.stastDate}>
             {formatDateTime(attempt.startedAt)} - {getRelativeTime(attempt.startedAt, currentTime)}
           </div>
+
           <div className={styles.statsNote}>Avg. time is based on correct responses only</div>
         </div>
       </div>
@@ -489,6 +518,7 @@ export default function ReviewQuiz({ operation, level, date }) {
       {/* --------------------------------------------------
           Questions
       -------------------------------------------------- */}
+
       <div className={styles.tableWrapper}>
         <table className={styles.table}>
           <thead>

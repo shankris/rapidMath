@@ -428,3 +428,48 @@
     background: var(--incorrectBg);
   }
 }
+
+
+/* -------------------------------------------------- Heading Row -------------------------------------------------- */
+.headingRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+
+/* -------------------------------------------------- Quiz Navigation -------------------------------------------------- */
+
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.navigation button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid var(--borderColor);
+  border-radius: 6px;
+  background: var(--surfaceColor);
+  color: var(--headingCol);
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.navigation button:hover:not(:disabled) {
+  background: var(--tab1bg);
+  border-color: var(--accentColor);
+  color: var(--accentColor);
+}
+
+.navigation button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
