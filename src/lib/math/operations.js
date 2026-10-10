@@ -1,7 +1,7 @@
-// src/lib/math/operations.js
+/* src/lib/math/operations.js */
 
 /* --------------------------------------------------
-   Operation Definitions
+Operation Definitions
 -------------------------------------------------- */
 
 export const OPERATIONS = {
@@ -54,7 +54,12 @@ export const OPERATIONS = {
     name: "Fractions",
     symbol: "",
   },
-  simplification: { name: "Simplification", symbol: "" },
+
+  algebra: {
+    name: "Basic Algebra",
+    symbol: "",
+  },
+
   percentages: {
     name: "Percentages",
     symbol: "%",
@@ -77,7 +82,7 @@ export const OPERATIONS = {
 };
 
 /* --------------------------------------------------
-   Calculate Answer
+Calculate Answer
 -------------------------------------------------- */
 
 export function calculateAnswer(operation, num1, num2) {

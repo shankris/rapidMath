@@ -17,11 +17,11 @@ import { generatePercentageQuestion } from "./generators/percentages";
 import { generatePowersRootsQuestion } from "./generators/powersRoots";
 import { generateCombinationsQuestion } from "./generators/combinations";
 import { generateProbabilityQuestion } from "./generators/probability";
-import { generateSimplificationQuestion } from "./generators/simplification";
+import { generateAlgebraQuestion } from "./generators/algebra";
 
 /* --------------------------------------------------
    Generate Question
-  -------------------------------------------------- */
+-------------------------------------------------- */
 
 export function generateQuestion(operation, level) {
   const config = LEVEL_CONFIG[level];
@@ -102,7 +102,7 @@ export function generateQuestion(operation, level) {
   }
 
   /* ------------------------------------------------
-   Missing Number
+     Missing Number
   ------------------------------------------------ */
 
   if (operation === "missingNumber") {
@@ -119,7 +119,7 @@ export function generateQuestion(operation, level) {
   }
 
   /* ------------------------------------------------
-   Comparison
+     Comparison
   ------------------------------------------------ */
 
   if (operation === "comparison") {
@@ -136,7 +136,7 @@ export function generateQuestion(operation, level) {
   }
 
   /* ------------------------------------------------
-   Estimation
+     Estimation
   ------------------------------------------------ */
 
   if (operation === "estimation") {
@@ -153,7 +153,7 @@ export function generateQuestion(operation, level) {
   }
 
   /* ------------------------------------------------
-   Sequences
+     Sequences
   ------------------------------------------------ */
 
   if (operation === "sequences") {
@@ -170,7 +170,7 @@ export function generateQuestion(operation, level) {
   }
 
   /* ------------------------------------------------
-   Fractions
+     Fractions
   ------------------------------------------------ */
 
   if (operation === "fractions") {
@@ -187,7 +187,7 @@ export function generateQuestion(operation, level) {
   }
 
   /* ------------------------------------------------
-   Percentages
+     Percentages
   ------------------------------------------------ */
 
   if (operation === "percentages") {
@@ -204,7 +204,7 @@ export function generateQuestion(operation, level) {
   }
 
   /* ------------------------------------------------
-   Power and Roots
+     Powers and Roots
   ------------------------------------------------ */
 
   if (operation === "powersRoots") {
@@ -221,7 +221,7 @@ export function generateQuestion(operation, level) {
   }
 
   /* --------------------------------------------------
-   Factorials, Permutations & Combinations
+     Factorials, Permutations and Combinations
   -------------------------------------------------- */
 
   if (operation === "combinations") {
@@ -237,9 +237,9 @@ export function generateQuestion(operation, level) {
     });
   }
 
-  /* --------------------------------------------------
-   Probability
-  -------------------------------------------------- */
+  /* ------------------------------------------------
+     Probability
+  ------------------------------------------------ */
 
   if (operation === "probability") {
     const probabilityConfig = config.probability;
@@ -255,19 +255,19 @@ export function generateQuestion(operation, level) {
   }
 
   /* ------------------------------------------------
-     Simplification
+     Algebra
   ------------------------------------------------ */
 
-  if (operation === "simplification") {
-    const simplificationConfig = config.simplification;
+  if (operation === "algebra") {
+    const algebraConfig = config.algebra;
 
-    if (!simplificationConfig) {
-      throw new Error(`Simplification configuration is missing for level ${level}.`);
+    if (!algebraConfig) {
+      throw new Error(`Algebra configuration is missing for level ${level}.`);
     }
 
-    return generateSimplificationQuestion({
+    return generateAlgebraQuestion({
       level,
-      config: simplificationConfig,
+      config: algebraConfig,
     });
   }
 

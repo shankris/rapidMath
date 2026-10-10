@@ -14,7 +14,7 @@ import { PERCENTAGES_LEVELS } from "./levels/percentages";
 import { POWERS_ROOTS_LEVELS } from "./levels/powersRoots";
 import { COMBINATIONS_LEVELS } from "./levels/combinations";
 import { PROBABILITY_LEVELS } from "./levels/probability";
-import { SIMPLIFICATION_LEVELS } from "./levels/simplification";
+import { ALGEBRA_LEVELS } from "./levels/algebra";
 
 /* --------------------------------------------------
    Level Metadata
@@ -221,7 +221,7 @@ export const LEVEL_CONFIG = Object.fromEntries(
       powersRoots: POWERS_ROOTS_LEVELS[level],
       combinations: COMBINATIONS_LEVELS[level],
       probability: PROBABILITY_LEVELS[level],
-      simplification: SIMPLIFICATION_LEVELS[level],
+      algebra: ALGEBRA_LEVELS[level],
     },
   ]),
 );

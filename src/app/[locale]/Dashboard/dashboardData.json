@@ -54,7 +54,19 @@
     "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
-  { "operation": "simplification", "category": "basic", "status": "experimental", "homeOrder": null, "title": "Simplification", "description": "Simplify expressions, cancel common factors, and solve simple equations using mental math.", "shortDescription": "Simplify expressions quickly and accurately.", "shortcuts": false, "levels": [{ "level": 1 }] },
+
+  {
+    "operation": "algebra",
+    "category": "basic",
+    "status": "experimental",
+    "homeOrder": null,
+    "title": "Basic Algebra",
+    "description": "Learn to solve equations and simplify expressions using basic algebraic techniques.",
+    "shortDescription": "Solve equations and simplify expressions.",
+    "shortcuts": false,
+    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
+  },
+
   {
     "operation": "missingNumber",
     "category": "intermediate",
@@ -268,16 +280,6 @@
     "homeOrder": null,
     "title": "Basic Statistics",
     "description": "Practice basic statistical calculations and interpretation.",
-    "shortcuts": false,
-    "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
-  },
-  {
-    "operation": "algebra",
-    "category": "advanced",
-    "status": "planned",
-    "homeOrder": null,
-    "title": "Algebra",
-    "description": "Develop fluency with algebraic expressions and relationships.",
     "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
