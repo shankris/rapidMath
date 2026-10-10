@@ -49,6 +49,15 @@ const practiceData = [
   },
 
   {
+    id: "simplification",
+    operation: "simplification",
+    title: "Simplification",
+    icon: Calculator,
+    description: "Simplify mathematical expressions using order of operations, arithmetic properties, and efficient calculation methods.",
+    shortDescription: "Simplify expressions quickly and accurately.",
+  },
+
+  {
     id: "missing-number",
     operation: "missingNumber",
     title: "Missing Number",

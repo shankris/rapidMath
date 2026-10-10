@@ -17,6 +17,7 @@ import { generatePercentageQuestion } from "./generators/percentages";
 import { generatePowersRootsQuestion } from "./generators/powersRoots";
 import { generateCombinationsQuestion } from "./generators/combinations";
 import { generateProbabilityQuestion } from "./generators/probability";
+import { generateSimplificationQuestion } from "./generators/simplification";
 
 /* --------------------------------------------------
    Generate Question
@@ -250,6 +251,23 @@ export function generateQuestion(operation, level) {
     return generateProbabilityQuestion({
       level,
       config: probabilityConfig,
+    });
+  }
+
+  /* ------------------------------------------------
+     Simplification
+  ------------------------------------------------ */
+
+  if (operation === "simplification") {
+    const simplificationConfig = config.simplification;
+
+    if (!simplificationConfig) {
+      throw new Error(`Simplification configuration is missing for level ${level}.`);
+    }
+
+    return generateSimplificationQuestion({
+      level,
+      config: simplificationConfig,
     });
   }
 

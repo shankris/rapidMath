@@ -54,6 +54,7 @@
     "shortcuts": false,
     "levels": [{ "level": 1 }, { "level": 2 }, { "level": 3 }, { "level": 4 }]
   },
+  { "operation": "simplification", "category": "basic", "status": "experimental", "homeOrder": null, "title": "Simplification", "description": "Simplify expressions, cancel common factors, and solve simple equations using mental math.", "shortDescription": "Simplify expressions quickly and accurately.", "shortcuts": false, "levels": [{ "level": 1 }] },
   {
     "operation": "missingNumber",
     "category": "intermediate",

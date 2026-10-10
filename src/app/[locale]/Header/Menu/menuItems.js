@@ -1,4 +1,6 @@
-import { LayoutDashboard, Sigma, ChartNoAxesCombined, UserCheck } from "lucide-react";
+/* src/app/[locale]/Header/Menu/menuItems.js */
+
+import { LayoutDashboard, Sigma, ChartNoAxesCombined } from "lucide-react";
 
 const menuItems = [
   {
@@ -7,23 +9,19 @@ const menuItems = [
     href: "/",
     icon: LayoutDashboard,
   },
+
   {
     id: "practice",
     label: "Practice",
     href: "/practice",
     icon: Sigma,
   },
+
   {
     id: "reports",
     label: "Reports",
     href: "/reports",
     icon: ChartNoAxesCombined,
-  },
-  {
-    id: "review",
-    label: "Review",
-    href: "/review",
-    icon: UserCheck,
   },
 ];
 

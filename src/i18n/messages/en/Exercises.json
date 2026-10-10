@@ -25,6 +25,11 @@
       "description": "Practice solving problems using multiple operations."
     },
 
+    "simplification": {
+      "title": "Simplification",
+      "description": "Practice simplifying numerical expressions efficiently using arithmetic properties and equivalent forms."
+    },
+
     "missingNumber": {
       "title": "Find X",
       "description": "Find the missing number using mental math."

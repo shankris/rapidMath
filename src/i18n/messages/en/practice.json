@@ -1,9 +1,7 @@
 {
   "title": "Dashboard",
-
   "review": "Quiz Review",
   "level": "Level",
-
   "operations": {
     "add": "Addition",
     "sub": "Subtraction",
@@ -11,6 +9,7 @@
     "div": "Division",
     "powersRoots": "Powers & Roots",
     "mixedOperations": "Mixed Operations",
+    "simplification": "Simplification",
     "missingNumber": "Missing Number",
     "estimation": "Estimation",
     "probability": "Probability",

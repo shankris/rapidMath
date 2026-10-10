@@ -1,6 +1,11 @@
+/* src/app/[locale]/reports/page.js */
+
 "use client";
 
 import { useEffect, useState } from "react";
+import { createNavigation } from "next-intl/navigation";
+
+import { routing } from "@/i18n/routing";
 import { getDashboardStats } from "@/lib/stats/dashboardStats";
 import Activity from "@/components/Reports/Activity/Activity";
 import PerformanceTrend from "@/components/Reports/PerformanceTrend/PerformanceTrend";
@@ -9,41 +14,42 @@ import AnimatedNumber from "@/components/UI/AnimatedNumber/AnimatedNumber";
 import ActivityHeatMap from "@/components/Reports/ActivityHeatMap/ActivityHeatMap";
 import styles from "./page.module.css";
 
+const { Link } = createNavigation(routing);
+
 /* --------------------------------------------------
-   Period Configuration
+Period Configuration
 -------------------------------------------------- */
 
 const PERIODS = ["1w", "2w", "1m", "3m", "6m", "1y", "all"];
 
 /* --------------------------------------------------
-   Reports Page
+Reports Page
 -------------------------------------------------- */
 
 export default function ReportsPage() {
   const [period, setPeriod] = useState("1m");
   const [stats, setStats] = useState(null);
 
-  /* ------------------------------------------------
-     Load Statistics
-  ------------------------------------------------ */
-
   useEffect(() => {
     const data = getDashboardStats(period);
-
     setStats(data);
   }, [period]);
 
-  /* ------------------------------------------------
-     Render
-  ------------------------------------------------ */
-
   return (
     <main className={styles.page}>
-      {/* Page Header */}
-
       <div className={styles.pageHeader}>
-        <h1 className={styles.pageTitle}>Reports</h1>
-        <p className={styles.pageDescription}>Review your performance and progress over time.</p>
+        <div className={styles.pageHeaderText}>
+          <h1 className={styles.pageTitle}>Reports</h1>
+
+          <p className={styles.pageDescription}>Review your performance and progress over time.</p>
+        </div>
+
+        <Link
+          href='/review'
+          className={styles.reviewLink}
+        >
+          Review Practice History →
+        </Link>
       </div>
 
       {/* ------------------------------------------
